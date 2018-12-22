@@ -1,4 +1,4 @@
-export default {
+const config = Object.freeze({
     /**
      * @description 配置显示在浏览器标签的title
      */
@@ -7,17 +7,16 @@ export default {
         main: 'new system'
     },
     /**
-     * @description token在Cookie中存储的天数，默认1天
-     */
-    /**
      * @description api请求基础路径
      */
     baseUrl: {
-        dev: '',
+        dev: './api/',
         pro: ''
     },
     /**
      * @description 默认打开的首页的路由name值，默认为home
      */
     homeName: 'home',
-}
+});
+
+export default config;

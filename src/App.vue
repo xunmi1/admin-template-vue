@@ -3,12 +3,18 @@
         <div id="nav">
             <RouterLink to="/">Home</RouterLink>
             |
-            <RouterLink to="/about"> About </RouterLink>
+            <RouterLink to="/about">About</RouterLink>
+            |
+            <RouterLink to="/login">login</RouterLink>
         </div>
         <RouterView />
     </div>
 </template>
-
+<script>
+    export default {
+        name: 'App'
+    };
+</script>
 <style lang="less">
     #app {
         font-family: 'Avenir', Helvetica, Arial, sans-serif;

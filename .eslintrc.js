@@ -19,28 +19,28 @@ module.exports = {
                 ignores: []
             }
         ],
-        'vue/max-attributes-per-line': [
-            'error', {
-                singleline: 3,
-                multiline: {
-                    max: 1,
-                    allowFirstLine: false
-                }
+        'vue/max-attributes-per-line': ['error', {
+            singleline: 3,
+            multiline: {
+                max: 1,
+                allowFirstLine: false
             }
-        ],
+        }],
         'vue/script-indent': ['error', 4, {
-            'baseIndent': 1,
-            'switchCase': 0,
-            'ignores': []
+            baseIndent: 1,
+            switchCase: 0,
+            ignores: []
         }],
         'vue/require-default-prop': 'off',
-        'vue/singleline-html-element-content-newline': 'off'
+        'vue/singleline-html-element-content-newline': 'off',
+        indent: ['warn', 4],
+        'vue/component-name-in-template-casing': 'warning'
     },
     overrides: [
         {
-            'files': ['*.vue'],
-            'rules': {
-                'indent': 'off'
+            files: ['*.vue'],
+            rules: {
+                indent: 'off'
             }
         }
     ],
