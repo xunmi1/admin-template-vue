@@ -10,8 +10,17 @@ const config = Object.freeze({
      * @description api请求基础路径
      */
     baseUrl: {
-        dev: './api/',
+        dev: 'https://lanaya.xycc.love/api/',
         pro: ''
+    },
+    /** @description token 验证
+     * position:  token 放置位置
+     * key token 键名
+     */
+    token: {
+        // @enum 'headers'|'params'
+        position: 'headers',
+        key: 'Authorization'
     },
     /**
      * @description 默认打开的首页的路由name值，默认为home

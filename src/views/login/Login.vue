@@ -7,15 +7,23 @@
 </template>
 
 <script>
-    import { mapActions } from 'vuex';
+    import { mapGetters, mapActions } from 'vuex';
 
     export default {
         name: 'Login',
         data () {
             return {
-                userName: '',
-                password: ''
+                userName: 'xycc',
+                password: 'xycczz'
             };
+        },
+        computed: {
+            ...mapGetters(['status'])
+        },
+        watch: {
+            status (newValue) {
+                console.log(newValue);
+            }
         },
         methods: {
             ...mapActions(['handleLogin', 'getUserInfo']),
@@ -25,6 +33,8 @@
                     password: this.password.toString()
                 }).then(res => {
                     console.log(res);
+                }).catch(err => {
+                    console.log(err);
                 });
             }
         }

@@ -6,7 +6,7 @@
         "serve": "vue-cli-service serve",
         "build": "vue-cli-service build --modern",
         "lint": "vue-cli-service lint",
-        "ui": "vue ui",
+        "start:ui": "vue ui",
         "test:unit": "vue-cli-service test:unit"
     },
     "dependencies": {

@@ -6,22 +6,26 @@ const userDB = [
 
 export default [
     {
-        path: '/api/login',
+        path: '/test/login',
         method: 'post',
         handler ({ body }) {
-            console.log(arguments);
             const user = userDB.find(item => item.username === body.userName && item.password === body.password);
             if (user) {
                 return {
-                    status: 1,
-                    info: {
+                    code: 200,
+                    msg: '成功',
+                    data: {
                         ...user,
                         token: '8dfhassad0asdjwoeiruty'
                     }
                 }
             } else {
                 return {
-                    status: 0
+                    code: 422,
+                    msg: '失败',
+                    errors: {
+
+                    }
                 }
             }
         }

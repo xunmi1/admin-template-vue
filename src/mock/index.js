@@ -65,10 +65,7 @@ const wired = ({ url, type, body }) => ({
     ...CustomExtends
 });
 
-const req = context => context.keys().map(context);
 const files = require.context('./api', false, /\.js$/);
-req(files).forEach(e => {
-    if (e.default) {
-        myMock.load(e.default);
-    }
+files.keys().forEach(key => {
+    myMock.load(files(key).default);
 });

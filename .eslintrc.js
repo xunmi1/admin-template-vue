@@ -33,8 +33,8 @@ module.exports = {
         }],
         'vue/require-default-prop': 'off',
         'vue/singleline-html-element-content-newline': 'off',
-        indent: ['warn', 4],
-        'vue/component-name-in-template-casing': 'warning'
+        'vue/component-name-in-template-casing': 'warning',
+        indent: ['warn', 4]
     },
     overrides: [
         {

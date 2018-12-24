@@ -1,14 +1,17 @@
 import service from '@/libs/service';
 
-const login = data => {
+const login = function (data) {
     if (data.userName && data.password) {
         return service.request({
             url: 'login',
-            data,
+            data: {
+                username: data.userName,
+                password: data.password
+            },
             method: 'post'
-        })
+        });
     } else{
-        return Promise.reject();
+        return Promise.reject('missing parameter');
     }
 };
 
