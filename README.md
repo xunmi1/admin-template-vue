@@ -1,5 +1,9 @@
 # new-system
 
+### 暂时记录
+- 统一代码规范，**必须**开启 eslint 检查
+
+
 ## Project setup
 ```
 npm install

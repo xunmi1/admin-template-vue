@@ -13,15 +13,19 @@ export default {
         status: state => state.token ? 'online' : 'offline'
     },
     mutations: {
-        setToken (state, token) {
+        setToken (state, token, time) {
             state.token = token;
+            service.setToken(token);
+            localStorage.token = JSON.stringify({
+                value: token,
+                time: time || Date.now()
+            });
         },
     },
     actions: {
         handleLogin ({ commit }, { userName, password }) {
             userName = userName.trim();
             return login({ userName, password }).then(res => {
-                service.setToken(res.access_token);
                 commit('setToken', res.access_token);
                 return Promise.resolve(res);
             }).then(articles);

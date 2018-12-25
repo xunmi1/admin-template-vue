@@ -28,7 +28,6 @@
         methods: {
             ...mapActions('user',['handleLogin']),
             login () {
-                console.log(this.$store);
                 this.handleLogin({
                     userName: this.userName.toString(),
                     password: this.password.toString()
