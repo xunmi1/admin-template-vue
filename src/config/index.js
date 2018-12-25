@@ -18,7 +18,7 @@ const config = Object.freeze({
      * key token 键名
      */
     token: {
-        // @enum 'headers'|'params'
+        // @enum 'headers'|'params' | 'data'
         position: 'headers',
         key: 'Authorization'
     },

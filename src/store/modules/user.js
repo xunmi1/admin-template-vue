@@ -3,6 +3,7 @@ import { articles } from '@/api/news';
 import service from '@/libs/service';
 
 export default {
+    namespaced: true,
     state: {
         userName: '',
         userId: '',
@@ -23,7 +24,7 @@ export default {
                 service.setToken(res.access_token);
                 commit('setToken', res.access_token);
                 return Promise.resolve(res);
-            }).then(() => articles());
+            }).then(articles);
         }
     }
 };

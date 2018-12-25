@@ -18,7 +18,7 @@
             };
         },
         computed: {
-            ...mapGetters(['status'])
+            ...mapGetters('user',['status'])
         },
         watch: {
             status (newValue) {
@@ -26,8 +26,9 @@
             }
         },
         methods: {
-            ...mapActions(['handleLogin', 'getUserInfo']),
+            ...mapActions('user',['handleLogin']),
             login () {
+                console.log(this.$store);
                 this.handleLogin({
                     userName: this.userName.toString(),
                     password: this.password.toString()

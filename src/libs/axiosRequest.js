@@ -13,7 +13,7 @@ class AxiosRequest {
     }
 
     static failCodeMap;
-    static extendError;
+    static extendErrorHooks;
 
     static handlerError (error) {
         let errorInfo = error.response;
@@ -40,7 +40,7 @@ class AxiosRequest {
     }
 
     static addError (fn) {
-        this.extendError = fn;
+        this.extendErrorHooks = fn;
     }
 
     destroy (url) {
@@ -56,8 +56,8 @@ class AxiosRequest {
             url: responseURL,
             method
         };
-        if (typeof this.extendError === 'function') {
-            this.extendError(info);
+        if (typeof this.extendErrorHooks === 'function') {
+            this.extendErrorHooks(info);
         }
     }
 

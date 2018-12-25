@@ -1,7 +1,7 @@
 ## api 模块
 > 具体业务接口请求
 
-### 说明文档
+### 说明
 - 需要引入 `service` 模块, 使用 `service.request` 方法
 ```
 import service from '@/libs/service'

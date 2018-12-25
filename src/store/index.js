@@ -7,15 +7,15 @@ Vue.use(Vuex);
 // directory: 说明需要检索的目录
 // useSubdirectories: 是否检索子目录
 // regExp: 匹配文件的正则表达式
-const files = require.context('./modules', true, /\.js$/);
-const modules = {};
+const files = require.context('./modules', false, /\.js$/);
+const [modules,plugins] = [{}, []];
 files.keys().forEach(key => {
     modules[key.replace(/(\.\/|\.js)/g, '')] = files(key).default;
 });
 
-const plugins = process.env.NODE_ENV !== 'production'
-    ? [createLogger()]
-    : [];
+if (process.env.NODE_ENV !== 'production') {
+    plugins.push(createLogger());
+}
 
 export default new Vuex.Store({
     state: {},

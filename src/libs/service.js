@@ -6,12 +6,12 @@ const failCodeMap = new Map([
     [400, { msg: '请求错误' }],
     [401, {
         msg: '未认证', handler () {
-            store.commit('setToken');
+            store.commit('user/setToken');
         }
     }],
     [403, {
         msg: '未授权', handler () {
-            store.commit('setToken');
+            store.commit('user/setToken');
         }
     }],
     [404, { msg: '请求地址错误' }],
@@ -19,7 +19,7 @@ const failCodeMap = new Map([
     [408, { msg: '请求超时' }],
     [422, {
         msg: '验证错误', handler () {
-            store.commit('setToken');
+            store.commit('user/setToken');
         }
     }],
     [500, { msg: '服务器内部错误' }],
@@ -29,10 +29,13 @@ const failCodeMap = new Map([
     [504, { msg: '网关超时' }],
     [505, { msg: 'HTTP版本不受支持' }]
 ]);
+// 添加 http status 验证信息和规则
 AxiosRequest.use(failCodeMap);
+// 错误处理，这里用 store 收集错误信息
 AxiosRequest.addError(info => {
-    store.dispatch('addErrorLog', info);
+    store.dispatch('app/addErrorLog', info);
 });
+
 const baseUrl = process.env.NODE_ENV !== 'production' ? config.baseUrl.dev : config.baseUrl.pro;
 const service = new AxiosRequest(baseUrl);
 service.setToken = function (token) {
