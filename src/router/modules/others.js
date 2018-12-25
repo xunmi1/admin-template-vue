@@ -9,7 +9,7 @@ export default [
             notAuth: true,
             notCache: true
         },
-        component: () => import(/* webpackChunkName: "login" */ '@/views/login/Login'),
+        component: () => import(/* webpackChunkName: "login" */ '@/views/Login/Login'),
     },
     {
         path: '/test',
@@ -17,6 +17,6 @@ export default [
         meta: {
             title: '测试'
         },
-        component: () => import(/* webpackChunkName: "login" */ '@/views/login/Login'),
+        component: () => import(/* webpackChunkName: "login" */ '@/views/Login/Login'),
     }
 ]

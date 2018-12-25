@@ -13,14 +13,11 @@ export default {
         status: state => state.token ? 'online' : 'offline'
     },
     mutations: {
-        setToken (state, token, time) {
-            state.token = token;
-            service.setToken(token);
-            localStorage.token = JSON.stringify({
-                value: token,
-                time: time || Date.now()
-            });
-        },
+        setToken (state, value, time = Date.now()) {
+            state.token = value;
+            service.setToken(value);
+            localStorage.token = JSON.stringify({ value, time });
+        }
     },
     actions: {
         handleLogin ({ commit }, { userName, password }) {

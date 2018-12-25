@@ -1,3 +1,4 @@
+const webpack = require('webpack');
 module.exports = {
     runtimeCompiler: true,
 
@@ -5,7 +6,18 @@ module.exports = {
         ? './'
         : '/',
     css: {
-        modules: true
+        modules: true,
+        loaderOptions: {
+            less: {
+                javascriptEnabled: true
+            }
+        }
+    },
+    configureWebpack: {
+        plugins: [
+            // 精简 momentjs, 只保留 zh-cn.js
+            new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh-cn/),
+        ]
     },
     // 默认设置: https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-service/lib/config/base.js
     chainWebpack: config => {

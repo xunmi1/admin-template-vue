@@ -1,8 +1,8 @@
 <template>
     <div>
-        <input type="text" v-model="userName">
-        <input type="text" v-model="password">
-        <button @click="login">登录</button>
+        <AInput size="large" v-model="userName" />
+        <AInput size="large" v-model="password" />
+        <AButton @click="login" type="primary">登录</AButton>
     </div>
 </template>
 

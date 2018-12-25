@@ -21,10 +21,10 @@ const config = Object.freeze({
     /** @description token 验证
      * position:  token 放置位置
      * key token 键名
-     * expires 过期时长, 单位: s
+     * expires 有效期, 单位: s
      */
     token: {
-        // @enum 'headers'|'params' | 'data'
+        // 'headers' | 'params' | 'data'
         position: 'headers',
         key: 'Authorization',
         expires: 4 * 3600
@@ -33,7 +33,7 @@ const config = Object.freeze({
      * @description 默认打开的首页的路由 name 值，默认为 'home'
      */
     homeName: 'home',
-    /**默认为home
+    /**
      * @description 登录页路由 name 值，默认为 'login'
      */
     loginName: 'login'

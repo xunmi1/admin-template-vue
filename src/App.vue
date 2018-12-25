@@ -6,17 +6,13 @@
 <script>
     export default {
         name: 'App',
-        created() {
+        created () {
             window.document.title = this.$app.title.small;
         }
     };
 </script>
 <style lang="less">
-    #app {
-        font-family: 'Avenir', Helvetica, Arial, sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        text-align: center;
-        color: #2c3e50;
-    }
+    @import "~ant-design-vue/dist/antd.less";
+    @import "./assets/style/antd-theme.less";
+    @import "./assets/style/public.less";
 </style>
