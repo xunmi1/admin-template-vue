@@ -15,7 +15,7 @@ module.exports = {
     },
     configureWebpack: {
         plugins: [
-            // 精简 momentjs, 只保留 zh-cn.js
+            // antd 使用，精简 momentjs, 只保留 zh-cn.js
             new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh-cn/),
         ]
     },

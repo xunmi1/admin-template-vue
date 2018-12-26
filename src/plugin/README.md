@@ -2,7 +2,7 @@
 > 扩展 Vue 对象
 
 ### 说明
-- 为 Vue 添加第三方、自定义组件库
+- 为 Vue 添加第三方、自定义组件库、插件
 - 添加实例属性、方法, `Vue.prototype.[yourKey]`
 - 添加全局属性、方法,  `Vue.[yourKey]`
 
@@ -20,7 +20,21 @@
     $on,
     $once,
     $set,
-    $watch
+    $watch,
+    
+    $attrs,
+    $createElement,
+    $el,
+    $listeners,
+    $options,
+    $scopedSlots,
+    $vnode,
+    $slots,
+    $refs,
+    $root,
+    $parent,
+    $children,
+    $store
 ``` 
 - 添加实例方法，应以 `$_` 为开头，至少 4 个字符
 - 非常用属性、方法，放置 libs 模块内，使用 `require/import` 引入具体业务逻辑，无需挂载到 Vue 下 

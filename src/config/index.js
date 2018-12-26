@@ -12,7 +12,6 @@ const config = Object.freeze({
     },
     /**
      * @description api请求基础路径
-     * @type {dev: string, pro: string}
      */
     baseUrl: {
         dev: 'https://lanaya.xycc.love/api/',
@@ -32,11 +31,13 @@ const config = Object.freeze({
     /**
      * @description 默认打开的首页的路由 name 值，默认为 'home'
      */
-    homeName: 'home',
+    homeName: 'Home',
     /**
      * @description 登录页路由 name 值，默认为 'login'
      */
-    loginName: 'login'
+    loginName: 'Login',
+    // 本地
+    dbPrefix: 'newSystem'
 });
 
 export default config;

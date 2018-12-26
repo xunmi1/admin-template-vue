@@ -1,3 +1,10 @@
+/**
+ * 封装 axios
+ * 添加请求、响应拦截器，自定义 token 和 status 验证规则,
+ * 可选: 错误日志收集
+ * Author: xunmi
+ * Date: 2018-12-23 9:10:00
+ */
 import axios from 'axios';
 
 class AxiosRequest {

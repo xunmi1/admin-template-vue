@@ -1,6 +1,9 @@
 import { login } from '@/api/user';
 import { articles } from '@/api/news';
 import service from '@/libs/service';
+import Db from '@/libs/db';
+import config from '../../config';
+const db = Db.getSingle();
 
 export default {
     namespaced: true,
@@ -13,11 +16,11 @@ export default {
         status: state => state.token ? 'online' : 'offline'
     },
     mutations: {
-        setToken (state, value, time = Date.now()) {
+        setToken (state, value) {
             state.token = value;
             service.setToken(value);
-            localStorage.token = JSON.stringify({ value, time });
-        }
+            db.set('token', value, config.token.expires * 1000);
+        },
     },
     actions: {
         handleLogin ({ commit }, { userName, password }) {
