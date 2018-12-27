@@ -30,7 +30,6 @@
         },
         created () {
             this.setList();
-            console.log(this.$route);
         },
         methods: {
             setList() {

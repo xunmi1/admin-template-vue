@@ -1,6 +1,6 @@
 export default [
     {
-        path: 'home',
+        path: 'BlankPage1',
         name: 'Home',
         meta: {
             title: '测试1',

@@ -1,4 +1,9 @@
 const webpack = require('webpack');
+const path = require('path');
+const resolve = dir => {
+    return path.join(__dirname, dir)
+};
+
 module.exports = {
     runtimeCompiler: true,
 
@@ -13,6 +18,9 @@ module.exports = {
             }
         }
     },
+    devServer: {
+        port: 8888
+    },
     configureWebpack: {
         plugins: [
             // antd 使用，精简 momentjs, 只保留 zh-cn.js
@@ -21,6 +29,7 @@ module.exports = {
     },
     // 默认设置: https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-service/lib/config/base.js
     chainWebpack: config => {
+        config.resolve.alias.set('@c', resolve('src/components'));
         const entry = config.entry('app');
         // 判断环境加入模拟数据
         if (process.env.NODE_ENV !== 'production') {

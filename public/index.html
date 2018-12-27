@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <meta name="renderer" content="webkit">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <link rel="stylesheet" href="<%= BASE_URL %>loading.css">
     <title>new-system</title>
 </head>
 
@@ -13,7 +14,21 @@
     <noscript>
         <strong>很抱歉，如果没有 JavaScript 程序将不能正常工作。请启用浏览器的 JavaScript 然后继续。</strong>
     </noscript>
-    <div id="app"></div>
+    <div id="app">
+        <div id="preloadingAnimation">
+            <div class="lds-roller">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <div class="load-tips">加载中</div>
+        </div>
+    </div>
     <!-- built files will be auto injected -->
 </body>
 </html>
