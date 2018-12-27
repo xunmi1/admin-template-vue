@@ -20,7 +20,7 @@ module.exports = {
             }
         ],
         'vue/max-attributes-per-line': ['error', {
-            singleline: 3,
+            singleline: 4,
             multiline: {
                 max: 1,
                 allowFirstLine: false
@@ -33,7 +33,6 @@ module.exports = {
         }],
         'vue/require-default-prop': 'off',
         'vue/singleline-html-element-content-newline': 'off',
-        'vue/component-name-in-template-casing': 'warning',
         indent: ['warn', 4]
     },
     overrides: [

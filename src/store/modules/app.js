@@ -1,9 +1,7 @@
-import config from '../../config';
 export default {
     namespaced: true,
     state: {
-        errorList: [],
-        app: config
+        errorList: []
     },
     mutations: {
         addError (state, error) {

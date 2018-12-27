@@ -33,6 +33,7 @@
                     password: this.password.toString()
                 }).then(res => {
                     console.log(res);
+                    this.$router.push({name: 'Home'})
                 }).catch(err => {
                     console.log(err);
                 });

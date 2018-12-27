@@ -10,8 +10,7 @@ import config from '../config';
 
 class Db {
     constructor (prefix) {
-        this._localStorage = localStorage;
-        [this.prefix, this.keys] = [prefix, new Set()];
+        [this._localStorage, this.prefix, this.keys] = [localStorage, prefix, new Set()];
         this.initKeys();
     }
 

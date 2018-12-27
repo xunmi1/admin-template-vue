@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import config from '../config';
 import Db from '../libs/db';
 import store from '../store';
@@ -8,11 +9,13 @@ import page1 from './modules/page1';
 import page2 from './modules/page2';
 import page3 from './modules/page3';
 
+Vue.use(Router);
 /**
+ * path: string               仅第一级路径 path 前面加 '/'
  * meta: {
  *    title: string           显示在侧边栏、面包屑和标签栏的文字
  *    hideInBread: (false)    true = 此级路由将不会出现在面包屑中
- *    hideInMenu: (false)     true = 在左侧菜单不会显示该页面选项
+ *    hideInMenu: (false)     true = 在菜单不会显示该页面选项
  *    notCache: (false)       true = 页面在切换标签后不会缓存
  *    notAuth: (false)        true = 页面不需要验权
  *    icon: string            该页面在菜单、面包屑和标签导航处显示的图标
@@ -22,7 +25,8 @@ const router = new Router({
     routes: [
         ...others,
         {
-            path: '/',
+            // 默认: '/'
+            path: config.mainPath,
             name: 'BasicLayout',
             meta: {
                 title: '测试'
