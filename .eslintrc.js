@@ -33,6 +33,10 @@ module.exports = {
         }],
         'vue/require-default-prop': 'off',
         'vue/singleline-html-element-content-newline': 'off',
+        'vue/component-name-in-template-casing': ['error', 'PascalCase', {
+            'ignores': ['compontent']
+        }],
+
         indent: ['warn', 4]
     },
     overrides: [
