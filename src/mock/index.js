@@ -40,17 +40,19 @@ const myMock = {
         );
     },
     load: collection => {
-        collection.map(({ path, method, handler }) => {
-            if (method === '*') {
-                method = ['get', 'post', 'put', 'delete', 'patch'];
-            }
-            if (typeof method === 'string' && method.indexOf('|') > -1) {
-                method = method.split('|');
-            }
-            if (Array.isArray(method)) {
-                method.map(item => myMock.setup(path, item, handler));
-            } else {
-                myMock.setup(path, method, handler);
+        collection.map(({ path, isMock, method, handler }) => {
+            if (isMock) {
+                if (method === '*') {
+                    method = ['get', 'post', 'put', 'delete', 'patch'];
+                }
+                if (typeof method === 'string' && method.indexOf('|') > -1) {
+                    method = method.split('|');
+                }
+                if (Array.isArray(method)) {
+                    method.map(item => myMock.setup(path, item, handler));
+                } else {
+                    myMock.setup(path, method, handler);
+                }
             }
         })
     }

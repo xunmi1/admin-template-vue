@@ -6,7 +6,7 @@ const userDB = [
 
 export default [
     {
-        path: '/test/login',
+        path: 'login',
         method: 'post',
         handler ({ body }) {
             const user = userDB.find(item => item.username === body.userName && item.password === body.password);

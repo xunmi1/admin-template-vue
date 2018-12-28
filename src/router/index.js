@@ -51,6 +51,7 @@ router.beforeEach((to, from, next) => {
         if (token) {
             if (!store.state.user.token) {
                 store.commit('user/setToken', token);
+                store.commit('user/setUserInfo', db.get('userInfo'));
             }
             next();
         } else {

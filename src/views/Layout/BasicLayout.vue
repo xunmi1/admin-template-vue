@@ -29,6 +29,10 @@
                     :type="collapsed ? 'menu-unfold' : 'menu-fold'"
                     @click="changeCollapsed"
                 />
+                <div class="header-tool">
+                    <FullScreen v-model="isFullScreen" />
+                    <UserInfo />
+                </div>
             </ALayoutHeader>
             <ALayoutContent :class="{'content-fixed-top': isFixedHeader}" class="layout-main-content">
                 <ASwitch v-model="isVertical" />
@@ -39,36 +43,43 @@
 </template>
 
 <script>
-    import { horizontal, vertical } from './setting';
-
+    import UserInfo from './components/UserInfo';
+    import FullScreen from './components/FullScreen';
     export default {
         name: 'BasicLayout',
+        components:{
+            UserInfo,
+            FullScreen
+        },
         data () {
             return {
                 menuList: [],
-                isVertical: false,
+                isVertical: true,
                 collapsed: false,
                 isFixedHeader: true,
-                layout: {}
+                isFullScreen: false,
+                vertical: {
+                    mode: 'inline',
+                    menuLayout: 'ALayoutSider',
+                },
+                horizontal: {
+                    mode: 'horizontal',
+                    menuLayout: 'ALayoutHeader',
+                }
             };
         },
         computed: {
             currentName () {
                 return this.$route.name;
             },
+            layout () {
+                return this.isVertical ? this.vertical : this.horizontal;
+            },
             layoutMainLeft () {
                 return this.isVertical ? this.collapsed ? 80 : 200 : 0;
             },
             layoutMainHeaderLeft () {
                 return this.isFixedHeader ? this.layoutMainLeft : 0;
-            }
-        },
-        watch: {
-            isVertical: {
-                handler (newValue) {
-                    this.layout = newValue ? vertical : horizontal;
-                },
-                immediate: true
             }
         },
         created () {
@@ -137,8 +148,8 @@
 
     .horizontal {
         .layout-header {
+            padding: 0 16px;
             transition: all .2s;
-
             .menu {
                 line-height: 64px;
             }
@@ -162,5 +173,9 @@
 
     .content-fixed-top {
         padding-top: 64px;
+    }
+    .header-tool {
+        float: right;
+        overflow: hidden;
     }
 </style>

@@ -1,6 +1,6 @@
 import service from '@/libs/service';
 
-const login = function (data) {
+export function login (data) {
     if (data.userName && data.password) {
         return service.request({
             url: 'login',
@@ -13,8 +13,4 @@ const login = function (data) {
     } else{
         return Promise.reject('missing parameter');
     }
-};
-
-export {
-    login
-};
+}
