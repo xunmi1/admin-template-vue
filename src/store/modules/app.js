@@ -1,11 +1,19 @@
 export default {
     namespaced: true,
     state: {
+        layout: {
+            isVertical: true,
+            isFixedHeader: true
+        },
         errorList: []
     },
     mutations: {
-        addError (state, error) {
-            state.errorList.push(error);
+        setLayout ({ layout }, { isVertical = layout.isVertical, isFixedHeader = layout.isFixedHeader }) {
+            layout.isVertical = isVertical;
+            layout.isFixedHeader = isFixedHeader;
+        },
+        addError ({ errorList }, error) {
+            errorList.push(error);
         }
     },
     actions: {

@@ -1,5 +1,5 @@
 import { login } from '@/api/user';
-import { articles } from '@/api/news';
+
 import service from '@/libs/service';
 import Db from '@/libs/db';
 import config from '../../config';
@@ -39,7 +39,8 @@ export default {
                 commit('setToken', res.access_token);
                 commit('setUserInfo', res.info);
                 return Promise.resolve(res);
-            }).then(articles);
+            })
+            // .then(articles);
         }
     }
 };

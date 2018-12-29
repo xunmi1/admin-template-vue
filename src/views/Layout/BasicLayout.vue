@@ -1,74 +1,90 @@
 <template>
-    <ALayout :class="isVertical ? 'vertical' : 'horizontal'">
-        <compontent
-            :is="layout.menuLayout"
-            v-model="collapsed"
-            collapsible
-            breakpoint="xl"
-            :class="{'header-fixed': isFixedHeader}"
-            class="layout-sider layout-header"
-        >
-            <VMenu
-                :menu-data="menuList"
-                :default-selected-keys="[currentName]"
-                :mode="layout.mode"
-                theme="dark"
-                class="menu"
-            />
-        </compontent>
-
-        <ALayout class="layout-main" :style="{marginLeft: layoutMainLeft + 'px'}">
-            <ALayoutHeader
-                v-if="isVertical"
-                :style="{paddingLeft: layoutMainHeaderLeft + 'px'}"
+    <div>
+        <ALayout :class="isVertical ? 'vertical' : 'horizontal'">
+            <compontent
+                :is="layout.menuLayout"
+                v-model="collapsed"
+                collapsible
+                breakpoint="xl"
                 :class="{'header-fixed': isFixedHeader}"
-                class="layout-main-header"
+                class="layout-sider layout-header"
             >
-                <AIcon
-                    class="trigger icon-hover"
-                    :type="collapsed ? 'menu-unfold' : 'menu-fold'"
-                    @click="changeCollapsed"
+                <VMenu
+                    :menu-data="menuList"
+                    :default-selected-keys="[currentName]"
+                    :mode="layout.mode"
+                    theme="dark"
+                    class="menu"
                 />
-                <div class="header-tool">
-                    <FullScreen v-model="isFullScreen" />
+                <div v-if="!isVertical" class="header-tool">
+                    <FullScreen />
+                    <SettingBtn @click.native="showDrawer" />
                     <UserInfo />
                 </div>
-            </ALayoutHeader>
-            <ALayoutContent :class="{'content-fixed-top': isFixedHeader}" class="layout-main-content">
-                <ASwitch v-model="isVertical" />
-                <RouterView />
-            </ALayoutContent>
+            </compontent>
+
+            <ALayout class="layout-main" :style="{marginLeft: layoutMainLeft + 'px'}">
+                <ALayoutHeader
+                    v-if="isVertical"
+                    :style="{paddingLeft: layoutMainHeaderLeft + 'px'}"
+                    :class="{'header-fixed': isFixedHeader}"
+                    class="layout-main-header"
+                >
+                    <AIcon
+                        class="trigger icon-hover"
+                        :type="collapsed ? 'menu-unfold' : 'menu-fold'"
+                        @click="changeCollapsed"
+                    />
+                    <div class="header-tool">
+                        <FullScreen />
+                        <SettingBtn @click.native="showDrawer" />
+                        <UserInfo />
+                    </div>
+                </ALayoutHeader>
+                <ALayoutContent :class="{'content-fixed-top': isFixedHeader}" class="layout-main-content">
+                    <RouterView />
+                </ALayoutContent>
+            </ALayout>
         </ALayout>
-    </ALayout>
+        <Setting v-model="showSetting" />
+    </div>
 </template>
 
 <script>
+    import { mapState } from 'vuex';
     import UserInfo from './components/UserInfo';
     import FullScreen from './components/FullScreen';
+    import Setting from './components/Setting';
+    import SettingBtn from './components/SettingBtn';
+
     export default {
         name: 'BasicLayout',
-        components:{
+        components: {
+            SettingBtn,
             UserInfo,
-            FullScreen
+            FullScreen,
+            Setting
         },
         data () {
             return {
                 menuList: [],
-                isVertical: true,
                 collapsed: false,
-                isFixedHeader: true,
-                isFullScreen: false,
+                showSetting: false,
                 vertical: {
                     mode: 'inline',
-                    menuLayout: 'ALayoutSider',
+                    menuLayout: 'ALayoutSider'
                 },
                 horizontal: {
                     mode: 'horizontal',
-                    menuLayout: 'ALayoutHeader',
+                    menuLayout: 'ALayoutHeader'
                 }
             };
         },
         computed: {
+            ...mapState('app', {
+                isVertical: state => state.layout.isVertical,
+                isFixedHeader: state => state.layout.isFixedHeader
+            }),
             currentName () {
                 return this.$route.name;
             },
@@ -83,10 +99,10 @@
             }
         },
         created () {
-            this.setList();
+            this.setMenuList();
         },
         methods: {
-            setList () {
+            setMenuList () {
                 const routes = this.$router.options.routes.find(i => i.path === this.$app.mainPath);
                 if (Array.isArray(routes.children) && routes.children.length) {
                     this.menuList = this.depthFilter(routes.children);
@@ -110,6 +126,9 @@
             },
             changeCollapsed () {
                 this.collapsed = !this.collapsed;
+            },
+            showDrawer () {
+                this.showSetting = true;
             }
         }
     };
@@ -130,7 +149,7 @@
                 background-color: #fff;
                 padding: 0;
                 transition: all .2s;
-
+                box-shadow: 0 1px 4px rgba(0, 21, 41, .12);
                 .trigger {
                     font-size: 20px;
                     line-height: 64px;
@@ -150,7 +169,10 @@
         .layout-header {
             padding: 0 16px;
             transition: all .2s;
+            color: #fff;
+            box-shadow: 0 1px 4px rgba(0, 21, 41, .12);
             .menu {
+                display: inline-block;
                 line-height: 64px;
             }
         }
@@ -174,6 +196,7 @@
     .content-fixed-top {
         padding-top: 64px;
     }
+
     .header-tool {
         float: right;
         overflow: hidden;

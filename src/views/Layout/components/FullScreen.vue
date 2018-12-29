@@ -1,8 +1,10 @@
 <template>
     <div v-if="showFullScreenBtn" @click="handleChange" class="full-screen icon-hover">
         <slot>
-            <ATooltip :title="value ? '退出全屏' : '全屏'">
-                <AIcon :type="value ? 'fullscreen-exit' : 'fullscreen'" class="full-screen-icon" />
+            <ATooltip :title="isFullScreen ? '退出全屏' : '全屏'">
+                <div>
+                    <AIcon :type="isFullScreen ? 'fullscreen-exit' : 'fullscreen'" class="full-screen-icon" />
+                </div>
             </ATooltip>
         </slot>
     </div>
@@ -15,15 +17,10 @@
      */
     export default {
         name: 'FullScreen',
-        props: {
-            value: {
-                type: Boolean,
-                default: false
-            }
-        },
         data () {
             return {
                 showFullScreenBtn: true,
+                isFullScreen: false,
                 browser: {}
             };
         },
@@ -58,7 +55,8 @@
                 if (this.browser) {
                     this.showFullScreenBtn = true;
                     // 页面全屏判断无效
-                    this.$emit('input', !!document[this.browser.event]);
+                    this.isFullScreen = !!document[this.browser.event];
+                    this.$emit('change', this.isFullScreen);
                     document.addEventListener(this.browser.listener, this.bindScreenChange);
                 }
             });
@@ -68,14 +66,15 @@
         },
         methods: {
             handleChange () {
-                if (this.value) {
+                if (this.isFullScreen) {
                     this.browser.exit.call(document);
                 } else {
                     this.browser.full.call(document.documentElement);
                 }
             },
             bindScreenChange() {
-                this.$emit('input', document[this.browser.event]);
+                this.isFullScreen = !!document[this.browser.event];
+                this.$emit('change', this.isFullScreen);
             }
         }
     };
@@ -85,9 +84,8 @@
     .full-screen {
         display: inline-block;
         height: 100%;
-        padding: 0 12px;
-
         &-icon {
+            padding: 0 12px;
             font-size: 18px;
             vertical-align: middle;
         }
