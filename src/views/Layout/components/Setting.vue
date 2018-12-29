@@ -52,6 +52,9 @@
                 isFixedHeader: state => state.layout.isFixedHeader
             })
         },
+        created() {
+            this.setLayout(this.$db.get('layout'));
+        },
         methods: {
             ...mapMutations('app', ['setLayout']),
             changeVertical (bool) {
@@ -63,6 +66,10 @@
                 this.setLayout({ isFixedHeader: bool });
             },
             onClose () {
+                this.$db.set('layout', {
+                    isVertical: this.isVertical,
+                    isFixedHeader: this.isFixedHeader
+                });
                 this.$emit('change', false);
             }
         }
@@ -92,6 +99,7 @@
                 color: #1890ff;
             }
         }
+
         &-switch {
             float: right;
         }

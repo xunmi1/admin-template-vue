@@ -86,7 +86,7 @@
         height: 100%;
         &-icon {
             padding: 0 12px;
-            font-size: 18px;
+            font-size: 16px;
             vertical-align: middle;
         }
     }

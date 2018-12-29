@@ -6,20 +6,34 @@
                 <span class="user-nickname">{{ nickName }}</span>
             </div>
             <AMenu slot="overlay">
-                <AMenuItem key="0"><AIcon type="setting" />个人设置</AMenuItem>
+                <AMenuItem>
+                    <AIcon type="user" />
+                    个人设置
+                </AMenuItem>
                 <AMenuDivider />
-                <AMenuItem key="1"><AIcon type="logout" />退出登录</AMenuItem>
+                <AMenuItem @click="logout">
+                    <AIcon type="logout" />
+                    退出登录
+                </AMenuItem>
             </AMenu>
         </ADropdown>
     </div>
 </template>
 
 <script>
-    import { mapState } from 'vuex';
+    import { mapState,mapMutations } from 'vuex';
+
     export default {
         name: 'UserInfo',
         computed: {
-            ...mapState('user',['avatar', 'nickName'])
+            ...mapState('user', ['avatar', 'nickName'])
+        },
+        methods: {
+            ...mapMutations('user', ['setToken']),
+            logout () {
+                this.setToken();
+                this.$router.replace({ name: this.$app.loginName });
+            }
         }
     };
 </script>
@@ -28,6 +42,7 @@
     .user {
         display: inline-block;
         padding: 0 12px;
+
         &-avatar {
             width: 36px;
             height: 36px;

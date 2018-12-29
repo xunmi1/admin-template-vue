@@ -7,7 +7,7 @@
 </template>
 
 <script>
-    import { mapGetters, mapActions } from 'vuex';
+    import { mapActions } from 'vuex';
 
     export default {
         name: 'Login',
@@ -17,23 +17,14 @@
                 password: 'xycczz'
             };
         },
-        computed: {
-            ...mapGetters('user',['status'])
-        },
-        watch: {
-            status (newValue) {
-                console.log(newValue);
-            }
-        },
         methods: {
-            ...mapActions('user',['handleLogin']),
+            ...mapActions('user', ['handleLogin']),
             login () {
                 this.handleLogin({
                     userName: this.userName.toString(),
                     password: this.password.toString()
-                }).then(res => {
-                    console.log(res);
-                    this.$router.push({name: 'Home'})
+                }).then(() => {
+                    this.$router.push({ name: this.$app.homeName });
                 }).catch(err => {
                     console.log(err);
                 });

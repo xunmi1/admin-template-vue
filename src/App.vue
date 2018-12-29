@@ -5,10 +5,7 @@
 </template>
 <script>
     export default {
-        name: 'App',
-        created () {
-            window.document.title = this.$app.title.small;
-        }
+        name: 'App'
     };
 </script>
 <style lang="less">

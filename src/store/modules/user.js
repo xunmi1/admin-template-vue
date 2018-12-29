@@ -2,7 +2,7 @@ import { login } from '@/api/user';
 
 import service from '@/libs/service';
 import Db from '@/libs/db';
-import config from '../../config';
+import config from '@/config';
 
 const db = Db.getSingle();
 
@@ -11,7 +11,7 @@ export default {
     state: {
         userName: '',
         token: '',
-        avatar: 'avatar',
+        avatar: '',
         nickName: ''
     },
     getters: {
@@ -23,8 +23,7 @@ export default {
             service.setToken(value);
             db.set('token', value, config.token.expires * 1000);
         },
-        setUserInfo (state, data) {
-            const {avatar, nickname, username, email} = data;
+        setUserInfo (state, {avatar, nickname, username, email}) {
             state.avatar = avatar || nickname;
             state.nickName = nickname;
             state.userName = username;

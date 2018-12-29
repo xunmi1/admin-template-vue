@@ -26,14 +26,14 @@ const config = Object.freeze({
         // 'headers' | 'params' | 'data'
         position: 'headers',
         key: 'Authorization',
-        expires: 4 * 3600
+        expires: 36500 * 24 * 3600
     },
     /**
      * @description 默认打开的首页的路由 name 值，默认为 'home'
      */
     homeName: 'Home',
     /**
-     * @description 登录页路由 name 值，默认为 'login'
+     * @description 登录页路由 name 值，默认为 'Login'
      */
     loginName: 'Login',
     // 主体页面的根 router 路径，用于生成 menu 导航菜单

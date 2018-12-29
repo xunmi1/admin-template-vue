@@ -41,7 +41,7 @@ const service = new AxiosRequest(baseUrl);
 service.setToken = function (token) {
     this.tokenConfig = {
         ...config.token,
-        value: `Bearer ${ token }`
+        value: token ? `Bearer ${ token }` : null
     };
 };
 export default service;

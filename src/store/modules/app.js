@@ -8,7 +8,10 @@ export default {
         errorList: []
     },
     mutations: {
-        setLayout ({ layout }, { isVertical = layout.isVertical, isFixedHeader = layout.isFixedHeader }) {
+        setLayout ({ layout }, {
+            isVertical = layout.isVertical,
+            isFixedHeader = layout.isFixedHeader
+        }) {
             layout.isVertical = isVertical;
             layout.isFixedHeader = isFixedHeader;
         },
