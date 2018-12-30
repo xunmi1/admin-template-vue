@@ -4,7 +4,7 @@ export default [
         name: 'Home',
         meta: {
             title: '测试1',
-            icon: 'pie-chart'
+            icon: 'pie-chart',
         },
         component: () => import(/* webpackChunkName: "BlankPage" */ '@/views/BlankPage/BlankPage'),
         children: [

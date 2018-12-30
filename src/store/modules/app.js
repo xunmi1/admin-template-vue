@@ -5,6 +5,7 @@ export default {
             isVertical: true,
             isFixedHeader: true
         },
+        aliveList: [],
         errorList: []
     },
     mutations: {
@@ -15,8 +16,22 @@ export default {
             layout.isVertical = isVertical;
             layout.isFixedHeader = isFixedHeader;
         },
-        addError ({ errorList }, error) {
-            errorList.push(error);
+        initAliveList (state, data) {
+            state.aliveList = Array.isArray(data) ? data : state.aliveList;
+        },
+        addAlive ({ aliveList }, pageName) {
+            console.log(aliveList);
+            if (!aliveList.includes(pageName)) {
+                aliveList.push(pageName);
+            }
+        },
+        deleteAlive ({ aliveList }, pageName) {
+            const index = aliveList.indexOf(pageName);
+            aliveList.splice(index, 1);
+
+        },
+        addError (state, error) {
+            state.errorList.push(error);
         }
     },
     actions: {

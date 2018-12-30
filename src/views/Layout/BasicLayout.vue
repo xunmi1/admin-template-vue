@@ -42,7 +42,9 @@
                     </div>
                 </ALayoutHeader>
                 <ALayoutContent :class="{'content-fixed-top': isFixedHeader}" class="layout-main-content">
-                    <RouterView />
+                    <KeepAlive include="aliveList">
+                        <RouterView />
+                    </KeepAlive>
                 </ALayoutContent>
             </ALayout>
         </ALayout>
@@ -51,7 +53,7 @@
 </template>
 
 <script>
-    import { mapState } from 'vuex';
+    import { mapState, mapMutations } from 'vuex';
     import UserInfo from './components/UserInfo';
     import FullScreen from './components/FullScreen';
     import Setting from './components/Setting';
@@ -67,8 +69,13 @@
         },
         data () {
             return {
+                // 主页面的所有路由
+                mainRoutes: [],
+                // 菜单列表
                 menuList: [],
+                // 垂直布局下左侧菜单是否伸缩
                 collapsed: false,
+                // 是否展示布局配置页
                 showSetting: false,
                 vertical: {
                     mode: 'inline',
@@ -83,7 +90,8 @@
         computed: {
             ...mapState('app', {
                 isVertical: state => state.layout.isVertical,
-                isFixedHeader: state => state.layout.isFixedHeader
+                isFixedHeader: state => state.layout.isFixedHeader,
+                aliveList: state => state.aliveList
             }),
             currentName () {
                 return this.$route.name;
@@ -91,37 +99,66 @@
             layout () {
                 return this.isVertical ? this.vertical : this.horizontal;
             },
+            // 垂直布局下侧边菜单伸缩，引起的右侧结构 marginLeft 伸缩变化
             layoutMainLeft () {
                 return this.isVertical ? this.collapsed ? 80 : 200 : 0;
             },
+            // 垂直布局下固定导航菜单栏，侧边菜单伸缩，引起的右侧头部 marginLeft 伸缩变化
             layoutMainHeaderLeft () {
                 return this.isFixedHeader ? this.layoutMainLeft : 0;
             }
         },
         created () {
+            this.findMainRoutes();
+            this.setAliveList();
             this.setMenuList();
         },
         methods: {
-            setMenuList () {
-                const routes = this.$router.options.routes.find(i => i.path === this.$app.mainPath);
-                if (Array.isArray(routes.children) && routes.children.length) {
-                    this.menuList = this.depthFilter(routes.children);
+            ...mapMutations('app', ['initAliveList']),
+            findMainRoutes () {
+                const _temp = this.$router.options.routes.find(i => i.path === this.$app.mainPath);
+                if (_temp && Array.isArray(_temp.children)) {
+                    this.mainRoutes = _temp.children;
                 }
             },
-            depthFilter (source) {
+            setAliveList () {
+                const _temp = [];
+                this.depthFilterAlive(this.mainRoutes, _temp);
+                this.initAliveList(_temp);
+            },
+            setMenuList () {
+                if (Array.isArray(this.mainRoutes) && this.mainRoutes.length) {
+                    this.menuList = this.depthFilterMenu(this.mainRoutes);
+                }
+            },
+            depthFilterMenu (source) {
                 return source
                     .filter(item => !(item.meta && item.meta.hideInMenu))
                     .map(item => {
-                        const _temp = {};
+                        let _temp = {};
                         if (item.meta) {
                             _temp.title = item.meta.title || '';
                             _temp.icon = item.meta.icon || '';
                         }
                         _temp.name = item.name;
-                        if (Array.isArray(item.children) && item.children) {
-                            _temp.children = this.depthFilter(item.children);
+                        if (Array.isArray(item.children) && item.children.length) {
+                            _temp.children = this.depthFilterMenu(item.children);
+                            // 当子级只有一个模块，将其提升一级并覆盖
+                            if (_temp.children.length === 1) {
+                                _temp = _temp.children[0];
+                            }
                         }
                         return _temp;
+                    });
+            },
+            depthFilterAlive (source, target = []) {
+                source
+                    .filter(item => !(item.meta && item.meta.notCache))
+                    .forEach(item => {
+                        target.push(item.name);
+                        if (Array.isArray(item.children) && item.children.length) {
+                            this.depthFilterAlive(item.children, target);
+                        }
                     });
             },
             changeCollapsed () {
@@ -150,17 +187,13 @@
                 padding: 0;
                 transition: all .2s;
                 box-shadow: 0 1px 4px rgba(0, 21, 41, .12);
+
                 .trigger {
                     font-size: 20px;
                     line-height: 64px;
                     padding: 0 24px;
                     cursor: pointer;
                 }
-            }
-
-            &-content {
-                margin: 16px 16px 0;
-                overflow: initial;
             }
         }
     }
@@ -171,16 +204,10 @@
             transition: all .2s;
             color: #fff;
             box-shadow: 0 1px 4px rgba(0, 21, 41, .12);
+
             .menu {
                 display: inline-block;
                 line-height: 64px;
-            }
-        }
-
-        .layout-main {
-            &-content {
-                margin: 16px 16px 0;
-                overflow: initial;
             }
         }
     }
@@ -200,5 +227,10 @@
     .header-tool {
         float: right;
         overflow: hidden;
+    }
+
+    .layout-main-content {
+        margin: 12px;
+        overflow: initial;
     }
 </style>

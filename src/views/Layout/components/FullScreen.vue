@@ -1,6 +1,6 @@
 <template>
     <div v-if="showFullScreenBtn" @click="handleChange" class="full-screen icon-hover">
-        <slot>
+        <slot :isFullScreen="isFullScreen">
             <ATooltip :title="isFullScreen ? '退出全屏' : '全屏'">
                 <div>
                     <AIcon :type="isFullScreen ? 'fullscreen-exit' : 'fullscreen'" class="full-screen-icon" />
