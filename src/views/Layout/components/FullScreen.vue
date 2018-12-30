@@ -84,6 +84,7 @@
     .full-screen {
         display: inline-block;
         height: 100%;
+        cursor: pointer;
         &-icon {
             padding: 0 12px;
             font-size: 16px;

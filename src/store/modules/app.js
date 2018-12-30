@@ -2,25 +2,24 @@ export default {
     namespaced: true,
     state: {
         layout: {
+            menuTheme: 'dark',
             isVertical: true,
-            isFixedHeader: true
+            isFixedHeader: true,
+            isFixedSider: true
         },
         aliveList: [],
         errorList: []
     },
     mutations: {
-        setLayout ({ layout }, {
-            isVertical = layout.isVertical,
-            isFixedHeader = layout.isFixedHeader
-        }) {
-            layout.isVertical = isVertical;
-            layout.isFixedHeader = isFixedHeader;
+        setLayout ({ layout }, data) {
+            Object.keys(data).forEach(key => {
+                layout[key] = data[key];
+            });
         },
         initAliveList (state, data) {
             state.aliveList = Array.isArray(data) ? data : state.aliveList;
         },
         addAlive ({ aliveList }, pageName) {
-            console.log(aliveList);
             if (!aliveList.includes(pageName)) {
                 aliveList.push(pageName);
             }

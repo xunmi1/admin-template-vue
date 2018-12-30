@@ -5,7 +5,7 @@
                 <AAvatar :src="avatar" class="user-avatar">{{ avatar.slice(0, 3) }}</AAvatar>
                 <span class="user-nickname">{{ nickName }}</span>
             </div>
-            <AMenu slot="overlay">
+            <AMenu slot="overlay" class="user-menu">
                 <AMenuItem>
                     <AIcon type="user" />
                     个人设置
@@ -50,6 +50,9 @@
             background-color: #1890ff;
             vertical-align: middle;
             margin-right: 8px;
+        }
+        &-menu {
+            min-width: 140px;
         }
     }
 </style>

@@ -1,6 +1,6 @@
 <template>
     <AMenu v-bind="$attrs">
-        <template v-for="item in menuData">
+        <template v-for="item of menuData">
             <AMenuItem v-if="!item.children" :key="item.name" @click="pushRouter">
                 <AIcon v-if="item.icon" :type="item.icon" />
                 <span>{{ item.title }}</span>

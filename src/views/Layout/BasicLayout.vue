@@ -1,19 +1,24 @@
 <template>
     <div>
-        <ALayout :class="isVertical ? 'vertical' : 'horizontal'">
+        <ALayout :class="isVertical ? 'vertical' : 'horizontal'" class="container">
             <compontent
                 :is="layout.menuLayout"
                 v-model="collapsed"
                 collapsible
                 breakpoint="xl"
-                :class="{'header-fixed': isFixedHeader}"
+                :theme="menuTheme"
+                :class="{
+                    'header-fixed': !isVertical && isFixedHeader,
+                    'sider-fixed': isVertical && isFixedSider,
+                    'menu-theme-light' : menuTheme === 'light',
+                }"
                 class="layout-sider layout-header"
             >
                 <VMenu
                     :menu-data="menuList"
                     :default-selected-keys="[currentName]"
                     :mode="layout.mode"
-                    theme="dark"
+                    :theme="menuTheme"
                     class="menu"
                 />
                 <div v-if="!isVertical" class="header-tool">
@@ -89,8 +94,10 @@
         },
         computed: {
             ...mapState('app', {
+                menuTheme: state => state.layout.menuTheme,
                 isVertical: state => state.layout.isVertical,
                 isFixedHeader: state => state.layout.isFixedHeader,
+                isFixedSider: state => state.layout.isFixedSider,
                 aliveList: state => state.aliveList
             }),
             currentName () {
@@ -101,11 +108,11 @@
             },
             // 垂直布局下侧边菜单伸缩，引起的右侧结构 marginLeft 伸缩变化
             layoutMainLeft () {
-                return this.isVertical ? this.collapsed ? 80 : 200 : 0;
+                return (this.isVertical && this.isFixedSider) ? (this.collapsed ? 80 : 200) : 0;
             },
             // 垂直布局下固定导航菜单栏，侧边菜单伸缩，引起的右侧头部 marginLeft 伸缩变化
             layoutMainHeaderLeft () {
-                return this.isFixedHeader ? this.layoutMainLeft : 0;
+                return this.isFixedHeader ? this.collapsed ? 80 : 200 : 0;
             }
         },
         created () {
@@ -172,11 +179,12 @@
 </script>
 
 <style lang="less" scoped>
+    .container {
+        min-height: 100vh;
+    }
+
     .vertical {
         .layout-sider {
-            position: fixed;
-            left: 0;
-            height: 100vh;
             overflow: auto;
             z-index: 2;
         }
@@ -186,7 +194,7 @@
                 background-color: #fff;
                 padding: 0;
                 transition: all .2s;
-                box-shadow: 0 1px 4px rgba(0, 21, 41, .12);
+                border-bottom: 1px solid #e8e8e8;
 
                 .trigger {
                     font-size: 20px;
@@ -203,7 +211,6 @@
             padding: 0 16px;
             transition: all .2s;
             color: #fff;
-            box-shadow: 0 1px 4px rgba(0, 21, 41, .12);
 
             .menu {
                 display: inline-block;
@@ -218,6 +225,14 @@
         right: 0;
         width: 100%;
         z-index: 1;
+        box-shadow: 0 1px 4px rgba(10, 21, 42, .12);
+    }
+
+    .sider-fixed {
+        position: fixed;
+        left: 0;
+        height: 100vh;
+        box-shadow: 2px 0 6px rgba(10, 21, 42, .32);
     }
 
     .content-fixed-top {
@@ -232,5 +247,11 @@
     .layout-main-content {
         margin: 12px;
         overflow: initial;
+    }
+
+    .menu-theme-light {
+        box-shadow: 0 1px 4px rgba(0, 21, 41, .08);
+        background-color: #fff;
+        color: rgba(0, 0, 0, .65) !important;
     }
 </style>

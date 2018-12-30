@@ -1,7 +1,7 @@
 <template functional>
     <ASubMenu v-on="listeners" :key="data.name">
-        <span slot="title"><AIcon type="mail" /><span>{{ data.attrs.item.title }}</span></span>
-        <template v-for="i in data.attrs.item.children">
+        <span slot="title"><AIcon :type="data.attrs.item.icon" /><span>{{ data.attrs.item.title }}</span></span>
+        <template v-for="i of data.attrs.item.children">
             <AMenuItem v-if="!i.children" :key="i.name">
                 <AIcon v-if="i.icon" :type="i.icon" />
                 <span>{{ i.title }}</span>
