@@ -52,6 +52,17 @@
                     />
                 </ATooltip>
             </div>
+            <div class="setting-option">
+                <ATooltip :title="isVertical ? '顶部菜单时可配置' : null" placement="left">
+                    <span class="setting-title">水平菜单靠右</span>
+                    <ASwitch
+                        :checked="isMenuRight"
+                        :disabled="isVertical"
+                        @change="changeMenuRight"
+                        class="setting-switch"
+                    />
+                </ATooltip>
+            </div>
         </ADrawer>
     </div>
 </template>
@@ -81,7 +92,8 @@
                 menuTheme: state => state.layout.menuTheme,
                 isVertical: state => state.layout.isVertical,
                 isFixedHeader: state => state.layout.isFixedHeader,
-                isFixedSider: state => state.layout.isFixedSider
+                isFixedSider: state => state.layout.isFixedSider,
+                isMenuRight: state => state.layout.isMenuRight,
             })
         },
         created () {
@@ -105,9 +117,12 @@
             changeFixedSider (bool) {
                 this.setLayout({ isFixedSider: bool });
             },
+            changeMenuRight (bool) {
+                this.setLayout({ isMenuRight: bool });
+            },
             onClose () {
                 const data = {};
-                ['menuTheme', 'isVertical', 'isFixedHeader', 'isFixedSider'].forEach(key => data[key] = this[key]);
+                ['menuTheme', 'isVertical', 'isFixedHeader', 'isFixedSider', 'isMenuRight'].forEach(key => data[key] = this[key]);
                 this.$db.set('layout', data);
                 this.$emit('change', false);
             }

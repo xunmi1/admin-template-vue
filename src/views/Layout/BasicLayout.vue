@@ -7,13 +7,16 @@
                 collapsible
                 breakpoint="xl"
                 :theme="menuTheme"
+                :width="siderWidth"
                 :class="{
                     'header-fixed': !isVertical && isFixedHeader,
                     'sider-fixed': isVertical && isFixedSider,
                     'menu-theme-light' : menuTheme === 'light',
+                    'menu-right' : isMenuRight,
                 }"
                 class="layout-sider layout-header"
             >
+                <Logo :collapsed="collapsed" :theme="menuTheme" />
                 <VMenu
                     :menu-data="menuList"
                     :default-selected-keys="[currentName]"
@@ -59,6 +62,7 @@
 
 <script>
     import { mapState, mapMutations } from 'vuex';
+    import Logo from './components/Logo';
     import UserInfo from './components/UserInfo';
     import FullScreen from './components/FullScreen';
     import Setting from './components/Setting';
@@ -67,6 +71,7 @@
     export default {
         name: 'BasicLayout',
         components: {
+            Logo,
             SettingBtn,
             UserInfo,
             FullScreen,
@@ -80,6 +85,8 @@
                 menuList: [],
                 // 垂直布局下左侧菜单是否伸缩
                 collapsed: false,
+                // 侧边栏宽度
+                siderWidth: 232,
                 // 是否展示布局配置页
                 showSetting: false,
                 vertical: {
@@ -98,6 +105,7 @@
                 isVertical: state => state.layout.isVertical,
                 isFixedHeader: state => state.layout.isFixedHeader,
                 isFixedSider: state => state.layout.isFixedSider,
+                isMenuRight: state => state.layout.isMenuRight,
                 aliveList: state => state.aliveList
             }),
             currentName () {
@@ -106,13 +114,16 @@
             layout () {
                 return this.isVertical ? this.vertical : this.horizontal;
             },
+            collapsedWidth () {
+                return this.collapsed ? 80 : this.siderWidth;
+            },
             // 垂直布局下侧边菜单伸缩，引起的右侧结构 marginLeft 伸缩变化
             layoutMainLeft () {
-                return (this.isVertical && this.isFixedSider) ? (this.collapsed ? 80 : 200) : 0;
+                return (this.isVertical && this.isFixedSider) ? this.collapsedWidth : 0;
             },
             // 垂直布局下固定导航菜单栏，侧边菜单伸缩，引起的右侧头部 marginLeft 伸缩变化
             layoutMainHeaderLeft () {
-                return this.isFixedHeader ? this.collapsed ? 80 : 200 : 0;
+                return this.isFixedHeader ? this.collapsedWidth : 0;
             }
         },
         created () {
@@ -212,10 +223,18 @@
             transition: all .2s;
             color: #fff;
 
+            > * {
+                vertical-align: top;
+            }
+
             .menu {
                 display: inline-block;
                 line-height: 64px;
             }
+        }
+
+        .menu-right {
+            text-align: right;
         }
     }
 
@@ -240,6 +259,7 @@
     }
 
     .header-tool {
+        display: inline-block;
         float: right;
         overflow: hidden;
     }
@@ -252,6 +272,6 @@
     .menu-theme-light {
         box-shadow: 0 1px 4px rgba(0, 21, 41, .08);
         background-color: #fff;
-        color: rgba(0, 0, 0, .65) !important;
+        color: #002140 !important;
     }
 </style>

@@ -5,7 +5,8 @@ export default {
             menuTheme: 'dark',
             isVertical: true,
             isFixedHeader: true,
-            isFixedSider: true
+            isFixedSider: true,
+            isMenuRight: true,
         },
         aliveList: [],
         errorList: []
