@@ -26,8 +26,9 @@ export default {
         },
         deleteAlive ({ aliveList }, pageName) {
             const index = aliveList.indexOf(pageName);
-            aliveList.splice(index, 1);
-
+            if (index > -1) {
+                aliveList.splice(index, 1);
+            }
         },
         addError (state, error) {
             state.errorList.push(error);
