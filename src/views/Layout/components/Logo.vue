@@ -4,7 +4,7 @@
             v-if="logo"
             :src="logo"
             alt="图标"
-            height="40"
+            height="36"
             class="logo"
         >
         <h1 v-if="!(isVertical && collapsed)">{{ title }}</h1>
@@ -61,10 +61,11 @@
     .vertical {
         text-align: center;
         min-height: 64px;
-        padding-top: 12px;
+        padding-top: 13px;
         transition: all .2s;
 
         h1 {
+            vertical-align: text-bottom;
             display: inline-block;
             font-size: 20px;
             margin: 0 0 0 12px;
@@ -93,6 +94,6 @@
         background-color: #002140;
     }
     .logo {
-        margin-bottom: 12px;
+        margin-bottom: 14px;
     }
 </style>

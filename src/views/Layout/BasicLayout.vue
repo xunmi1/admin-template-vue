@@ -54,6 +54,7 @@
                         <RouterView />
                     </KeepAlive>
                 </ALayoutContent>
+                <Footer :delete-width="this.isVertical ? collapsedWidth : 0" />
             </ALayout>
         </ALayout>
         <Setting v-model="showSetting" />
@@ -67,6 +68,7 @@
     import FullScreen from './components/FullScreen';
     import Setting from './components/Setting';
     import SettingBtn from './components/SettingBtn';
+    import Footer from './components/Footer';
 
     export default {
         name: 'BasicLayout',
@@ -75,7 +77,8 @@
             SettingBtn,
             UserInfo,
             FullScreen,
-            Setting
+            Setting,
+            Footer
         },
         data () {
             return {

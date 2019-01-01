@@ -39,7 +39,9 @@ const config = Object.freeze({
     // 主体页面的根 router 路径，用于生成 menu 导航菜单
     mainPath: '/',
     // 本地存储前缀标识，建议不同系统自定义配置
-    dbPrefix: 'newSystem'
+    dbPrefix: 'newSystem',
+    // 组织/公司/个人， 用于 footer
+    org: 'Xunmi',
 });
 
 export default config;
