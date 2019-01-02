@@ -93,6 +93,7 @@
     .dark.vertical {
         background-color: #002140;
     }
+
     .logo {
         margin-bottom: 14px;
     }

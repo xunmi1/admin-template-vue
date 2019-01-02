@@ -50,11 +50,11 @@
                     </div>
                 </ALayoutHeader>
                 <ALayoutContent :class="{'content-fixed-top': isFixedHeader}" class="layout-main-content">
-                    <KeepAlive include="aliveList">
+                    <KeepAlive>
                         <RouterView />
                     </KeepAlive>
                 </ALayoutContent>
-                <Footer :delete-width="this.isVertical ? collapsedWidth : 0" />
+                <Footer :delete-width="isVertical ? collapsedWidth : 0" />
             </ALayout>
         </ALayout>
         <Setting v-model="showSetting" />
@@ -62,7 +62,7 @@
 </template>
 
 <script>
-    import { mapState, mapMutations } from 'vuex';
+    import { mapState, mapGetters } from 'vuex';
     import Logo from './components/Logo';
     import UserInfo from './components/UserInfo';
     import FullScreen from './components/FullScreen';
@@ -82,8 +82,6 @@
         },
         data () {
             return {
-                // 主页面的所有路由
-                mainRoutes: [],
                 // 菜单列表
                 menuList: [],
                 // 垂直布局下左侧菜单是否伸缩
@@ -111,6 +109,7 @@
                 isMenuRight: state => state.layout.isMenuRight,
                 aliveList: state => state.aliveList
             }),
+            ...mapGetters('app', ['getAlive']),
             currentName () {
                 return this.$route.name;
             },
@@ -130,26 +129,18 @@
             }
         },
         created () {
-            this.findMainRoutes();
-            this.setAliveList();
+            // this.setAliveList();
             this.setMenuList();
         },
         methods: {
-            ...mapMutations('app', ['initAliveList']),
-            findMainRoutes () {
-                const _temp = this.$router.options.routes.find(i => i.path === this.$app.mainPath);
-                if (_temp && Array.isArray(_temp.children)) {
-                    this.mainRoutes = _temp.children;
-                }
-            },
             setAliveList () {
-                const _temp = [];
-                this.depthFilterAlive(this.mainRoutes, _temp);
-                this.initAliveList(_temp);
+                const mainRoute = this.$router.options.routes.find(i => i.path === this.$app.mainPath);
+                this.depthAlive(this.$_deepCopy(mainRoute));
             },
             setMenuList () {
-                if (Array.isArray(this.mainRoutes) && this.mainRoutes.length) {
-                    this.menuList = this.depthFilterMenu(this.mainRoutes);
+                const mainRoute = this.$router.options.routes.find(i => i.path === this.$app.mainPath);
+                if (mainRoute && Array.isArray(mainRoute.children)) {
+                    this.menuList = this.depthFilterMenu(mainRoute.children);
                 }
             },
             depthFilterMenu (source) {
@@ -158,8 +149,8 @@
                     .map(item => {
                         let _temp = {};
                         if (item.meta) {
-                            _temp.title = item.meta.title || '';
-                            _temp.icon = item.meta.icon || '';
+                            _temp.title = item.meta.title;
+                            _temp.icon = item.meta.icon;
                         }
                         _temp.name = item.name;
                         if (Array.isArray(item.children) && item.children.length) {
@@ -172,15 +163,19 @@
                         return _temp;
                     });
             },
-            depthFilterAlive (source, target = []) {
-                source
-                    .filter(item => !(item.meta && item.meta.notCache))
-                    .forEach(item => {
-                        target.push(item.name);
-                        if (Array.isArray(item.children) && item.children.length) {
-                            this.depthFilterAlive(item.children, target);
+            depthAlive (source) {
+                if (Array.isArray(source.children)) {
+                    const key = source.name;
+                    return source.children.reduce((obj, item) => {
+                        if (!obj[key]) {
+                            obj[key] = [];
                         }
-                    });
+                        if (!(item.meta && item.meta.notCache)) {
+                            obj[key].push(item.name);
+                        }
+                        return Object.assign(obj, this.depthAlive(item));
+                    }, {});
+                }
             },
             changeCollapsed () {
                 this.collapsed = !this.collapsed;

@@ -1,11 +1,13 @@
 export default [
     {
-        path: 'BlankPage3',
-        name: 'BlankPage3',
+        path: 'Test',
+        alias: '/',
+        name: 'Test',
         meta: {
-            title: '测试3',
-            icon: 'setting'
+            title: '测试33',
+            icon: 'setting',
+            // notCache: true
         },
-        component: () => import(/* webpackChunkName: "BlankPage" */ '@/views/BlankPage/BlankPage'),
+        component: () => import(/* webpackChunkName: "Test" */ '@/views/BlankPage/Test'),
     }
 ]

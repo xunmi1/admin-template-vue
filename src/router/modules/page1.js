@@ -1,60 +1,30 @@
 export default [
     {
         path: 'BlankPage1',
-        name: 'Home',
+        name: 'test1',
         meta: {
-            title: '测试1',
+            title: '测试11',
             icon: 'pie-chart',
         },
         component: () => import(/* webpackChunkName: "BlankPage" */ '@/views/BlankPage/BlankPage'),
         children: [
             {
-                path: 'BlankPage11',
-                name: 'BlankPage11',
+                path: 'Test1',
+                name: 'Test1',
                 meta: {
                     title: '测试11',
                     icon: 'credit-card'
                 },
-                component: () => import(/* webpackChunkName: "BlankPage" */ '@/views/BlankPage/BlankPage'),
-                children: [
-                    {
-                        path: 'BlankPage111',
-                        name: 'BlankPage111',
-                        meta: {
-                            title: '测试111',
-                            icon: 'appstore'
-                        },
-                        component: () => import(/* webpackChunkName: "BlankPage" */ '@/views/BlankPage/BlankPage'),
-                    },
-                    {
-                        path: 'BlankPage121',
-                        name: 'BlankPage121',
-                        meta: {
-                            title: '测试121',
-                            icon: 'credit-card'
-                        },
-                        component: () => import(/* webpackChunkName: "BlankPage" */ '@/views/BlankPage/BlankPage'),
-                    }
-                ]
+                component: () => import('@/views/BlankPage/Test1'),
             },
             {
-                path: 'BlankPage12',
-                name: 'BlankPage12',
+                path: 'Test2',
+                name: 'Test2',
                 meta: {
                     title: '测试12',
-                    hideInMenu: true,
-                    icon: 'smile'
+                    icon: 'smile',
                 },
-                component: () => import(/* webpackChunkName: "BlankPage" */ '@/views/BlankPage/BlankPage'),
-            },
-            {
-                path: 'BlankPage13',
-                name: 'BlankPage13',
-                meta: {
-                    title: '测试13',
-                    icon: 'inbox'
-                },
-                component: () => import(/* webpackChunkName: "BlankPage" */ '@/views/BlankPage/BlankPage'),
+                component: () => import('@/views/BlankPage/Test2'),
             }
         ]
     }

@@ -21,7 +21,7 @@
 </template>
 
 <script>
-    import { mapState,mapMutations } from 'vuex';
+    import { mapState, mapMutations } from 'vuex';
 
     export default {
         name: 'UserInfo',
@@ -51,6 +51,7 @@
             vertical-align: middle;
             margin-right: 8px;
         }
+
         &-menu {
             min-width: 140px;
         }

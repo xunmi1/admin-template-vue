@@ -16,7 +16,7 @@ Vue.use(Router);
  *    title: string           显示在侧边栏、面包屑和标签栏的文字
  *    hideInBread: (false)    true: 此级路由将不会出现在面包屑中
  *    hideInMenu: (false)     true: 在菜单不会显示该页面选项, **及其嵌套的子路由页面**
- *    notCache: (false)       true: 页面在切换标签后不会缓存, **及其嵌套的子路由页面**
+ *    notCache: (false)       true: 页面在切换标签后不会缓存, **仅限本级!!!**
  *    notAuth: (false)        true: 页面不需要验权，**若存在父级路由，所有父级路由也需设置 true，才能生效**
  *    icon: string            该页面在菜单、面包屑和标签导航处显示的图标
  * }
@@ -41,6 +41,23 @@ const router = new Router({
     ]
 });
 const db = Db.getSingle();
+const addAlive = function(to) {
+    const length = to.matched.length;
+    if (length > 1) {
+        for (let i = length - 1; i > 0; i--) {
+            const [own, parent] = [to.matched[i], to.matched[i - 1]];
+            if (!(own.meta && own.meta.notCache)) {
+                Object.keys(own.components).forEach(key => {
+                    store.commit('app/addAlive', {
+                        page: parent.name,
+                        type: key,
+                        alive: own.components[key].name
+                    });
+                })
+            }
+        }
+    }
+};
 
 router.beforeEach((to, from, next) => {
     // 如果前往路由的路由记录上有一个设置了验权 (!notAuth), 则进行 token 校验
@@ -64,7 +81,8 @@ router.beforeEach((to, from, next) => {
 });
 
 router.afterEach(to => {
-    window.document.title = to.meta.title;
+    Promise.resolve(to).then(addAlive);
+    window.document.title = to.meta.title || config.title.small;
     window.scrollTo(0, 0);
 });
 

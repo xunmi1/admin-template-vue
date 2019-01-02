@@ -6,10 +6,21 @@ export default {
             isVertical: true,
             isFixedHeader: true,
             isFixedSider: true,
-            isMenuRight: true,
+            isMenuRight: true
         },
-        aliveList: [],
+        aliveList: {},
         errorList: []
+    },
+    getters: {
+        getAlive: ({aliveList}) => (matched, page, name = 'default') => {
+            const index = matched.findIndex(item => item.components[name].name === page);
+            if (index > -1 && aliveList[matched[index].name]) {
+                console.log(aliveList[matched[index].name][name]);
+                return aliveList[matched[index].name][name];
+            } else {
+                return [];
+            }
+        }
     },
     mutations: {
         setLayout ({ layout }, data) {
@@ -18,17 +29,32 @@ export default {
             });
         },
         initAliveList (state, data) {
-            state.aliveList = Array.isArray(data) ? data : state.aliveList;
+            state.aliveList = data;
         },
-        addAlive ({ aliveList }, pageName) {
-            if (!aliveList.includes(pageName)) {
-                aliveList.push(pageName);
+        /**
+         * 添加页面缓存
+         * @param aliveList 全局缓存列表
+         * @param page 拥有 <RouterView> 标签的组件，被引用到路由中，在路由中的 name，用于区分缓存列表
+         * @param name 组件可以拥有多个 <RouterView> 时，需指定 name, 若只有一个，默认 'default'
+         * @param alive 需要被缓存的组件，其自身的 name
+         */
+        addAlive ({ aliveList }, { page, name = 'default', alive }) {
+            if (!aliveList[page]) {
+                aliveList[page] = {};
+            }
+            if (!Array.isArray(aliveList[page][name])) {
+                aliveList[page][name] = [];
+            }
+            if (!aliveList[page][name].includes(alive)) {
+                aliveList[page][name].push(alive);
             }
         },
-        deleteAlive ({ aliveList }, pageName) {
-            const index = aliveList.indexOf(pageName);
-            if (index > -1) {
-                aliveList.splice(index, 1);
+        clearAlive ({ aliveList }, { page, name = 'default', alive }) {
+            if (aliveList[page] && Array.isArray(aliveList[page][name])) {
+                const index = aliveList[page][name].indexOf(alive);
+                if (index > -1) {
+                    aliveList[page][name].splice(index, 1);
+                }
             }
         },
         addError (state, error) {

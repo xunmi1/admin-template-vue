@@ -5,6 +5,8 @@ import store from './store';
 import plugin from './plugin';
 
 Vue.config.productionTip = false;
+// 开启后可观察组件性能
+Vue.config.performance = false;
 
 Vue.use(plugin);
 
