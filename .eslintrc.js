@@ -34,7 +34,7 @@ module.exports = {
         'vue/require-default-prop': 'off',
         'vue/singleline-html-element-content-newline': 'off',
         'vue/component-name-in-template-casing': ['error', 'PascalCase', {
-            'ignores': ['compontent']
+            'ignores': ['compontent', 'transition']
         }],
 
         indent: ['warn', 4]

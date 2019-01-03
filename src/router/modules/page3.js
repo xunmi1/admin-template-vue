@@ -1,7 +1,6 @@
 export default [
     {
         path: 'Test',
-        alias: '/',
         name: 'Test',
         meta: {
             title: '测试33',

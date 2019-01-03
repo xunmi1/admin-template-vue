@@ -7,17 +7,13 @@ export default function (name, title) {
             return h(
                 'ACard',
                 {
-                    props: {
-                        title
-                    }
+                    props: { title }
                 },
                 [
                     h(
                         'KeepAlive',
                         {
-                            props: {
-                                include: this.alive
-                            }
+                            props: { include: this.alive }
                         },
                         [
                             h('RouterView')
@@ -28,15 +24,15 @@ export default function (name, title) {
         },
         data () {
             return {
-                alive: [],
-            }
+                alive: []
+            };
         },
         computed: {
-            ...mapGetters('app', ['getAlive']),
+            ...mapGetters('app', ['getAlive'])
         },
         beforeRouteUpdate (to, from, next) {
             this.alive = this.getAlive(name);
             next();
-        },
+        }
     };
 }

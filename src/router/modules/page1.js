@@ -3,7 +3,9 @@ import BasicCard from '@/views/Container/BasicCard';
 export default [
     {
         path: 'BlankPage1',
-        name: 'Page1',
+        name: 'Home',
+        redirect: 'BlankPage1/Test1',
+        alias: '/',
         meta: {
             title: '测试1',
             icon: 'pie-chart',

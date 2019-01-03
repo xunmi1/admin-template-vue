@@ -19,9 +19,10 @@
                 <Logo :collapsed="collapsed" :theme="menuTheme" />
                 <VMenu
                     :menu-data="menuList"
-                    :default-selected-keys="[currentName]"
+                    :selected-keys="[currentName]"
                     :mode="layout.mode"
                     :theme="menuTheme"
+                    @click="pushRouter"
                     class="menu"
                 />
                 <div v-if="!isVertical" class="header-tool">
@@ -50,7 +51,7 @@
                     </div>
                 </ALayoutHeader>
                 <ALayoutContent :class="{'content-fixed-top': isFixedHeader}" class="layout-main-content">
-                    <KeepAlive>
+                    <KeepAlive :include="getAlive('BasicLayout')">
                         <RouterView />
                     </KeepAlive>
                 </ALayoutContent>
@@ -90,6 +91,7 @@
                 siderWidth: 232,
                 // 是否展示布局配置页
                 showSetting: false,
+                transitionName: null,
                 vertical: {
                     mode: 'inline',
                     menuLayout: 'ALayoutSider'
@@ -106,8 +108,7 @@
                 isVertical: state => state.layout.isVertical,
                 isFixedHeader: state => state.layout.isFixedHeader,
                 isFixedSider: state => state.layout.isFixedSider,
-                isMenuRight: state => state.layout.isMenuRight,
-                aliveList: state => state.aliveList
+                isMenuRight: state => state.layout.isMenuRight
             }),
             ...mapGetters('app', ['getAlive']),
             currentName () {
@@ -129,13 +130,11 @@
             }
         },
         created () {
-            // this.setAliveList();
             this.setMenuList();
         },
         methods: {
-            setAliveList () {
-                const mainRoute = this.$router.options.routes.find(i => i.path === this.$app.mainPath);
-                this.depthAlive(this.$_deepCopy(mainRoute));
+            pushRouter ({ key }) {
+                this.$router.push({ name: key });
             },
             setMenuList () {
                 const mainRoute = this.$router.options.routes.find(i => i.path === this.$app.mainPath);
@@ -162,20 +161,6 @@
                         }
                         return _temp;
                     });
-            },
-            depthAlive (source) {
-                if (Array.isArray(source.children)) {
-                    const key = source.name;
-                    return source.children.reduce((obj, item) => {
-                        if (!obj[key]) {
-                            obj[key] = [];
-                        }
-                        if (!(item.meta && item.meta.notCache)) {
-                            obj[key].push(item.name);
-                        }
-                        return Object.assign(obj, this.depthAlive(item));
-                    }, {});
-                }
             },
             changeCollapsed () {
                 this.collapsed = !this.collapsed;

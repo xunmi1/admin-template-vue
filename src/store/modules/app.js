@@ -14,7 +14,6 @@ export default {
     getters: {
         getAlive: ({aliveList}) => (page, name = 'default') => {
             if (aliveList[page] && Array.isArray(aliveList[page][name])) {
-                console.log(aliveList[page][name]);
                 return aliveList[page][name];
             } else {
                 return [];

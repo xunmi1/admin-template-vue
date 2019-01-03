@@ -10,6 +10,7 @@
 </script>
 <style lang="less">
     @import "~ant-design-vue/dist/antd.less";
+    @import '~nprogress/nprogress.css';
     @import "./assets/style/antd-theme.less";
     @import "./assets/style/public.less";
 </style>
