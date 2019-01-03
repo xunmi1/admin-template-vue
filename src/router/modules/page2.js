@@ -1,18 +1,20 @@
+import BasicCard from '@/views/Container/BasicCard';
+
 export default [
     {
-        path: 'BlankPage22',
-        name: 'test2',
+        path: 'BlankPage2',
+        name: 'Page2',
         meta: {
-            title: '测试22',
+            title: '测试2',
             icon: 'pie-chart',
         },
-        component: () => import(/* webpackChunkName: "BlankPage" */ '@/views/BlankPage/BlankPage'),
+        component: BasicCard('Page22', '测试2'),
         children: [
             {
                 path: 'Test333',
                 name: 'Test333',
                 meta: {
-                    title: '测试3',
+                    title: '测试23',
                     icon: 'credit-card'
                 },
                 component: () => import('@/views/BlankPage/Test3'),
@@ -21,7 +23,7 @@ export default [
                 path: 'Test444',
                 name: 'Test444',
                 meta: {
-                    title: '测试4',
+                    title: '测试24',
                     icon: 'smile',
                 },
                 component: () => import('@/views/BlankPage/Test4'),

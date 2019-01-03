@@ -27,7 +27,7 @@ const router = new Router({
         {
             // 默认: '/'
             path: config.mainPath,
-            name: 'BasicLayout',
+            name: 'main',
             meta: {
                 title: '测试'
             },
@@ -48,8 +48,9 @@ const addAlive = function(to) {
             const [own, parent] = [to.matched[i], to.matched[i - 1]];
             if (!(own.meta && own.meta.notCache)) {
                 Object.keys(own.components).forEach(key => {
+                    // 注意： 父级组件不支持多个 router-view
                     store.commit('app/addAlive', {
-                        page: parent.name,
+                        page: parent.components['default'].name,
                         type: key,
                         alive: own.components[key].name
                     });

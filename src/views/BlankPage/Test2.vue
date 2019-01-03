@@ -2,14 +2,17 @@
     <div>
         test2
         <AInput />
+        <AButton type="primary" @click="clearCache">清理‘测试11’缓存</AButton>
     </div>
 </template>
 
 <script>
     export default {
         name: 'Test2',
-        mounted() {
-            this.$store.commit('app/clearAlive', { page: 'test1',alive: 'Test1' });
+        methods: {
+            clearCache() {
+                this.$store.commit('app/clearAlive', { page: 'Page11',alive: 'Test1' });
+            }
         }
     };
 </script>

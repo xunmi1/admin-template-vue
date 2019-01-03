@@ -12,11 +12,10 @@ export default {
         errorList: []
     },
     getters: {
-        getAlive: ({aliveList}) => (matched, page, name = 'default') => {
-            const index = matched.findIndex(item => item.components[name].name === page);
-            if (index > -1 && aliveList[matched[index].name]) {
-                console.log(aliveList[matched[index].name][name]);
-                return aliveList[matched[index].name][name];
+        getAlive: ({aliveList}) => (page, name = 'default') => {
+            if (aliveList[page] && Array.isArray(aliveList[page][name])) {
+                console.log(aliveList[page][name]);
+                return aliveList[page][name];
             } else {
                 return [];
             }
@@ -27,9 +26,6 @@ export default {
             Object.keys(data).forEach(key => {
                 layout[key] = data[key];
             });
-        },
-        initAliveList (state, data) {
-            state.aliveList = data;
         },
         /**
          * 添加页面缓存
