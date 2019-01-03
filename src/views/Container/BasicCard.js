@@ -13,7 +13,7 @@ export default function (name, title) {
                     h(
                         'KeepAlive',
                         {
-                            props: { include: this.alive }
+                            props: { include: this.getAlive(name) }
                         },
                         [
                             h('RouterView')
@@ -22,17 +22,8 @@ export default function (name, title) {
                 ]
             );
         },
-        data () {
-            return {
-                alive: []
-            };
-        },
         computed: {
             ...mapGetters('app', ['getAlive'])
-        },
-        beforeRouteUpdate (to, from, next) {
-            this.alive = this.getAlive(name);
-            next();
         }
     };
 }

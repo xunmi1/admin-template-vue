@@ -86,7 +86,7 @@ router.beforeEach((to, from, next) => {
 });
 
 router.afterEach(to => {
-    Promise.resolve(to).then(to => {
+    Promise.resolve().then(() => {
         addAlive(to);
         NProgress.done();
     });
