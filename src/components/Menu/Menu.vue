@@ -1,11 +1,11 @@
 <template>
-    <AMenu v-bind="$attrs">
+    <AMenu v-bind="$attrs" v-on="$listeners">
         <template v-for="item of menuData">
-            <AMenuItem v-if="!item.children" :key="item.name" @click="clickItem">
+            <AMenuItem v-if="!item.children" :key="item.key || item.name">
                 <AIcon v-if="item.icon" :type="item.icon" />
                 <span>{{ item.title }}</span>
             </AMenuItem>
-            <SubMenu v-else :item="item" :key="item.name" @click="clickItem" />
+            <SubMenu v-else :item="item" :key="item.key || item.name" />
         </template>
     </AMenu>
 </template>
@@ -20,16 +20,6 @@
             menuData: {
                 type: Array,
                 required: true
-            }
-        },
-        data () {
-            return {
-                list: []
-            };
-        },
-        methods: {
-            clickItem(item) {
-                this.$emit('click', item);
             }
         }
     };

@@ -19,7 +19,8 @@
                 <Logo :collapsed="collapsed" :theme="menuTheme" />
                 <VMenu
                     :menu-data="menuList"
-                    :selected-keys="[currentName]"
+                    :selected-keys="currentName"
+                    :open-keys.sync="layout.openKeys"
                     :mode="layout.mode"
                     :theme="menuTheme"
                     @click="pushRouter"
@@ -85,6 +86,7 @@
             return {
                 // 菜单列表
                 menuList: [],
+                currentName: [this.$route.name],
                 // 垂直布局下左侧菜单是否伸缩
                 collapsed: false,
                 // 侧边栏宽度
@@ -93,10 +95,12 @@
                 showSetting: false,
                 transitionName: null,
                 vertical: {
+                    openKeys: [],
                     mode: 'inline',
                     menuLayout: 'ALayoutSider'
                 },
                 horizontal: {
+                    openKeys: [],
                     mode: 'horizontal',
                     menuLayout: 'ALayoutHeader'
                 }
@@ -111,9 +115,6 @@
                 isMenuRight: state => state.layout.isMenuRight
             }),
             ...mapGetters('app', ['getAlive']),
-            currentName () {
-                return this.$route.name;
-            },
             layout () {
                 return this.isVertical ? this.vertical : this.horizontal;
             },
@@ -129,8 +130,18 @@
                 return this.isFixedHeader ? this.collapsedWidth : 0;
             }
         },
+        watch: {
+            '$route.name': {
+                handler: function (newVal) {
+                    this.currentName.splice(0, 1, newVal);
+                    this.setOpenKeys(this.menuList);
+                    this.vertical.openKeys = this.$_unique(this.vertical.openKeys);
+                }
+            }
+        },
         created () {
             this.setMenuList();
+            this.setOpenKeys(this.menuList);
         },
         methods: {
             pushRouter ({ key }) {
@@ -151,7 +162,7 @@
                             _temp.title = item.meta.title;
                             _temp.icon = item.meta.icon;
                         }
-                        _temp.name = item.name;
+                        _temp.key = item.name;
                         if (Array.isArray(item.children) && item.children.length) {
                             _temp.children = this.depthFilterMenu(item.children);
                             // 当子级只有一个模块，将其提升一级并覆盖
@@ -161,6 +172,19 @@
                         }
                         return _temp;
                     });
+            },
+            // 设置当前页面在菜单中，从顶层到上一层的路径
+            setOpenKeys (menu) {
+                return menu.some(item => {
+                    if (item.key === this.currentName[0]) {
+                        return true;
+                    }
+                    this.vertical.openKeys.push(item.key);
+                    if (Array.isArray(item.children) && this.setOpenKeys(item.children)) {
+                        return true;
+                    }
+                    this.vertical.openKeys.pop();
+                });
             },
             changeCollapsed () {
                 this.collapsed = !this.collapsed;

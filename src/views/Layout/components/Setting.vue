@@ -10,13 +10,25 @@
                 <h3 class="setting-title">导航菜单风格</h3>
                 <ATooltip title="暗色">
                     <div @click="changeMenuTheme('dark')" class="setting-layout">
-                        <img :src="darkMenuSvg" alt="暗色" width="68">
+                        <img
+                            v-once
+                            :src="darkMenuSvg"
+                            alt="暗色"
+                            width="68"
+                            height="58"
+                        >
                         <AIcon v-show="menuTheme === 'dark'" type="check" class="check-icon" />
                     </div>
                 </ATooltip>
                 <ATooltip title="亮色">
                     <div @click="changeMenuTheme('light')" class="setting-layout">
-                        <img :src="lightMenuSvg" alt="亮色" width="68">
+                        <img
+                            v-once
+                            :src="lightMenuSvg"
+                            alt="亮色"
+                            width="68"
+                            height="58"
+                        >
                         <AIcon v-show="menuTheme === 'light'" type="check" class="check-icon" />
                     </div>
                 </ATooltip>
@@ -25,13 +37,25 @@
                 <h3 class="setting-title">导航菜单布局</h3>
                 <ATooltip title="侧边菜单">
                     <div @click="changeVertical(true)" class="setting-layout">
-                        <img :src="verticalSvg" alt="侧边菜单" width="68">
+                        <img
+                            v-once
+                            :src="verticalSvg"
+                            alt="侧边菜单"
+                            width="68"
+                            height="58"
+                        >
                         <AIcon v-show="isVertical" type="check" class="check-icon" />
                     </div>
                 </ATooltip>
                 <ATooltip title="顶部菜单">
                     <div @click="changeVertical(false)" class="setting-layout">
-                        <img :src="horizontalSvg" alt="顶部菜单" width="68">
+                        <img
+                            v-once
+                            :src="horizontalSvg"
+                            alt="顶部菜单"
+                            width="68"
+                            height="58"
+                        >
                         <AIcon v-show="!isVertical" type="check" class="check-icon" />
                     </div>
                 </ATooltip>
@@ -93,7 +117,7 @@
                 isVertical: state => state.layout.isVertical,
                 isFixedHeader: state => state.layout.isFixedHeader,
                 isFixedSider: state => state.layout.isFixedSider,
-                isMenuRight: state => state.layout.isMenuRight,
+                isMenuRight: state => state.layout.isMenuRight
             })
         },
         created () {

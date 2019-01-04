@@ -11,7 +11,7 @@
         name: 'Test3',
         methods: {
             clearCache() {
-                this.$store.commit('app/clearAlive', { page: 'Page11',alive: 'Test1' });
+                this.$router.push({name:'Test1111222'});
             }
         }
     };

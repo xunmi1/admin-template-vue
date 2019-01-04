@@ -53,7 +53,7 @@
         h1 {
             display: inline-block;
             font-size: 20px;
-            margin: 0 0 0 12px;
+            margin: 0 12px;
             color: #fff;
         }
     }
@@ -68,7 +68,7 @@
             vertical-align: text-bottom;
             display: inline-block;
             font-size: 20px;
-            margin: 0 0 0 12px;
+            margin: 0 12px;
             color: #fff;
         }
     }
@@ -95,6 +95,6 @@
     }
 
     .logo {
-        margin-bottom: 14px;
+        margin-bottom: 12px;
     }
 </style>

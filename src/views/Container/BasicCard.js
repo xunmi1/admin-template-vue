@@ -1,24 +1,25 @@
 import { mapGetters } from 'vuex';
 
-export default function (name, title) {
+export default function (name, bool) {
     return {
         name,
         render (h) {
-            return h(
-                'ACard',
+            const keepAlive = h('KeepAlive',
                 {
-                    props: { title }
+                    props: { include: this.alive }
                 },
                 [
-                    h(
-                        'KeepAlive',
-                        {
-                            props: { include: this.getAlive(name) }
-                        },
-                        [
-                            h('RouterView')
-                        ]
-                    )
+                    h('RouterView')
+                ]
+            );
+            return h('ACard',
+                {
+                    props: {
+                        title: this.$route.meta.title
+                    }
+                },
+                [
+                    bool ? keepAlive : h('RouterView')
                 ]
             );
         },

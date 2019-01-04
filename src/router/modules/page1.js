@@ -10,7 +10,7 @@ export default [
             title: '测试1',
             icon: 'pie-chart',
         },
-        component: BasicCard('Page11', '测试1'),
+        component: BasicCard('Page11', true),
         children: [
             {
                 path: 'Test1',
@@ -20,6 +20,26 @@ export default [
                     icon: 'credit-card'
                 },
                 component: () => import('@/views/BlankPage/Test1'),
+                children: [
+                    {
+                        path: 'Test1',
+                        name: 'Test1111222',
+                        meta: {
+                            title: '测试11',
+                            icon: 'credit-card'
+                        },
+                        component: () => import('@/views/BlankPage/Test1'),
+                    },
+                    {
+                        path: 'Test2',
+                        name: 'Test22221111',
+                        meta: {
+                            title: '测试12',
+                            icon: 'smile',
+                        },
+                        component: () => import('@/views/BlankPage/Test2'),
+                    }
+                ]
             },
             {
                 path: 'Test2',

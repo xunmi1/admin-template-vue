@@ -1,5 +1,5 @@
 // 类型校验
-const typeOf = function (obj) {
+export function typeOf (obj) {
     const toString = Object.prototype.toString;
     const map = {
         '[object Boolean]': 'boolean',
@@ -14,10 +14,10 @@ const typeOf = function (obj) {
         '[object Object]': 'object'
     };
     return map[toString.call(obj)];
-};
+}
 
-// deepCopy
-const deepCopy = function (data) {
+// 深度拷贝
+export function deepCopy (data) {
     const t = typeOf(data);
     let o;
 
@@ -41,9 +41,13 @@ const deepCopy = function (data) {
         }
     }
     return o;
-};
+}
 
-export {
-    typeOf,
-    deepCopy
-};
+/**
+ * 数组去除
+ * @param {...Array} arguments 原数组，不限数组个数
+ * @returns {*[]} 去重后的新数组
+ */
+export function unique () {
+    return Array.from(new Set([].concat(...arguments)));
+}

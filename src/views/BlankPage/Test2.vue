@@ -11,7 +11,6 @@
         name: 'Test2',
         methods: {
             clearCache() {
-                console.log(this);
                 this.$store.commit('app/clearAlive', { page: 'Page11',alive: 'Test1' });
             }
         }

@@ -8,7 +8,7 @@ export default [
             title: '测试2',
             icon: 'pie-chart',
         },
-        component: BasicCard('Page22', '测试2'),
+        component: BasicCard('Page22', true),
         children: [
             {
                 path: 'Test333',
