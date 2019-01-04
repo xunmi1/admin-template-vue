@@ -45,6 +45,7 @@
                         :type="collapsed ? 'menu-unfold' : 'menu-fold'"
                         @click="changeCollapsed"
                     />
+                    <Breadcrumb />
                     <div class="header-tool">
                         <FullScreen />
                         <SettingBtn @click.native="showDrawer" />
@@ -70,6 +71,7 @@
     import FullScreen from './components/FullScreen';
     import Setting from './components/Setting';
     import SettingBtn from './components/SettingBtn';
+    import Breadcrumb from './components/Breadcrumb';
     import Footer from './components/Footer';
 
     export default {
@@ -80,6 +82,7 @@
             UserInfo,
             FullScreen,
             Setting,
+            Breadcrumb,
             Footer
         },
         data () {
@@ -93,7 +96,7 @@
                 siderWidth: 232,
                 // 是否展示布局配置页
                 showSetting: false,
-                transitionName: null,
+
                 vertical: {
                     openKeys: [],
                     mode: 'inline',
@@ -132,7 +135,7 @@
         },
         watch: {
             '$route.name': {
-                handler: function (newVal) {
+                handler (newVal) {
                     this.currentName.splice(0, 1, newVal);
                     this.setOpenKeys(this.menuList);
                     this.vertical.openKeys = this.$_unique(this.vertical.openKeys);
@@ -148,7 +151,7 @@
                 this.$router.push({ name: key });
             },
             setMenuList () {
-                const mainRoute = this.$router.options.routes.find(i => i.path === this.$app.mainPath);
+                const mainRoute = this.$router.options.routes.find(i => i.name === this.$app.mainName);
                 if (mainRoute && Array.isArray(mainRoute.children)) {
                     this.menuList = this.depthFilterMenu(mainRoute.children);
                 }
@@ -217,6 +220,7 @@
                 .trigger {
                     font-size: 20px;
                     line-height: 64px;
+                    vertical-align: middle;
                     padding: 0 24px;
                     cursor: pointer;
                 }

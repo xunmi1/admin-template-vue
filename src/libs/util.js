@@ -1,5 +1,5 @@
 // 类型校验
-export function typeOf (obj) {
+export function typeOf (obj, type) {
     const toString = Object.prototype.toString;
     const map = {
         '[object Boolean]': 'boolean',
@@ -13,7 +13,8 @@ export function typeOf (obj) {
         '[object Null]': 'null',
         '[object Object]': 'object'
     };
-    return map[toString.call(obj)];
+    const result = map[toString.call(obj)];
+    return type ? result === type.toLowerCase() : result;
 }
 
 // 深度拷贝
@@ -44,7 +45,7 @@ export function deepCopy (data) {
 }
 
 /**
- * 数组去除
+ * 数组去重
  * @param {...Array} arguments 原数组，不限数组个数
  * @returns {*[]} 去重后的新数组
  */

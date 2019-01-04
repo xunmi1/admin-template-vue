@@ -3,7 +3,7 @@ import BasicCard from '@/views/Container/BasicCard';
 export default [
     {
         path: 'BlankPage1',
-        name: 'Home',
+        name: 'page1',
         redirect: 'BlankPage1/Test1',
         alias: '/',
         meta: {
@@ -22,7 +22,7 @@ export default [
                 component: () => import('@/views/BlankPage/Test1'),
                 children: [
                     {
-                        path: 'Test1',
+                        path: 'Test11',
                         name: 'Test1111222',
                         meta: {
                             title: '测试11',

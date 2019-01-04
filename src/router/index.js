@@ -10,7 +10,6 @@ import page1 from './modules/page1';
 import page2 from './modules/page2';
 import page3 from './modules/page3';
 
-NProgress.configure({ showSpinner: false });
 Vue.use(Router);
 /**
  * path: string               仅第一级路径 path 前面加 '/'
@@ -27,11 +26,10 @@ const router = new Router({
     routes: [
         ...others,
         {
-            // 默认: '/'
-            path: config.mainPath,
-            name: 'main',
+            path: '/',
+            name: config.mainName,
             meta: {
-                title: '测试'
+                title: '首页'
             },
             component: () => import(/* webpackChunkName: "BasicLayout" */ '@/views/Layout/BasicLayout'),
             children: [

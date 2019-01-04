@@ -29,15 +29,11 @@ const config = Object.freeze({
         expires: 36500 * 24 * 3600
     },
     /**
-     * @description 默认打开的首页的路由 name 值，默认为 'home'
-     */
-    homeName: 'Home',
-    /**
      * @description 登录页路由 name 值，默认为 'Login'
      */
-    loginName: 'Login',
-    // 主体页面的根 router 路径，用于生成 menu 导航菜单
-    mainPath: '/',
+    loginName: 'login',
+    // 主体页面的 name 值，用于生成 menu 导航菜单
+    mainName: 'main',
     // 本地存储前缀标识，建议不同系统自定义配置
     dbPrefix: 'newSystem',
     // 组织/公司/个人， 用于 footer
