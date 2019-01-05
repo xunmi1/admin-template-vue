@@ -32,16 +32,16 @@
             const el = document.documentElement;
             const map = [
                 {
-                    event: 'fullScreen',
+                    event: 'fullscreen',
                     listener: 'fullscreenchange',
                     exit: document.exitFullscreen,
                     full: el.requestFullscreen
                 },
                 {
-                    event: 'mozIsFullScreen',
+                    event: 'mozFullScreen',
                     listener: 'mozfullscreenchange',
-                    exit: document.mozCancelFullScreen,
-                    full: el.mozRequestFullScreen
+                    exit: document.exitFullscreen || document.mozCancelFullScreen,
+                    full: el.requestFullscreen || el.mozRequestFullScreen
                 },
                 {
                     event: 'webkitIsFullScreen',
