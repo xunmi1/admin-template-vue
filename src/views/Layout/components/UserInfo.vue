@@ -51,7 +51,9 @@
             vertical-align: middle;
             margin-right: 8px;
         }
-
+        &-nickname {
+            font-size: 14px;
+        }
         &-menu {
             min-width: 140px;
         }

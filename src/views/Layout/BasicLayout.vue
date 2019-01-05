@@ -40,11 +40,9 @@
                     :class="{'header-fixed': isFixedHeader}"
                     class="layout-main-header"
                 >
-                    <AIcon
-                        class="trigger icon-hover"
-                        :type="collapsed ? 'menu-unfold' : 'menu-fold'"
-                        @click="changeCollapsed"
-                    />
+                    <div class="trigger icon-hover pointer">
+                        <AIcon :type="collapsed ? 'menu-unfold' : 'menu-fold'" @click="changeCollapsed" />
+                    </div>
                     <Breadcrumb />
                     <div class="header-tool">
                         <FullScreen />
@@ -225,12 +223,15 @@
                 transition: all .2s;
                 border-bottom: 1px solid #e8e8e8;
 
+                > div {
+                    line-height: 64px;
+                    display: inline-block;
+                    vertical-align: top;
+                }
+
                 .trigger {
                     font-size: 20px;
-                    line-height: 64px;
-                    vertical-align: middle;
                     padding: 0 24px;
-                    cursor: pointer;
                 }
             }
         }
@@ -239,14 +240,11 @@
     .horizontal {
         // 若默认水平布局，顶级 ALayout 对是否有 Sider 识别错误，导致布局错位，对此手动修正
         flex-direction: column;
+
         .layout-header {
             padding: 0 16px;
             transition: all .2s;
             color: #fff;
-
-            > * {
-                vertical-align: top;
-            }
 
             .menu {
                 display: inline-block;
@@ -297,6 +295,9 @@
     .menu-theme-light {
         box-shadow: 0 1px 4px rgba(0, 21, 41, .08);
         background-color: #fff;
-        color: #002140 !important;
+
+        /deep/ div, ul {
+            color: rgba(0, 0, 0, .76);
+        }
     }
 </style>
