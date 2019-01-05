@@ -31,6 +31,7 @@ const router = new Router({
             meta: {
                 title: '首页'
             },
+            redirect: 'BlankPage1/Test1',
             component: () => import(/* webpackChunkName: "BasicLayout" */ '@/views/Layout/BasicLayout'),
             children: [
                 ...page1,

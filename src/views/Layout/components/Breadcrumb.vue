@@ -1,10 +1,10 @@
 <template>
     <ABreadcrumb :routes="routes" class="breadcrumb">
-        <template slot="itemRender" slot-scope="{route, params, routes}">
+        <template slot="itemRender" slot-scope="{route}">
             <span v-if="routes.indexOf(route) === routes.length - 1">
                 {{ route.meta.title }}
             </span>
-            <RouterLink v-else :to="{name: route.name}">
+            <RouterLink v-else :to="route">
                 {{ route.meta.title }}
             </RouterLink>
         </template>
@@ -22,10 +22,8 @@
         watch: {
             '$route.name': {
                 handler () {
-                    const main = [this.$router.options.routes.find(i => i.name === this.$app.mainName)];
                     this.routes = [];
-                    this.findOpenRoute(main);
-                    console.log(this.routes);
+                    this.findOpenRoute(this.$router.options.routes);
                 },
                 immediate: true
             }

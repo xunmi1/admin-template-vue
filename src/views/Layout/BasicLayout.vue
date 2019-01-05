@@ -53,6 +53,9 @@
                     </div>
                 </ALayoutHeader>
                 <ALayoutContent :class="{'content-fixed-top': isFixedHeader}" class="layout-main-content">
+                    <div v-if="!isVertical" class="horizontal-breadcrumb">
+                        <Breadcrumb />
+                    </div>
                     <KeepAlive :include="getAlive('BasicLayout')">
                         <RouterView />
                     </KeepAlive>
@@ -106,7 +109,9 @@
                     openKeys: [],
                     mode: 'horizontal',
                     menuLayout: 'ALayoutHeader'
-                }
+                },
+                // 垂直布局下
+                cacheOpenKeys: []
             };
         },
         computed: {
@@ -140,6 +145,9 @@
                     this.setOpenKeys(this.menuList);
                     this.vertical.openKeys = this.$_unique(this.vertical.openKeys);
                 }
+            },
+            collapsed () {
+                [this.cacheOpenKeys, this.vertical.openKeys] = [this.vertical.openKeys, this.cacheOpenKeys];
             }
         },
         created () {
@@ -229,6 +237,8 @@
     }
 
     .horizontal {
+        // 若默认水平布局，顶级 ALayout 对是否有 Sider 识别错误，导致布局错位，对此手动修正
+        flex-direction: column;
         .layout-header {
             padding: 0 16px;
             transition: all .2s;
@@ -246,6 +256,10 @@
 
         .menu-right {
             text-align: right;
+        }
+
+        &-breadcrumb {
+            margin-bottom: 12px;
         }
     }
 

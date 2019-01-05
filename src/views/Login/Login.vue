@@ -24,7 +24,7 @@
                     userName: this.userName.toString(),
                     password: this.password.toString()
                 }).then(() => {
-                    this.$router.push({ name: this.$app.homeName });
+                    this.$router.push({ name: this.$app.mainName });
                 }).catch(err => {
                     console.log(err);
                 });

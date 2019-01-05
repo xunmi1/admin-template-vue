@@ -5,7 +5,6 @@ export default [
         path: 'BlankPage1',
         name: 'page1',
         redirect: 'BlankPage1/Test1',
-        alias: '/',
         meta: {
             title: '测试1',
             icon: 'pie-chart',

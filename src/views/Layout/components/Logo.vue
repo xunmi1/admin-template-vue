@@ -1,13 +1,14 @@
 <template>
     <div :class="[isVertical ? 'vertical' : 'horizontal', theme, 'center']">
         <img
+            v-once
             v-if="logo"
             :src="logo"
             alt="图标"
             height="36"
             class="logo"
         >
-        <h1 v-if="!(isVertical && collapsed)">{{ title }}</h1>
+        <h1 v-show="showTitle">{{ title }}</h1>
     </div>
 </template>
 
@@ -19,7 +20,7 @@
         props: {
             collapsed: Boolean,
             theme: {
-                validator: (value) => ['dark', 'light'].indexOf(value) !== -1
+                validator: (value) => ['dark', 'light'].includes(value)
             }
         },
         data () {
@@ -31,7 +32,10 @@
         computed: {
             ...mapState('app', {
                 isVertical: state => state.layout.isVertical
-            })
+            }),
+            showTitle() {
+                return !(this.isVertical && this.collapsed);
+            }
         },
         created () {
             try {
@@ -49,7 +53,6 @@
         float: left;
         max-height: 64px;
         transition: all .2s;
-
         h1 {
             display: inline-block;
             font-size: 20px;
@@ -63,12 +66,11 @@
         min-height: 64px;
         padding-top: 13px;
         transition: all .2s;
-
         h1 {
             vertical-align: text-bottom;
             display: inline-block;
             font-size: 20px;
-            margin: 0 12px;
+            margin: 0 8px;
             color: #fff;
         }
     }
