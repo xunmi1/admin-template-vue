@@ -3,45 +3,42 @@ import config from '@/config';
 import Db from '@/libs/db';
 import * as util from '@/libs/util';
 
-import Menu from '@c/Menu/Menu';
+import VMenu from '@c/Menu/Menu';
 
 const property = {
-    $app: config,
-    $db: Db.getSingle(config.dbPrefix)
+    app: config,
+    db: Db.getSingle(config.dbPrefix)
 };
 
 const components = {
-    VMenu: Menu
+    VMenu,
 };
 
 export default {
-    async install (Vue) {
+    install: async function (Vue) {
         Vue.use(Antd);
 
         const vmProperty = util.unique(Object.keys(Vue.prototype), Object.keys(new Vue()));
 
         Object.keys(property).forEach(key => {
-            if (!vmProperty.includes(key)) {
-                Vue.prototype[key] = property[key];
-            } else {
-                throw `属性 ${ key } 已存在!`;
+            if (vmProperty.includes('$' + key)) {
+                throw new Error(`属性 ${ '$' + key } 已存在!`);
             }
+            Vue.prototype['$' + key] = property[key];
         });
 
         Object.keys(util).forEach(fnKey => {
-            if (!vmProperty.includes('$_' + fnKey)) {
-                Vue.prototype['$_' + fnKey] = util[fnKey];
-            } else {
-                throw `方法 ${ '$_' + fnKey } 已存在!`;
+            if (vmProperty.includes('$_' + fnKey)) {
+                throw new Error(`方法 ${ '$_' + fnKey } 已存在!`);
             }
+            Vue.prototype['$_' + fnKey] = util[fnKey];
         });
 
         Object.keys(components).forEach(key => {
-            if (!Vue.component(key)) {
-                Vue.component(key, components[key]);
-            } else {
-                throw `组件 ${ key } 已存在!`;
+            if (Vue.component(key)) {
+                throw new Error(`组件 ${ key } 已存在!`);
             }
+            Vue.component(key, components[key]);
         });
     }
 };

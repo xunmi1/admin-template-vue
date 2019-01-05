@@ -1,19 +1,7 @@
 // 类型校验
 export function typeOf (obj, type) {
     const toString = Object.prototype.toString;
-    const map = {
-        '[object Boolean]': 'boolean',
-        '[object Number]': 'number',
-        '[object String]': 'string',
-        '[object Function]': 'function',
-        '[object Array]': 'array',
-        '[object Date]': 'date',
-        '[object RegExp]': 'regExp',
-        '[object Undefined]': 'undefined',
-        '[object Null]': 'null',
-        '[object Object]': 'object'
-    };
-    const result = map[toString.call(obj)];
+    const result = toString.call(obj).slice(8, -1).toLowerCase();
     return type ? result === type.toLowerCase() : result;
 }
 

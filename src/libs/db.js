@@ -5,29 +5,29 @@
  * Author: xunmi
  * Date: 2018-12-26 16:50:00
  */
-
-import config from '../config';
-
 class Db {
     constructor (prefix) {
-        [this._localStorage, this.prefix, this.keys] = [localStorage, prefix, new Set()];
+        if (Object.prototype.toString.call(window.localStorage) !== '[object Storage]') {
+            throw new ReferenceError('当前运行环境不支持 localStorage');
+        }
+        [this._localStorage, this._prefix, this._keys] = [window.localStorage, prefix, new Set()];
         this.initKeys();
     }
 
     initKeys () {
-        for (let key in this._localStorage) {
+        Object.keys(this._localStorage).forEach(key => {
             // 或者使用正则从**首位**判断
-            if (this._localStorage.hasOwnProperty(key) && key.slice(0, this.prefix.length) === this.prefix) {
-                this.keys.add(key);
+            if (key.slice(0, this._prefix.length) === this._prefix) {
+                this._keys.add(key);
             }
-        }
+        });
     }
 
-    initKey (key) {
-        if (key.slice(0, this.prefix.length) === this.prefix) {
+    toFullKey (key) {
+        if (key.slice(0, this._prefix.length) === this._prefix) {
             return key;
         }
-        return `${ this.prefix }-${ key }`;
+        return `${ this._prefix }-${ key }`;
     }
 
     /**
@@ -37,53 +37,61 @@ class Db {
      * @param expires 有效期，可选
      */
     set (key, value, expires) {
-        key = this.initKey(key);
-        const data = {
-            value
-        };
-        if (expires && typeof expires === 'number') {
+        key = this.toFullKey(key);
+        const data = { value };
+        if (typeof expires === 'number') {
             data.time = Date.now();
             data.expires = expires;
         }
         this._localStorage.setItem(key, JSON.stringify(data));
-        this.keys.add(key);
+        this._keys.add(key);
     }
 
     /**
      * 访问数据
      * @param key 键名
-     * @returns {*} 键值， 若过期，则自动删除，返回 false
+     * @param defaultValue 默认值
+     * @returns {*} 键值，若过期，则自动删除，返回默认值
      */
-    get (key) {
-        key = this.initKey(key);
-        const data = JSON.parse(this._localStorage.getItem(key) || '{}');
-        if (data && data.value) {
-            if (data.time) {
-                const valid = (Date.now() - data.time) < data.expires;
-                return valid ? data.value : !this.del(key);
+    get (key, defaultValue) {
+        key = this.toFullKey(key);
+        if (this._keys.has(key)) {
+            const data = JSON.parse(this._localStorage.getItem(key) || '{}');
+            if (data && data.value !== undefined) {
+                if (data.time) {
+                    const valid = (Date.now() - data.time) < data.expires;
+                    if (valid) {
+                        return data.value;
+                    }
+                    this.remove(key);
+                }
+                return data.value;
             }
-            return data.value;
         }
-        return false;
+        return defaultValue;
     }
 
-    del (key) {
-        key = this.initKey(key);
-        if (this.keys.has(key)) {
+    has (key) {
+        key = this.toFullKey(key);
+        return this._keys.has(key);
+    }
+
+    remove (key) {
+        key = this.toFullKey(key);
+        if (this._keys.has(key)) {
             this._localStorage.removeItem(key);
-            return this.keys.delete(key);
+            return this._keys.delete(key);
         }
         return false;
     }
 
     clear () {
-        this.keys.forEach(key => {
-            this.del(key);
-        });
+        this._keys.forEach(key => this.remove(key));
     }
+
     // 这里没有判断 prefix，如果需要其他 prefix，直接 new Db(prefix);
     // 不推荐一个系统中存在多个不同的 prefix
-    static getSingle (prefix = config.dbPrefix) {
+    static getSingle (prefix) {
         if (!this.single) {
             this.single = new Db(prefix);
         }
