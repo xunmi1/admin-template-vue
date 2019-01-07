@@ -9,7 +9,7 @@
             <div class="setting-option">
                 <h3 class="setting-title">导航菜单风格</h3>
                 <ATooltip title="暗色">
-                    <div @click="changeMenuTheme('dark')" class="setting-layout">
+                    <div @click="toggle('menuTheme', 'dark')" class="setting-layout">
                         <img
                             v-once
                             :src="darkMenuSvg"
@@ -21,7 +21,7 @@
                     </div>
                 </ATooltip>
                 <ATooltip title="亮色">
-                    <div @click="changeMenuTheme('light')" class="setting-layout">
+                    <div @click="toggle('menuTheme', 'light')" class="setting-layout">
                         <img
                             v-once
                             :src="lightMenuSvg"
@@ -36,7 +36,7 @@
             <div>
                 <h3 class="setting-title">导航菜单布局</h3>
                 <ATooltip title="侧边菜单">
-                    <div @click="changeVertical(true)" class="setting-layout">
+                    <div @click="toggle('isVertical', true)" class="setting-layout">
                         <img
                             v-once
                             :src="verticalSvg"
@@ -48,7 +48,7 @@
                     </div>
                 </ATooltip>
                 <ATooltip title="顶部菜单">
-                    <div @click="changeVertical(false)" class="setting-layout">
+                    <div @click="toggle('isVertical', false)" class="setting-layout">
                         <img
                             v-once
                             :src="horizontalSvg"
@@ -63,7 +63,11 @@
             <ADivider />
             <div class="setting-option">
                 <span class="setting-title">固定导航栏</span>
-                <ASwitch :checked="isFixedHeader" @change="changeFixedHeader" class="setting-switch" />
+                <ASwitch
+                    :checked="isFixedHeader"
+                    @change="toggle('isFixedHeader', $event)"
+                    class="setting-switch"
+                />
             </div>
             <div class="setting-option">
                 <ATooltip :title="!isVertical ? '侧边菜单时可配置' : null" placement="left">
@@ -71,7 +75,7 @@
                     <ASwitch
                         :checked="isFixedSider"
                         :disabled="!isVertical"
-                        @change="changeFixedSider"
+                        @change="toggle('isFixedSider', $event)"
                         class="setting-switch"
                     />
                 </ATooltip>
@@ -82,7 +86,7 @@
                     <ASwitch
                         :checked="isMenuRight"
                         :disabled="isVertical"
-                        @change="changeMenuRight"
+                        @change="toggle('isMenuRight', $event)"
                         class="setting-switch"
                     />
                 </ATooltip>
@@ -125,30 +129,16 @@
         },
         methods: {
             ...mapMutations('app', ['setLayout']),
-            changeMenuTheme (theme) {
-                if (theme !== this.menuTheme) {
-                    this.setLayout({ menuTheme: theme });
+            toggle (type, value) {
+                if (this[type] !== undefined && this[type] !== value) {
+                    this.setLayout({ [type]: value });
                 }
-            },
-            changeVertical (bool) {
-                if (bool !== this.isVertical) {
-                    this.setLayout({ isVertical: bool });
-                }
-            },
-            changeFixedHeader (bool) {
-                this.setLayout({ isFixedHeader: bool });
-            },
-            changeFixedSider (bool) {
-                this.setLayout({ isFixedSider: bool });
-            },
-            changeMenuRight (bool) {
-                this.setLayout({ isMenuRight: bool });
             },
             onClose () {
-                const data = {};
-                ['menuTheme', 'isVertical', 'isFixedHeader', 'isFixedSider', 'isMenuRight'].forEach(key => data[key] = this[key]);
-                this.$db.set('layout', data);
+                const settingItems = ['menuTheme', 'isVertical', 'isFixedHeader', 'isFixedSider', 'isMenuRight'];
+                const data = settingItems.reduce((obj, key) => Object.assign(obj, { [key]: this[key] }), {});
                 this.$emit('change', false);
+                this.$db.set('layout', data);
             }
         }
     };

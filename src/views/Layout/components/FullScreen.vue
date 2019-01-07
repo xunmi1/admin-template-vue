@@ -1,5 +1,5 @@
 <template>
-    <div v-if="showFullScreenBtn" @click="handleChange" class="full-screen icon-hover">
+    <div v-if="showFullScreenBtn" @click="handleToggle" class="full-screen v-icon-hover">
         <slot :isFullScreen="isFullScreen">
             <ATooltip :title="isFullScreen ? '退出全屏' : '全屏'">
                 <div>
@@ -57,22 +57,22 @@
                     // 页面全屏判断无效
                     this.isFullScreen = !!document[this.browser.event];
                     this.$emit('change', this.isFullScreen);
-                    document.addEventListener(this.browser.listener, this.bindScreenChange);
+                    document.addEventListener(this.browser.listener, this.bindScreenToggle);
                 }
             });
         },
         beforeDestroy() {
-            document.removeEventListener(this.browser.listener, this.bindScreenChange);
+            document.removeEventListener(this.browser.listener, this.bindScreenToggle);
         },
         methods: {
-            handleChange () {
+            handleToggle () {
                 if (this.isFullScreen) {
                     this.browser.exit.call(document);
                 } else {
                     this.browser.full.call(document.documentElement);
                 }
             },
-            bindScreenChange() {
+            bindScreenToggle() {
                 this.isFullScreen = !!document[this.browser.event];
                 this.$emit('change', this.isFullScreen);
             }
@@ -84,7 +84,6 @@
     .full-screen {
         display: inline-block;
         height: 100%;
-        cursor: pointer;
         &-icon {
             padding: 0 12px;
             font-size: 16px;

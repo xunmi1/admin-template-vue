@@ -1,5 +1,5 @@
 <template>
-    <div :class="[isVertical ? 'vertical' : 'horizontal', theme, 'center']">
+    <div :class="[isVertical ? 'vertical' : 'horizontal', theme]">
         <img
             v-once
             v-if="logo"

@@ -1,6 +1,6 @@
 <template>
     <ATooltip title="界面设置">
-        <div class="setting icon-hover">
+        <div class="setting v-icon-hover">
             <AIcon type="setting" class="setting-icon" />
         </div>
     </ATooltip>

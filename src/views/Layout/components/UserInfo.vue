@@ -1,5 +1,5 @@
 <template>
-    <div class="user pointer icon-hover">
+    <div class="user v-icon-hover">
         <ADropdown>
             <div>
                 <AAvatar :src="avatar" class="user-avatar">{{ avatar.slice(0, 3) }}</AAvatar>

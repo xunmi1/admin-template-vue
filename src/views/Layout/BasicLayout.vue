@@ -28,7 +28,7 @@
                 />
                 <div v-if="!isVertical" class="header-tool">
                     <FullScreen />
-                    <SettingBtn @click.native="showDrawer" />
+                    <SettingBtn @click.native="toggleSetting" />
                     <UserInfo />
                 </div>
             </compontent>
@@ -40,13 +40,13 @@
                     :class="{'header-fixed': isFixedHeader}"
                     class="layout-main-header"
                 >
-                    <div class="trigger icon-hover pointer">
-                        <AIcon :type="collapsed ? 'menu-unfold' : 'menu-fold'" @click="changeCollapsed" />
+                    <div @click="toggleCollapsed" class="trigger v-icon-hover">
+                        <AIcon :type="collapsed ? 'menu-unfold' : 'menu-fold'" />
                     </div>
                     <Breadcrumb />
                     <div class="header-tool">
                         <FullScreen />
-                        <SettingBtn @click.native="showDrawer" />
+                        <SettingBtn @click.native="toggleSetting" />
                         <UserInfo />
                     </div>
                 </ALayoutHeader>
@@ -108,7 +108,7 @@
                     mode: 'horizontal',
                     menuLayout: 'ALayoutHeader'
                 },
-                // 垂直布局下
+                // 垂直布局下，菜单收缩，将展开的菜单选项缓存，再次打开后恢复
                 cacheOpenKeys: []
             };
         },
@@ -195,10 +195,10 @@
                     this.vertical.openKeys.pop();
                 });
             },
-            changeCollapsed () {
+            toggleCollapsed () {
                 this.collapsed = !this.collapsed;
             },
-            showDrawer () {
+            toggleSetting () {
                 this.showSetting = true;
             }
         }
