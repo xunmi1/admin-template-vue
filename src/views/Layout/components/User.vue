@@ -24,7 +24,7 @@
     import { mapState, mapMutations } from 'vuex';
 
     export default {
-        name: 'UserInfo',
+        name: 'User',
         computed: {
             ...mapState('user', ['avatar', 'nickName'])
         },

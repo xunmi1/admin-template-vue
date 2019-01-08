@@ -6,8 +6,16 @@ export default {
             isVertical: true,
             isFixedHeader: true,
             isFixedSider: true,
-            isMenuRight: true
+            isMenuRight: true,
+            theme: 'daybreak-blue',
         },
+        themeList: [
+            { text: '金盏花', name: 'alendula-gold', color: '#faad14' },
+            { text: '极光绿', name: 'polar-green', color: '#52C41A' },
+            { text: '明青', name: 'cyan', color: '#13C2C2' },
+            { text: '拂晓蓝', name: 'daybreak-blue', color: '#1890FF' },
+            { text: '酱紫', name: 'golden-purple', color: '#722ED1' },
+        ],
         aliveList: {},
         errorList: []
     },

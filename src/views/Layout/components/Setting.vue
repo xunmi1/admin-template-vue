@@ -4,7 +4,7 @@
             title="界面设置"
             @close="onClose"
             :visible="visible"
-            :width="280"
+            :width="300"
         >
             <div class="setting-option">
                 <h3 class="setting-title">导航菜单风格</h3>
@@ -59,6 +59,23 @@
                         <AIcon v-show="!isVertical" type="check" class="check-icon" />
                     </div>
                 </ATooltip>
+            </div>
+            <ADivider />
+            <div class="setting-option">
+                <h3 class="setting-title">主题风格</h3>
+                <ul class="setting-theme v-to-zero">
+                    <template v-for="item of themeList">
+                        <ATooltip :title="item.text" :key="item.name">
+                            <li
+                                @click="toggle('theme', item.name)"
+                                :style="{backgroundColor: item.color}"
+                                class="v-to-zero v-pointer v-center"
+                            >
+                                <AIcon v-show="theme === item.name" type="check" class="check-icon" />
+                            </li>
+                        </ATooltip>
+                    </template>
+                </ul>
             </div>
             <ADivider />
             <div class="setting-option">
@@ -121,8 +138,18 @@
                 isVertical: state => state.layout.isVertical,
                 isFixedHeader: state => state.layout.isFixedHeader,
                 isFixedSider: state => state.layout.isFixedSider,
-                isMenuRight: state => state.layout.isMenuRight
+                isMenuRight: state => state.layout.isMenuRight,
+                themeList: state => state.themeList,
+                theme: state => state.layout.theme
             })
+        },
+        watch: {
+            theme: {
+                handler(newVal) {
+                    document.body.className = newVal;
+                },
+                immediate: true
+            }
         },
         created () {
             this.setLayout(this.$db.get('layout'));
@@ -135,7 +162,7 @@
                 }
             },
             onClose () {
-                const settingItems = ['menuTheme', 'isVertical', 'isFixedHeader', 'isFixedSider', 'isMenuRight'];
+                const settingItems = ['menuTheme', 'isVertical', 'isFixedHeader', 'isFixedSider', 'isMenuRight', 'theme'];
                 const data = settingItems.reduce((obj, key) => Object.assign(obj, { [key]: this[key] }), {});
                 this.$emit('change', false);
                 this.$db.set('layout', data);
@@ -170,6 +197,26 @@
 
         &-option {
             margin-bottom: 24px;
+        }
+
+        &-theme {
+            list-style: none;
+            > li {
+                display: inline-block;
+                width: 28px;
+                height: 28px;
+                border-radius: 4px;
+                vertical-align: middle;
+            }
+
+            li + li {
+                margin-left: 10px;
+            }
+            .check-icon {
+                vertical-align: middle;
+                font-size: 18px;
+                color: #fff;
+            }
         }
 
         &-switch {

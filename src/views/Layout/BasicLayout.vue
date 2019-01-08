@@ -29,7 +29,7 @@
                 <div v-if="!isVertical" class="header-tool">
                     <FullScreen />
                     <SettingBtn @click.native="toggleSetting" />
-                    <UserInfo />
+                    <User />
                 </div>
             </compontent>
 
@@ -47,7 +47,7 @@
                     <div class="header-tool">
                         <FullScreen />
                         <SettingBtn @click.native="toggleSetting" />
-                        <UserInfo />
+                        <User />
                     </div>
                 </ALayoutHeader>
                 <ALayoutContent :class="{'content-fixed-top': isFixedHeader}" class="layout-main-content">
@@ -68,7 +68,7 @@
 <script>
     import { mapState, mapGetters } from 'vuex';
     import Logo from './components/Logo';
-    import UserInfo from './components/UserInfo';
+    import User from './components/User';
     import FullScreen from './components/FullScreen';
     import Setting from './components/Setting';
     import SettingBtn from './components/SettingBtn';
@@ -80,7 +80,7 @@
         components: {
             Logo,
             SettingBtn,
-            UserInfo,
+            User,
             FullScreen,
             Setting,
             Breadcrumb,
@@ -296,8 +296,10 @@
         box-shadow: 0 1px 4px rgba(0, 21, 41, .08);
         background-color: #fff;
 
-        /deep/ div, ul {
-            color: rgba(0, 0, 0, .76);
+        .header-tool {
+            /deep/ div, ul {
+                color: rgba(0, 0, 0, .76);
+            }
         }
     }
 </style>
