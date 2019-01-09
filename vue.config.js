@@ -1,13 +1,25 @@
 const webpack = require('webpack');
 const path = require('path');
+const AntDesignThemePlugin = require('antd-theme-webpack-plugin');
 const resolve = dir => {
-    return path.join(__dirname, dir)
+    return path.join(__dirname, dir);
 };
 
+const options = {
+    antDir: resolve('./node_modules/ant-design-vue'),
+    stylesDir: resolve('./src/assets/style'),
+    varFile: resolve('./src/assets/style/variables.less'),
+    mainLessFile: resolve('./src/assets/style/index.less'),
+    themeVariables: ['@primary-color'],
+    indexFileName: './public/index.html',
+    generateOnce: false
+};
+
+const themePlugin = new AntDesignThemePlugin(options);
 module.exports = {
     runtimeCompiler: true,
 
-    baseUrl: process.env.NODE_ENV === 'production'
+    publicPath: process.env.NODE_ENV === 'production'
         ? './'
         : '/',
     css: {
@@ -26,6 +38,7 @@ module.exports = {
         plugins: [
             // antd 使用，精简 momentjs, 只保留 zh-cn.js
             new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh-cn/),
+            themePlugin
         ]
     },
     // 默认设置: https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-service/lib/config/base.js

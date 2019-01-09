@@ -114,6 +114,7 @@
 
 <script>
     import { mapState, mapMutations } from 'vuex';
+    import { updateTheme, updateColorWeak } from './theme';
 
     export default {
         name: 'Setting',
@@ -146,9 +147,12 @@
         watch: {
             theme: {
                 handler(newVal) {
-                    document.body.className = newVal;
-                },
-                immediate: true
+                    const theme = this.themeList.find(item => item.name === newVal);
+                    if (theme || theme.color) {
+                        updateTheme(theme.color);
+                        updateColorWeak(true);
+                    }
+                }
             }
         },
         created () {
