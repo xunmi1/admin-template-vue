@@ -40,3 +40,33 @@ export function deepCopy (data) {
 export function unique () {
     return Array.from(new Set([].concat(...arguments)));
 }
+
+/**
+ * 节流函数 (包含防抖): 节流期间执行最后一次触发的函数
+ * @param {!Function} fn 需要节流的函数
+ * @param {Number} [interval=0] 间隔 ms, 默认 0
+ * @param {?Boolean} [resetInterval=false] 节流后是否立即重置间隔 默认 false, 设置 true 时为防抖函数
+ * @returns {Function} 已节流函数
+ */
+export function throttle (fn, interval = 0, resetInterval = false) {
+    let [__self, timer, isFirst] = [fn, null, true];
+    return function () {
+        if (isFirst && !resetInterval) {
+            __self.apply(this, arguments);
+            return isFirst = false;
+        }
+        if (timer) {
+            if (resetInterval) {
+                clearTimeout(timer);
+                timer = null;
+            } else {
+                return false;
+            }
+        }
+        timer = setTimeout(() => {
+            clearTimeout(timer);
+            timer = null;
+            __self.apply(this, arguments);
+        }, interval);
+    };
+}

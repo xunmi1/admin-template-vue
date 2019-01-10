@@ -15,7 +15,6 @@ const options = {
     generateOnce: false
 };
 
-const themePlugin = new AntDesignThemePlugin(options);
 module.exports = {
     runtimeCompiler: true,
 
@@ -36,9 +35,9 @@ module.exports = {
     },
     configureWebpack: {
         plugins: [
-            // antd 使用，精简 momentjs, 只保留 zh-cn.js
+            // antd 使用，精简 moment.js, 语言包只保留 zh-cn.js
             new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh-cn/),
-            themePlugin
+            new AntDesignThemePlugin(options)
         ]
     },
     // 默认设置: https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-service/lib/config/base.js

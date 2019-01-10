@@ -1,5 +1,5 @@
 const themeMixin = {
-    data() {
+    data () {
         return {
             themeList: [
                 {
@@ -32,30 +32,34 @@ const themeMixin = {
                         '@primary-color': '#722ED1'
                     }
                 }
-            ],
-        }
+            ]
+        };
+    },
+    created () {
+        // 防抖
+        this.updateTheme = this.$_throttle(this.updateTheme, 1200, true);
     },
     methods: {
-        updateTheme(themeName) {
-            if (!themeName && !window.less) {
+        updateTheme (newTheme) {
+            const theme = this.themeList.find(item => item.name === newTheme);
+            if (!theme && !window.less) {
                 return;
             }
-            const theme = this.themeList.find(item => item.name === themeName);
-            setTimeout(() => {
-                window.less
-                    .modifyVars(theme.variables)
-                    .then(data => {
-                        console.log(data);
-                    })
-                    .catch(err => {
-                        console.log(err);
-                    });
-            }, 200);
+            window.less
+                .modifyVars(theme.variables)
+                .then(() => {
+                    this.updateClass(newTheme);
+                })
+                .catch(() => {
+                    this.$message.error('主题更换失败！');
+                });
         },
-        updateClass(newClass, oldClass) {
+        updateClass (newClass) {
+            // 由于防抖，实际 DOM 上旧 class 已无法获知, 因此循环移除
+            this.themeList.forEach(item => document.body.classList.remove(item.name));
             document.body.classList.add(newClass);
-            document.body.classList.remove(oldClass);
         }
     }
 };
+
 export default themeMixin;

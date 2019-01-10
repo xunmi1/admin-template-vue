@@ -17,7 +17,7 @@
                             width="68"
                             height="58"
                         >
-                        <AIcon v-show="menuTheme === 'dark'" type="check" class="check-icon" />
+                        <AIcon v-show="menuTheme === 'dark'" type="check" class="check-icon v-theme-color" />
                     </div>
                 </ATooltip>
                 <ATooltip title="亮色">
@@ -29,7 +29,7 @@
                             width="68"
                             height="58"
                         >
-                        <AIcon v-show="menuTheme === 'light'" type="check" class="check-icon" />
+                        <AIcon v-show="menuTheme === 'light'" type="check" class="check-icon v-theme-color" />
                     </div>
                 </ATooltip>
             </div>
@@ -44,7 +44,7 @@
                             width="68"
                             height="58"
                         >
-                        <AIcon v-show="isVertical" type="check" class="check-icon" />
+                        <AIcon v-show="isVertical" type="check" class="check-icon v-theme-color" />
                     </div>
                 </ATooltip>
                 <ATooltip title="顶部菜单">
@@ -56,7 +56,7 @@
                             width="68"
                             height="58"
                         >
-                        <AIcon v-show="!isVertical" type="check" class="check-icon" />
+                        <AIcon v-show="!isVertical" type="check" class="check-icon v-theme-color" />
                     </div>
                 </ATooltip>
             </div>
@@ -147,8 +147,7 @@
         watch: {
             theme: {
                 handler (newVal, oldVal) {
-                    this.updateTheme(newVal);
-                    this.updateClass(newVal, oldVal);
+                    this.updateTheme(newVal, oldVal);
                 }
             }
         },
@@ -192,7 +191,6 @@
                 left: 38px;
                 bottom: 12px;
                 font-size: 18px;
-                color: #1890ff;
             }
         }
 

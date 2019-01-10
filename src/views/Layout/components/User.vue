@@ -2,7 +2,7 @@
     <div class="user v-icon-hover">
         <ADropdown>
             <div>
-                <AAvatar :src="avatar" class="user-avatar">{{ avatar.slice(0, 3) }}</AAvatar>
+                <AAvatar :src="avatar" class="user-avatar v-theme-bg">{{ avatar.slice(0, 3) }}</AAvatar>
                 <span class="user-nickname">{{ nickName }}</span>
             </div>
             <AMenu slot="overlay" class="user-menu">
@@ -47,7 +47,6 @@
             width: 36px;
             height: 36px;
             line-height: 36px;
-            background-color: #1890ff;
             vertical-align: middle;
             margin-right: 8px;
         }
