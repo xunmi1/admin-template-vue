@@ -68,7 +68,7 @@
                         <ATooltip :title="item.text" :key="item.name">
                             <li
                                 @click="toggle('theme', item.name)"
-                                :style="{backgroundColor: item.color}"
+                                :style="{backgroundColor: item.variables['@primary-color']}"
                                 class="v-to-zero v-pointer v-center"
                             >
                                 <AIcon v-show="theme === item.name" type="check" class="check-icon" />
@@ -114,10 +114,11 @@
 
 <script>
     import { mapState, mapMutations } from 'vuex';
-    import { updateTheme, updateColorWeak } from './theme';
+    import themeMixin from './themeMixin.js';
 
     export default {
         name: 'Setting',
+        mixins: [themeMixin],
         model: {
             prop: 'visible',
             event: 'change'
@@ -140,18 +141,14 @@
                 isFixedHeader: state => state.layout.isFixedHeader,
                 isFixedSider: state => state.layout.isFixedSider,
                 isMenuRight: state => state.layout.isMenuRight,
-                themeList: state => state.themeList,
                 theme: state => state.layout.theme
             })
         },
         watch: {
             theme: {
-                handler(newVal) {
-                    const theme = this.themeList.find(item => item.name === newVal);
-                    if (theme || theme.color) {
-                        updateTheme(theme.color);
-                        updateColorWeak(true);
-                    }
+                handler (newVal, oldVal) {
+                    this.updateTheme(newVal);
+                    this.updateClass(newVal, oldVal);
                 }
             }
         },
@@ -205,6 +202,7 @@
 
         &-theme {
             list-style: none;
+
             > li {
                 display: inline-block;
                 width: 28px;
@@ -216,6 +214,7 @@
             li + li {
                 margin-left: 10px;
             }
+
             .check-icon {
                 vertical-align: middle;
                 font-size: 18px;
