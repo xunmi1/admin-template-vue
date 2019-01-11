@@ -1,10 +1,15 @@
 <template>
-    <ALayoutFooter
-        :style="{width: `calc(100% - ${isFixed ?deleteWidth : 0}px)`}"
-        :class="[isFixed ? 'footer-fixed' : 'footer']"
-    >
-        Copyright © 2018{{ nowYear > 2018 ? ' - ' + nowYear : null }} {{ $app.org }} All Rights Reserved
-    </ALayoutFooter>
+    <div>
+        <footer
+            :style="{width: `calc(100% - ${isFixed ?deleteWidth : 0}px)`}"
+            :class="['footer', {'footer-fixed': isFixed}]"
+        >
+            <ALayoutFooter>
+                Copyright © 2018{{ nowYear > 2018 ? ' - ' + nowYear : null }} {{ $app.org }} All Rights Reserved
+            </ALayoutFooter>
+        </footer>
+        <div v-if="isFixed" style="height: 28px" />
+    </div>
 </template>
 
 <script>
@@ -28,17 +33,18 @@
     };
 </script>
 
-<style scoped>
+<style lang="less" scoped>
     .footer {
         text-align: center;
-        padding-top: 12px;
     }
 
     .footer-fixed {
         position: fixed;
-        text-align: center;
-        line-height: 1.8;
+        line-height: 2;
         bottom: 0;
         padding: 0;
+        > div {
+            padding: 0;
+        }
     }
 </style>

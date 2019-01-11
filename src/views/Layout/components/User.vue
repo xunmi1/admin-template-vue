@@ -2,7 +2,14 @@
     <div class="user v-icon-hover">
         <ADropdown>
             <div>
-                <AAvatar :src="avatar" class="user-avatar v-theme-bg">{{ avatar.slice(0, 3) }}</AAvatar>
+                <AAvatar
+                    :size="36"
+                    :src="avatar"
+                    :alt="nickName.slice(0, 5)"
+                    class="user-avatar v-theme-bg"
+                >
+                    {{ nickName.slice(0, 5) }}
+                </AAvatar>
                 <span class="user-nickname">{{ nickName }}</span>
             </div>
             <AMenu slot="overlay" class="user-menu">
@@ -44,10 +51,6 @@
         padding: 0 12px;
 
         &-avatar {
-            width: 36px;
-            height: 36px;
-            line-height: 36px;
-            vertical-align: middle;
             margin-right: 8px;
         }
         &-nickname {

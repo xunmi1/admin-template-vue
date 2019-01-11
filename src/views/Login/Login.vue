@@ -2,7 +2,7 @@
     <div>
         <AInput size="large" v-model.trim="userName" />
         <AInput size="large" v-model.trim="password" />
-        <AButton @click="login" type="primary">登录</AButton>
+        <AButton @click.enter="login" type="primary">登录</AButton>
     </div>
 </template>
 

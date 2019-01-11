@@ -35,12 +35,19 @@ const themeMixin = {
             ]
         };
     },
+    watch: {
+        theme: {
+            handler (newVal, oldVal) {
+                this.$_theme_updateTheme(newVal, oldVal);
+            }
+        }
+    },
     created () {
         // 防抖
-        this.updateTheme = this.$_throttle(this.updateTheme, 1200, true);
+        this.$_theme_updateTheme = this.$_throttle(this.$_theme_updateTheme, 1200, true);
     },
     methods: {
-        updateTheme (newTheme) {
+        $_theme_updateTheme (newTheme) {
             const theme = this.themeList.find(item => item.name === newTheme);
             if (!theme && !window.less) {
                 return;
@@ -48,13 +55,13 @@ const themeMixin = {
             window.less
                 .modifyVars(theme.variables)
                 .then(() => {
-                    this.updateClass(newTheme);
+                    this.$_theme_updateClass(newTheme);
                 })
                 .catch(() => {
                     this.$message.error('主题更换失败！');
                 });
         },
-        updateClass (newClass) {
+        $_theme_updateClass (newClass) {
             // 由于防抖，实际 DOM 上旧 class 已无法获知, 因此循环移除
             this.themeList.forEach(item => document.body.classList.remove(item.name));
             document.body.classList.add(newClass);

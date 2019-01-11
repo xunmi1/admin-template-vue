@@ -144,13 +144,6 @@
                 theme: state => state.layout.theme
             })
         },
-        watch: {
-            theme: {
-                handler (newVal, oldVal) {
-                    this.updateTheme(newVal, oldVal);
-                }
-            }
-        },
         created () {
             this.setLayout(this.$db.get('layout'));
         },

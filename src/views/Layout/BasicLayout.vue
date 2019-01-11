@@ -50,7 +50,7 @@
                         <User />
                     </div>
                 </ALayoutHeader>
-                <ALayoutContent :class="{'content-fixed-top': isFixedHeader}" class="layout-main-content">
+                <ALayoutContent :class="[{'content-fixed-top': isFixedHeader}, 'layout-main-content']">
                     <div v-if="!isVertical" class="horizontal-breadcrumb">
                         <Breadcrumb />
                     </div>
