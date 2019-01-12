@@ -7,8 +7,8 @@ const config = Object.freeze({
      * @description 配置显示在浏览器标签的title
      */
     title: {
-        small: 'new system',
-        main: 'new system'
+        small: 'New System',
+        main: 'New System'
     },
     /**
      * @description api请求基础路径

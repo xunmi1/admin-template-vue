@@ -24,7 +24,6 @@ Vue.use(Router);
  */
 const router = new Router({
     routes: [
-        ...others,
         {
             path: '/',
             name: config.mainName,
@@ -38,7 +37,8 @@ const router = new Router({
                 ...page2,
                 ...page3
             ]
-        }
+        },
+        ...others
     ]
 });
 const db = Db.getSingle();

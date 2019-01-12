@@ -25,7 +25,6 @@
         },
         data () {
             return {
-                logo: null,
                 title: this.$app.title.small
             };
         },
@@ -38,10 +37,15 @@
             }
         },
         created () {
-            try {
-                this.logo = require('@/assets/svg/fire.svg');
-            } catch (e) {
-                this.logo = null;
+            this.setLogo();
+        },
+        methods: {
+            setLogo() {
+                try {
+                    this.logo = require('@/assets/svg/fire.svg');
+                } catch (e) {
+                    this.logo = null;
+                }
             }
         }
     };
