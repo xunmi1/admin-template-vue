@@ -42,6 +42,7 @@ const router = new Router({
     ]
 });
 const db = Db.getSingle();
+
 const addAlive = function (to) {
     const length = to.matched.length;
     if (length > 1) {
@@ -62,26 +63,38 @@ const addAlive = function (to) {
     NProgress.done();
 };
 
+// 如果前往路由的路由记录上有一个设置了验权 (!notAuth), 则进行 token 校验
+// matched 路由记录： 当前路由所在嵌套路径上，从顶层到本层的所有路由对象
+// 因此，类似于 'login' 等不验权的页面，需要其路由记录上，全部为 notAuth = true 时, 才会生效
+const checkRouterAuth = function (to, from, next) {
+    const isAuth = to.matched.some(r => !r.meta.notAuth);
+    return isAuth || next();
+};
+
+const checkTokenValid = function (to, from, next) {
+    const token = db.get('token');
+    return token || next({ name: config.loginName });
+};
+
+const checkFirstEnter = function (to, from, next) {
+    if (!store.state.user.token) {
+        const remember = db.get('remember');
+        if (!remember) {
+            return next({ name: config.loginName });
+        }
+        const token = db.get('token');
+        store.commit('user/setToken', { token, remember: true });
+        store.commit('user/setUserInfo', db.get('userInfo'));
+    }
+    return true;
+};
+
 router.beforeEach((to, from, next) => {
     NProgress.start();
-    // 如果前往路由的路由记录上有一个设置了验权 (!notAuth), 则进行 token 校验
-    // matched 路由记录： 当前路由所在嵌套路径上，从顶层到本层的所有路由对象
-    // 因此，类似于 'login' 等不验权的页面，需要其路由记录上，全部为 notAuth = true 时, 才会生效
-    if (to.matched.some(r => !r.meta.notAuth)) {
-        const token = db.get('token');
-        if (token) {
-            if (!store.state.user.token) {
-                store.commit('user/setToken', token);
-                store.commit('user/setUserInfo', db.get('userInfo'));
-            }
-            next();
-        } else {
-            console.warn('token 失效');
-            next({ name: config.loginName });
-        }
-    } else {
-        next();
-    }
+    if (!checkRouterAuth(to, from, next)) return;
+    if (!checkTokenValid(to, from, next)) return;
+    if (!checkFirstEnter(to, from, next)) return;
+    next();
 });
 
 router.afterEach(to => {

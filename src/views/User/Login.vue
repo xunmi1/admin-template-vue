@@ -5,7 +5,7 @@
                 v-once
                 v-if="logo"
                 :src="logo"
-                alt="图标"
+                alt="logo"
                 height="46"
                 class="header-logo"
             >
@@ -18,8 +18,8 @@
                         v-decorator="getRules('userName')"
                         placeholder="用户名:"
                         size="large"
-                        @pressEnter.stop.prevent="setFocus(true)"
-                        @focus="setFocus(false)"
+                        @pressEnter.stop.prevent="setPasswordFocus(true)"
+                        @focus="setPasswordFocus(false)"
                     >
                         <AIcon slot="prefix" type="user" class="login-form-icon" />
                     </AInput>
@@ -57,11 +57,9 @@
 
 <script>
     import { mapActions } from 'vuex';
-    import AFormItem from 'ant-design-vue/es/form/FormItem';
 
     export default {
         name: 'Login',
-        components: { AFormItem },
         directives: {
             focus (el, { value }) {
                 if (value) {
@@ -77,6 +75,7 @@
             return {
                 title: this.$app.title.main,
                 loading: false,
+                // 密码输入框是否获取焦点
                 passwordFocus: false
             };
         },
@@ -134,7 +133,7 @@
             getRules (key) {
                 return [key, this.rulesForm[key]];
             },
-            setFocus (bool) {
+            setPasswordFocus (bool) {
                 this.passwordFocus = bool;
             },
             setLogo() {
@@ -165,6 +164,7 @@
         &-title {
             display: inline-block;
             font-size: 38px;
+            font-weight: 600;
             line-height: 46px;
             vertical-align: middle;
             @media screen and (max-width: 1400px) {

@@ -7,7 +7,7 @@ export default {
             isFixedHeader: true,
             isFixedSider: true,
             isMenuRight: true,
-            theme: 'daybreak-blue',
+            theme: null,
         },
         aliveList: {},
         errorList: []
@@ -22,7 +22,7 @@ export default {
         }
     },
     mutations: {
-        setLayout ({ layout }, data) {
+        setLayout ({ layout }, data = {}) {
             Object.keys(data).forEach(key => {
                 layout[key] = data[key];
             });
@@ -57,16 +57,18 @@ export default {
         },
         addError (state, error) {
             state.errorList.push(error);
+            if (state.errorList.length > 500) {
+                state.errorList.shift();
+            }
         }
     },
     actions: {
         addErrorLog ({ commit, rootState }, info) {
-            const { user: { userId, userName } } = rootState;
+            const { user: { userId } } = rootState;
             commit('addError', {
                 ...info,
                 time: Date.now(),
-                userId,
-                userName
+                userId
             });
         }
     }

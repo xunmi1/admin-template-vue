@@ -9,6 +9,7 @@ const db = Db.getSingle();
 export default {
     namespaced: true,
     state: {
+        userId: null,
         userName: '',
         token: '',
         avatar: '',
@@ -18,28 +19,32 @@ export default {
         status: state => state.token ? 'online' : 'offline'
     },
     mutations: {
-        setToken (state, {token, remember} = {}) {
+        setToken (state, { token, remember } = {}) {
             state.token = token;
             service.setToken(token);
-            const expires = remember ? config.token.expires * 1000 : 0;
-            db.set('token', token, expires);
+            db.set('token', token, config.token.expires * 1000);
+            db.set('remember', remember);
         },
-        setUserInfo (state, { avatar, nickname, username, email }) {
-            state.avatar = avatar || nickname;
-            state.nickName = nickname;
-            state.userName = username;
-            state.email = email;
-            db.set('userInfo', { avatar, nickname, username, email });
+        setUserInfo (state, userInfo) {
+            Object.keys(userInfo).forEach(key => state[key] = userInfo[key]);
+            db.set('userInfo', userInfo);
         }
     },
     actions: {
         handleLogin ({ commit }, { userName, password, remember }) {
             return login({ userName, password }).then(res => {
                 commit('setToken', {
-                    token : res.access_token,
+                    token: res.access_token,
                     remember
                 });
-                commit('setUserInfo', res.info);
+                const userInfo = {
+                    userId: res.info.id,
+                    avatar: res.info.avatar || res.info.nickname,
+                    nickName: res.info.nickname,
+                    userName: res.info.username,
+                    email: res.info.email
+                };
+                commit('setUserInfo', userInfo);
                 return Promise.resolve(res);
             });
         }
