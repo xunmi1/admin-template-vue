@@ -1,14 +1,14 @@
 // 类型校验
-export function typeOf (obj: any, type?: string) {
+export function typeOf (obj, type) {
     const toString = Object.prototype.toString;
     const result = toString.call(obj).slice(8, -1).toLowerCase();
     return type ? result === type.toLowerCase() : result;
 }
 
 // 深度拷贝
-export function deepCopy (data: any) {
+export function deepCopy (data) {
     const type = typeOf(data);
-    let target: any;
+    let target;
 
     if (type === 'array') {
         target = [];
@@ -19,11 +19,9 @@ export function deepCopy (data: any) {
     }
 
     if (type === 'array') {
-        data.forEach((item: any) => target.push(deepCopy(item)));
+        data.forEach(item => target.push(deepCopy(item)));
     } else if (type === 'object') {
-        Object.keys(type).forEach((key: string) => {
-            target[key] = deepCopy(data[key]);
-        });
+        Object.keys(type).forEach(key => target[key] = deepCopy(data[key]));
     }
     return target;
 }
@@ -44,10 +42,9 @@ export function unique () {
  * @param {?Boolean} [resetInterval=false] 节流后是否立即重置间隔 默认 false, 设置 true 时为防抖函数
  * @returns {Function} 已节流函数
  */
-export function throttle (fn: Function, interval = 0, resetInterval = false): Function {
-    let timer: number | undefined;
-    let [_self, isFirst] = [fn, true];
-    return function (this: any) {
+export function throttle (fn, interval = 0, resetInterval = false) {
+    let [_self, timer, isFirst] = [fn, undefined, true];
+    return function () {
         if (isFirst && !resetInterval) {
             _self.apply(this, arguments);
             return isFirst = false;

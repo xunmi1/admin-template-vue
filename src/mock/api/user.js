@@ -7,7 +7,7 @@ const userDB = [
 export default [
     {
         path: 'login',
-        // isMock: true,
+        isMock: true,
         method: 'post',
         handler ({ body }) {
             const user = userDB.find(item => item.username === body.username && item.password === body.password);
