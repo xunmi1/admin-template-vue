@@ -1,35 +1,31 @@
 // 类型校验
-export function typeOf (obj, type) {
+export function typeOf (obj: any, type?: string) {
     const toString = Object.prototype.toString;
     const result = toString.call(obj).slice(8, -1).toLowerCase();
     return type ? result === type.toLowerCase() : result;
 }
 
 // 深度拷贝
-export function deepCopy (data) {
-    const t = typeOf(data);
-    let o;
+export function deepCopy (data: any) {
+    const type = typeOf(data);
+    let target: any;
 
-    if (t === 'array') {
-        o = [];
-    } else if (t === 'object') {
-        o = {};
+    if (type === 'array') {
+        target = [];
+    } else if (type === 'object') {
+        target = {};
     } else {
         return data;
     }
 
-    if (t === 'array') {
-        for (let i = 0; i < data.length; i++) {
-            o.push(deepCopy(data[i]));
-        }
-    } else if (t === 'object') {
-        for (let i in data) {
-            if (data.hasOwnProperty(i)) {
-                o[i] = deepCopy(data[i]);
-            }
-        }
+    if (type === 'array') {
+        data.forEach((item: any) => target.push(deepCopy(item)));
+    } else if (type === 'object') {
+        Object.keys(type).forEach((key: string) => {
+            target[key] = deepCopy(data[key]);
+        });
     }
-    return o;
+    return target;
 }
 
 /**
@@ -48,25 +44,26 @@ export function unique () {
  * @param {?Boolean} [resetInterval=false] 节流后是否立即重置间隔 默认 false, 设置 true 时为防抖函数
  * @returns {Function} 已节流函数
  */
-export function throttle (fn, interval = 0, resetInterval = false) {
-    let [__self, timer, isFirst] = [fn, null, true];
-    return function () {
+export function throttle (fn: Function, interval = 0, resetInterval = false): Function {
+    let timer: number | undefined;
+    let [_self, isFirst] = [fn, true];
+    return function (this: any) {
         if (isFirst && !resetInterval) {
-            __self.apply(this, arguments);
+            _self.apply(this, arguments);
             return isFirst = false;
         }
         if (timer) {
             if (resetInterval) {
                 clearTimeout(timer);
-                timer = null;
+                timer = undefined;
             } else {
                 return false;
             }
         }
         timer = setTimeout(() => {
             clearTimeout(timer);
-            timer = null;
-            __self.apply(this, arguments);
+            timer = undefined;
+            _self.apply(this, arguments);
         }, interval);
     };
 }

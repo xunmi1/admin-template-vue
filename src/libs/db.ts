@@ -5,8 +5,18 @@
  * Author: xunmi
  * Date: 2018-12-26 16:50:00
  */
+interface DbValue {
+    value: any;
+    time?: number;
+    expires?: number
+}
+
 class Db {
-    constructor (prefix) {
+    private _localStorage: Storage;
+    private _prefix: string;
+    private _keys: Set<string>;
+    static single: any;
+    constructor (prefix: string) {
         if (Object.prototype.toString.call(window.localStorage) !== '[object Storage]') {
             throw new ReferenceError('当前运行环境不支持 localStorage');
         }
@@ -23,11 +33,12 @@ class Db {
         });
     }
 
-    toFullKey (key) {
-        if (key.slice(0, this._prefix.length) === this._prefix) {
-            return key;
+    toFullKey (key: string | number): string {
+        const _key = key.toString();
+        if (_key.slice(0, this._prefix.length) === this._prefix) {
+            return _key;
         }
-        return `${ this._prefix }-${ key }`;
+        return `${ this._prefix }-${ _key }`;
     }
 
     /**
@@ -36,9 +47,9 @@ class Db {
      * @param value 键值
      * @param expires 有效期，可选
      */
-    set (key, value, expires) {
+    set (key: string | number, value: any, expires?: number) {
         key = this.toFullKey(key);
-        const data = { value };
+        const data: DbValue = { value };
         if (typeof expires === 'number') {
             data.time = Date.now();
             data.expires = expires;
@@ -53,7 +64,7 @@ class Db {
      * @param defaultValue 默认值
      * @returns {*} 键值，若过期，则自动删除，返回默认值
      */
-    get (key, defaultValue) {
+    get (key: string | number, defaultValue: any): any {
         key = this.toFullKey(key);
         if (this._keys.has(key)) {
             const data = JSON.parse(this._localStorage.getItem(key) || '{}');
@@ -71,12 +82,12 @@ class Db {
         return defaultValue;
     }
 
-    has (key) {
+    has (key: string | number): boolean {
         key = this.toFullKey(key);
         return this._keys.has(key);
     }
 
-    remove (key) {
+    remove (key: string | number): boolean {
         key = this.toFullKey(key);
         if (this._keys.has(key)) {
             this._localStorage.removeItem(key);
@@ -91,7 +102,7 @@ class Db {
 
     // 这里没有判断 prefix，如果需要其他 prefix，直接 new Db(prefix);
     // 不推荐一个系统中存在多个不同的 prefix
-    static getSingle (prefix) {
+    public static getSingle (prefix: string): Db {
         if (!this.single) {
             this.single = new Db(prefix);
         }

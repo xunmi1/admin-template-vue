@@ -26,16 +26,20 @@ const failCodeMap = new Map([
 // 添加 http status 验证信息和规则
 AxiosRequest.use(failCodeMap);
 // 错误处理，这里用 store 收集错误信息
-AxiosRequest.addError(info => {
+AxiosRequest.addError((info: any) => {
     store.dispatch('app/addErrorLog', info);
 });
 
+class MyAxiosRequest extends AxiosRequest {
+    setToken(token: string) {
+        // @ts-ignore
+        super.tokenConfig = {
+            ...config.token,
+            value: token ? `Bearer ${ token }` : null
+        };
+    }
+}
 const baseUrl = process.env.NODE_ENV !== 'production' ? config.baseUrl.dev : config.baseUrl.pro;
-const service = new AxiosRequest(baseUrl);
-service.setToken = function (token) {
-    this.tokenConfig = {
-        ...config.token,
-        value: token ? `Bearer ${ token }` : null
-    };
-};
+const service = new MyAxiosRequest(baseUrl);
+
 export default service;

@@ -7,22 +7,40 @@
  */
 import axios from 'axios';
 
+interface TokenConfig {
+    value: string | null,
+    position: 'headers' | 'params' | 'data',
+    key: string
+}
+
 class AxiosRequest {
-    constructor (baseUrl) {
+    config: {
+        baseURL: string;
+        headers?: any;
+        params?: any
+    };
+    tokenConfig: TokenConfig
+    queue: any;
+
+    constructor (baseUrl: string) {
         this.config = {
             baseURL: baseUrl,
             headers: {},
             params: {}
         };
-        this.tokenConfig = {};
+        this.tokenConfig = {
+            value: '',
+            position: 'headers',
+            key: ''
+        };
         // 当前请求队列，为界面动画交互预留，暂时不用
         this.queue = {};
     }
 
-    static failCodeMap;
-    static extendErrorHooks;
+    static failCodeMap : Map<number, {msg: string, handler?: Function}>;
+    static extendErrorHooks: Function;
 
-    static handlerError (error) {
+    static handlerError (error: any) {
         let errorInfo = error.response;
         if (!errorInfo) {
             const { request: { status }, config } = JSON.parse(JSON.stringify(error));
@@ -42,19 +60,19 @@ class AxiosRequest {
         return Promise.reject(error.response.data);
     }
 
-    static use (rules) {
+    static use (rules: Map<number, {msg: string, handler?: Function}>) {
         this.failCodeMap = rules;
     }
 
-    static addError (fn) {
+    static addError (fn: Function) {
         this.extendErrorHooks = fn;
     }
 
-    destroy (url) {
+    destroy (url: string) {
         delete this.queue[url];
     }
 
-    static addErrorLog (errorInfo) {
+    static addErrorLog (errorInfo: any) {
         const { message, status, request: { responseURL }, config: { method } } = errorInfo;
         const info = {
             type: 'ajax',
@@ -68,29 +86,29 @@ class AxiosRequest {
         }
     }
 
-    interceptors (instance, url) {
+    interceptors (instance: any, url: string) {
         // 请求拦截
-        instance.interceptors.request.use(config => {
+        instance.interceptors.request.use((config: any) => {
             this.queue[url] = true;
             if (this.tokenConfig.value) {
                 config[this.tokenConfig.position][this.tokenConfig.key] = this.tokenConfig.value;
             }
             return config;
-        }, error => {
+        }, (error: any) => {
             return Promise.reject(error);
         });
         // 响应拦截
-        instance.interceptors.response.use(res => {
+        instance.interceptors.response.use((res: any) => {
             // res.status 为 2** 进入这里
             this.destroy(url);
             return res.data;
-        }, error => {
+        }, (error: any) => {
             this.destroy(url);
             return AxiosRequest.handlerError(error);
         });
     }
 
-    request (options) {
+    request (options: any) {
         const instance = axios.create();
         options = Object.assign({}, this.config, options);
         this.interceptors(instance, options.url);
