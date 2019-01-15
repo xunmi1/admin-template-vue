@@ -4,8 +4,9 @@ module.exports = {
         node: true
     },
     'extends': [
-        'plugin:vue/strongly-recommended',
-        'eslint:recommended'
+      'plugin:vue/strongly-recommended',
+      'eslint:recommended',
+      '@vue/typescript'
     ],
     rules: {
         'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
@@ -48,6 +49,6 @@ module.exports = {
         }
     ],
     parserOptions: {
-        parser: 'babel-eslint'
+        parser: 'typescript-eslint-parser'
     }
 };
