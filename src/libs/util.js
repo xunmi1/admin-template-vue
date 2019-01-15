@@ -7,29 +7,25 @@ export function typeOf (obj, type) {
 
 // 深度拷贝
 export function deepCopy (data) {
-    const t = typeOf(data);
-    let o;
+    const type = typeOf(data);
+    let target;
 
-    if (t === 'array') {
-        o = [];
-    } else if (t === 'object') {
-        o = {};
+    if (type === 'array') {
+        target = [];
+    } else if (type === 'object') {
+        target = {};
     } else {
         return data;
     }
 
-    if (t === 'array') {
-        for (let i = 0; i < data.length; i++) {
-            o.push(deepCopy(data[i]));
-        }
-    } else if (t === 'object') {
-        for (let i in data) {
-            if (data.hasOwnProperty(i)) {
-                o[i] = deepCopy(data[i]);
-            }
-        }
+    if (type === 'array') {
+        data.forEach(item => target.push(deepCopy(item)));
+    } else if (type === 'object') {
+        Object.keys(type).forEach(key => {
+            target[key] = deepCopy(data[key]);
+        });
     }
-    return o;
+    return target;
 }
 
 /**
@@ -49,10 +45,10 @@ export function unique () {
  * @returns {Function} 已节流函数
  */
 export function throttle (fn, interval = 0, resetInterval = false) {
-    let [__self, timer, isFirst] = [fn, null, true];
+    let [_self, timer, isFirst] = [fn, undefined, true];
     return function () {
         if (isFirst && !resetInterval) {
-            __self.apply(this, arguments);
+            _self.apply(this, arguments);
             return isFirst = false;
         }
         if (timer) {
@@ -65,8 +61,8 @@ export function throttle (fn, interval = 0, resetInterval = false) {
         }
         timer = setTimeout(() => {
             clearTimeout(timer);
-            timer = null;
-            __self.apply(this, arguments);
+            timer = undefined;
+            _self.apply(this, arguments);
         }, interval);
     };
 }
