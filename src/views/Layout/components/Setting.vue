@@ -64,7 +64,7 @@
             <div class="setting-option">
                 <h3 class="setting-title">主题风格</h3>
                 <ul class="setting-theme v-to-zero">
-                    <template v-for="item of themeList">
+                    <template v-for="item of themeListMixin">
                         <ATooltip :title="item.text" :key="item.name">
                             <li
                                 @click="toggle('theme', item.name)"
@@ -114,7 +114,7 @@
 
 <script>
     import { mapState, mapMutations } from 'vuex';
-    import themeMixin from './themeMixin.js';
+    import themeMixin from '../mixins/themeMixin';
 
     export default {
         name: 'Setting',
@@ -156,7 +156,7 @@
             },
             onClose () {
                 const settingItems = ['menuTheme', 'isVertical', 'isFixedHeader', 'isFixedSider', 'isMenuRight', 'theme'];
-                const data = settingItems.reduce((obj, key) => Object.assign(obj, { [key]: this[key] }), {});
+                const data = settingItems.reduce((obj, key) => ({...obj, [key]: this[key]}), {});
                 this.$emit('change', false);
                 this.$db.set('layout', data);
             }

@@ -151,10 +151,10 @@
     .header {
         margin: 104px 0 64px;
         @media screen {
-            @media (max-width: 1400px) {
-                margin: 80px 0 48px;
+            @media (max-width: 1600px) {
+                margin: 88px 0 56px;
             }
-            @media (max-width: 520px) {
+            @media (max-width: 576px) {
                 margin: 48px 0 24px;
             }
         }
@@ -167,7 +167,7 @@
             font-weight: 600;
             line-height: 46px;
             vertical-align: middle;
-            @media screen and (max-width: 1400px) {
+            @media screen and (max-width: 1600px) {
                 font-size: 34px;
             }
         }
@@ -175,8 +175,8 @@
     .login-form {
         width: 368px;
         margin: 0 auto;
-        @media screen and (max-width: 520px) {
-            width: 88%;
+        @media screen and (max-width: 576px) {
+            width: 84%;
         }
 
         &-forgot {

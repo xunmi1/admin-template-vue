@@ -1,14 +1,13 @@
 <template>
-    <div>
+    <div :class="{'placeholder': isFixed}">
         <footer
-            :style="{width: `calc(100% - ${isFixed ?deleteWidth : 0}px)`}"
+            :style="{width: `calc(100% - ${isFixed ?width : 0}px)`}"
             :class="['footer', {'footer-fixed': isFixed}]"
         >
             <ALayoutFooter>
                 Copyright © 2018{{ nowYear > 2018 ? ' - ' + nowYear : null }} {{ $app.org }} All Rights Reserved
             </ALayoutFooter>
         </footer>
-        <div v-if="isFixed" style="height: 28px" />
     </div>
 </template>
 
@@ -20,7 +19,7 @@
                 type: Boolean,
                 default: false
             },
-            deleteWidth: {
+            width: {
                 type: Number,
                 default: 0
             }
@@ -34,6 +33,11 @@
 </script>
 
 <style lang="less" scoped>
+    .placeholder::after {
+        content: '';
+        display: block;
+        height: 28px;
+    }
     .footer {
         text-align: center;
     }

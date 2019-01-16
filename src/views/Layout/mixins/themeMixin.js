@@ -1,7 +1,7 @@
 const themeMixin = {
     data () {
         return {
-            themeList: [
+            themeListMixin: [
                 {
                     text: '薄暮', name: 'dust-red', variables: {
                         '@primary-color': '#f5222d'
@@ -48,7 +48,7 @@ const themeMixin = {
     },
     methods: {
         $_theme_updateTheme (newTheme) {
-            const theme = this.themeList.find(item => item.name === newTheme);
+            const theme = this.themeListMixin.find(item => item.name === newTheme);
             if (!theme && !window.less) {
                 return;
             }
@@ -63,7 +63,7 @@ const themeMixin = {
         },
         $_theme_updateClass (newClass) {
             // 由于防抖，实际 DOM 上旧 class 已无法获知, 因此循环移除
-            this.themeList.forEach(item => document.body.classList.remove(item.name));
+            this.themeListMixin.forEach(item => document.body.classList.remove(item.name));
             document.body.classList.add(newClass);
         }
     }

@@ -33,7 +33,7 @@
                 </div>
             </compontent>
 
-            <ALayout class="layout-main" :style="{marginLeft: layoutMainLeft + 'px'}">
+            <ALayout :style="{marginLeft: layoutMainLeft + 'px'}" class="layout-main">
                 <ALayoutHeader
                     v-if="isVertical"
                     :style="{paddingLeft: layoutMainHeaderLeft + 'px'}"
@@ -58,7 +58,7 @@
                         <RouterView />
                     </KeepAlive>
                 </ALayoutContent>
-                <Footer :delete-width="isVertical ? collapsedWidth : 0" />
+                <Footer :width="isVertical ? siderWidth : 0" />
             </ALayout>
         </ALayout>
         <Setting v-model="showSetting" />
@@ -67,6 +67,7 @@
 
 <script>
     import { mapState, mapGetters } from 'vuex';
+    import screenMixin from './mixins/screenMixin';
     import Logo from './components/Logo';
     import UserMenu from './components/UserMenu';
     import FullScreen from './components/FullScreen';
@@ -77,6 +78,7 @@
 
     export default {
         name: 'BasicLayout',
+        mixins: [screenMixin],
         components: {
             Logo,
             SettingBtn,
@@ -93,8 +95,6 @@
                 currentName: [this.$route.name],
                 // 垂直布局下左侧菜单是否伸缩
                 collapsed: false,
-                // 侧边栏宽度
-                siderWidth: 232,
                 // 是否展示布局配置页
                 showSetting: false,
 
@@ -124,16 +124,17 @@
             layout () {
                 return this.isVertical ? this.vertical : this.horizontal;
             },
-            collapsedWidth () {
-                return this.collapsed ? 80 : this.siderWidth;
+            // 侧边栏宽度
+            siderWidth () {
+                return this.collapsed ? 80 : 128 + Math.max(this.screenLevelMixin, 5) * 16;
             },
             // 垂直布局下侧边菜单伸缩，引起的右侧结构 marginLeft 伸缩变化
             layoutMainLeft () {
-                return (this.isVertical && this.isFixedSider) ? this.collapsedWidth : 0;
+                return (this.isVertical && this.isFixedSider) ? this.siderWidth : 0;
             },
             // 垂直布局下固定导航菜单栏，侧边菜单伸缩，引起的右侧头部 marginLeft 伸缩变化
             layoutMainHeaderLeft () {
-                return this.isFixedHeader ? this.collapsedWidth : 0;
+                return this.isFixedHeader ? this.siderWidth : 0;
             }
         },
         watch: {
@@ -217,6 +218,8 @@
         }
 
         .layout-main {
+            transition: all .2s;
+
             &-header {
                 background-color: #fff;
                 padding: 0;
