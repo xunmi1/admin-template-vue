@@ -1,4 +1,4 @@
-import BasicCard from '@/views/Container/BasicCard';
+import basicCard from '@/views/Container/BasicCard';
 
 export default [
     {
@@ -9,7 +9,7 @@ export default [
             title: '测试1',
             icon: 'pie-chart',
         },
-        component: BasicCard('Page11', true),
+        component: basicCard('Page11', true),
         children: [
             {
                 path: 'Test1',

@@ -39,6 +39,7 @@
                         return true;
                     }
                     this.routes.pop();
+                    return false;
                 });
             }
         }

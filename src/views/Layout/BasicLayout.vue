@@ -78,7 +78,6 @@
 
     export default {
         name: 'BasicLayout',
-        mixins: [screenMixin],
         components: {
             Logo,
             SettingBtn,
@@ -88,6 +87,7 @@
             Breadcrumb,
             Footer
         },
+        mixins: [screenMixin],
         data () {
             return {
                 // 菜单列表
@@ -126,7 +126,7 @@
             },
             // 侧边栏宽度
             siderWidth () {
-                return this.collapsed ? 80 : 128 + Math.max(this.screenLevelMixin, 5) * 16;
+                return this.collapsed ? 80 : 128 + Math.max(this.screenLevelMixin, 4) * 16;
             },
             // 垂直布局下侧边菜单伸缩，引起的右侧结构 marginLeft 伸缩变化
             layoutMainLeft () {
@@ -194,6 +194,7 @@
                         return true;
                     }
                     this.vertical.openKeys.pop();
+                    return false;
                 });
             },
             toggleCollapsed () {

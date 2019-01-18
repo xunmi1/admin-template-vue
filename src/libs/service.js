@@ -30,7 +30,7 @@ AxiosRequest.addError(info => {
     store.dispatch('app/addErrorLog', info);
 });
 
-class myAxiosRequest extends AxiosRequest {
+class MyRequest extends AxiosRequest {
     setToken(token) {
         this.tokenConfig = {
             ...config.token,
@@ -40,6 +40,6 @@ class myAxiosRequest extends AxiosRequest {
 }
 
 const baseUrl = process.env.NODE_ENV !== 'production' ? config.baseUrl.dev : config.baseUrl.pro;
-const service = new myAxiosRequest(baseUrl);
+const service = new MyRequest(baseUrl);
 
 export default service;

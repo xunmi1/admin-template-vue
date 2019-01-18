@@ -20,7 +20,7 @@ const Generator = (prop, template) => {
     return Mock.mock(obj);
 };
 /* 扩展 [循环] */
-const Repeat = (num, itemTemplate) => Generator(`data|${ num }`, itemTemplate).data;
+const Repeat = (num, itemTemplate) =>(new Generator(`data|${ num }`, itemTemplate)).data;
 
 const CustomExtends = {
     Generator,
@@ -40,7 +40,7 @@ const myMock = {
         );
     },
     load: collection => {
-        collection.map(({ path, isMock, method, handler }) => {
+        collection.forEach(({ path, isMock, method, handler }) => {
             if (isMock) {
                 if (method === '*') {
                     method = ['get', 'post', 'put', 'delete', 'patch'];
