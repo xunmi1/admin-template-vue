@@ -9,9 +9,35 @@
   ```
   注: `projectRoot` 为项目根路径
   - WebStorm (2018.3.2): 修改 'File' -> 'settings' -> 'Languages and Frameworks' -> 'JavaScript' -> 'Webpack' 中的加载路径
-   
-
-
+ 
+ - 规范 git commit 消息
+   - format 格式
+   ```
+   <type>(<scope>): <subject>
+   // 空一行
+   <body>
+   // 空一行
+   <footer>
+   // 其中，Header 是必需，Body 和 Footer 可以省略
+    ```
+    - type 类型
+    ```
+    feat, // 新功能（feature）
+    fix, // 修补 bug
+    docs // 文档（documentation）
+    style, // 格式（不影响代码逻辑的变动）
+    refactor, // 重构（即不是新增功能，也不是修改bug）
+    test, // 增加测试
+    chore, // 构建过程或辅助工具的变动
+    revert, // 回退
+    build, // 修改构建配置项
+    ...
+    ```
+    - scope 受影响范围
+    - subject 提交简要描述，结尾不加句号
+    - body 详细描述，可以多行
+    - footer 不兼容变动/ 关闭 issue
+    - WebStorm 可以安装 git commit template 插件
 ### Project setup
 ```
 npm install
