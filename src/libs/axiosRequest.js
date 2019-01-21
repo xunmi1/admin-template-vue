@@ -8,9 +8,13 @@
 import axios from 'axios';
 
 class AxiosRequest {
-    constructor (baseUrl) {
-        this.config = {
-            baseURL: baseUrl,
+    constructor (config = {}) {
+        if (!config || !config.baseURL) {
+            throw new Error('缺少 baseURL')
+        }
+        this.defaultConfig = {
+            ...config,
+            method: 'get',
             headers: {},
             params: {}
         };
@@ -90,11 +94,13 @@ class AxiosRequest {
         });
     }
 
-    request (options) {
+    request (options = {}) {
         const instance = axios.create();
-        options = Object.assign({}, this.config, options);
+        if (!options.url) {
+            throw new Error('缺少请求地址!');
+        }
         this.interceptors(instance, options.url);
-        return instance(options);
+        return instance({ ...this.defaultConfig, ...options });
     }
 }
 

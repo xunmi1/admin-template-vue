@@ -10,25 +10,13 @@
                 <h3 class="setting-title">导航菜单风格</h3>
                 <ATooltip title="暗色">
                     <div @click="toggle('menuTheme', 'dark')" class="setting-layout">
-                        <img
-                            v-once
-                            :src="darkMenuSvg"
-                            alt="暗色"
-                            width="68"
-                            height="58"
-                        >
+                        <DarkMenuSvg class="setting-svg" v-once />
                         <AIcon v-show="menuTheme === 'dark'" type="check" class="check-icon v-theme-color" />
                     </div>
                 </ATooltip>
                 <ATooltip title="亮色">
                     <div @click="toggle('menuTheme', 'light')" class="setting-layout">
-                        <img
-                            v-once
-                            :src="lightMenuSvg"
-                            alt="亮色"
-                            width="68"
-                            height="58"
-                        >
+                        <LightMenuSvg class="setting-svg" v-once />
                         <AIcon v-show="menuTheme === 'light'" type="check" class="check-icon v-theme-color" />
                     </div>
                 </ATooltip>
@@ -37,25 +25,13 @@
                 <h3 class="setting-title">导航菜单布局</h3>
                 <ATooltip title="侧边菜单">
                     <div @click="toggle('isVertical', true)" class="setting-layout">
-                        <img
-                            v-once
-                            :src="verticalSvg"
-                            alt="侧边菜单"
-                            width="68"
-                            height="58"
-                        >
+                        <VerticalSvg class="setting-svg" v-once />
                         <AIcon v-show="isVertical" type="check" class="check-icon v-theme-color" />
                     </div>
                 </ATooltip>
                 <ATooltip title="顶部菜单">
                     <div @click="toggle('isVertical', false)" class="setting-layout">
-                        <img
-                            v-once
-                            :src="horizontalSvg"
-                            alt="顶部菜单"
-                            width="68"
-                            height="58"
-                        >
+                        <HorizontalSvg class="setting-svg" v-once />
                         <AIcon v-show="!isVertical" type="check" class="check-icon v-theme-color" />
                     </div>
                 </ATooltip>
@@ -114,10 +90,20 @@
 
 <script>
     import { mapState, mapMutations } from 'vuex';
+    import LightMenuSvg from '@/assets/svg/lightMenu.svg?inline';
+    import DarkMenuSvg from '@/assets/svg/darkMenu.svg?inline';
+    import VerticalSvg from '@/assets/svg/vertical.svg?inline';
+    import HorizontalSvg from '@/assets/svg/horizontal.svg?inline';
     import themeMixin from '../mixins/themeMixin';
 
     export default {
         name: 'Setting',
+        components: {
+            LightMenuSvg,
+            DarkMenuSvg,
+            VerticalSvg,
+            HorizontalSvg
+        },
         mixins: [themeMixin],
         model: {
             prop: 'visible',
@@ -126,22 +112,13 @@
         props: {
             visible: Boolean
         },
-        data () {
-            return {
-                lightMenuSvg: require('@/assets/svg/lightMenu.svg'),
-                darkMenuSvg: require('@/assets/svg/darkMenu.svg'),
-                verticalSvg: require('@/assets/svg/vertical.svg'),
-                horizontalSvg: require('@/assets/svg/horizontal.svg')
-            };
-        },
         computed: {
             ...mapState('app', {
                 menuTheme: state => state.layout.menuTheme,
                 isVertical: state => state.layout.isVertical,
                 isFixedHeader: state => state.layout.isFixedHeader,
                 isFixedSider: state => state.layout.isFixedSider,
-                isMenuRight: state => state.layout.isMenuRight,
-                theme: state => state.layout.theme
+                isMenuRight: state => state.layout.isMenuRight
             })
         },
         created () {
@@ -172,7 +149,10 @@
             margin: 0;
             padding-bottom: 12px;
         }
-
+        &-svg {
+            width: 68px;
+            height: 56px;
+        }
         &-layout {
             position: relative;
             display: inline-block;
@@ -182,7 +162,7 @@
             .check-icon {
                 position: absolute;
                 left: 38px;
-                bottom: 12px;
+                bottom: 14px;
                 font-size: 18px;
             }
         }

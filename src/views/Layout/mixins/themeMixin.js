@@ -1,3 +1,5 @@
+import { mapState, mapMutations } from 'vuex';
+
 const themeMixin = {
     data () {
         return {
@@ -35,6 +37,11 @@ const themeMixin = {
             ]
         };
     },
+    computed: {
+        ...mapState('app', {
+            theme: state => state.layout.theme
+        })
+    },
     watch: {
         theme: {
             handler (newVal, oldVal) {
@@ -45,15 +52,21 @@ const themeMixin = {
     created () {
         // 防抖
         this.$_theme_updateTheme = this.$_throttle(this.$_theme_updateTheme, 1200, true);
+        this.$_theme_init();
+        this.$_theme_updateClass(this.theme);
     },
     methods: {
+        ...mapMutations('app', ['setLayout']),
+        $_theme_init () {
+            const theme = this.$db.get('layout', {}).theme;
+            this.setLayout({ theme });
+        },
         $_theme_updateTheme (newTheme) {
             const theme = this.themeListMixin.find(item => item.name === newTheme);
             if (!theme && !window.less) {
                 return;
             }
-            window.less
-                .modifyVars(theme.variables)
+            window.less.modifyVars(theme.variables)
                 .then(() => {
                     this.$_theme_updateClass(newTheme);
                 })

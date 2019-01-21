@@ -5,7 +5,7 @@ import config from '@/config';
 
 const failAuth = function () {
     store.commit('user/setToken');
-    router.push({name: config.mainName});
+    router.push({ name: config.mainName });
 };
 
 const failCodeMap = new Map([
@@ -31,7 +31,7 @@ AxiosRequest.addError(info => {
 });
 
 class MyRequest extends AxiosRequest {
-    setToken(token) {
+    setToken (token) {
         this.tokenConfig = {
             ...config.token,
             value: token ? `Bearer ${ token }` : null
@@ -40,6 +40,6 @@ class MyRequest extends AxiosRequest {
 }
 
 const baseUrl = process.env.NODE_ENV !== 'production' ? config.baseUrl.dev : config.baseUrl.pro;
-const service = new MyRequest(baseUrl);
+const service = new MyRequest({ baseURL: baseUrl });
 
 export default service;

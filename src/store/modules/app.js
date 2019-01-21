@@ -7,7 +7,7 @@ export default {
             isFixedHeader: true,
             isFixedSider: true,
             isMenuRight: true,
-            theme: null,
+            theme: 'daybreak-blue',
         },
         aliveList: {},
         errorList: []
@@ -24,7 +24,9 @@ export default {
     mutations: {
         setLayout ({ layout }, data = {}) {
             Object.keys(data).forEach(key => {
-                layout[key] = data[key];
+                if (data[key] !== undefined) {
+                    layout[key] = data[key];
+                }
             });
         },
         /**
