@@ -3,6 +3,7 @@
 ### 暂时记录
 - 统一代码规范，**必须**开启 eslint 检查
 - 打包启用 Modern Mode，会构建**两份应用**，为现代浏览器交付原生 ES6 应用包，并生成一个兼容旧浏览器的包用来平稳退化
+- mixins: 尽量避免组件和 `mixin` 之间形成**强耦合**关系，便于移植. 判断标准: 引入或移除 `mixin` 时，原有组件除了必要的引入或移除操作外，再无任何改动或进行极少的修改
 - 由于 vue-cli3 对 webpack 配置进行了合并和封装，若开发工具 IDE 无法识别, 则需手动修改配置文件路径
   ```
   <projectRoot>/node_modules/@vue/cli-service/webpack.config.js 
@@ -38,6 +39,7 @@
     - body 详细描述，可以多行
     - footer 不兼容变动/ 关闭 issue
     - WebStorm 可以安装 git commit template 插件
+- 禁止将本地开发中产生的无关文件夹、文件提交到 git 上, 例如: .vscode | .idea | \*debug.json 等
 ### Project setup
 ```
 npm install

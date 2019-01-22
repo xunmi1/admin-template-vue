@@ -11,7 +11,6 @@
     };
 </script>
 <style lang="less" scoped>
-
     .setting {
         display: inline-block;
         height: 100%;

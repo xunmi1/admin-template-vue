@@ -9,9 +9,6 @@ import axios from 'axios';
 
 class AxiosRequest {
     constructor (config = {}) {
-        if (!config || !config.baseURL) {
-            throw new Error('缺少 baseURL')
-        }
         this.defaultConfig = {
             ...config,
             method: 'get',

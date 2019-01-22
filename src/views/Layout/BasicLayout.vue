@@ -126,7 +126,7 @@
             },
             // 侧边栏宽度
             siderWidth () {
-                return this.collapsed ? 80 : 128 + Math.max(this.screenLevelMixin, 4) * 16;
+                return this.collapsed ? 80 : 120 + Math.max(this.screenLevelMixin, 4) * 16;
             },
             // 垂直布局下侧边菜单伸缩，引起的右侧结构 marginLeft 伸缩变化
             layoutMainLeft () {

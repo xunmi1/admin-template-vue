@@ -12,13 +12,13 @@
             <h1 class="header-title v-to-zero">{{ title }}</h1>
         </header>
         <main>
-            <AForm :form="loginForm" @submit.stop.prevent="login" class="login-form">
+            <AForm :form="loginForm" @submit.prevent="login" class="login-form">
                 <AFormItem>
                     <AInput
                         v-decorator="getRules('userName')"
                         placeholder="用户名:"
                         size="large"
-                        @pressEnter.stop.prevent="setPasswordFocus(true)"
+                        @pressEnter.prevent="setPasswordFocus(true)"
                         @focus="setPasswordFocus(false)"
                     >
                         <AIcon slot="prefix" type="user" class="login-form-icon" />
@@ -36,9 +36,7 @@
                     </AInput>
                 </AFormItem>
                 <AFormItem>
-                    <ACheckbox v-decorator="getRules('remember')">
-                        自动登录
-                    </ACheckbox>
+                    <ACheckbox v-decorator="getRules('remember')">自动登录</ACheckbox>
                     <a class="login-form-forgot" href="">忘记密码</a>
                     <AButton
                         :loading="loading"
@@ -81,41 +79,16 @@
         },
         beforeCreate () {
             this.loginForm = this.$form.createForm(this);
-            this.rulesForm = {
-                userName: {
-                    initialValue: 'xycc',
-                    validateFirst: true,
-                    normalize: value => value ? value.toString().trim() : null,
-                    rules: [
-                        { required: true, whitespace: true, message: '请输入你的用户名!' },
-                        { min: 4, message: '不少于4个字符' },
-                        { max: 30, message: '不超过30个字符' }
-                    ]
-                },
-                password: {
-                    initialValue: 'xycczz',
-                    validateFirst: true,
-                    normalize: value => value ? value.toString().trim() : null,
-                    rules: [
-                        { required: true, whitespace: true, message: '请输入你的密码!' },
-                        { min: 6, message: '不少于5个字符' },
-                        { max: 45, message: '不超过45个字符' }
-                    ]
-                },
-                remember: {
-                    valuePropName: 'checked',
-                    initialValue: true
-                }
-            };
         },
         created () {
             this.login = this.$_throttle(this.login, 360, true);
+            this.setRules();
             this.setLogo();
         },
         methods: {
             ...mapActions('user', ['handleLogin']),
             login () {
-                this.loginForm.validateFields((err, values) => {
+                this.loginForm.validateFieldsAndScroll((err, values) => {
                     if (!err) {
                         this.loading = true;
                         this.handleLogin(values)
@@ -130,13 +103,55 @@
                     }
                 });
             },
+            setRules () {
+                this.rulesForm = {
+                    userName: {
+                        initialValue: 'xycc',
+                        validateFirst: true,
+                        normalize: value => value ? value.toString().trim() : null,
+                        rules: [
+                            { required: true, whitespace: true, message: '请输入你的用户名!' },
+                            { min: 4, message: '不少于4个字符' },
+                            { max: 30, message: '不超过30个字符' },
+                            { validator: this.validateToPassword }
+                        ]
+                    },
+                    password: {
+                        initialValue: 'xycczz',
+                        validateFirst: true,
+                        normalize: value => value ? value.toString().trim() : null,
+                        rules: [
+                            { required: true, whitespace: true, message: '请输入你的密码!' },
+                            { min: 6, message: '不少于5个字符' },
+                            { max: 45, message: '不超过45个字符' },
+                            { validator: this.compareToUserName }
+                        ]
+                    },
+                    remember: {
+                        valuePropName: 'checked',
+                        initialValue: true
+                    }
+                };
+            },
             getRules (key) {
                 return [key, this.rulesForm[key]];
             },
             setPasswordFocus (bool) {
                 this.passwordFocus = bool;
             },
-            setLogo() {
+            compareToUserName (rule, value, callback) {
+                if (value === this.loginForm.getFieldValue('userName')) {
+                    return callback(new Error('密码不能和用户名重复'));
+                }
+                callback();
+            },
+            validateToPassword (rule, value, callback) {
+                if (value && this.loginForm.getFieldValue('password')) {
+                    this.loginForm.validateFields(['password'], { force: true });
+                }
+                callback();
+            },
+            setLogo () {
                 try {
                     this.logo = require('@/assets/svg/fire.svg');
                 } catch (e) {
@@ -158,9 +173,11 @@
                 margin: 48px 0 24px;
             }
         }
+
         &-logo {
             margin-right: 16px;
         }
+
         &-title {
             display: inline-block;
             font-size: 38px;
@@ -172,6 +189,7 @@
             }
         }
     }
+
     .login-form {
         width: 368px;
         margin: 0 auto;
