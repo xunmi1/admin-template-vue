@@ -76,7 +76,7 @@ const checkTokenValid = function (to, from, next) {
     return token || next({ name: config.loginName });
 };
 
-const checkFirstEnter = function (to, from, next) {
+const checkFirstEnter =async function (to, from, next) {
     if (!store.state.user.token) {
         const remember = db.get('remember');
         if (!remember) {
@@ -85,15 +85,16 @@ const checkFirstEnter = function (to, from, next) {
         const token = db.get('token');
         store.commit('user/setToken', { token, remember: true });
         store.commit('user/setUserInfo', db.get('userInfo'));
+        // await store.dispatch('user/getPermissions', {});
     }
     return true;
 };
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
     NProgress.start();
     if (!checkRouterAuth(to, from, next)) return;
     if (!checkTokenValid(to, from, next)) return;
-    if (!checkFirstEnter(to, from, next)) return;
+    if (!await checkFirstEnter(to, from, next)) return;
     next();
 });
 

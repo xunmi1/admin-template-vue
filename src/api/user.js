@@ -14,3 +14,14 @@ export function login (data) {
         return Promise.reject('missing parameter');
     }
 }
+
+export function getPermissions (data) {
+    if (data.userId) {
+        return service.request({
+            url: 'getPermissions',
+            params: data
+        });
+    } else{
+        return Promise.reject('missing parameter');
+    }
+}

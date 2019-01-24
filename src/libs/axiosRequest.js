@@ -10,10 +10,8 @@ import axios from 'axios';
 class AxiosRequest {
     constructor (config = {}) {
         this.defaultConfig = {
-            ...config,
             method: 'get',
-            headers: {},
-            params: {}
+            ...config,
         };
         this.tokenConfig = {};
         // 当前请求队列，为界面动画交互预留，暂时不用
@@ -23,7 +21,7 @@ class AxiosRequest {
     static failCodeMap;
     static extendErrorHooks;
 
-    static handlerError (error) {
+    handlerError (error) {
         let errorInfo = error.response;
         if (!errorInfo) {
             const { request: { status }, config } = JSON.parse(JSON.stringify(error));
@@ -32,7 +30,7 @@ class AxiosRequest {
                 request: { responseURL: config.url }
             };
         }
-        const failHandler = this.failCodeMap.get(errorInfo.status);
+        const failHandler = AxiosRequest.failCodeMap.get(errorInfo.status);
         if (failHandler) {
             errorInfo.message = failHandler.msg;
             this.addErrorLog(errorInfo);
@@ -40,7 +38,7 @@ class AxiosRequest {
                 failHandler.handler();
             }
         }
-        return Promise.reject(error.response.data);
+        return Promise.reject(error.response && error.response.data);
     }
 
     static use (rules) {
@@ -55,7 +53,7 @@ class AxiosRequest {
         delete this.queue[url];
     }
 
-    static addErrorLog (errorInfo) {
+    addErrorLog (errorInfo) {
         const { message, status, request: { responseURL }, config: { method } } = errorInfo;
         const info = {
             type: 'ajax',
@@ -64,8 +62,8 @@ class AxiosRequest {
             url: responseURL,
             method
         };
-        if (typeof this.extendErrorHooks === 'function') {
-            this.extendErrorHooks(info);
+        if (typeof AxiosRequest.extendErrorHooks === 'function') {
+            AxiosRequest.extendErrorHooks(info);
         }
     }
 
@@ -87,7 +85,7 @@ class AxiosRequest {
             return res.data;
         }, error => {
             this.destroy(url);
-            return AxiosRequest.handlerError(error);
+            return this.handlerError(error);
         });
     }
 

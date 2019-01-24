@@ -43,7 +43,7 @@
                     <div @click="toggleCollapsed" class="trigger v-icon-hover">
                         <AIcon :type="collapsed ? 'menu-unfold' : 'menu-fold'" />
                     </div>
-                    <Breadcrumb />
+                    <Breadcrumb v-if="screenLevelMixin >= 3" />
                     <div class="header-tool">
                         <FullScreen />
                         <SettingBtn @click.native="toggleSetting" />
@@ -138,6 +138,7 @@
             }
         },
         watch: {
+            // 路由发生变化时，生成新的菜单展开列表并合并
             '$route.name': {
                 handler (newVal) {
                     this.currentName.splice(0, 1, newVal);
@@ -145,6 +146,7 @@
                     this.vertical.openKeys = this.$_unique(this.vertical.openKeys);
                 }
             },
+            // 侧边栏伸缩时，交换菜单展开列表
             collapsed () {
                 [this.cacheOpenKeys, this.vertical.openKeys] = [this.vertical.openKeys, this.cacheOpenKeys];
             }
@@ -214,8 +216,12 @@
 
     .vertical {
         .layout-sider {
-            overflow: auto;
+            overflow-y: auto;
             z-index: 2;
+
+            .menu {
+                margin-bottom: 48px;
+            }
         }
 
         .layout-main {
@@ -242,7 +248,7 @@
     }
 
     .horizontal {
-        // 若默认水平布局，顶级 ALayout 对是否有 Sider 识别错误，导致布局错位，对此手动修正
+        // 水平布局下，顶级 ALayout 对是否有 Sider 识别错误，导致布局错位，对此手动修正
         flex-direction: column;
 
         .layout-header {
@@ -277,7 +283,7 @@
     .sider-fixed {
         position: fixed;
         left: 0;
-        height: 100vh;
+        height: 100%;
         box-shadow: 2px 0 6px rgba(10, 21, 42, .32);
     }
 

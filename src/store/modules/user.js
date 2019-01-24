@@ -1,10 +1,10 @@
-import { login } from '@/api/user';
+import { login, getPermissions } from '@/api/user';
 
 import service from '@/libs/service';
 import Db from '@/libs/db';
 import config from '@/config';
 
-const db = Db.getSingle();
+const db = Db.getSingle(config.dbPrefix);
 
 export default {
     namespaced: true,
@@ -32,21 +32,28 @@ export default {
     },
     actions: {
         handleLogin ({ commit }, { userName, password, remember }) {
-            return login({ userName, password }).then(res => {
-                commit('setToken', {
-                    token: res.access_token,
-                    remember
+            return login({ userName, password })
+                .then(res => {
+                    commit('setToken', {
+                        token: res.access_token,
+                        remember
+                    });
+                    const userInfo = {
+                        userId: res.info.id,
+                        avatar: res.info.avatar || res.info.nickname,
+                        nickName: res.info.nickname,
+                        userName: res.info.username,
+                        email: res.info.email
+                    };
+                    commit('setUserInfo', userInfo);
+                    return Promise.resolve(res);
                 });
-                const userInfo = {
-                    userId: res.info.id,
-                    avatar: res.info.avatar || res.info.nickname,
-                    nickName: res.info.nickname,
-                    userName: res.info.username,
-                    email: res.info.email
-                };
-                commit('setUserInfo', userInfo);
-                return Promise.resolve(res);
-            });
+        },
+        getPermissions ({ state }) {
+            return getPermissions({ userId: state.userId })
+                .then(res => {
+                    return Promise.resolve(res);
+                });
         }
     }
 };

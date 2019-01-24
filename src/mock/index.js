@@ -11,7 +11,7 @@ Mock.XHR.prototype.send = function () {
 };
 
 // 模拟网络延迟
-Mock.setup({ timeout: '200-400' });
+Mock.setup({ timeout: '200-600' });
 
 /* 扩展 [生成器] */
 const Generator = (prop, template) => {
@@ -43,7 +43,7 @@ const myMock = {
         collection.forEach(({ path, isMock, method, handler }) => {
             if (isMock) {
                 if (method === '*') {
-                    method = ['get', 'post', 'put', 'delete', 'patch'];
+                    method = ['get', 'post', 'put', 'delete', 'patch', 'options'];
                 }
                 if (typeof method === 'string' && method.indexOf('|') > -1) {
                     method = method.split('|');
@@ -62,7 +62,7 @@ const myMock = {
 const wired = ({ url, type, body }) => ({
     method: type,
     params: qs.parse(url.split('?').length > 1 ? url.split('?')[1] : ''),
-    body: JSON.parse(body),
+    body,
     url: qs.parse(url.split('?')[0]),
     ...CustomExtends
 });

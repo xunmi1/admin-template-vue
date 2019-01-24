@@ -14,7 +14,6 @@
     import SubMenu from './SubMenu';
 
     export default {
-        name: 'VMenu',
         components: { SubMenu },
         props: {
             menuData: {

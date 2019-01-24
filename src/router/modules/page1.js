@@ -13,7 +13,7 @@ export default [
         children: [
             {
                 path: 'Test1',
-                name: 'Test1111',
+                name: 'Test11',
                 meta: {
                     title: '测试11',
                     icon: 'credit-card'
@@ -22,7 +22,7 @@ export default [
             },
             {
                 path: 'Test2',
-                name: 'Test2222',
+                name: 'Test12',
                 meta: {
                     title: '测试12',
                     icon: 'smile',

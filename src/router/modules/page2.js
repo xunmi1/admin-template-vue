@@ -12,18 +12,18 @@ export default [
         children: [
             {
                 path: 'Test333',
-                name: 'Test333',
+                name: 'Test21',
                 meta: {
-                    title: '测试23',
+                    title: '测试21',
                     icon: 'credit-card'
                 },
                 component: () => import('@/views/BlankPage/Test3'),
             },
             {
                 path: 'Test444',
-                name: 'Test444',
+                name: 'Test22',
                 meta: {
-                    title: '测试24',
+                    title: '测试22',
                     icon: 'smile',
                 },
                 component: () => import('@/views/BlankPage/Test4'),
