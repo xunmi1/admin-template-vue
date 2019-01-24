@@ -1,11 +1,15 @@
 const webpack = require('webpack');
 const path = require('path');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const AntDesignThemePlugin = require('antd-theme-webpack-plugin');
 const resolve = dir => {
     return path.join(__dirname, dir);
 };
 
-const options = {
+const copyOptions = [
+    {from: resolve('./src/components/Tinymce/tinymce'), toType: 'dir'}
+];
+const themeOptions = {
     antDir: resolve('./node_modules/ant-design-vue'),
     stylesDir: resolve('./src/assets/style'),
     varFile: resolve('./src/assets/style/variables.less'),
@@ -36,7 +40,8 @@ module.exports = {
         plugins: [
             // antd 使用，精简 moment.js, 语言包只保留 zh-cn.js
             new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh-cn/),
-            new AntDesignThemePlugin(options)
+            new CopyWebpackPlugin(copyOptions),
+            new AntDesignThemePlugin(themeOptions)
         ]
     },
     // 默认设置: https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-service/lib/config/base.js
