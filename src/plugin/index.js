@@ -3,7 +3,9 @@ import config from '@/config';
 import Db from '@/libs/db';
 import * as util from '@/libs/util';
 
+import { wrappedEditor } from './highOrderComponent';
 import VMenu from '@c/Menu/Menu';
+import Tinymce from '@c/Tinymce/Tinymce';
 
 const property = {
     app: config,
@@ -12,6 +14,7 @@ const property = {
 
 const components = {
     VMenu,
+    VRichEditor: wrappedEditor(Tinymce)
 };
 
 export default {

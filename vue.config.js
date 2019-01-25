@@ -6,8 +6,10 @@ const resolve = dir => {
     return path.join(__dirname, dir);
 };
 
+// 复制 tinymce 所需的静态资源
 const copyOptions = [
-    {from: resolve('./src/components/Tinymce/tinymce'), toType: 'dir'}
+    { from: resolve('./src/components/Tinymce/langs'), to: './tinymce/langs' },
+    { from: resolve('./node_modules/tinymce/skins'), to: './tinymce/skins', ignore: ['*.gif', '*.eot', '*.ttf', '*.svg'] }
 ];
 const themeOptions = {
     antDir: resolve('./node_modules/ant-design-vue'),
@@ -57,7 +59,7 @@ module.exports = {
         }
 
         // 修改针对 svg 的 loader (file-loader -> vue-svg-loader)
-        // 当引入 svg 文件加入`?inline`, 会处理成 vue 组件
+        // 当引入 svg 文件加入`?inline`后缀时, 会处理成 vue 组件
         const svgRule = config.module.rule('svg');
         svgRule.uses.clear();
         svgRule

@@ -1,13 +1,22 @@
 <template>
     <div>
-        test1
-        <AInput />
+        <VRichEditor type="standard" v-model="content" />
     </div>
 </template>
 
 <script>
     export default {
         name: 'Test1',
+        data() {
+            return {
+                content: '12345',
+            }
+        },
+        created() {
+            setTimeout(() => {
+                this.content = '54321';
+            }, 8000);
+        }
     };
 </script>
 

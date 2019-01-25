@@ -7,21 +7,20 @@ export default {
 
     plugins: [
         'paste lists advlist nonbreaking table autolink autosave link image imagetools charmap print preview anchor textcolor colorpicker',
-        'searchreplace visualblocks code pagebreak',
+        'searchreplace code pagebreak',
         'insertdatetime contextmenu wordcount fullscreen'
     ],
+    menubar: 'file edit insert view format table',
     toolbar_items_size: 'small',
     toolbar: 'undo redo restoredraft paste | fontselect fontsizeselect | bold italic forecolor backcolor underline strikethrough | formatselect | alignleft aligncenter alignright alignjustify | bullist numlist | link unlink uploadimg image media | removeformat fullscreen',
     paste_retain_style_properties: 'all',
-    paste_word_valid_elements: '*[*]',        // word
+    paste_word_valid_elements: '*[*]',        // 保留 word 样式
     paste_data_images: true,                  // 粘贴的同时能把内容里的图片自动上传
-    paste_convert_word_fake_lists: false,     // 插入word文档需要该属性
-    paste_webkit_styles: 'all',
-    paste_merge_formats: true,
-    paste_auto_cleanup_on_paste: false,
-    branding: false,  // 禁止右下角标识
-    image_advtab: true,
-    autosave_interval: '20s',
+    paste_webkit_styles: 'all',               // 保留 webkit 样式
+    branding: false,                          // 禁止右下角标识
+    image_advtab: true,                       // 自动上传图片
+    autosave_interval: '20s',                 //在自动保存时长
+    pagebreak_split_block: true,              // 分页符
 
     font_formats: `
         宋体=SimSun;
@@ -50,17 +49,6 @@ export default {
         Wingdings=wingdings,zapf dingbats
     `,
     fontsize_formats: '初号=44pt 小初=36pt 一号=26pt 小一=24pt 二号=22px 小二=18pt 三号=16pt 小三=15pt 四号=14pt 小四=12pt 五号=10.5pt 小五=9pt',
-    content_style: `
-        html {background-color: #e8e8e8}
-        body {
-            max-width: 210mm;
-            min-height: 247mm;
-            padding: 12mm 28mm; 
-            margin:0 auto;
-            box-shadow: 0 1px 4px rgba(10, 21, 42, .12); 
-            lineHeight: 1.5
-        }
-    `,
     formats: {
         p: {
             selector : 'p, span, a, b',
