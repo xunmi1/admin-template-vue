@@ -8,8 +8,15 @@ const resolve = dir => {
 
 // 复制 tinymce 所需的静态资源
 const copyOptions = [
-    { from: resolve('./src/components/Tinymce/langs'), to: './tinymce/langs' },
-    { from: resolve('./node_modules/tinymce/skins'), to: './tinymce/skins', ignore: ['*.gif', '*.eot', '*.ttf', '*.svg'] }
+    {
+        from: resolve('./src/components/Tinymce/langs'),
+        to: './tinymce/langs'
+    },
+    {
+        from: resolve('./node_modules/tinymce/skins'),
+        to: './tinymce/skins',
+        ignore: ['*inline*', '*mobile*', '*.gif', '*.eot', '*.ttf', '*.svg']
+    }
 ];
 const themeOptions = {
     antDir: resolve('./node_modules/ant-design-vue'),
@@ -20,15 +27,17 @@ const themeOptions = {
     indexFileName: './public/index.html',
     generateOnce: false
 };
+const isProduction =  process.env.NODE_ENV === 'production';
 
 module.exports = {
     runtimeCompiler: true,
 
-    publicPath: process.env.NODE_ENV === 'production'
-        ? './'
-        : '/',
+    publicPath: isProduction ? './' : '/',
+    productionSourceMap: false,
+
     css: {
         modules: true,
+        sourceMap: !isProduction,
         loaderOptions: {
             less: {
                 javascriptEnabled: true
@@ -52,10 +61,8 @@ module.exports = {
 
         const entry = config.entry('app');
         // 判断环境加入模拟数据
-        if (process.env.NODE_ENV !== 'production') {
-            entry
-                .add('@/mock')
-                .end();
+        if (!isProduction) {
+            entry.add('@/mock').end();
         }
 
         // 修改针对 svg 的 loader (file-loader -> vue-svg-loader)

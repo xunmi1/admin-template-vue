@@ -20,8 +20,7 @@
         data () {
             return {
                 showFullScreenBtn: true,
-                isFullScreen: false,
-                browser: {}
+                isFullScreen: false
             };
         },
         mounted () {
@@ -58,6 +57,8 @@
                     this.isFullScreen = !!document[this.browser.event];
                     this.$emit('change', this.isFullScreen);
                     document.addEventListener(this.browser.listener, this.bindScreenToggle);
+                } else {
+                    this.showFullScreenBtn = false;
                 }
             });
         },

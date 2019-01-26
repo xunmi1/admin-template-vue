@@ -62,7 +62,7 @@ const myMock = {
 const wired = ({ url, type, body }) => ({
     method: type,
     params: qs.parse(url.split('?').length > 1 ? url.split('?')[1] : ''),
-    body,
+    body: JSON.parse(body),
     url: qs.parse(url.split('?')[0]),
     ...CustomExtends
 });

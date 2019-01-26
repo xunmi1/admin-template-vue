@@ -11,7 +11,7 @@
     import defaultConfig from './tinymce.config';
     // Import TinyMCE
     import tinymce from 'tinymce/tinymce';
-    import 'tinymce/themes/modern/theme';
+    import 'tinymce/themes/modern';
     import 'tinymce/plugins/advlist';
     import 'tinymce/plugins/autosave';
     import 'tinymce/plugins/link';
@@ -81,9 +81,8 @@
         },
         data () {
             return {
-                editorId: `editor${ Date.now() }`,
-                active: true,
-                ll: { aa: 1 }
+                editorId: `editor${ Date.now() }${ Math.round(Math.random() * 1000)}`,
+                active: true
             };
         },
         created () {

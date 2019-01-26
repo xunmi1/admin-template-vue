@@ -8,7 +8,7 @@
 class Db {
     constructor (prefix) {
         if (Object.prototype.toString.call(window.localStorage) !== '[object Storage]') {
-            throw new ReferenceError('当前运行环境不支持 localStorage');
+            throw new TypeError('当前运行环境不支持 localStorage');
         }
         [this._localStorage, this._prefix, this._keys] = [window.localStorage, prefix, new Set()];
         this.initKeys();

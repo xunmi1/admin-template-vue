@@ -1,7 +1,7 @@
 export default {
     language: 'zh_CN',
     max_height: 1000,
-    min_height: 460,
+    min_height: 420,
     style_formats_merge: true,
     images_reuse_filename: true,
 
@@ -48,10 +48,10 @@ export default {
         Webdings=webdings;
         Wingdings=wingdings,zapf dingbats
     `,
-    fontsize_formats: '初号=44pt 小初=36pt 一号=26pt 小一=24pt 二号=22px 小二=18pt 三号=16pt 小三=15pt 四号=14pt 小四=12pt 五号=10.5pt 小五=9pt',
+    fontsize_formats: '初号=44pt 小初=36pt 一号=26pt 小一=24pt 二号=22pt 小二=18pt 三号=16pt 小三=15pt 四号=14pt 小四=12pt 五号=10.5pt 小五=9pt',
     formats: {
         p: {
-            selector : 'p, span, a, b',
+            selector : 'p, span, a',
             styles: { textIndent:'2em', fontSize: '14pt', lineHeight: '1.5', margin: '0' }
         }
     },

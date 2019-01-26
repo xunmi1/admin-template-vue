@@ -14,8 +14,8 @@ const config = Object.freeze({
      * @description api请求基础路径
      */
     baseUrl: {
-        dev: 'https://lanaya.xycc.love/api/',
-        pro: ''
+        development: 'https://lanaya.xycc.love/api/',
+        production: ''
     },
     /** @description token 验证
      * position:  token 放置位置

@@ -39,7 +39,9 @@ class MyRequest extends AxiosRequest {
     }
 }
 
-const baseUrl = process.env.NODE_ENV !== 'production' ? config.baseUrl.dev : config.baseUrl.pro;
+const baseUrl = process.env.NODE_ENV !== 'production'
+    ? config.baseUrl.development
+    : config.baseUrl.production;
 const service = new MyRequest({ baseURL: baseUrl });
 
 export default service;
