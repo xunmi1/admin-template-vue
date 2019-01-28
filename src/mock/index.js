@@ -14,13 +14,9 @@ Mock.XHR.prototype.send = function () {
 Mock.setup({ timeout: '200-600' });
 
 /* 扩展 [生成器] */
-const Generator = (prop, template) => {
-    const obj = {};
-    obj[prop] = [template];
-    return Mock.mock(obj);
-};
+const Generator = (prop, template) => Mock.mock({ [prop]: [template] });
 /* 扩展 [循环] */
-const Repeat = (num, itemTemplate) =>(new Generator(`data|${ num }`, itemTemplate)).data;
+const Repeat = (num, itemTemplate) => (new Generator(`data|${ num }`, itemTemplate)).data;
 
 const CustomExtends = {
     Generator,
@@ -54,7 +50,7 @@ const myMock = {
                     myMock.setup(path, method, handler);
                 }
             }
-        })
+        });
     }
 };
 

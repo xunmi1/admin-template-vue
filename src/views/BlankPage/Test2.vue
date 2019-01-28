@@ -7,11 +7,29 @@
 </template>
 
 <script>
+    import { articles } from '@/api/news';
+    import CancelRequest from '@/libs/cancelRequest';
+
     export default {
         name: 'Test2',
+        mounted () {
+            const source = new CancelRequest();
+
+            articles({}, source.token(1))
+                .then(res => console.log(res))
+                .catch(err => console.log(err));
+            source.cancel(1, 'canceled1');
+
+            setTimeout(() => {
+                articles({}, source.token('articles2'))
+                    .then(res => console.log(res))
+                    .catch(err => console.log(err));
+                source.cancel('articles2', 'canceled2');
+            }, 200);
+        },
         methods: {
-            clearCache() {
-                this.$store.commit('app/clearAlive', { page: 'Page11',alive: 'Test1' });
+            clearCache () {
+                this.$store.commit('app/clearAlive', { page: 'Page11', alive: 'Test1' });
             }
         }
     };

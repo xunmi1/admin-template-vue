@@ -1,6 +1,6 @@
 import service from '@/libs/service';
 
-export function login (data) {
+export function login (data, cancelToken) {
     if (data.userName && data.password) {
         return service.request({
             url: 'login',
@@ -8,7 +8,8 @@ export function login (data) {
                 username: data.userName,
                 password: data.password
             },
-            method: 'post'
+            method: 'post',
+            cancelToken,
         });
     } else{
         return Promise.reject('missing parameter');

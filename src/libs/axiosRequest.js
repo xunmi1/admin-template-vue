@@ -21,19 +21,19 @@ class AxiosRequest {
     static failCodeMap;
     static extendErrorHooks;
 
-    handlerError (error) {
-        let errorInfo = error.response;
-        if (!errorInfo) {
+    static handlerError (ctx) {
+        let error = ctx.response;
+        if (!error) {
             const { request: { status }, config } = JSON.parse(JSON.stringify(error));
-            errorInfo = {
+            error = {
                 status,
                 request: { responseURL: config.url }
             };
         }
-        const failHandler = AxiosRequest.failCodeMap.get(errorInfo.status);
+        const failHandler = AxiosRequest.failCodeMap.get(error.status);
         if (failHandler) {
-            errorInfo.message = failHandler.msg;
-            this.addErrorLog(errorInfo);
+            error.message = failHandler.msg;
+            AxiosRequest.addErrorLog(error);
             if (typeof failHandler.handler === 'function') {
                 failHandler.handler();
             }
@@ -53,8 +53,8 @@ class AxiosRequest {
         delete this.queue[url];
     }
 
-    addErrorLog (errorInfo) {
-        const { message, status, request: { responseURL }, config: { method } } = errorInfo;
+    static addErrorLog (error) {
+        const { message, status, request: { responseURL }, config: { method } } = error;
         const info = {
             type: 'ajax',
             code: status,
@@ -85,7 +85,10 @@ class AxiosRequest {
             return res.data;
         }, error => {
             this.destroy(url);
-            return this.handlerError(error);
+            if (error.constructor.name === 'Cancel') {
+                return Promise.reject(error)
+            }
+            return AxiosRequest.handlerError(error);
         });
     }
 
