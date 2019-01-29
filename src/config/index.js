@@ -2,7 +2,9 @@
  * 系统配置项，禁止运行时修改
  * @type {Readonly}
  */
-const config = Object.freeze({
+import { deepFreeze } from '../libs/util';
+
+const config = deepFreeze({
     /**
      * @description 配置显示在浏览器标签的title
      */
@@ -37,7 +39,7 @@ const config = Object.freeze({
     // 本地存储前缀标识，建议不同系统自定义配置
     dbPrefix: 'newSystem',
     // 组织/公司/个人， 用于 footer
-    org: 'Xunmi',
+    org: 'Xunmi'
 });
 
 export default config;
