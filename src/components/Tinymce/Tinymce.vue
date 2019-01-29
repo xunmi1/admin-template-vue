@@ -50,7 +50,7 @@
             fileAccept: {
                 type: Array,
                 default () {
-                    return ['.txt', '.docx', '.doc', '.xlsx', '.xls', '.csv', '.pptx', '.ppt', '.pdf', 'zip', '.rar', '.md'];
+                    return ['.txt', '.docx', '.doc', '.xlsx', '.xls', '.csv', '.pptx', '.ppt', '.pdf', '.zip', '.rar', '.md'];
                 }
             },
             maxSize: { // 图片大小
@@ -77,6 +77,10 @@
                 validator (rules) {
                     return Array.isArray(rules) && rules.every(rule => typeof rule.validator === 'function');
                 }
+            },
+            // 自动保存的本地存储的键名前缀
+            autoSavePrefix: {
+                type: String
             }
         },
         data () {
@@ -115,6 +119,7 @@
                 const setting = {
                     selector: `#${ this.editorId }`,
                     content_style: this.editorStyle[this.type],
+                    autosave_prefix: this.autoSavePrefix || 'tinymce-autosave-{path}{query}-{id}-',
                     setup: editor => {
                         editor.once('init', () => {
                             this.$emit('init', editor);

@@ -5,7 +5,12 @@ export const wrappedEditor = function (component) {
     return {
         functional: true,
         render (h, context) {
-            const props = {http: uploadImg, ...(context.data.props || {})};
+            const prefix = `${context.parent.$app.dbPrefix}-tinyMCE-autosave-${(context.parent.$route.fullPath)}-`;
+            const props = {
+                http: uploadImg,
+                autoSavePrefix: prefix,
+                ...(context.data.props || {})
+            };
             return h(component, { ...context.data, props}, context.children);
         }
     }

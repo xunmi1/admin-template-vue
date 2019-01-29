@@ -1,7 +1,7 @@
 export default {
     language: 'zh_CN',
     max_height: 1000,
-    min_height: 420,
+    min_height: 400,
     style_formats_merge: true,
     images_reuse_filename: true,
 
@@ -19,7 +19,8 @@ export default {
     paste_webkit_styles: 'all',               // 保留 webkit 样式
     branding: false,                          // 禁止右下角标识
     image_advtab: true,                       // 自动上传图片
-    autosave_interval: '20s',                 //在自动保存时长
+    autosave_interval: '20s',                 // 自动保存时长
+    autosave_retention: "40m",                // 本地存储时间上限
     pagebreak_split_block: true,              // 分页符
 
     font_formats: `

@@ -91,6 +91,7 @@
                 this.loginForm.validateFieldsAndScroll((err, values) => {
                     if (!err) {
                         this.loading = true;
+                        this.clearDB();
                         this.handleLogin(values)
                             .then(() => {
                                 this.$router.push({ name: this.$app.mainName });
@@ -150,6 +151,12 @@
                     this.loginForm.validateFields(['password'], { force: true });
                 }
                 callback();
+            },
+            clearDB(userName) {
+                if (!this.isClearDB && this.$db.get('userInfo').userName !== userName) {
+                    this.$db.clear();
+                    this.isClearDB = true;
+                }
             },
             setLogo () {
                 try {
