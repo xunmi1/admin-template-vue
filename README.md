@@ -3,13 +3,14 @@
 ### 暂时记录
 - 统一代码规范，**必须**开启 eslint 检查
 - 打包启用 Modern Mode，会构建**两份应用**，为现代浏览器交付原生 ES6 应用包，并生成一个兼容旧浏览器的包用来平稳退化
-- mixins: 尽量避免组件和 `mixin` 之间形成**强耦合**关系，便于移植. 判断标准: 引入或移除 `mixin` 时，原有组件除了必要的引入或移除操作外，再无任何改动或进行极少的修改
+- mixins: 尽量避免组件和 `mixin` 之间形成**强耦合**关系，为了便于移植. 判断标准: 引入或移除 `mixin` 时，原有组件除了必要的引入或移除操作外，再无任何改动或进行极少的修改
+- 避免在 `require()` 中使用表达式 (expressions) 的形式，来执行时确定引用的文件，因为 webpack  静态打包，会将能够确定的目录下所有可能用到的模块都包含在 bundle 中
 - 由于 vue-cli3 对 webpack 配置进行了合并和封装，若开发工具 IDE 无法识别, 则需手动修改配置文件路径
   ```
   <projectRoot>/node_modules/@vue/cli-service/webpack.config.js 
   ```
   注: `projectRoot` 为项目根路径
-  - WebStorm (2018.3.2): 修改 'File' -> 'settings' -> 'Languages and Frameworks' -> 'JavaScript' -> 'Webpack' 中的加载路径
+  - WebStorm (2018.3.3): 修改 'File' -> 'settings' -> 'Languages and Frameworks' -> 'JavaScript' -> 'Webpack' 中的加载路径
  
  - 规范 git commit 消息
    - format 格式

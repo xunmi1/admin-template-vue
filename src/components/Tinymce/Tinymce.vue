@@ -11,7 +11,7 @@
     import defaultConfig from './tinymce.config';
     // Import TinyMCE
     import tinymce from 'tinymce/tinymce';
-    import 'tinymce/themes/modern';
+    import 'tinymce/themes/silver';
     import 'tinymce/plugins/advlist';
     import 'tinymce/plugins/autosave';
     import 'tinymce/plugins/link';
@@ -21,9 +21,7 @@
     import 'tinymce/plugins/nonbreaking';
     import 'tinymce/plugins/pagebreak';
     import 'tinymce/plugins/table';
-    import 'tinymce/plugins/textcolor';
     import 'tinymce/plugins/paste';
-    import 'tinymce/plugins/colorpicker';
     import 'tinymce/plugins/autolink';
     import 'tinymce/plugins/lists';
     import 'tinymce/plugins/charmap';
@@ -32,7 +30,6 @@
     import 'tinymce/plugins/anchor';
     import 'tinymce/plugins/searchreplace';
     import 'tinymce/plugins/insertdatetime';
-    import 'tinymce/plugins/contextmenu';
     import 'tinymce/plugins/wordcount';
     import 'tinymce/plugins/fullscreen';
 
@@ -64,6 +61,13 @@
                 },
                 default: 'default'
             },
+            skin: {
+                type: String,
+                validator (value) {
+                    return ['light', 'dark'].indexOf(value) !== -1;
+                },
+                default: 'light'
+            },
             // 图片验证规则
             imageRules: {
                 type: Array,
@@ -94,6 +98,7 @@
             this.option = this.getOptions();
         },
         mounted () {
+            this.option.skin = this.getSkin();
             this.createEditor(this.option);
             this.hasCreated = true;
         },
@@ -103,6 +108,7 @@
                 this.hasCreated = false;
             } else {
                 this.active = true;
+                this.option.skin = this.getSkin();
                 this.createEditor(this.option);
             }
         },
@@ -128,13 +134,15 @@
                         });
                     },
                     init_instance_callback: this.bindEvent,
-                    file_picker_types: 'file image media',
                     //文件上传
                     file_picker_callback: this.handleFile,
                     // 图片上传
                     images_upload_handler: this.imageUpload
                 };
                 return { ...defaultConfig, ...setting, ...this.config };
+            },
+            getSkin() {
+                return this.skin === 'light' ? 'oxide' : 'oxide-dark';
             },
             createEditor (option) {
                 this.$nextTick(() => {
@@ -268,7 +276,7 @@
             },
             bindWatch () {
                 const valueWatch = function (newVal) {
-                    if (newVal !== this.editor.getContent()) this.editor.setContent(this.value);
+                    if (newVal !== this.editor.getContent()) this.editor.setContent(newVal || '');
                 };
                 this.unwatchValue = this.$watch('value', valueWatch, { immediate: true });
             },
@@ -284,6 +292,7 @@
                             padding: 12mm 28mm;
                             margin: 16px auto;
                             box-shadow: 0 1px 4px rgba(10, 21, 42, .12);
+                            background-color: #fff;
                         }
                     ` + defaultStyle
                 };

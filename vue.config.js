@@ -15,7 +15,7 @@ const copyOptions = [
     {
         from: resolve('./node_modules/tinymce/skins'),
         to: './tinymce/skins',
-        ignore: ['*inline*', '*mobile*', '*.gif', '*.eot', '*.ttf', '*.svg']
+        ignore: ['*inline*', '*mobile*']
     }
 ];
 const themeOptions = {

@@ -6,9 +6,7 @@ export default {
     images_reuse_filename: true,
 
     plugins: [
-        'paste lists advlist nonbreaking table autolink autosave link image imagetools charmap print preview anchor textcolor colorpicker',
-        'searchreplace code pagebreak',
-        'insertdatetime contextmenu wordcount fullscreen'
+        'paste lists advlist nonbreaking table autolink autosave link image imagetools charmap print preview anchor searchreplace code pagebreak insertdatetime wordcount fullscreen'
     ],
     menubar: 'file edit insert view format table',
     toolbar_items_size: 'small',
@@ -22,7 +20,7 @@ export default {
     autosave_interval: '20s',                 // 自动保存时长
     autosave_retention: "40m",                // 本地存储时间上限
     pagebreak_split_block: true,              // 分页符
-
+    file_picker_types: 'file image media',    // 文件上传的类型（将开启浏览本地文件的选项）
     font_formats: `
         宋体=SimSun;
         黑体=SimHei;
