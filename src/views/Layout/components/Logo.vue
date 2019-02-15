@@ -2,8 +2,8 @@
     <div :class="[isVertical ? 'vertical' : 'horizontal', theme]">
         <img
             v-once
-            v-if="logo"
-            :src="logo"
+            :src="publicPath + $app.logoPath"
+            v-if="$app.logoPath"
             alt="图标"
             height="36"
             class="logo"
@@ -20,12 +20,14 @@
         props: {
             collapsed: Boolean,
             theme: {
-                validator: (value) => ['dark', 'light'].includes(value)
+                type: String,
+                validator: value => ['dark', 'light'].includes(value)
             }
         },
         data () {
             return {
-                title: this.$app.title.small
+                title: this.$app.title.small,
+                publicPath: process.env.BASE_URL
             };
         },
         computed: {
@@ -34,18 +36,6 @@
             }),
             showTitle() {
                 return !(this.isVertical && this.collapsed);
-            }
-        },
-        created () {
-            this.setLogo();
-        },
-        methods: {
-            setLogo() {
-                try {
-                    this.logo = require('@/assets/svg/fire.svg');
-                } catch (e) {
-                    this.logo = null;
-                }
             }
         }
     };

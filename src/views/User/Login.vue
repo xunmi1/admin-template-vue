@@ -3,8 +3,8 @@
         <header class="header v-center">
             <img
                 v-once
-                v-if="logo"
-                :src="logo"
+                :src="publicPath + $app.logoPath"
+                v-if="$app.logoPath"
                 alt="logo"
                 height="46"
                 class="header-logo"
@@ -72,6 +72,7 @@
         data () {
             return {
                 title: this.$app.title.main,
+                publicPath: process.env.BASE_URL,
                 loading: false,
                 // 密码输入框是否获取焦点
                 passwordFocus: false
@@ -83,7 +84,6 @@
         created () {
             this.login = this.$_throttle(this.login, 360, true);
             this.setRules();
-            this.setLogo();
         },
         methods: {
             ...mapActions('user', ['handleLogin']),
@@ -156,13 +156,6 @@
                 if (!this.isClearDB && this.$db.get('userInfo').userName !== userName) {
                     this.$db.clear();
                     this.isClearDB = true;
-                }
-            },
-            setLogo () {
-                try {
-                    this.logo = require('@/assets/svg/fire.svg');
-                } catch (e) {
-                    this.logo = null;
                 }
             }
         }

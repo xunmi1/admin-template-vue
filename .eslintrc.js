@@ -46,6 +46,7 @@ module.exports = {
         'vue/no-shared-component-data': 'off',
         // 组件的属性必须为一定的顺序，方便阅读
         'vue/order-in-components': 'error',
+        'vue/eqeqeq': 'warning',
 
         // js 部分
         'indent': ['warn', 4],

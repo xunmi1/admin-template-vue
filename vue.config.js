@@ -44,9 +44,11 @@ module.exports = {
             }
         }
     },
+
     devServer: {
         port: 8888
     },
+
     configureWebpack: {
         plugins: [
             // antd 使用，精简 moment.js, 语言包只保留 zh-cn.js
@@ -55,6 +57,7 @@ module.exports = {
             new AntDesignThemePlugin(themeOptions)
         ]
     },
+
     // 默认设置: https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-service/lib/config/base.js
     chainWebpack: config => {
         config.resolve.alias.set('@c', resolve('src/components'));

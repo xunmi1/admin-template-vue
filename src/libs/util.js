@@ -62,11 +62,20 @@ export function deepFreeze (obj) {
 
 /**
  * 数组去重
- * @param {...Array} arguments - 原数组，不限数组个数
+ * @param {...Array} rest - 原数组，不限数组个数
  * @returns {*[]} - 去重后的新数组
  */
-export function unique () {
-    return Array.from(new Set([].concat(...arguments)));
+export function unique (...rest) {
+    return Array.from(new Set([].concat(...rest)));
+}
+
+/**
+ * 数组降维
+ * @param {Array} arr 原数组
+ * @return {Array} - 降维后的数组
+ */
+export function flatten (arr) {
+    return arr.reduce((prev, cur) => prev.concat(Array.isArray(cur) ? flatten(cur) : cur), []);
 }
 
 /**

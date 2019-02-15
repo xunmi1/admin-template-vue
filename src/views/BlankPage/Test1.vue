@@ -15,7 +15,7 @@
         created() {
             setTimeout(() => {
                 this.content = '54321';
-            }, 8000);
+            }, 2000);
         }
     };
 </script>

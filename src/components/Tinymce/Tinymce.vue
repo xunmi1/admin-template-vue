@@ -40,15 +40,11 @@
             http: Function,
             imageAccept: { // 文件类型
                 type: Array,
-                default () {
-                    return ['image/*'];
-                }
+                default: () => ['image/*']
             },
             fileAccept: {
                 type: Array,
-                default () {
-                    return ['.txt', '.docx', '.doc', '.xlsx', '.xls', '.csv', '.pptx', '.ppt', '.pdf', '.zip', '.rar', '.md'];
-                }
+                default: () => ['.txt', '.docx', '.doc', '.xlsx', '.xls', '.csv', '.pptx', '.ppt', '.pdf', '.zip', '.rar', '.md']
             },
             maxSize: { // 图片大小
                 type: Number,
@@ -56,31 +52,23 @@
             },
             type: {
                 type: String,
-                validator (value) {
-                    return ['standard', 'default'].indexOf(value) !== -1;
-                },
+                validator: value => ['standard', 'default'].includes(value),
                 default: 'default'
             },
             skin: {
                 type: String,
-                validator (value) {
-                    return ['light', 'dark'].indexOf(value) !== -1;
-                },
+                validator: value => ['light', 'dark'].includes(value),
                 default: 'light'
             },
             // 图片验证规则
             imageRules: {
                 type: Array,
-                validator (rules) {
-                    return Array.isArray(rules) && rules.every(rule => typeof rule.validator === 'function');
-                }
+                validator: rules => Array.isArray(rules) && rules.every(rule => typeof rule.validator === 'function')
             },
             // 文件验证规则
             fileRules: {
                 type: Array,
-                validator (rules) {
-                    return Array.isArray(rules) && rules.every(rule => typeof rule.validator === 'function');
-                }
+                validator: rules => Array.isArray(rules) && rules.every(rule => typeof rule.validator === 'function')
             },
             // 自动保存的本地存储的键名前缀
             autoSavePrefix: {
@@ -89,7 +77,7 @@
         },
         data () {
             return {
-                editorId: `editor${ Date.now() }${ Math.round(Math.random() * 1000)}`,
+                editorId: `editor${ Date.now() }${ Math.round(Math.random() * 1000) }`,
                 active: true
             };
         },
@@ -134,20 +122,18 @@
                         });
                     },
                     init_instance_callback: this.bindEvent,
-                    //文件上传
+                    //文件上传（浏览本地文件，设置此属性会开启本地文件浏览功能）
                     file_picker_callback: this.handleFile,
                     // 图片上传
                     images_upload_handler: this.imageUpload
                 };
                 return { ...defaultConfig, ...setting, ...this.config };
             },
-            getSkin() {
+            getSkin () {
                 return this.skin === 'light' ? 'oxide' : 'oxide-dark';
             },
             createEditor (option) {
-                this.$nextTick(() => {
-                    tinymce.init(option);
-                });
+                this.$nextTick(() => tinymce.init(option));
             },
             destroyEditor () {
                 if (this.editor) {
@@ -184,22 +170,14 @@
                 };
                 reader.readAsDataURL(file);
             },
-            imageUpload (blobInfo, success, failure) {
-                if (!this.validateImage(blobInfo, success, failure)) return;
-                const formData = new FormData();
-                formData.append('image', blobInfo.blob());
-                this.http(formData)
-                    .then(res => {
-                        // success();
-                        this.$emit('success', res);
-                    })
-                    .catch(err => {
-                        this.$emit('error', { type: 'uplaod', message: err });
-                        failure();
-                    });
-            },
+
             fileUpload (file, callback) {
-                if (!this.validateFile(file)) return;
+                const valid = this.validateFile(file);
+                if (!valid.result) {
+                    this.$emit('validator-error', { type: 'file', message: valid.message });
+                    this.failAlert(valid.message);
+                    return;
+                }
                 const formData = new FormData();
                 formData.append('file', file);
                 this.http(formData)
@@ -211,6 +189,33 @@
                         this.$emit('error', { type: 'uplaod', message: err });
                     });
             },
+            imageUpload (blobInfo, success, failure) {
+                const blob = blobInfo.blob();
+
+                // 如果不上传服务器，图片会以 Base64 形式上传
+                if (typeof this.http !== 'function') {
+                    return;
+                } else {
+                    const valid = this.validateImage(blob);
+                    if (!valid.result) {
+                        this.$emit('validator-error', { type: 'image', message: valid.message });
+                        this.failAlert(valid.message);
+                        return;
+                    }
+                }
+                const formData = new FormData();
+                formData.append('image', blob);
+                this.http(formData)
+                    .then(res => {
+                        success('图片地址');
+                        this.$emit('success', res);
+                    })
+                    .catch(err => {
+                        this.$emit('error', { type: 'uplaod', message: err });
+                        failure('上传失败！');
+                    });
+            },
+
             validateFile (blob) {
                 const rules = [
                     {
@@ -225,37 +230,23 @@
                 // 附加自定义验证规则
                 rules.push(...this.fileRules || []);
                 const failRule = rules.find(rule => !rule.validator(blob));
-                if (failRule) {
-                    this.$emit('error', { type: 'file', message: failRule.message });
-                    tinymce.ui.MessageBox.alert(failRule.message);
-                    return false;
-                }
-                return true;
+                return {result: !failRule, message: failRule && failRule.message};
             },
-            validateImage (blobInfo, success, failure) {
+            validateImage (blob) {
                 const rules = [
                     {
-                        validator: () => typeof this.http === 'function',
-                        message: '不支持上传图片'
-                    },
-                    {
-                        validator: () => blobInfo.blob().size <= this.maxSize,
+                        validator: () => blob.size <= 10,
                         message: '图片大小超出上限'
                     },
                     {
-                        validator: () => this.imageAccept.some(type => blobInfo.blob().type.search(type) !== -1),
+                        validator: () => this.imageAccept.some(type => blob.type.search(type) !== -1),
                         message: '格式不符合要求'
                     }
                 ];
                 // 附加自定义验证规则
                 rules.push(...this.imageRules || []);
-                const failRule = rules.find(rule => !rule.validator(blobInfo.blob()));
-                if (failRule) {
-                    failure(failRule.message);
-                    this.$emit('error', { type: 'image', message: failRule.message });
-                    return false;
-                }
-                return true;
+                const failRule = rules.find(rule => !rule.validator(blob));
+                return {result: !failRule, message: failRule && failRule.message};
             },
             bindEvent (editor) {
                 const events = [
@@ -279,6 +270,12 @@
                     if (newVal !== this.editor.getContent()) this.editor.setContent(newVal || '');
                 };
                 this.unwatchValue = this.$watch('value', valueWatch, { immediate: true });
+            },
+            failAlert (message) {
+                // 如果父组件未指定 validator-error 响应事件，则默认使用富文本的消息提醒
+                if (!this.$listeners['validator-error']) {
+                    tinymce.activeEditor.windowManager.alert(message);
+                }
             },
             setEditorStyle () {
                 const defaultStyle = `p {font-size: 14pt;font-family: FangSong; line-height: 1.5; margin: 0}`;
