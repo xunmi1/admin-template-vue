@@ -235,7 +235,7 @@
             validateImage (blob) {
                 const rules = [
                     {
-                        validator: () => blob.size <= 10,
+                        validator: () => blob.size <= this.maxSize,
                         message: '图片大小超出上限'
                     },
                     {

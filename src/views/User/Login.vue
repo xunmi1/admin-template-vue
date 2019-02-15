@@ -153,7 +153,7 @@
                 callback();
             },
             clearDB(userName) {
-                if (!this.isClearDB && this.$db.get('userInfo').userName !== userName) {
+                if (!this.isClearDB && this.$db.get('userInfo', {}).userName !== userName) {
                     this.$db.clear();
                     this.isClearDB = true;
                 }

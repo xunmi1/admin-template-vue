@@ -1,19 +1,21 @@
 export default {
-    language: 'zh_CN',
-    max_height: 1000,
-    min_height: 400,
-    style_formats_merge: true,
-    images_reuse_filename: true,
-
     plugins: [
         'paste lists advlist nonbreaking table autolink autosave link image imagetools charmap print preview anchor searchreplace code pagebreak insertdatetime wordcount fullscreen'
     ],
     menubar: 'file edit insert view format table',
     toolbar_items_size: 'small',
-    toolbar: 'undo redo restoredraft paste | fontselect fontsizeselect | bold italic forecolor backcolor underline strikethrough | formatselect | alignleft aligncenter alignright alignjustify | bullist numlist | link unlink uploadimg image media | removeformat fullscreen',
-    paste_retain_style_properties: 'all',
+    toolbar: 'undo redo restoredraft | fontselect fontsizeselect | bold italic forecolor backcolor underline | formatselect | alignleft aligncenter alignright alignjustify | bullist numlist | fullscreen',
+
+    language: 'zh_CN',
+    max_height: 1000,
+    min_height: 500,
+
+    style_formats_merge: true,                // 允许 style_formats 覆盖文本样式
+    images_reuse_filename: true,              // 使用图片的实际文件名
+    contextmenu: false,                       // 禁用富文本的右键菜单
+    paste_retain_style_properties: 'all',     // 粘贴时保留所有样式
     paste_word_valid_elements: '*[*]',        // 保留 word 样式
-    paste_data_images: true,                  // 粘贴的同时能把内容里的图片自动上传
+    paste_data_images: true,                  // 粘贴的同时把内容里的图片自动上传
     paste_webkit_styles: 'all',               // 保留 webkit 样式
     branding: false,                          // 禁止右下角标识
     image_advtab: true,                       // 自动上传图片
