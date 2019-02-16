@@ -8,7 +8,7 @@
 
 <script>
     import { articles } from '@/api/news';
-    import CancelRequest from '@/libs/cancelRequest';
+    import CancelRequest from '@/libs/common/cancelRequest';
 
     export default {
         name: 'Test2',

@@ -1,56 +1,43 @@
 import Antd from 'ant-design-vue';
-import config from '@/config';
-import Db from '@/libs/db';
-import * as util from '@/libs/util';
 
-import { wrappedEditor } from './highOrderComponent';
-import VMenu from '@c/Menu/Menu';
-import Tinymce from '@c/Tinymce/Tinymce';
+import properties from './property';
+import * as methods from './method';
+import components from './component';
 
-const properties = {
-    app: config,
-    db: Db.getSingle(config.dbPrefix)
-};
-
-const components = {
-    VMenu,
-    VRichEditor: wrappedEditor(Tinymce)
-};
-
+// 为对象添加只读属性
 const addReadonlyProperty = function (obj, property, value) {
     Object.defineProperty(obj, property, { value, enumerable: true });
+};
+
+const addProperties = function (value, obj, ...rest) {
+    // 根据 obj、rest 收集已有属性
+    const hasProperties = Object.keys(obj).concat(...rest.map(i => Object.keys(i)));
+    Object.entries(value).forEach(([key, property]) => {
+        if (hasProperties.includes(key)) {
+            throw new Error(`property '${ key }' have existed!`);
+        }
+        addReadonlyProperty(obj, key, property);
+    });
+};
+
+const addComponents = function (value, obj) {
+    Object.entries(value).forEach(([key, component]) => {
+        if (obj.component(key)) {
+            throw new Error(`component '${ key }' have existed!`);
+        }
+        obj.component(key, component);
+    });
 };
 
 export default {
     install: async function (Vue) {
         Vue.use(Antd);
 
-        const vmProperty = util.unique(Object.keys(Vue.prototype), Object.keys(new Vue()));
-
         // 扩展属性
-        Object.keys(properties).forEach(key => {
-            const __key = '$' + key;
-            if (vmProperty.includes(__key)) {
-                throw new Error(`属性 ${ __key } 已存在!`);
-            }
-            addReadonlyProperty(Vue.prototype, __key, properties[key]);
-        });
-
-        // 扩展方法
-        Object.keys(util).forEach(fnKey => {
-            const __key = '$_' + fnKey;
-            if (vmProperty.includes(__key)) {
-                throw new Error(`方法 ${ __key } 已存在!`);
-            }
-            addReadonlyProperty(Vue.prototype, __key, util[fnKey]);
-        });
-
+        addProperties(properties, Vue.prototype, new Vue());
+        // 扩展业务方法
+        addProperties(methods, Vue.prototype, new Vue());
         // 扩展组件
-        Object.keys(components).forEach(key => {
-            if (Vue.component(key)) {
-                throw new Error(`组件 ${ key } 已存在!`);
-            }
-            Vue.component(key, components[key]);
-        });
+        addComponents(components, Vue);
     }
 };

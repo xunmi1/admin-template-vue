@@ -1,11 +1,12 @@
 import store from '@/store';
 import router from '@/router';
-import AxiosRequest from '@/libs/axiosRequest';
 import config from '@/config';
+import AxiosRequest from './common/axiosRequest';
 
 const failAuth = function () {
+    // 清空 token
     store.commit('user/setToken');
-    router.push({ name: config.mainName });
+    router.push({ name: config.loginName });
 };
 
 const failCodeMap = new Map([

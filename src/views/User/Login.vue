@@ -82,7 +82,7 @@
             this.loginForm = this.$form.createForm(this);
         },
         created () {
-            this.login = this.$_throttle(this.login, 360, true);
+            this.login = this.$util.throttle(this.login, 360, true);
             this.setRules();
         },
         methods: {

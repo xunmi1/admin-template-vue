@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import NProgress from 'nprogress';
 import config from '../config';
-import Db from '../libs/db';
+import db from '../libs/db';
 import store from '../store';
 import Router from 'vue-router';
 
@@ -41,7 +41,6 @@ const router = new Router({
         ...others
     ]
 });
-const db = Db.getSingle();
 
 const addAlive = function (to) {
     const length = to.matched.length;

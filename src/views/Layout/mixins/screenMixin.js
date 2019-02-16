@@ -6,7 +6,7 @@ const screenMixin = {
         };
     },
     created () {
-        this.$_screen_change = this.$_throttle(this.$_screen_change, 200, true);
+        this.$_screen_change = this.$util.throttle(this.$_screen_change, 200, true);
         // 参考 Bootstrap(截至 v4.2) -> layout -> Responsive breakpoints
         this.breakpoints = [
             { minWidth: 1600, type: 'xxl', level: 8 },

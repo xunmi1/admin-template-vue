@@ -70,12 +70,18 @@ export function unique (...rest) {
 }
 
 /**
- * 数组降维
+ * 数组扁平化(会移除空项)
  * @param {Array} arr 原数组
+ * @param {Number} [depth=Infinity] 嵌套深度
  * @return {Array} - 降维后的数组
  */
-export function flatten (arr) {
-    return arr.reduce((prev, cur) => prev.concat(Array.isArray(cur) ? flatten(cur) : cur), []);
+export function flatten (arr, depth = Infinity) {
+    // old
+    // return arr.reduce((prev, cur) => prev.concat(Array.isArray(cur) ? flatten(cur) : cur), []);
+    // new
+    if (Array.isArray(arr)) {
+        return arr.flat(depth);
+    }
 }
 
 /**

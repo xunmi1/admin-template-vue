@@ -143,7 +143,7 @@
                 handler (newVal) {
                     this.currentName.splice(0, 1, newVal);
                     this.setOpenKeys(this.menuList);
-                    this.vertical.openKeys = this.$_unique(this.vertical.openKeys);
+                    this.vertical.openKeys = this.$util.unique(this.vertical.openKeys);
                 }
             },
             // 侧边栏伸缩时，交换菜单展开列表

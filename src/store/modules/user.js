@@ -1,10 +1,9 @@
 import { login, getPermissions } from '@/api/user';
 
 import service from '@/libs/service';
-import Db from '@/libs/db';
+import db from '@/libs/db';
 import config from '@/config';
 
-const db = Db.getSingle(config.dbPrefix);
 
 export default {
     namespaced: true,

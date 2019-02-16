@@ -46,7 +46,7 @@ const themeMixin = {
     },
     created () {
         // 防抖
-        this.$_theme_updateTheme = this.$_throttle(this.$_theme_updateTheme, 1200, true);
+        this.$_theme_updateTheme = this.$util.throttle(this.$_theme_updateTheme, 1200, true);
         this.$_theme_init();
         this.$_theme_updateClass(this.theme);
     },
