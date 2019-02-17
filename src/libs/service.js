@@ -1,7 +1,7 @@
 import store from '@/store';
 import router from '@/router';
 import config from '@/config';
-import AxiosRequest from './common/axiosRequest';
+import AxiosRequest from './common/AxiosRequest';
 
 const failAuth = function () {
     // 清空 token

@@ -28,7 +28,7 @@
                 />
                 <div v-if="!isVertical" class="header-tool">
                     <FullScreen />
-                    <SettingBtn @click.native="toggleSetting" />
+                    <SettingBtn @click="toggleSetting" />
                     <UserMenu />
                 </div>
             </compontent>
@@ -43,10 +43,10 @@
                     <div @click="toggleCollapsed" class="trigger v-icon-hover">
                         <AIcon :type="collapsed ? 'menu-unfold' : 'menu-fold'" />
                     </div>
-                    <Breadcrumb v-if="screenLevelMixin >= 3" />
+                    <Breadcrumb v-if="!isMobileDevice" />
                     <div class="header-tool">
                         <FullScreen />
-                        <SettingBtn @click.native="toggleSetting" />
+                        <SettingBtn @click="toggleSetting" />
                         <UserMenu />
                     </div>
                 </ALayoutHeader>
@@ -68,6 +68,7 @@
 <script>
     import { mapState, mapGetters } from 'vuex';
     import screenMixin from './mixins/screenMixin';
+    import MenuDrawer from './components/MenuDrawer';
     import Logo from './components/Logo';
     import UserMenu from './components/UserMenu';
     import FullScreen from './components/FullScreen';
@@ -79,6 +80,7 @@
     export default {
         name: 'BasicLayout',
         components: {
+            MenuDrawer,
             Logo,
             SettingBtn,
             UserMenu,
@@ -109,7 +111,9 @@
                     menuLayout: 'ALayoutHeader'
                 },
                 // 垂直布局下，菜单收缩，将展开的菜单选项缓存，再次打开后恢复
-                cacheOpenKeys: []
+                cacheOpenKeys: [],
+                // 因屏幕调整引起的布局切换，保存之前的布局方向
+                cacheIsVertical: true
             };
         },
         computed: {
@@ -120,21 +124,23 @@
                 isFixedSider: state => state.layout.isFixedSider,
                 isMenuRight: state => state.layout.isMenuRight
             }),
-            ...mapGetters('app', ['getAlive']),
+            ...mapGetters('app', ['getAlive', 'isMobileDevice']),
             layout () {
                 return this.isVertical ? this.vertical : this.horizontal;
             },
             // 侧边栏宽度
             siderWidth () {
-                return this.collapsed ? 80 : 120 + Math.max(this.screenLevelMixin, 4) * 16;
+                const minWidth = this.isMobileDevice ? 0 : 80;
+                const maxWidth = 120 + Math.max(this.screenLevelMixin, 5) * 16;
+                return this.collapsed ? minWidth : maxWidth;
             },
             // 垂直布局下侧边菜单伸缩，引起的右侧结构 marginLeft 伸缩变化
             layoutMainLeft () {
-                return (this.isVertical && this.isFixedSider) ? this.siderWidth : 0;
+                return (this.isVertical && this.isFixedSider && !this.isMobileDevice) ? this.siderWidth : 0;
             },
             // 垂直布局下固定导航菜单栏，侧边菜单伸缩，引起的右侧头部 marginLeft 伸缩变化
             layoutMainHeaderLeft () {
-                return this.isFixedHeader ? this.siderWidth : 0;
+                return (this.isFixedHeader && !this.isMobileDevice) ? this.siderWidth : 0;
             }
         },
         watch: {
@@ -149,6 +155,16 @@
             // 侧边栏伸缩时，交换菜单展开列表
             collapsed () {
                 [this.cacheOpenKeys, this.vertical.openKeys] = [this.vertical.openKeys, this.cacheOpenKeys];
+            },
+            isMobileDevice (newVal) {
+                if (newVal) {
+                    this.cacheIsVertical = this.isVertical;
+                    this.$store.commit('app/setLayout', { isVertical: true });
+                    this.vertical.menuLayout = 'MenuDrawer';
+                } else {
+                    this.$store.commit('app/setLayout', { isVertical: this.cacheIsVertical });
+                    this.vertical.menuLayout = 'ALayoutSider';
+                }
             }
         },
         created () {
@@ -298,8 +314,11 @@
     }
 
     .layout-main-content {
-        margin: 12px;
+        margin: 12px 12px 0;
         overflow: initial;
+        @media screen and (max-width: 992px) {
+            margin: 12px 0 0;
+        }
     }
 
     .menu-theme-light {

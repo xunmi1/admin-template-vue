@@ -7,7 +7,11 @@ export default {
             isFixedHeader: true,
             isFixedSider: true,
             isMenuRight: true,
-            theme: 'daybreak-blue',
+            theme: 'daybreak-blue'
+        },
+        screenType: {
+            type: 'xl',
+            level: 6
         },
         aliveList: {},
         errorList: []
@@ -19,15 +23,20 @@ export default {
             } else {
                 return null;
             }
-        }
+        },
+        isMobileDevice: ({ screenType }) => screenType.level < 4
     },
     mutations: {
         setLayout ({ layout }, data = {}) {
-            Object.keys(data).forEach(key => {
-                if (data[key] !== undefined) {
-                    layout[key] = data[key];
+            Object.entries(data).forEach(([key, value]) => {
+                if (value !== undefined) {
+                    layout[key] = value;
                 }
             });
+        },
+        // 设置屏幕类型
+        setScreenType (state, { type, level }) {
+            [state.screenType.type, state.screenType.level] = [type, level];
         },
         /**
          * 添加页面缓存

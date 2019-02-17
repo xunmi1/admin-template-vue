@@ -14,7 +14,8 @@ export default (name, bool) => () => Promise.resolve({
         return h('ACard',
             {
                 props: {
-                    title: this.$route.meta.title
+                    title: this.$route.meta.title,
+                    type: 'inner',
                 }
             },
             [
