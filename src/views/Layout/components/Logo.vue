@@ -6,9 +6,10 @@
             v-if="$app.logoPath"
             alt="图标"
             height="36"
+            width="36"
             class="logo"
         >
-        <h1 v-show="showTitle">{{ title }}</h1>
+        <h1 v-show="title">{{ title }}</h1>
     </div>
 </template>
 
@@ -30,12 +31,16 @@
                 publicPath: process.env.BASE_URL
             };
         },
-        computed: {
-            ...mapState('app', {
-                isVertical: state => state.layout.isVertical
-            }),
-            showTitle() {
-                return !(this.isVertical && this.collapsed);
+        computed: mapState('app', {
+            isVertical: state => state.layout.isVertical
+        }),
+        watch: {
+            collapsed: function (newVal) {
+                if (this.isVertical && newVal) {
+                    this.title = null;
+                } else {
+                    setTimeout(() => this.title = this.$app.title.small, 168);
+                }
             }
         }
     };
@@ -47,6 +52,7 @@
         float: left;
         max-height: 64px;
         transition: all .2s;
+
         h1 {
             display: inline-block;
             font-size: 20px;
@@ -60,6 +66,7 @@
         min-height: 64px;
         padding-top: 13px;
         transition: all .2s;
+
         h1 {
             vertical-align: text-bottom;
             display: inline-block;

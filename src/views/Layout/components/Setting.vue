@@ -1,13 +1,13 @@
 <template>
     <ADrawer
         :visible="visible"
-        :width="300"
+        :width="286"
         @close="onClose"
         class="setting"
         title="界面设置"
     >
         <div class="setting-option-mb">
-            <h3 class="setting-title">导航菜单风格</h3>
+            <h4 class="setting-title">导航菜单风格</h4>
             <ATooltip title="暗色">
                 <div @click="toggle('menuTheme', 'dark')" class="setting-layout">
                     <DarkMenuSvg class="setting-svg" v-once />
@@ -22,7 +22,7 @@
             </ATooltip>
         </div>
         <div>
-            <h3 class="setting-title">导航菜单布局</h3>
+            <h4 class="setting-title">导航菜单布局</h4>
             <ATooltip title="侧边菜单">
                 <div @click="toggle('isVertical', true)" class="setting-layout">
                     <VerticalSvg class="setting-svg" v-once />
@@ -30,7 +30,10 @@
                 </div>
             </ATooltip>
             <ATooltip title="顶部菜单">
-                <div @click="toggle('isVertical', false)" class="setting-layout">
+                <div
+                    @click="isMobileDevice ? null : toggle('isVertical', false)"
+                    :class="{'setting-layout': true, 'v-disabled': isMobileDevice}"
+                >
                     <HorizontalSvg class="setting-svg" v-once />
                     <AIcon class="check-icon v-theme-color" type="check" v-show="!isVertical" />
                 </div>
@@ -38,7 +41,7 @@
             <ADivider />
         </div>
         <div class="setting-option-mb" v-if="!!themeList">
-            <h3 class="setting-title">主题风格</h3>
+            <h4 class="setting-title">主题风格</h4>
             <ul class="setting-theme v-to-zero">
                 <template v-for="item of themeList">
                     <ATooltip :key="item.name" :title="item.text">
@@ -88,7 +91,7 @@
 </template>
 
 <script>
-    import { mapState, mapMutations } from 'vuex';
+    import { mapState, mapGetters, mapMutations } from 'vuex';
     import LightMenuSvg from '@/assets/svg/lightMenu.svg?inline';
     import DarkMenuSvg from '@/assets/svg/darkMenu.svg?inline';
     import VerticalSvg from '@/assets/svg/vertical.svg?inline';
@@ -118,7 +121,8 @@
                 isFixedHeader: state => state.layout.isFixedHeader,
                 isFixedSider: state => state.layout.isFixedSider,
                 isMenuRight: state => state.layout.isMenuRight
-            })
+            }),
+            ...mapGetters('app', ['isMobileDevice'])
         },
         created () {
             this.setThemeList();

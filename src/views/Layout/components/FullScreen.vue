@@ -63,7 +63,9 @@
             });
         },
         beforeDestroy() {
-            document.removeEventListener(this.browser.listener, this.bindScreenToggle);
+            if (this.browser) {
+                document.removeEventListener(this.browser.listener, this.bindScreenToggle);
+            }
         },
         methods: {
             handleToggle () {

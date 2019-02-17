@@ -1,11 +1,13 @@
-<template>
-    <div :class="{'placeholder': isFixed}">
+<template functional>
+    <div :class="{'placeholder': props.isFixed}">
         <footer
-            :style="{width: `calc(100% - ${isFixed ?width : 0}px)`}"
-            :class="['footer', {'footer-fixed': isFixed}]"
+            :style="{width: `calc(100% - ${props.isFixed ? props.width : 0}px)`}"
+            :class="['footer', {'footer-fixed': props.isFixed}]"
         >
             <ALayoutFooter>
-                Copyright © 2018{{ nowYear > 2018 ? ' - ' + nowYear : null }} {{ $app.org }} All Rights Reserved
+                Copyright © 2018
+                {{ props.nowYear > 2018 ? ' - ' + props.nowYear : null }} {{ parent.$app.org }}
+                All Rights Reserved
             </ALayoutFooter>
         </footer>
     </div>
@@ -22,12 +24,11 @@
             width: {
                 type: Number,
                 default: 0
+            },
+            nowYear: {
+                type: Number,
+                default: new Date().getFullYear()
             }
-        },
-        data () {
-            return {
-                nowYear: new Date().getFullYear()
-            };
         }
     };
 </script>
@@ -38,6 +39,7 @@
         display: block;
         height: 28px;
     }
+
     .footer {
         text-align: center;
     }
@@ -47,6 +49,7 @@
         line-height: 2;
         bottom: 0;
         padding: 0;
+
         > div {
             padding: 0;
         }

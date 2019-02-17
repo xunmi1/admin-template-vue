@@ -31,10 +31,6 @@
                 default: 200
             }
         },
-        deactivated() {
-            console.log(1111);
-            this.onClose();
-        },
         methods: {
             onClose() {
                 this.$emit('change', true);
@@ -48,6 +44,7 @@
         .ant-drawer-body {
             padding: 0;
         }
+
         &-dark {
             .ant-drawer-content {
                 background-color: #001529;

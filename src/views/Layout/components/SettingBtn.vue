@@ -1,15 +1,11 @@
-<template>
+<template functional>
     <ATooltip title="界面设置">
-        <div class="setting v-icon-hover">
+        <div v-on="listeners" class="setting v-icon-hover">
             <AIcon type="setting" class="setting-icon" />
         </div>
     </ATooltip>
 </template>
-<script>
-    export default {
-        name: 'SettingBtn'
-    };
-</script>
+
 <style lang="less" scoped>
     .setting {
         display: inline-block;
