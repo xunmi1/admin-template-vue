@@ -3,9 +3,8 @@ export default {
         'paste lists advlist nonbreaking table autolink autosave link image imagetools charmap print preview anchor searchreplace code pagebreak insertdatetime wordcount fullscreen'
     ],
     menubar: 'file edit insert view format table',
-    toolbar_items_size: 'small',
     toolbar: 'undo redo restoredraft | fontselect fontsizeselect | bold italic forecolor backcolor underline | formatselect | alignleft aligncenter alignright alignjustify | bullist numlist | fullscreen',
-
+    mobile_phone_toolbar: 'undo redo bold italic underline  forecolor styleselect fontsizeselect bullist numlist removeformat link unlink image',
     language: 'zh_CN',
     max_height: 1000,
     min_height: 500,

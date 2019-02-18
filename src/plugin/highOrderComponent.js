@@ -6,10 +6,12 @@ export const wrappedEditor = function (component) {
         functional: true,
         render (h, context) {
             const prefix = `${ context.parent.$app.dbPrefix }-tinyMCE-autosave-${ (context.parent.$route.fullPath) }-`;
+            const store = context.parent.$store;
             const props = {
                 http: uploadImg,
                 autoSavePrefix: prefix,
-                skin: context.parent.$store.state.app.layout.menuTheme || 'light',
+                skin: store.state.app.layout.menuTheme || 'light',
+                isMobile: store.getters['app/isMobileDevice'],
                 ...(context.data.props || {}),
             };
             return h(component, { ...context.data, props }, context.children);

@@ -1,9 +1,12 @@
 <template>
     <div>
         <input :accept="fileAccept.join()" ref="fileNode" style="display: none" type="file">
-        <div :id="editorId" v-if="active">
-            <slot />
+        <div :style="{display: !visible ? 'none' : 'block'}">
+            <div :id="editorId" v-if="active">
+                <slot />
+            </div>
         </div>
+        <div v-html="value" :style="{display: visible ? 'none' : 'block'}"></div>
     </div>
 </template>
 
@@ -12,6 +15,7 @@
     // Import TinyMCE
     import tinymce from 'tinymce/tinymce';
     import 'tinymce/themes/silver';
+    import 'tinymce/themes/mobile';
     import 'tinymce/plugins/advlist';
     import 'tinymce/plugins/autosave';
     import 'tinymce/plugins/link';
@@ -32,33 +36,57 @@
     import 'tinymce/plugins/insertdatetime';
     import 'tinymce/plugins/wordcount';
     import 'tinymce/plugins/fullscreen';
+    import 'tinymce/plugins/quickbars';
 
     export default {
         props: {
             value: [String, Number],
-            config: Object,
-            http: Function,
-            imageAccept: { // 文件类型
-                type: Array,
-                default: () => ['image/*']
+            // 是否可见
+            visible: {
+                type: Boolean,
+                default: true
             },
-            fileAccept: {
-                type: Array,
-                default: () => ['.txt', '.docx', '.doc', '.xlsx', '.xls', '.csv', '.pptx', '.ppt', '.pdf', '.zip', '.rar', '.md']
-            },
-            maxSize: { // 图片大小
-                type: Number,
-                default: 52428800
-            },
-            type: {
+            // 模式 'default' | 'inline'
+            mode: {
                 type: String,
-                validator: value => ['standard', 'default'].includes(value),
+                validator: value => ['inline', 'default'].includes(value),
                 default: 'default'
             },
+            // 是否为手机端（在 mode = 'default'下，tinyMCE 会自动判断，这里是功能上调整）
+            isMobile: {
+                type: Boolean,
+                default: false
+            },
+            // 显示类型 ，可选 'word' | 'default'，'word': 模拟 word 显示方式（手机端无效）
+            type: {
+                type: String,
+                validator: value => ['word', 'default'].includes(value),
+                default: 'default'
+            },
+            // 皮肤，可选 'light' | 'dark'
             skin: {
                 type: String,
                 validator: value => ['light', 'dark'].includes(value),
                 default: 'light'
+            },
+            // 富文本配置项，会覆盖和并默认配置
+            config: Object,
+            // 上传 http 方法
+            http: Function,
+            // 图片接受类型
+            imageAccept: {
+                type: Array,
+                default: () => ['image/*']
+            },
+            // 文件接受类型
+            fileAccept: {
+                type: Array,
+                default: () => ['.txt', '.docx', '.doc', '.xlsx', '.xls', '.csv', '.pptx', '.ppt', '.pdf', '.zip', '.rar', '.md']
+            },
+            // 图片大小上限
+            maxSize: { // 图片大小
+                type: Number,
+                default: 52428800
             },
             // 图片验证规则
             imageRules: {
@@ -70,34 +98,47 @@
                 type: Array,
                 validator: rules => Array.isArray(rules) && rules.every(rule => typeof rule.validator === 'function')
             },
-            // 自动保存的本地存储的键名前缀
+            // 文本自动保存到 localStorage 的键名前缀
             autoSavePrefix: {
-                type: String
+                type: String,
+                default: 'tinymce-autosave-{path}{query}-{id}-'
             }
         },
         data () {
             return {
                 editorId: `editor${ Date.now() }${ Math.round(Math.random() * 1000) }`,
-                active: true
+                active: true,
+                isCreated: false
             };
+        },
+        watch: {
+            skin () {
+                this.updateEditor();
+            },
+            mode () {
+                this.updateEditor();
+            },
+            isMobile () {
+                this.updateEditor();
+            }
         },
         created () {
             this.setEditorStyle();
             this.option = this.getOptions();
+            this.updateSkin();
+            this.updateMode();
+            this.updateToolbar();
         },
         mounted () {
-            this.option.skin = this.getSkin();
-            this.createEditor(this.option);
-            this.hasCreated = true;
+            this.createEditor();
+            this.isCreated = true;
         },
-        // tinyMCE 不支持 vue 的组件缓存，因此再次进入或离开时，需重新创建或销毁
+        // tinyMCE 不支持 vue 的组件缓存，因此再次进入或离开时，需重新创建和销毁
         activated () {
-            if (this.hasCreated) {
-                this.hasCreated = false;
+            if (this.isCreated) {
+                this.isCreated = false;
             } else {
-                this.active = true;
-                this.option.skin = this.getSkin();
-                this.createEditor(this.option);
+                this.createEditor();
             }
         },
         deactivated () {
@@ -112,8 +153,7 @@
                 tinymce.suffix = '.min';
                 const setting = {
                     selector: `#${ this.editorId }`,
-                    content_style: this.editorStyle[this.type],
-                    autosave_prefix: this.autoSavePrefix || 'tinymce-autosave-{path}{query}-{id}-',
+                    autosave_prefix: this.autoSavePrefix,
                     setup: editor => {
                         editor.once('init', () => {
                             this.$emit('init', editor);
@@ -129,11 +169,33 @@
                 };
                 return { ...defaultConfig, ...setting, ...this.config };
             },
-            getSkin () {
-                return this.skin === 'light' ? 'oxide' : 'oxide-dark';
+            updateSkin () {
+                this.option.skin = this.skin === 'light' ? 'oxide' : 'oxide-dark';
             },
-            createEditor (option) {
-                this.$nextTick(() => tinymce.init(option));
+            updateMode () {
+                const isInline = this.mode === 'inline';
+                const plugins = this.option.plugins;
+                this.option.content_style = this.editorStyle[isInline ? 'default' : this.type];
+                this.option.inline = isInline;
+                this.option.toolbar = !isInline && defaultConfig.toolbar;
+                this.option.menubar = !isInline && defaultConfig.menubar;
+                if (isInline) plugins.push('quickbars');
+                else if (plugins[plugins.length - 1] === 'quickbars') plugins.pop();
+            },
+            updateToolbar () {
+                if (this.isMobile) {
+                    this.option.menubar = !this.isMobile;
+                    this.option.content_style = this.editorStyle.default;
+                    this.option.toolbar = defaultConfig.mobile_phone_toolbar;
+                } else {
+                    this.option.menubar = defaultConfig.menubar;
+                    this.option.content_style = this.editorStyle[this.type];
+                    this.option.toolbar = defaultConfig.toolbar;
+                }
+            },
+            createEditor () {
+                this.active = true;
+                this.$nextTick(() => tinymce.init(this.option));
             },
             destroyEditor () {
                 if (this.editor) {
@@ -141,9 +203,16 @@
                     this.editor.off();
                     this.editor.remove();
                     this.active = false;
+                    this.editor = null;
                 }
             },
-
+            updateEditor () {
+                this.destroyEditor();
+                this.updateSkin();
+                this.updateMode();
+                this.updateToolbar();
+                this.createEditor();
+            },
             handleFile (callback, value, meta) {
                 const fileNode = this.$refs.fileNode;
                 fileNode.onchange = () => {
@@ -230,7 +299,7 @@
                 // 附加自定义验证规则
                 rules.push(...this.fileRules || []);
                 const failRule = rules.find(rule => !rule.validator(blob));
-                return {result: !failRule, message: failRule && failRule.message};
+                return { result: !failRule, message: failRule && failRule.message };
             },
             validateImage (blob) {
                 const rules = [
@@ -246,7 +315,7 @@
                 // 附加自定义验证规则
                 rules.push(...this.imageRules || []);
                 const failRule = rules.find(rule => !rule.validator(blob));
-                return {result: !failRule, message: failRule && failRule.message};
+                return { result: !failRule, message: failRule && failRule.message };
             },
             bindEvent (editor) {
                 const events = [
@@ -281,7 +350,7 @@
                 const defaultStyle = `p {font-size: 14pt;font-family: FangSong; line-height: 1.5; margin: 0}`;
                 this.editorStyle = {
                     default: defaultStyle,
-                    standard: `
+                    word: `
                         html { background-color: #eee}
                         body {
                             width: 210mm;
