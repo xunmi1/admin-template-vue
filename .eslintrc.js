@@ -34,6 +34,16 @@ module.exports = {
             switchCase: 0,
             ignores: []
         }],
+        // 自定义组件、svg、MathML 没内容时自我闭合
+        "vue/html-self-closing": ["error", {
+            "html": {
+                "void": "never",
+                "normal": "any",
+                "component": "always"
+            },
+            "svg": "always",
+            "math": "always"
+        }],
         // 组件 prop 必须有默认值，没必要限制
         'vue/require-default-prop': 'off',
         'vue/singleline-html-element-content-newline': 'off',
@@ -46,7 +56,7 @@ module.exports = {
         'vue/no-shared-component-data': 'off',
         // 组件的属性必须为一定的顺序，方便阅读
         'vue/order-in-components': 'error',
-        'vue/eqeqeq': 'warning',
+        'vue/eqeqeq': 'error',
 
         // js 部分
         'indent': ['warn', 4],

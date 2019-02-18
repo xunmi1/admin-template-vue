@@ -31,6 +31,9 @@
                 default: 200
             }
         },
+        created() {
+            this.onClose();
+        },
         methods: {
             onClose() {
                 this.$emit('change', true);

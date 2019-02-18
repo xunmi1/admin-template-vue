@@ -156,15 +156,18 @@
             collapsed () {
                 [this.cacheOpenKeys, this.vertical.openKeys] = [this.vertical.openKeys, this.cacheOpenKeys];
             },
-            isMobileDevice (newVal) {
-                if (newVal) {
-                    this.cacheIsVertical = this.isVertical;
-                    this.$store.commit('app/setLayout', { isVertical: true });
-                    this.vertical.menuLayout = 'MenuDrawer';
-                } else {
-                    this.$store.commit('app/setLayout', { isVertical: this.cacheIsVertical });
-                    this.vertical.menuLayout = 'ALayoutSider';
-                }
+            isMobileDevice: {
+                handler(newVal) {
+                    if (newVal) {
+                        this.cacheIsVertical = this.isVertical;
+                        this.$store.commit('app/setLayout', { isVertical: true });
+                        this.vertical.menuLayout = 'MenuDrawer';
+                    } else {
+                        this.$store.commit('app/setLayout', { isVertical: this.cacheIsVertical });
+                        this.vertical.menuLayout = 'ALayoutSider';
+                    }
+                },
+                immediate: true
             }
         },
         created () {

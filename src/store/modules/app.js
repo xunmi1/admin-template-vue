@@ -24,7 +24,7 @@ export default {
                 return null;
             }
         },
-        isMobileDevice: ({ screenType }) => screenType.level < 4
+        isMobileDevice: ({ screenType }) => screenType.level < 3.8
     },
     mutations: {
         setLayout ({ layout }, data = {}) {

@@ -85,6 +85,22 @@ export function flatten (arr, depth = Infinity) {
 }
 
 /**
+ * 数组中删除指定元素
+ * @param arr 数组
+ * @param item 指定元素
+ * @return {Array} 删除后数组
+ */
+export function remove (arr, item) {
+    if (Array.isArray(arr) && item !== undefined) {
+        const _index = arr.indexOf(item);
+        if (_index < 0) return arr;
+        const _temp = [...arr];
+        _temp.splice(_index, 1);
+        return remove(_temp, item);
+    }
+}
+
+/**
  * 节流|防抖函数: 期间执行最后一次触发的函数
  * @param {Function} fn - 需要节流|防抖的函数
  * @param {number} [interval=0] - 间隔 ms, 默认 0
