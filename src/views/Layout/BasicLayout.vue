@@ -61,18 +61,16 @@
                 <Footer :width="isVertical ? siderWidth : 0" />
             </ALayout>
         </ALayout>
-        <Setting v-model="showSetting" />
+        <Setting v-if="showSetting" v-model="showSetting" />
     </div>
 </template>
 
 <script>
     import { mapState, mapGetters } from 'vuex';
     import screenMixin from './mixins/screenMixin';
-    import MenuDrawer from './components/MenuDrawer';
     import Logo from './components/Logo';
     import UserMenu from './components/UserMenu';
     import FullScreen from './components/FullScreen';
-    import Setting from './components/Setting';
     import SettingBtn from './components/SettingBtn';
     import Breadcrumb from './components/Breadcrumb';
     import Footer from './components/Footer';
@@ -80,12 +78,12 @@
     export default {
         name: 'BasicLayout',
         components: {
-            MenuDrawer,
+            MenuDrawer: () => import(/* webpackChunkName: "MenuDrawer" */'./components/MenuDrawer'),
+            Setting: () => import(/* webpackChunkName: "Setting" */'./components/Setting'),
             Logo,
             SettingBtn,
             UserMenu,
             FullScreen,
-            Setting,
             Breadcrumb,
             Footer
         },
@@ -157,7 +155,7 @@
                 [this.cacheOpenKeys, this.vertical.openKeys] = [this.vertical.openKeys, this.cacheOpenKeys];
             },
             isMobileDevice: {
-                handler(newVal) {
+                handler (newVal) {
                     if (newVal) {
                         this.cacheIsVertical = this.isVertical;
                         this.$store.commit('app/setLayout', { isVertical: true });

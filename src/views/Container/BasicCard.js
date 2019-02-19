@@ -1,6 +1,6 @@
 import { mapGetters } from 'vuex';
 
-export default (name, bool) => () => Promise.resolve({
+export default (name, bool = true) => ({
     name,
     render (h) {
         const keepAlive = h('KeepAlive',
@@ -15,7 +15,7 @@ export default (name, bool) => () => Promise.resolve({
             {
                 props: {
                     title: this.$route.meta.title,
-                    type: 'inner',
+                    type: 'inner'
                 }
             },
             [

@@ -1,4 +1,5 @@
-import basicCard from '@/views/Container/BasicCard';
+const basicCard = (...rest) => import('@/views/Container/BasicCard')
+    .then(module => module.default(...rest));
 
 export default [
     {
@@ -7,9 +8,9 @@ export default [
         redirect: 'BlankPage1/Test1',
         meta: {
             title: '测试1',
-            icon: 'pie-chart',
+            icon: 'pie-chart'
         },
-        component: basicCard('Page11', true),
+        component: () => basicCard('Page11'),
         children: [
             {
                 path: 'Test1',
@@ -25,10 +26,10 @@ export default [
                 name: 'Test12',
                 meta: {
                     title: '测试12',
-                    icon: 'smile',
+                    icon: 'smile'
                 },
-                component: () => import('@/views/BlankPage/Test2'),
+                component: () => import('@/views/BlankPage/Test2')
             }
         ]
     }
-]
+];

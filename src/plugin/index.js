@@ -1,8 +1,8 @@
 import Antd from 'ant-design-vue';
 
-import properties from './property';
-import * as methods from './method';
-import components from './component';
+import properties from './properties';
+import * as methods from './methods';
+import components from './components';
 
 // 为对象添加只读属性
 const addReadonlyProperty = function (obj, property, value) {

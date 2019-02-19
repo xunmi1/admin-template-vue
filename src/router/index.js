@@ -84,7 +84,7 @@ const checkFirstEnter =async function (to, from, next) {
         const token = db.get('token');
         store.commit('user/setToken', { token, remember: true });
         store.commit('user/setUserInfo', db.get('userInfo'));
-        await store.dispatch('user/getPermissions', {});
+        // await store.dispatch('user/getPermissions', {});
     }
     return true;
 };
