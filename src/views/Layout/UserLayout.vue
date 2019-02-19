@@ -28,6 +28,7 @@
         background-position: center;
         background-size: 100%;
     }
+
     .container >>> .ant-layout-footer {
         background: transparent;
     }

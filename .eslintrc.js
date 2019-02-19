@@ -31,7 +31,7 @@ module.exports = {
         }],
         'vue/script-indent': ['error', 4, {
             baseIndent: 1,
-            switchCase: 0,
+            switchCase: 1,
             ignores: []
         }],
         // 自定义组件、svg、MathML 没内容时自我闭合

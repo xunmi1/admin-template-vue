@@ -160,6 +160,7 @@
                         this.cacheIsVertical = this.isVertical;
                         this.$store.commit('app/setLayout', { isVertical: true });
                         this.vertical.menuLayout = 'MenuDrawer';
+                        this.collapsed = true;
                     } else {
                         this.$store.commit('app/setLayout', { isVertical: this.cacheIsVertical });
                         this.vertical.menuLayout = 'ALayoutSider';
@@ -234,6 +235,7 @@
     .vertical {
         .layout-sider {
             overflow-y: auto;
+            overflow-x: hidden;
             z-index: 2;
 
             .menu {

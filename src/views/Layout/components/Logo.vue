@@ -35,7 +35,7 @@
             isVertical: state => state.layout.isVertical
         }),
         watch: {
-            collapsed: function (newVal) {
+            collapsed (newVal) {
                 if (this.isVertical && newVal) {
                     this.title = null;
                 } else {

@@ -6,7 +6,12 @@ import components from './components';
 
 // 为对象添加只读属性
 const addReadonlyProperty = function (obj, property, value) {
-    Object.defineProperty(obj, property, { value, enumerable: true });
+    Object.defineProperty(obj, property, {
+        value,
+        configurable: false,
+        enumerable: true,
+        writable: false
+    });
 };
 
 const addProperties = function (value, obj, ...rest) {
