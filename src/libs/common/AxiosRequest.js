@@ -38,7 +38,7 @@ class AxiosRequest {
                 failHandler.handler();
             }
         }
-        return Promise.reject(error.response && error.response.data);
+        return Promise.reject(error && error.data);
     }
 
     static use (rules) {

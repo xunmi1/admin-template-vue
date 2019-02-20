@@ -3,9 +3,9 @@
         v-bind="$attrs"
         v-on="$listeners"
         :tag="tag"
-        :name="$listeners.name||'lazy-component'"
-        :enter-class="$listeners.enterClass||'lazy-component-enter lazy-component-'+orientation"
-        :leave-to-class="$listeners.leaveToClass||'lazy-component-leave-to lazy-component-'+orientation"
+        :name="$attrs.name||'lazy-component'"
+        :enter-class="$attrs.enterClass||'lazy-component-enter lazy-component-'+orientation"
+        :leave-to-class="$attrs.leaveToClass||'lazy-component-leave-to lazy-component-'+orientation"
         style="position: relative;"
     >
         <div v-if="isInit" key="component">

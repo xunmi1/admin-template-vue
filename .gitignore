@@ -14,6 +14,9 @@ yarn-error.log*
 # Package
 package-lock.json
 
+# Test
+coverage
+
 # Editor directories and files
 .idea
 .vscode

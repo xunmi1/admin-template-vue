@@ -1,8 +1,8 @@
 import { mount } from '@vue/test-utils';
-import Menu from '@/components/Menu/Menu';
-import SubMenu from '@/components/Menu/SubMenu';
+import Menu from '@c/Menu/Menu';
+import SubMenu from '@c/Menu/SubMenu';
 
-describe('Menu.vue', () => {
+describe('Menu', () => {
     it('renders SubMenu passed', () => {
         const menuData = [
             {

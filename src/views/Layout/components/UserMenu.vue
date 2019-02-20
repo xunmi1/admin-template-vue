@@ -5,24 +5,26 @@
                 <AAvatar
                     :size="36"
                     :src="avatar"
-                    :alt="nickName.slice(0, 5)"
+                    :alt="nickName.slice(0, 3)"
                     class="user-avatar v-theme-bg"
                 >
                     {{ nickName.slice(0, 5) }}
                 </AAvatar>
                 <span class="user-nickname">{{ nickName }}</span>
             </div>
-            <AMenu slot="overlay" class="user-menu">
-                <AMenuItem>
-                    <AIcon type="user" />
-                    个人设置
-                </AMenuItem>
-                <AMenuDivider />
-                <AMenuItem @click="logout">
-                    <AIcon type="logout" />
-                    退出登录
-                </AMenuItem>
-            </AMenu>
+            <template #overlay>
+                <AMenu class="user-menu">
+                    <AMenuItem>
+                        <AIcon type="user" />
+                        个人设置
+                    </AMenuItem>
+                    <AMenuDivider />
+                    <AMenuItem @click="logout">
+                        <AIcon type="logout" />
+                        退出登录
+                    </AMenuItem>
+                </AMenu>
+            </template>
         </ADropdown>
     </div>
 </template>

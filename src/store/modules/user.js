@@ -24,8 +24,8 @@ export default {
             db.set('token', token, config.token.expires * 1000);
             db.set('remember', remember);
         },
-        setUserInfo (state, userInfo) {
-            Object.keys(userInfo).forEach(key => state[key] = userInfo[key]);
+        setUserInfo (state, userInfo = {}) {
+            Object.entries(userInfo).forEach(([key, value]) => state[key] = value);
             db.set('userInfo', userInfo);
         }
     },
