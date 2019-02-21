@@ -40,6 +40,10 @@
     - body 详细描述，可以多行
     - footer 不兼容变动/ 关闭 issue
     - WebStorm 可以安装 git commit template 插件
+- 请开启 git 对文件名大小写的识别
+```git
+git config core.ignorecase false
+```
 - 禁止将本地开发中产生的无关文件夹、文件提交到 git 上, 例如: .vscode | .idea | \*debug.json 等
 ### Project setup
 ```
