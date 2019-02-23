@@ -39,6 +39,8 @@ jobs:
           command: vue-cli-service test:unit
 
   deploy:
+    machine:
+      enabled: true
     working_directory: ~/dist
     steps:
       - checkout
