@@ -68,6 +68,7 @@
 <script>
     import { mapState, mapGetters } from 'vuex';
     import screenMixin from './mixins/screenMixin';
+    import themeMixin from './mixins/themeMixin';
     import Logo from './components/Logo';
     import UserMenu from './components/UserMenu';
     import FullScreen from './components/FullScreen';
@@ -87,7 +88,7 @@
             Breadcrumb,
             Footer
         },
-        mixins: [screenMixin],
+        mixins: [screenMixin, themeMixin],
         data () {
             return {
                 // 菜单列表

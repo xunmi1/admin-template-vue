@@ -62,12 +62,8 @@ const themeMixin = {
                 return;
             }
             window.less.modifyVars(theme.variables)
-                .then(() => {
-                    this.$_theme_updateClass(newTheme);
-                })
-                .catch(() => {
-                    this.$message.error('主题更换失败！');
-                });
+                .then(() => this.$_theme_updateClass(newTheme))
+                .catch(() => this.$message.error('主题更换失败！'));
         },
         $_theme_updateClass (newClass) {
             // 由于防抖，实际 DOM 上旧 class 已无法获知, 因此循环移除

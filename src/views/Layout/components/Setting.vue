@@ -96,7 +96,7 @@
     import DarkMenuSvg from '@/assets/svg/darkMenu.svg?inline';
     import VerticalSvg from '@/assets/svg/vertical.svg?inline';
     import HorizontalSvg from '@/assets/svg/horizontal.svg?inline';
-    import themeMixin, { themeListMixin } from '../mixins/themeMixin';
+    import { themeListMixin } from '../mixins/themeMixin';
 
     export default {
         name: 'Setting',
@@ -106,7 +106,6 @@
             VerticalSvg,
             HorizontalSvg
         },
-        mixins: [themeMixin],
         model: {
             prop: 'visible',
             event: 'change'
@@ -120,7 +119,8 @@
                 isVertical: state => state.layout.isVertical,
                 isFixedHeader: state => state.layout.isFixedHeader,
                 isFixedSider: state => state.layout.isFixedSider,
-                isMenuRight: state => state.layout.isMenuRight
+                isMenuRight: state => state.layout.isMenuRight,
+                theme: state => state.layout.theme
             }),
             ...mapGetters('app', ['isMobileDevice'])
         },
