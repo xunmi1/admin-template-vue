@@ -1,22 +1,16 @@
-# Javascript Node CircleCI 2.0 configuration file
 #
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
 version: 2.1
 jobs:
-  build:
+  deploy:
     docker:
-      # specify the version you desire here
       - image: circleci/node:latest
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/mongo:3.4.4
-
     working_directory: ~/repo
-
     steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "41:29:b8:1e:f9:f1:94:19:35:e8:22:19:36:92:36:d9"
       - checkout
       - restore_cache:
           keys:
@@ -32,27 +26,31 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
+      - run:
+          name: build app
+          command: npm run build
+      - run: mkdir ant-system
+      - run: mv dist ant-system
+      - run: rm -rf README.md package-lock.json vue.config.js jest.config.js package.json babel.config.js postcss.config.js .eslintrc.js .browserslistrc public src tests .git .circleci
+      - run: ls -a
+      - run: git init
+      - run: git remote add origin https://github.com/xunmi1/xunmi1.github.io.git
+      - run: git config --global user.email "xunmi1@outlook.com"
+      - run: git config --global user.name "xunmi"
 
-  deploy:
-    machine:
-      enabled: true
-    working_directory: ~/dist
-    steps:
-      - checkout
+      - run: git add .
+
+      - run: git commit -m "Update ant-system"
+      - run: ls -a
       - run:
           name: Deploy Master to github.io
-          command: git push https://github.com/xunmi1/xunmi1.github.io.git master
+          command: git push -f origin master
 
 workflows:
   version: 2.1
-  build-and-deploy:
+  deploy:
     jobs:
-      - build
       - deploy:
-          requires:
-            - build
           filters:
             branches:
               only: master
-
-
