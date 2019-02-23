@@ -36,4 +36,26 @@ jobs:
       # run tests!
       - run:
           name: test
-          command: npm run test:unit
+          command: vue-cli-service test:unit
+
+  deploy:
+    working_directory: ~/dist
+    steps:
+      - checkout
+      - run:
+          name: Deploy Master to github.io
+          command: git push https://github.com/xunmi1/xunmi1.github.io.git master
+
+workflows:
+  version: 2.1
+  build-and-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
+
+
