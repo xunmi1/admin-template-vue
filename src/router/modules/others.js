@@ -1,3 +1,5 @@
+import config from '@/config';
+
 export default [
     {
         path: '/user',
@@ -11,8 +13,7 @@ export default [
         children: [
             {
                 path: 'login',
-                name: 'login',
-                alias: '/login',
+                name: config.loginName,
                 meta: {
                     title: '用户登录',
                     notAuth: true,

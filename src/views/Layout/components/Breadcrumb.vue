@@ -1,9 +1,9 @@
 <template>
     <ABreadcrumb :routes="routes" class="breadcrumb">
         <template #itemRender="{route}">
-            <span v-if="routes.indexOf(route) === routes.length - 1">
+            <a v-if="routes.indexOf(route) === routes.length - 1">
                 {{ route.meta.title }}
-            </span>
+            </a>
             <RouterLink v-else :to="route">
                 {{ route.meta.title }}
             </RouterLink>
@@ -31,7 +31,7 @@
         methods: {
             findOpenRoute (menu) {
                 return menu.some(item => {
-                    this.routes.push(item);
+                    this.routes.push({ ...item, path: item.name });
                     if (item.name === this.$route.name) {
                         return true;
                     }
