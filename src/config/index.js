@@ -21,6 +21,8 @@ const config = deepFreeze({
         development: 'https://lanaya.xycc.love/api/',
         production: ''
     },
+    // api 接口版本
+    apiVersion: '',
     /** @description token 验证
      * position:  token 放置位置
      * key token 键名

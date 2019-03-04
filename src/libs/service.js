@@ -35,8 +35,28 @@ class MyRequest extends AxiosRequest {
     setToken (token) {
         this.tokenConfig = {
             ...config.token,
-            value: token ? `Bearer ${ token }` : null
+            value: token ? config.token.value.replace('TOKEN', token) : null
         };
+    }
+
+    /**
+     * 重写 request 方法
+     * 加上 api 版本判断， data.notVersion=false, 加上 api 版本号
+     * @param {Object} option - 请求配置信息
+     * @param {string} option.url - 请求配置信息
+     * @param {boolean} [option.notVersion=false] - 是否含有 api 版本号
+     * @param {Object} [option.params] -  URL 参数
+     * @param {Object} [option.data] - 请求体参数
+     * @param {'get'|'post'|'put'|'patch'|'delete'|'head'} [option.method='get'] - 请求方法类型
+     * @param {*} [option.cancelToken] - 取消请求令牌
+     * @return {Promise} - 包含响应数据的 Promise
+     */
+    request (option = {}) {
+        const url = option.url[0] === '/' ? option.url : '/' + option.url;
+        if (!option.notVersion) {
+            option.url = config.apiVersion + url;
+        }
+        return super.request(option);
     }
 }
 

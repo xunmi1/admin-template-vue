@@ -45,7 +45,7 @@
             // 窗口检验的阀值，仅 viewport 未设置时可使用 '%'
             threshold: {
                 type: String,
-                default: '36px'
+                default: '24px'
             },
             // 待加载组件所在方位，默认 'bottom': 位于下方
             // 会影响动画方向和窗口检测
@@ -58,7 +58,9 @@
             maxWaitingTime: {
                 type: Number,
                 default: 120
-            }
+            },
+            // 是否阻止切换组件切换
+            stop: Boolean,
         },
         data () {
             return {
@@ -102,7 +104,7 @@
             intersectionHandler (entries, observer) {
                 if (entries[0].isIntersecting || entries[0].intersectionRatio) {
                     this.init();
-                    observer.unobserve(this.$el);
+                    if (!this.stop) observer.unobserve(this.$el);
                 }
             },
             // 处理组件和骨架组件的切换
@@ -113,7 +115,7 @@
                 // 由于函数会在主线程中执行，加载懒加载组件非常耗时，容易卡顿
                 // 所以在requestAnimationFrame回调中延后执行
                 this.requestAnimationFrame(() => {
-                    this.isInit = true;
+                    this.isInit = !this.stop;
                     this.$emit('init', true);
                 });
             },
