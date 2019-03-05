@@ -26,13 +26,15 @@ const config = deepFreeze({
     /** @description token 验证
      * position:  token 放置位置
      * key token 键名
+     * value: 值模板，`TOKEN` 将替换为真实 token
      * expires 有效期, 单位: s
      */
     token: {
         // 'headers' | 'params' | 'data'
         position: 'headers',
         key: 'Authorization',
-        expires: 36500 * 24 * 3600
+        value: 'Bearer TOKEN',
+        expires: 7 * 24 * 3600
     },
     /**
      * @description 登录页路由 name 值，默认为 'Login'
