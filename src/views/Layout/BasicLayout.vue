@@ -76,6 +76,9 @@
     import Breadcrumb from './components/Breadcrumb';
     import Footer from './components/Footer';
 
+    const getMenuChildren = children =>
+        Array.isArray(children) && children.filter(item => !(item.meta && item.meta.hideInMenu));
+
     export default {
         name: 'BasicLayout',
         components: {
@@ -181,28 +184,20 @@
             setMenuList () {
                 const mainRoute = this.$router.options.routes.find(i => i.name === this.$app.mainName);
                 if (mainRoute && Array.isArray(mainRoute.children)) {
-                    this.menuList = this.depthFilterMenu(mainRoute.children);
+                    this.menuList = this.getMenu(mainRoute.children);
                 }
             },
-            depthFilterMenu (source) {
-                return source
-                    .filter(item => !(item.meta && item.meta.hideInMenu))
-                    .map(item => {
-                        let _temp = {};
-                        if (item.meta) {
-                            _temp.title = item.meta.title;
-                            _temp.icon = item.meta.icon;
-                        }
-                        _temp.key = item.name;
-                        if (Array.isArray(item.children) && item.children.length) {
-                            _temp.children = this.depthFilterMenu(item.children);
-                            // 当子级只有一个模块，将其提升一级并覆盖
-                            if (_temp.children.length === 1) {
-                                _temp = _temp.children[0];
-                            }
-                        }
-                        return _temp;
-                    });
+            getMenu (source) {
+                return source.map(item => {
+                    let _temp = { ...(item.meta || {}), key: item.name };
+                    const children = getMenuChildren(item.children);
+                    if (children && children.length) {
+                        _temp.children = this.getMenu(children);
+                        // 当子级只有一个模块，将其提升一级并覆盖
+                        if (_temp.children.length === 1) _temp = _temp.children[0];
+                    }
+                    return _temp;
+                });
             },
             // 设置当前页面在菜单中，从顶层到上一层的路径
             setOpenKeys (menu) {
