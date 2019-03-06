@@ -26,4 +26,4 @@ export default (name, bool = true) => ({
     computed: {
         ...mapGetters('app', ['getAlive'])
     }
-})
+});

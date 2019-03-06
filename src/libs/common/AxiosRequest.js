@@ -75,9 +75,7 @@ class AxiosRequest {
                 config[this.tokenConfig.position][this.tokenConfig.key] = this.tokenConfig.value;
             }
             return config;
-        }, error => {
-            return Promise.reject(error);
-        });
+        }, error => Promise.reject(error));
         // 响应拦截
         instance.interceptors.response.use(res => {
             // res.status 为 2** 进入这里
@@ -86,7 +84,7 @@ class AxiosRequest {
         }, error => {
             this.destroy(url);
             if (error.constructor.name === 'Cancel') {
-                return Promise.reject(error)
+                return Promise.reject(error);
             }
             return AxiosRequest.handlerError(error);
         });

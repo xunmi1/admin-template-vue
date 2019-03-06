@@ -50,9 +50,7 @@ export default {
         },
         getPermissions ({ state }) {
             return getPermissions({ userId: state.userId })
-                .then(res => {
-                    return Promise.resolve(res);
-                });
+                .then(res => Promise.resolve(res));
         }
     }
 };

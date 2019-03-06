@@ -11,7 +11,7 @@ export function login (data, cancelToken) {
             method: 'post',
             cancelToken,
         });
-    } else{
+    } else {
         return Promise.reject('missing parameter');
     }
 }
@@ -22,7 +22,7 @@ export function getPermissions (data) {
             url: 'getPermissions',
             params: data
         });
-    } else{
+    } else {
         return Promise.reject('missing parameter');
     }
 }

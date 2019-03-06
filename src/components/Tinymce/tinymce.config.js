@@ -19,7 +19,7 @@ export default {
     branding: false,                          // 禁止右下角标识
     image_advtab: true,                       // 自动上传图片
     autosave_interval: '20s',                 // 自动保存时长
-    autosave_retention: "40m",                // 本地存储时间上限
+    autosave_retention: '40m',                // 本地存储时间上限
     pagebreak_split_block: true,              // 分页符
     file_picker_types: 'file image media',    // 文件上传的类型（将开启浏览本地文件的选项）
     font_formats: `

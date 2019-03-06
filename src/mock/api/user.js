@@ -14,13 +14,13 @@ const login = {
             return {
                 info:user,
                 access_token: '8dfhassad0asdjwoeiruty'
-            }
+            };
         } else {
             return {
                 code: 422,
                 msg: '失败',
                 errors: {}
-            }
+            };
         }
     }
 };
@@ -36,7 +36,7 @@ const getPermissions = {
                     Test11: true,
                     Test12: false,
                 }
-            }
+            };
         }
     }
 };
@@ -47,11 +47,11 @@ const uploadImg = {
     handler(req) {
         return {
             data: req.body.get('image')
-        }
+        };
     }
 };
 export default [
     login,
     getPermissions,
     uploadImg
-]
+];

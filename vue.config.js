@@ -2,9 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const AntDesignThemePlugin = require('antd-theme-webpack-plugin');
-const resolve = dir => {
-    return path.join(__dirname, dir);
-};
+const resolve = dir => path.join(__dirname, dir);
 
 // 复制 tinymce 所需的静态资源
 const copyOptions = [

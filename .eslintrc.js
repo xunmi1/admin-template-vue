@@ -35,14 +35,14 @@ module.exports = {
             ignores: []
         }],
         // 自定义组件、svg、MathML 没内容时自我闭合
-        "vue/html-self-closing": ["error", {
-            "html": {
-                "void": "never",
-                "normal": "any",
-                "component": "always"
+        'vue/html-self-closing': ['error', {
+            'html': {
+                'void': 'never',
+                'normal': 'any',
+                'component': 'always'
             },
-            "svg": "always",
-            "math": "always"
+            'svg': 'always',
+            'math': 'always'
         }],
         // 组件 prop 必须有默认值，没必要限制
         'vue/require-default-prop': 'off',
@@ -56,6 +56,8 @@ module.exports = {
         'vue/no-shared-component-data': 'off',
         // 组件的属性必须为一定的顺序，方便阅读
         'vue/order-in-components': 'error',
+        // 组件的标签属性按照一定的顺序
+        'vue/attributes-order': 'warning',
         'vue/eqeqeq': 'error',
 
         // js 部分
@@ -65,7 +67,7 @@ module.exports = {
         // 都 new Date().getFullYear() 年了，禁止使用 var ！！！
         'no-var': 'error',
         // 必须使用 === 或 !==， 除非比较 null
-        'eqeqeq': ["error", "always", {"null": "ignore"}],
+        'eqeqeq': ['error', 'always', { 'null': 'ignore' }],
         'for-direction': 'error',
         'no-invalid-regexp': 'error',
         // 禁止使用特殊空白符
@@ -80,7 +82,7 @@ module.exports = {
         // 禁止函数的循环复杂度超过 20, 例如连续 20 个 if 判断
         'complexity': 'error',
         // 禁止使用位运算符，除非 !!
-        'no-implicit-coercion': ['error', { "allow": ["!!"] } ],
+        'no-implicit-coercion': ['error', { 'allow': ['!!'] }],
         'no-labels': 'error',
         'no-new-func': 'error',
         // 禁止在 if 中声明函数
@@ -101,7 +103,36 @@ module.exports = {
         // 禁止无用的表达式
         'no-unused-expressions': 'error',
         // 定义过的变量必须使用
-        'no-unused-vars': 'error'
+        'no-unused-vars': 'error',
+        // 属性方法缩写
+        'object-shorthand': 'warn',
+        // 单引号
+        'quotes': ['error', 'single'],
+        // 禁止不必要的转义
+        'no-useless-escape': 'error',
+        // 箭头函数参数只有一个时，省略 ()
+        'arrow-parens': ['warn', 'as-needed'],
+        // 箭头函数的函数体只有一句时，省略 {}
+        'arrow-body-style': 'warn',
+        // 使用 . 而不是 []
+        'dot-notation': 'error',
+        // 避免使用简单的三元运算符
+        'no-unneeded-ternary': 'error',
+        // 复杂运算加括号
+        'no-mixed-operators': 'warn',
+        // 块之前需要空格
+        'space-before-blocks': 'warn',
+        // if while 括号前后需要空格
+        'keyword-spacing': 'error',
+        // 运算符需要空格
+        'space-infix-ops': 'error',
+        // () [] 内两侧禁止空格
+        'space-in-parens': ['error', 'never'],
+        'array-bracket-spacing': ['error', 'never'],
+        // 句尾分号
+        'semi': 'error',
+        // 禁止 new String Boolean 等
+        'no-new-wrappers': 'error',
     },
     overrides: [
         {

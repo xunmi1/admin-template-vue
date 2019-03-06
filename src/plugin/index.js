@@ -35,7 +35,7 @@ const addComponents = function (value, obj) {
 };
 
 export default {
-    install: async function (Vue) {
+    async install (Vue) {
         Vue.use(Antd);
 
         // 扩展属性

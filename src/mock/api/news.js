@@ -5,9 +5,9 @@ const articles = {
     handler() {
         return {
             data: []
-        }
+        };
     }
 };
 export default [
     articles
-]
+];

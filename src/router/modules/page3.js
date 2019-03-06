@@ -8,4 +8,4 @@ export default [
         },
         component: () => import(/* webpackChunkName: "Test" */ '@/views/BlankPage/Test'),
     }
-]
+];

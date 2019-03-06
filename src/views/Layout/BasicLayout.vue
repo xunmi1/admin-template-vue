@@ -62,6 +62,7 @@
             </ALayout>
         </ALayout>
         <Setting v-if="showSetting" v-model="showSetting" />
+        <BackTop />
     </div>
 </template>
 
@@ -75,6 +76,7 @@
     import SettingBtn from './components/SettingBtn';
     import Breadcrumb from './components/Breadcrumb';
     import Footer from './components/Footer';
+    import BackTop from './components/BackTop';
 
     const getMenuChildren = children =>
         Array.isArray(children) && children.filter(item => !(item.meta && item.meta.hideInMenu));
@@ -89,7 +91,8 @@
             UserMenu,
             FullScreen,
             Breadcrumb,
-            Footer
+            Footer,
+            BackTop
         },
         mixins: [screenMixin, themeMixin],
         data () {
@@ -115,7 +118,9 @@
                 // 垂直布局下，菜单收缩，将展开的菜单选项缓存，再次打开后恢复
                 cacheOpenKeys: [],
                 // 因屏幕调整引起的布局切换，保存之前的布局方向
-                cacheIsVertical: true
+                cacheIsVertical: true,
+                // 手动点击跳转和路由的跳转，互斥
+                isOpenKeysLock: false
             };
         },
         computed: {
@@ -133,7 +138,7 @@
             // 侧边栏宽度
             siderWidth () {
                 const minWidth = this.isMobileDevice ? 0 : 80;
-                const maxWidth = 120 + Math.max(this.screenLevelMixin, 5) * 16;
+                const maxWidth = (Math.max(this.screenLevelMixin, 5) * 16) + 120;
                 return this.collapsed ? minWidth : maxWidth;
             },
             // 垂直布局下侧边菜单伸缩，引起的右侧结构 marginLeft 伸缩变化
@@ -150,6 +155,8 @@
             '$route.name': {
                 handler (newVal) {
                     this.currentName.splice(0, 1, newVal);
+                    // 解锁, 减少没必要的计算
+                    if (this.isOpenKeysLock) return this.isOpenKeysLock = false;
                     this.setOpenKeys(this.menuList);
                     this.vertical.openKeys = this.$util.unique(this.vertical.openKeys);
                 }
@@ -180,6 +187,8 @@
         methods: {
             pushRouter ({ key }) {
                 this.$router.push({ name: key });
+                // 上锁
+                this.isOpenKeysLock = true;
             },
             setMenuList () {
                 const mainRoute = this.$router.options.routes.find(i => i.name === this.$app.mainName);

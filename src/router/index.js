@@ -51,7 +51,7 @@ const addAlive = function (to) {
                 Object.keys(own.components).forEach(key => {
                     // 注意： 父级组件不支持多个 router-view
                     store.commit('app/addAlive', {
-                        page: parent.components['default'].name,
+                        page: parent.components.default.name,
                         type: key,
                         alive: own.components[key].name
                     });
@@ -75,7 +75,7 @@ const checkTokenValid = function (to, from, next) {
     return token || next({ name: config.loginName });
 };
 
-const checkFirstEnter =async function (to, from, next) {
+const checkFirstEnter = async function (to, from, next) {
     if (!store.state.user.token) {
         const remember = db.get('remember');
         if (!remember) {

@@ -18,8 +18,8 @@ function autoWidth (ws, data) {
     let result = colWidth[0];
     for (let i = 1; i < colWidth.length; i++) {
         for (let j = 0; j < colWidth[i].length; j++) {
-            if (result[j]['wch'] < colWidth[i][j]['wch']) {
-                result[j]['wch'] = colWidth[i][j]['wch'];
+            if (result[j].wch < colWidth[i][j].wch) {
+                result[j].wch = colWidth[i][j].wch;
             }
         }
     }
@@ -87,7 +87,7 @@ export function toXlsx ({ dataSource, columns, filename }) {
  * @return {{header: Array, results: any[] | any[][]}}
  */
 export function read (data, type) {
-    const workbook = XLSX.read(data, { type: type });
+    const workbook = XLSX.read(data, { type });
     const firstSheetName = workbook.SheetNames[0];
     const worksheet = workbook.Sheets[firstSheetName];
     const header = getHeaderRow(worksheet);

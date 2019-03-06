@@ -10,7 +10,7 @@
         data() {
             return {
                 content: '12345',
-            }
+            };
         },
         created() {
             setTimeout(() => {

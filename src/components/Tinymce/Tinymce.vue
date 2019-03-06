@@ -347,7 +347,7 @@
                 }
             },
             setEditorStyle () {
-                const defaultStyle = `p {font-size: 14pt;font-family: FangSong; line-height: 1.5; margin: 0}`;
+                const defaultStyle = 'p {font-size: 14pt;font-family: FangSong; line-height: 1.5; margin: 0}';
                 this.editorStyle = {
                     default: defaultStyle,
                     word: `

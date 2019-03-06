@@ -17,11 +17,14 @@
         data() {
             return {
                 locale: zh_CN
-            }
+            };
         }
     };
 </script>
 
 <style lang="less">
     @import "./assets/style/index.less";
+    body {
+        overflow-y: scroll;
+    }
 </style>
