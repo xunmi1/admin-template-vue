@@ -39,9 +39,9 @@ const config = deepFreeze({
     /**
      * @description 登录页路由 name 值，默认为 'Login'
      */
-    loginName: 'login',
+    loginName: 'Login',
     // 主体页面的 name 值，用于生成 menu 导航菜单
-    mainName: 'main',
+    mainName: 'Main',
     // 本地存储前缀标识，建议不同系统自定义配置
     dbPrefix: 'newSystem',
     // 组织/公司/个人， 用于 footer

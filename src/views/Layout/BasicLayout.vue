@@ -322,7 +322,7 @@
     }
 
     .layout-main-content {
-        margin: 12px 12px 0;
+        margin: 16px 16px 0;
         overflow: initial;
         @media screen and (max-width: 992px) {
             margin: 12px 0 0;

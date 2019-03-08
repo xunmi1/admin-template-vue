@@ -247,9 +247,7 @@
                     this.failAlert(valid.message);
                     return;
                 }
-                const formData = new FormData();
-                formData.append('file', file);
-                this.http(formData)
+                this.http(file)
                     .then(res => {
                         callback('', { title: file.name });
                         this.$emit('success', res);
@@ -272,12 +270,10 @@
                         return;
                     }
                 }
-                const formData = new FormData();
-                formData.append('image', blob);
-                this.http(formData)
+                this.http({file: blob})
                     .then(res => {
-                        success('图片地址');
-                        this.$emit('success', res);
+                        success(res.path);
+                        this.$emit('success', res.path);
                     })
                     .catch(err => {
                         this.$emit('error', { type: 'uplaod', message: err });

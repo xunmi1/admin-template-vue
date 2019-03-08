@@ -1,29 +1,15 @@
 import XLSX from 'xlsx';
 
 function autoWidth (ws, data) {
-    /*set worksheet max width per col*/
     const colWidth = data.map(row => row.map(val => {
-        /*if null/undefined*/
-        if (val == null) {
-            return { 'wch': 10 };
-        }
+        const _val = String(val);
+        if (!_val) return { wch: 10 };
         /*if chinese*/
-        else if (val.toString().charCodeAt(0) > 255) {
-            return { 'wch': val.toString().length * 2 };
-        } else {
-            return { 'wch': val.toString().length };
-        }
+        const length = (_val.match(/[\u3220-\uFA29]/g) || []).length;
+        return { wch: _val.length + length };
     }));
     /*start in the first row*/
-    let result = colWidth[0];
-    for (let i = 1; i < colWidth.length; i++) {
-        for (let j = 0; j < colWidth[i].length; j++) {
-            if (result[j].wch < colWidth[i][j].wch) {
-                result[j].wch = colWidth[i][j].wch;
-            }
-        }
-    }
-    ws['!cols'] = result;
+    ws['!cols'] = colWidth[0].map((col, index) => ({ wch: Math.max(...colWidth.map(i => i[index].wch)) }));
 }
 
 function getValues (keys, jsonData) {
@@ -67,10 +53,14 @@ export function jsonToXlsx ({ key, data, title, filename }) {
  * 组件 table 数据导出
  * @param {Object[]} dataSource - 数据数组
  * @param {Object[]} columns - 列描述数据对象
- * @param {string} filename - 文件名
+ * @param {string} [filename=Date.now()] - 文件名
  */
-export function toXlsx ({ dataSource, columns, filename }) {
-    const { key, title } = columns.map(i => ({ key: i.dataIndex, title: i.title }));
+export function toXlsx ({ dataSource, columns, filename = String(Date.now()) }) {
+    const { key, title } = columns.reduce((obj, value) => {
+        obj.key.push(value.key || value.dataIndex);
+        obj.title.push(value.title);
+        return obj;
+    }, { key: [], title: [] });
     const wb = XLSX.utils.book_new();
     const arr = getValues(key, dataSource);
     arr.unshift(title);
