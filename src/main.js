@@ -4,6 +4,7 @@ import App from './App.vue';
 import plugin from './plugin';
 import router from './router';
 import store from './store';
+import './serviceWorker/register';
 
 Vue.config.productionTip = false;
 // 开启后可观察组件性能

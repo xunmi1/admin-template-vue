@@ -24,7 +24,7 @@ const themeOptions = {
     indexFileName: './public/index.html',
     generateOnce: false
 };
-const isProduction =  process.env.NODE_ENV === 'production';
+const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = {
     runtimeCompiler: true,
@@ -45,6 +45,27 @@ module.exports = {
     devServer: {
         port: 8888
     },
+    // https://github.com/vuejs/vue-docs-zh-cn/blob/master/vue-cli-plugin-pwa/README.md
+    pwa: {
+        themeColor: '#002140',
+        appleMobileWebAppCapable: 'yes',
+        appleMobileWebAppStatusBarStyle: 'black',
+        iconPaths: {
+            favicon32: 'logo/fire.svg',
+            favicon16: 'logo/fire.svg',
+            appleTouchIcon: 'logo/fire.svg',
+            maskIcon: 'logo/fire.svg',
+            msTileImage: 'logo/fire.svg'
+        },
+        workboxPluginMode: 'InjectManifest',
+        workboxOptions: {
+            importWorkboxFrom: 'cdn',
+            swDest: 'service-worker.js',
+            swSrc: 'src/serviceWorker/service-worker.js',
+            maximumFileSizeToCacheInBytes: 6291456
+        },
+        name: 'new-system'
+    },
 
     configureWebpack: {
         plugins: [
@@ -60,11 +81,9 @@ module.exports = {
         config.resolve.alias.set('@c', resolve('src/components'));
 
         const entry = config.entry('app');
-        // 判断环境加入模拟数据
-        if (!isProduction) {
-            entry.add('@/mock').end();
-        }
-
+        // 判断环境加入模拟数据(用于演示，这里不判断)
+        // if (!isProduction) entry.add('@/mock').end();
+        entry.add('@/mock').end();
         // 修改针对 svg 的 loader (file-loader -> vue-svg-loader)
         // 当引入 svg 文件加入`?inline`后缀时, 会处理成 vue 组件
         const svgRule = config.module.rule('svg');
