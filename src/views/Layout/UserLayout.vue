@@ -23,9 +23,7 @@
 <style scoped>
     .container {
         min-height: 100vh;
-        background-image: url(../../assets/svg/backgroundImage.svg);
-        background-repeat: no-repeat;
-        background-position: center;
+        background: rgb(240, 242, 245) url(../../assets/svg/backgroundImage.svg) no-repeat center;
         background-size: 100%;
     }
 

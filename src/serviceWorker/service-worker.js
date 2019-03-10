@@ -3,17 +3,20 @@
 
 workbox.core.setCacheNameDetails({
     prefix: 'new-system',
-    suffix: 'v0.0.1'
+    suffix: 'v1.0.2'
 });
 workbox.clientsClaim();
 workbox.precaching.suppressWarnings();
+
 // 缓存打包后的静态文件
 workbox.precaching.precacheAndRoute(self.__precacheManifest || [], {});
 
 /**
+ * 缓存策略
  * networkFirst 网络优先的策略
  */
 workbox.routing.registerRoute(/\/api\//, workbox.strategies.networkFirst());
+workbox.routing.registerRoute(new RegExp('/color.less'), workbox.strategies.staleWhileRevalidate());
 
 self.addEventListener('install', () => {
     self.skipWaiting();
@@ -25,10 +28,9 @@ self.addEventListener('message', event => {
     const message = event.data;
     if (replyPort && message && message.type === 'skip-waiting') {
         event.waitUntil(
-            self.skipWaiting().then(
-                () => replyPort.postMessage({ error: null }),
-                error => replyPort.postMessage({ error })
-            )
+            self.skipWaiting()
+                .then(() => replyPort.postMessage({ error: null }))
+                .catch(error => replyPort.postMessage({ error }))
         );
     }
 });

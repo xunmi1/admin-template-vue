@@ -164,13 +164,13 @@
 
 <style lang="less" scoped>
     .header {
-        margin: 104px 0 64px;
+        margin: 24vh 0 64px;
         @media screen {
             @media (max-width: 1600px) {
-                margin: 88px 0 56px;
+                margin: 18vh 0 56px;
             }
             @media (max-width: 576px) {
-                margin: 48px 0 24px;
+                margin: 18vh 0 36px;
             }
         }
 
@@ -194,7 +194,7 @@
         width: 368px;
         margin: 0 auto;
         @media screen and (max-width: 576px) {
-            width: 84%;
+            width: 94%;
         }
 
         &-forgot {

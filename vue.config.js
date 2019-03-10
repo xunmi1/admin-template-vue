@@ -61,8 +61,7 @@ module.exports = {
         workboxOptions: {
             importWorkboxFrom: 'cdn',
             swDest: 'service-worker.js',
-            swSrc: 'src/serviceWorker/service-worker.js',
-            maximumFileSizeToCacheInBytes: 6291456
+            swSrc: 'src/serviceWorker/service-worker.js'
         },
         name: 'new-system'
     },
