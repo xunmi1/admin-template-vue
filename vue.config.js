@@ -1,7 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 const AntDesignThemePlugin = require('antd-theme-webpack-plugin');
+
 const resolve = dir => path.join(__dirname, dir);
 
 // 复制 tinymce 所需的静态资源
@@ -70,7 +70,6 @@ module.exports = {
         plugins: [
             // antd 使用，精简 moment.js, 语言包只保留 zh-cn.js
             new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh-cn/),
-            new CopyWebpackPlugin(copyOptions),
             new AntDesignThemePlugin(themeOptions)
         ]
     },
@@ -78,7 +77,9 @@ module.exports = {
     // 默认设置: https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-service/lib/config/base.js
     chainWebpack: config => {
         config.resolve.alias.set('@c', resolve('src/components'));
-
+        // 修改 copy-webpack-plugin (modern 模式只会在第二次打包时复制，因此需要判断)
+        const hasCopy = config.plugins.has('copy');
+        if (hasCopy) config.plugin('copy').tap(args => [args[0].concat(copyOptions)]);
         const entry = config.entry('app');
         // 判断环境加入模拟数据(用于演示，这里不判断)
         // if (!isProduction) entry.add('@/mock').end();
