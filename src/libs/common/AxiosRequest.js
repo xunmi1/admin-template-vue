@@ -11,7 +11,7 @@ class AxiosRequest {
     constructor (config = {}) {
         this.defaultConfig = {
             method: 'get',
-            ...config,
+            ...config
         };
         this.tokenConfig = {};
         // 当前请求队列，为界面动画交互预留，暂时不用
@@ -22,23 +22,20 @@ class AxiosRequest {
     static extendErrorHooks;
 
     static handlerError (ctx) {
-        let error = ctx.response;
-        if (!error) {
-            const { request: { status }, config } = JSON.parse(JSON.stringify(error));
-            error = {
-                status,
-                request: { responseURL: config.url }
-            };
-        }
-        const failHandler = AxiosRequest.failCodeMap.get(error.status);
-        if (failHandler) {
-            error.message = failHandler.msg;
-            AxiosRequest.addErrorLog(error);
-            if (typeof failHandler.handler === 'function') {
-                return failHandler.handler(error && error.data);
+        try {
+            const error = ctx.response;
+            const failHandler = AxiosRequest.failCodeMap.get(error.status);
+            if (failHandler) {
+                error.message = failHandler.msg;
+                AxiosRequest.addErrorLog(error);
+                if (typeof failHandler.handler === 'function') {
+                    return failHandler.handler(error && error.data);
+                }
             }
+            return Promise.reject(error && error.data);
+        } catch {
+            throw new Error(ctx);
         }
-        return Promise.reject(error && error.data);
     }
 
     static use (rules) {
@@ -96,7 +93,7 @@ class AxiosRequest {
             throw new Error('缺少请求地址!');
         }
         this.interceptors(instance, options.url);
-        return instance({ ...this.defaultConfig, ...options });
+        return instance.request({ ...this.defaultConfig, ...options });
     }
 }
 

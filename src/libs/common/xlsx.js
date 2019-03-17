@@ -32,30 +32,30 @@ function getHeaderRow (sheet) {
 }
 
 // DOM table 元素导出 xlsx
-export function tableToXlsx (selectors, filename) {
+export function tableToXlsx (selectors, fileName) {
     const table = document.querySelector(selectors);
     const wb = XLSX.utils.table_to_book(table);
-    XLSX.writeFile(wb, filename);
+    XLSX.writeFile(wb, fileName);
 }
 
 // 标准表格数据导出, 即 title 和 data 数据格式一致(键值对数组)
-export function jsonToXlsx ({ key, data, title, filename }) {
+export function jsonToXlsx ({ key, data, title, fileName }) {
     const wb = XLSX.utils.book_new();
     data.unshift(title);
     const ws = XLSX.utils.json_to_sheet(data, { header: key, skipHeader: true });
     const arr = getValues(key, data);
     autoWidth(ws, arr);
-    XLSX.utils.book_append_sheet(wb, ws, filename);
-    XLSX.writeFile(wb, filename + '.xlsx');
+    XLSX.utils.book_append_sheet(wb, ws, fileName);
+    XLSX.writeFile(wb, fileName + '.xlsx');
 }
 
 /**
  * 组件 table 数据导出
  * @param {Object[]} dataSource - 数据数组
  * @param {Object[]} columns - 列描述数据对象
- * @param {string} [filename=Date.now()] - 文件名
+ * @param {string} [fileName=Date.now()] - 文件名
  */
-export function toXlsx ({ dataSource, columns, filename = String(Date.now()) }) {
+export function toXlsx ({ dataSource, columns, fileName = String(Date.now()) }) {
     const { key, title } = columns.reduce((obj, value) => {
         obj.key.push(value.key || value.dataIndex);
         obj.title.push(value.title);
@@ -66,8 +66,8 @@ export function toXlsx ({ dataSource, columns, filename = String(Date.now()) }) 
     arr.unshift(title);
     const ws = XLSX.utils.aoa_to_sheet(arr);
     autoWidth(ws, arr);
-    XLSX.utils.book_append_sheet(wb, ws, filename);
-    XLSX.writeFile(wb, filename + '.xlsx');
+    XLSX.utils.book_append_sheet(wb, ws, fileName);
+    XLSX.writeFile(wb, fileName + '.xlsx');
 }
 
 /**
@@ -80,7 +80,8 @@ export function read (data, type) {
     const workbook = XLSX.read(data, { type });
     const firstSheetName = workbook.SheetNames[0];
     const worksheet = workbook.Sheets[firstSheetName];
-    const header = getHeaderRow(worksheet);
-    const results = XLSX.utils.sheet_to_json(worksheet);
-    return { header, results };
+    return {
+        header: getHeaderRow(worksheet),
+        results: XLSX.utils.sheet_to_json(worksheet)
+    };
 }

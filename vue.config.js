@@ -21,7 +21,7 @@ const themeOptions = {
     varFile: resolve('./src/assets/style/variables.less'),
     mainLessFile: resolve('./src/assets/style/index.less'),
     themeVariables: ['@primary-color'],
-    indexFileName: './public/index.html',
+    indexFileName: false,
     generateOnce: false
 };
 const isProduction = process.env.NODE_ENV === 'production';

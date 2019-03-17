@@ -3,7 +3,7 @@
 
 workbox.core.setCacheNameDetails({
     prefix: 'new-system',
-    suffix: 'v1.0.2'
+    suffix: 'v1.1.0'
 });
 workbox.clientsClaim();
 workbox.precaching.suppressWarnings();
