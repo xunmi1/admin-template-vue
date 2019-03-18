@@ -24,27 +24,19 @@ export function typeOf (obj, type) {
 
 /**
  * 对象深度复制，注: 不支持 Map | Set 等类似数据类型
- * @param {*} data - 原始数据
- * @returns {*} - 复制后的数据
+ * @param {Object} obj - 原始数据
+ * @returns {Object} - 复制后的数据
  */
-export function deepCopy (data) {
-    const type = typeOf(data);
-    let target;
-
-    if (type === 'array') {
-        target = [];
-    } else if (type === 'object') {
-        target = {};
-    } else {
-        return data;
-    }
-
-    if (type === 'array') {
-        data.forEach(item => target.push(deepCopy(item)));
-    } else if (type === 'object') {
-        Object.keys(type).forEach(key => target[key] = deepCopy(data[key]));
-    }
-    return target;
+export function deepClone (obj) {
+    let clone = Object.assign({}, obj);
+    Object.keys(clone).forEach(
+        key => (clone[key] = typeof obj[key] === 'object' ? deepClone(obj[key]) : obj[key])
+    );
+    return Array.isArray(obj) && obj.length
+        ? (clone.length = obj.length) && Array.from(clone)
+        : Array.isArray(obj)
+            ? Array.from(obj)
+            : clone;
 }
 
 /**
@@ -58,6 +50,19 @@ export function deepFreeze (obj) {
         Object.keys(obj).forEach(property => deepFreeze(obj[property]));
     }
     return obj;
+}
+
+/**
+ * 重命名对象键名
+ * @param {Object} keysMap {旧键名: 新键名}
+ * @param {Object} obj 需要修改的对象
+ * @return {Object} 修改后的对象
+ */
+export function renameKeys (keysMap, obj) {
+    return Object.keys(obj).reduce((total, key) => ({
+        ...total,
+        ...{ [keysMap[key] || key]: obj[key] }
+    }), {});
 }
 
 /**
@@ -91,7 +96,7 @@ export function flatten (arr, depth = Infinity) {
  * @return {Array} 删除后数组
  */
 export function remove (arr, item) {
-    if (Array.isArray(arr) && item !== undefined) {
+    if (Array.isArray(arr) && item != null) {
         const _index = arr.indexOf(item);
         if (_index < 0) return arr;
         const _temp = [...arr];
@@ -128,6 +133,29 @@ export function throttle (fn, interval = 0, resetInterval = false) {
             _self.apply(this, arguments);
         }, interval);
     };
+}
+
+/**
+ * 缓存(记忆)函数
+ * @param {Function} fn 需要缓存的函数
+ * @return {Function} 新函数
+ */
+export function cached (fn) {
+    const cache = Object.create(null);
+    const map = {
+        object: str => JSON.stringify(str),
+        array: str => JSON.stringify(str),
+        string: str => str
+    };
+    return (function cachedFn (str) {
+        const type = typeOf(str);
+        const key = map[type] && map[type](str);
+        if (key != null) {
+            const hit = cache[key];
+            return hit || (cache[key] = fn.call(this, str));
+        }
+        return fn.call(this, str);
+    });
 }
 
 const formatNumber = function (n) {

@@ -157,8 +157,7 @@
                     this.currentName.splice(0, 1, newVal);
                     // 解锁, 减少没必要的计算
                     if (this.isOpenKeysLock) return this.isOpenKeysLock = false;
-                    this.setOpenKeys(this.menuList);
-                    this.vertical.openKeys = this.$util.unique(this.vertical.openKeys);
+                    this.vertical.openKeys = this.getOpenKeys(newVal);
                 }
             },
             // 侧边栏伸缩时，交换菜单展开列表
@@ -182,7 +181,9 @@
         },
         created () {
             this.setMenuList();
-            this.setOpenKeys(this.menuList);
+            // 使具有缓存能力
+            this.getOpenKeys = this.$util.cached(this.getOpenKeys);
+            this.vertical.openKeys = this.getOpenKeys(this.$route.name);
         },
         methods: {
             pushRouter ({ key }) {
@@ -208,18 +209,22 @@
                     return _temp;
                 });
             },
-            // 设置当前页面在菜单中，从顶层到上一层的路径
-            setOpenKeys (menu) {
+            // 获取当前页面在菜单中，从顶层到上一层的路径
+            getOpenKeys (current) {
+                const path = [];
+                this.findOpenKeys(path, current, this.menuList);
+                if (!path.length) return this.vertical.openKeys;
+                return path;
+            },
+            findOpenKeys (path, current, menu) {
                 return menu.some(item => {
-                    if (item.key === this.currentName[0]) {
-                        return true;
+                    if (item.key === current) return true;
+                    path.push(item.key);
+                    if (!Array.isArray(item.children)) {
+                        path.pop();
+                        return false;
                     }
-                    this.vertical.openKeys.push(item.key);
-                    if (Array.isArray(item.children) && this.setOpenKeys(item.children)) {
-                        return true;
-                    }
-                    this.vertical.openKeys.pop();
-                    return false;
+                    return this.findOpenKeys(path, current, item.children);
                 });
             },
             toggleCollapsed () {
