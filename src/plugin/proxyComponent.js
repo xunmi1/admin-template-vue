@@ -1,4 +1,4 @@
-import { uploadImg } from '@/api/file';
+import { upload } from '@/api/file';
 import { toXlsx } from '@/libs/common/xlsx';
 
 // 包裹富文本组件，默认提供 http 方法
@@ -9,11 +9,11 @@ export const wrappedEditor = function (component) {
             const prefix = `${ context.parent.$app.dbPrefix }-tinyMCE-autosave-${ (context.parent.$route.fullPath) }-`;
             const store = context.parent.$store;
             const props = {
-                http: uploadImg,
+                http: upload,
                 autoSavePrefix: prefix,
                 skin: store.state.app.layout.menuTheme || 'light',
                 isMobile: store.getters['app/isMobileDevice'],
-                ...(context.data.props || {}),
+                ...(context.data.props || {})
             };
             return h(component, { ...context.data, props }, context.children);
         }

@@ -2,7 +2,7 @@
     <div>
         <input :accept="fileAccept.join()" ref="fileNode" style="display: none" type="file">
         <div :style="{display: !visible ? 'none' : 'block'}">
-            <div :id="editorId" v-if="active">
+            <div :id="editorId" v-if="active" :key="editorId">
                 <slot />
             </div>
         </div>
@@ -12,6 +12,7 @@
 
 <script>
     import defaultConfig from './tinymce.config';
+    import tinymceProps from './tinymceProps';
     // Import TinyMCE
     import tinymce from 'tinymce/tinymce';
     import 'tinymce/themes/silver';
@@ -39,76 +40,15 @@
     import 'tinymce/plugins/quickbars';
 
     export default {
-        props: {
-            value: [String, Number],
-            // 是否可见
-            visible: {
-                type: Boolean,
-                default: true
-            },
-            // 模式 'default' | 'inline'
-            mode: {
-                type: String,
-                validator: value => ['inline', 'default'].includes(value),
-                default: 'default'
-            },
-            // 是否为手机端（在 mode = 'default'下，tinyMCE 会自动判断，这里是功能上调整）
-            isMobile: {
-                type: Boolean,
-                default: false
-            },
-            // 显示类型 ，可选 'word' | 'default'，'word': 模拟 word 显示方式（手机端无效）
-            type: {
-                type: String,
-                validator: value => ['word', 'default'].includes(value),
-                default: 'default'
-            },
-            // 皮肤，可选 'light' | 'dark'
-            skin: {
-                type: String,
-                validator: value => ['light', 'dark'].includes(value),
-                default: 'light'
-            },
-            // 富文本配置项，会覆盖和并默认配置
-            config: Object,
-            // 上传 http 方法
-            http: Function,
-            // 图片接受类型
-            imageAccept: {
-                type: Array,
-                default: () => ['image/*']
-            },
-            // 文件接受类型
-            fileAccept: {
-                type: Array,
-                default: () => ['.txt', '.docx', '.doc', '.xlsx', '.xls', '.csv', '.pptx', '.ppt', '.pdf', '.zip', '.rar', '.md']
-            },
-            // 图片大小上限
-            maxSize: { // 图片大小
-                type: Number,
-                default: 52428800
-            },
-            // 图片验证规则
-            imageRules: {
-                type: Array,
-                validator: rules => Array.isArray(rules) && rules.every(rule => typeof rule.validator === 'function')
-            },
-            // 文件验证规则
-            fileRules: {
-                type: Array,
-                validator: rules => Array.isArray(rules) && rules.every(rule => typeof rule.validator === 'function')
-            },
-            // 文本自动保存到 localStorage 的键名前缀
-            autoSavePrefix: {
-                type: String,
-                default: 'tinymce-autosave-{path}{query}-{id}-'
-            }
+        model: {
+            prop: 'value',
+            event: 'change'
         },
+        props: tinymceProps,
         data () {
             return {
                 editorId: `editor${ Date.now() }${ Math.round(Math.random() * 1000) }`,
-                active: true,
-                isCreated: false
+                active: true
             };
         },
         watch: {
@@ -131,15 +71,11 @@
         },
         mounted () {
             this.createEditor();
-            this.isCreated = true;
         },
-        // tinyMCE 不支持 vue 的组件缓存，因此再次进入或离开时，需重新创建和销毁
+        // vue 对 iframe 支持较差，创建后对 dom 不会触发修改， v-if 也不行
+        // 再次进入或离开时，需重新创建和销毁
         activated () {
-            if (this.isCreated) {
-                this.isCreated = false;
-            } else {
-                this.createEditor();
-            }
+            this.createEditor();
         },
         deactivated () {
             this.destroyEditor();
@@ -164,7 +100,7 @@
                     init_instance_callback: this.bindEvent,
                     //文件上传（浏览本地文件，设置此属性会开启本地文件浏览功能）
                     file_picker_callback: this.handleFile,
-                    // 图片上传
+                    // 图片上传（包括直接拖拽，插入图片中的上传选项）
                     images_upload_handler: this.imageUpload
                 };
                 return { ...defaultConfig, ...setting, ...this.config };
@@ -235,7 +171,7 @@
                     const base64 = reader.result.split(',')[1];
                     const blobInfo = blobCache.create(id, file, base64);
                     blobCache.add(blobInfo);
-                    callback(blobInfo.blobUri(), { title: file.name });
+                    callback(blobInfo.blobUri(), { title: file.name, alt: file.name });
                 };
                 reader.readAsDataURL(file);
             },
@@ -247,9 +183,9 @@
                     this.failAlert(valid.message);
                     return;
                 }
-                this.http(file)
+                this.http({ name: 'file', file })
                     .then(res => {
-                        callback('', { title: file.name });
+                        callback(res.path, { title: file.name, text: file.name });
                         this.$emit('success', res);
                     })
                     .catch(err => {
@@ -258,19 +194,16 @@
             },
             imageUpload (blobInfo, success, failure) {
                 const blob = blobInfo.blob();
-
                 // 如果不上传服务器，图片会以 Base64 形式上传
-                if (typeof this.http !== 'function') {
+                if (typeof this.http !== 'function') return;
+                const valid = this.validateImage(blob);
+                // 验证失败
+                if (!valid.result) {
+                    this.$emit('validator-error', { type: 'image', message: valid.message });
+                    this.failAlert(valid.message);
                     return;
-                } else {
-                    const valid = this.validateImage(blob);
-                    if (!valid.result) {
-                        this.$emit('validator-error', { type: 'image', message: valid.message });
-                        this.failAlert(valid.message);
-                        return;
-                    }
                 }
-                this.http({file: blob})
+                this.http({ name: 'image', file: blob })
                     .then(res => {
                         success(res.path);
                         this.$emit('success', res.path);
@@ -317,7 +250,7 @@
                 const events = [
                     {
                         key: 'Input Undo Redo SetContent',
-                        handler: () => this.$emit('input', editor.getContent())
+                        handler: () => this.$emit('change', editor.getContent())
                     },
                     {
                         key: 'Focus',
