@@ -73,8 +73,8 @@ export default {
     },
     watch: {
         params: {
-            handler (newVal) {
-                if (newVal) {
+            handler (newVal, oldVal) {
+                if (newVal && !equal(newVal, oldVal)) {
                     this.tableParams.current = 1;
                     this.total = 0;
                     this.setTableList();
@@ -100,4 +100,9 @@ export default {
             }
         }
     }
+};
+
+const equal = function (newVal, oldVal) {
+    const [_newVal, _oldVal] = [JSON.stringify(newVal), JSON.stringify(oldVal)];
+    return _newVal === _oldVal;
 };

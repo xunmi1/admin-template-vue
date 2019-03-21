@@ -2,9 +2,10 @@ export default {
     plugins: [
         'paste lists advlist nonbreaking table autolink autosave link image imagetools charmap print preview anchor searchreplace code pagebreak insertdatetime wordcount fullscreen'
     ],
-    menubar: 'file edit insert view format table',
-    toolbar: 'undo redo restoredraft | fontselect fontsizeselect | bold italic forecolor backcolor underline | formatselect | alignleft aligncenter alignright alignjustify | bullist numlist | fullscreen',
-    mobile_phone_toolbar: 'undo redo bold italic underline  forecolor styleselect fontsizeselect bullist numlist removeformat link unlink image',
+    menubar: 'file edit insert view format table tools',
+    toolbar: 'undo redo | fontselect fontsizeselect | bold italic forecolor backcolor underline | formatselect | alignleft aligncenter alignright alignjustify | bullist numlist | table image link unlink  | removeformat fullscreen',
+    mobile_phone_toolbar: 'undo redo bold italic underline  forecolor styleselect fontsizeselect bullist table image link unlink ',
+    toolbar_drawer: 'floating',
     language: 'zh_CN',
     max_height: 1000,
     min_height: 500,
@@ -19,7 +20,7 @@ export default {
     branding: false,                          // 禁止右下角标识
     image_advtab: true,                       // 自动上传图片
     autosave_interval: '20s',                 // 自动保存时长
-    autosave_retention: '40m',                // 本地存储时间上限
+    autosave_retention: '60m',                // 本地存储时间上限
     pagebreak_split_block: true,              // 分页符
     file_picker_types: 'file image media',    // 文件上传的类型（将开启浏览本地文件的选项）
     font_formats: `

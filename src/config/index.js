@@ -18,7 +18,7 @@ const config = deepFreeze({
      * @description api请求基础路径
      */
     baseUrl: {
-        development: 'https://lanaya.xycc.love/api/',
+        development: '',
         production: ''
     },
     // api 接口版本
