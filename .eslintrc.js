@@ -59,6 +59,13 @@ module.exports = {
         // 组件的标签属性按照一定的顺序
         'vue/attributes-order': 'warning',
         'vue/eqeqeq': 'error',
+        'vue/arrow-spacing': 'warning',
+        'vue/block-spacing': 'warning',
+        'vue/brace-style': 'error',
+        'vue/key-spacing': 'warning',
+        'vue/object-curly-spacing': 'warning',
+        'vue/space-infix-ops': 'warning',
+        'vue/space-unary-ops': 'warning',
 
         // js 部分
         'indent': ['warn', 4],

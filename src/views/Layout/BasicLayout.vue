@@ -67,7 +67,7 @@
 </template>
 
 <script>
-    import { mapState, mapGetters } from 'vuex';
+    import { mapState, mapGetters, mapMutations } from 'vuex';
     import screenMixin from './mixins/screenMixin';
     import themeMixin from './mixins/themeMixin';
     import Logo from './components/Logo';
@@ -118,7 +118,7 @@
                 // 垂直布局下，菜单收缩，将展开的菜单选项缓存，再次打开后恢复
                 cacheOpenKeys: [],
                 // 因屏幕调整引起的布局切换，保存之前的布局方向
-                cacheIsVertical: true,
+                cacheIsVertical: this.isVertical,
                 // 手动点击跳转和路由的跳转，互斥
                 isOpenKeysLock: false
             };
@@ -168,11 +168,11 @@
                 handler (newVal) {
                     if (newVal) {
                         this.cacheIsVertical = this.isVertical;
-                        this.$store.commit('app/setLayout', { isVertical: true });
+                        this.setLayout({ isVertical: true });
                         this.vertical.menuLayout = 'MenuDrawer';
                         this.collapsed = true;
                     } else {
-                        this.$store.commit('app/setLayout', { isVertical: this.cacheIsVertical });
+                        this.setLayout({ isVertical: this.cacheIsVertical });
                         this.vertical.menuLayout = 'ALayoutSider';
                     }
                 },
@@ -180,12 +180,14 @@
             }
         },
         created () {
+            this.setLayout(this.$db.get('layout'));
             this.setMenuList();
             // 使具有缓存能力
             this.getOpenKeys = this.$util.cached(this.getOpenKeys);
             this.vertical.openKeys = this.getOpenKeys(this.$route.name);
         },
         methods: {
+            ...mapMutations('app', ['setLayout']),
             pushRouter ({ key }) {
                 this.$router.push({ name: key });
                 // 上锁
@@ -287,7 +289,7 @@
 
             .menu {
                 display: inline-block;
-                line-height: 64px;
+                vertical-align: -.1rem;
             }
         }
 

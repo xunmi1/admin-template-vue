@@ -1,5 +1,3 @@
-import Antd from 'ant-design-vue';
-
 import properties from './properties';
 import * as methods from './methods';
 import components from './components';
@@ -36,8 +34,6 @@ const addComponents = function (value, obj) {
 
 export default {
     async install (Vue) {
-        Vue.use(Antd);
-
         // 扩展属性
         addProperties(properties, Vue.prototype, new Vue());
         // 扩展业务方法

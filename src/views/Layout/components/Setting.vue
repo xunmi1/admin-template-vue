@@ -126,7 +126,6 @@
         },
         created () {
             this.setThemeList();
-            this.setLayout(this.$db.get('layout'));
         },
         methods: {
             ...mapMutations('app', ['setLayout']),
