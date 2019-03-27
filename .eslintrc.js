@@ -58,7 +58,7 @@ module.exports = {
         'vue/order-in-components': 'error',
         // 组件的标签属性按照一定的顺序
         'vue/attributes-order': 'warning',
-        'vue/eqeqeq': 'error',
+        'vue/eqeqeq': ['error', 'always', { 'null': 'ignore' }],
         'vue/arrow-spacing': 'warning',
         'vue/block-spacing': 'warning',
         'vue/brace-style': 'error',

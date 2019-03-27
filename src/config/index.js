@@ -13,7 +13,7 @@ const config = deepFreeze({
         main: 'New System'
     },
     // 位于 public 目录下
-    logoPath: 'logo/fire.svg',
+    logoPath: 'icons/fire.svg',
     /**
      * @description api请求基础路径
      */

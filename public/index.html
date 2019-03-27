@@ -2,23 +2,21 @@
 <html lang="zh-CN">
 <head>
     <meta charset="utf-8">
-    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
-    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=yes" name="viewport">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=yes">
     <meta name="renderer" content="webkit">
-    <meta content="app" name="x5-page-mode">
-    <meta content="application" name="browsermode">
-    <meta content="#002140" name="theme-color">
-    <link rel="icon" href="<%= BASE_URL %>logo/logo.png">
+    <meta name="x5-page-mode" content="app">
+    <meta name="browsermode" content="application">
     <link rel="stylesheet" href="<%= BASE_URL %>loading.css">
-    <title>new-system</title>
+    <title><%= htmlWebpackPlugin.options.title %></title>
 </head>
 
 <body>
     <link rel="stylesheet/less" type="text/css" href="<%= BASE_URL %>color.less" />
-    <script>
+    <script type="text/javascript">
         window.less = { async: true, env: 'production', javascriptEnabled: true };
     </script>
-    <script src="https://cdn.bootcss.com/less.js/3.9.0/less.min.js"></script>
+    <script type="text/javascript" src="https://cdn.bootcss.com/less.js/3.9.0/less.min.js"></script>
     <noscript>
         <strong>很抱歉，浏览器没有启用 JavaScript, 程序将不能正常运行。请先启用浏览器的 JavaScript, 然后继续。</strong>
     </noscript>
@@ -34,7 +32,7 @@
                 <div></div>
                 <div></div>
             </div>
-            <div class="load-tips">正在加载中<dot>...</dot></div>
+            <div class="load-tips">正在加载中<span>...</span></div>
         </div>
     </div>
     <!-- built files will be auto injected -->

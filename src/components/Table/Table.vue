@@ -13,10 +13,10 @@
         >
             <template
                 v-for="column in slotColumns"
-                #[column.dataIndex]="text, record, index"
+                #[column.scopedSlots.customRender]="text, record, index"
             >
                 <slot
-                    :name="column.dataIndex"
+                    :name="column.scopedSlots.customRender"
                     v-bind="{ row: record, column, index, value: text }"
                 >
                     <span :key="column.dataIndex + index" class="table-cell">{{ text }}</span>
@@ -173,7 +173,7 @@
 
     const proxyColumns = function ({ columns, notNumber, isFixedNumber, tableParams: { current, pageSize } }) {
         const _columns = columns.map(item => ({
-            key: item.key || item.dataIndex,
+            key: item.scopedSlots ? (item.key || item.dataIndex) : warn(item.key || item.dataIndex),
             fixed: isFixedNumber,
             dataIndex: item.dataIndex || item.key,
             scopedSlots: { customRender: item.dataIndex || item.key },
@@ -184,7 +184,8 @@
                 type: 'index',
                 title: '序号',
                 width: 68,
-                customRender: (text, record, index) => ((current - 1) * pageSize) + index + 1
+                customRender: (text, record, index) => ((current - 1) * pageSize) + index + 1,
+                scopedSlots: { customRender: 'index' }
             });
         }
         return _columns;
@@ -203,11 +204,20 @@
         }
         return data;
     };
+    const BAN_SLOTS = ['index', 'title', 'expandedRowRender', 'expandIcon', 'footer'];
+    const warn = function (name) {
+        if (process.env.NODE_ENV !== 'production') {
+            if (BAN_SLOTS.includes(name)) {
+                console.error(`The key '${ name }' is banned, and you need to use the other key!`);
+            }
+        }
+        return name;
+    };
 </script>
 
 <style scoped>
     .table-cell {
         display: inline-block;
-        min-width: 72px
+        min-width: 72px;
     }
 </style>

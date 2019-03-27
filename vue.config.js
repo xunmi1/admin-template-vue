@@ -1,7 +1,8 @@
 const webpack = require('webpack');
 const path = require('path');
 const AntDesignThemePlugin = require('antd-theme-webpack-plugin');
-
+const PACKAGE = require('./package.json');
+const FAVICON = 'icons/android-chrome-192x192.png';
 const resolve = dir => path.join(__dirname, dir);
 
 // 复制 tinymce 所需的静态资源
@@ -48,22 +49,23 @@ module.exports = {
     // https://github.com/vuejs/vue-docs-zh-cn/blob/master/vue-cli-plugin-pwa/README.md
     pwa: {
         themeColor: '#002140',
+        msTileColor: '#002140',
         appleMobileWebAppCapable: 'yes',
         appleMobileWebAppStatusBarStyle: 'black',
-        iconPaths: {
-            favicon32: 'logo/fire.svg',
-            favicon16: 'logo/fire.svg',
-            appleTouchIcon: 'logo/fire.svg',
-            maskIcon: 'logo/fire.svg',
-            msTileImage: 'logo/fire.svg'
-        },
         workboxPluginMode: 'InjectManifest',
         workboxOptions: {
             importWorkboxFrom: 'cdn',
             swDest: 'service-worker.js',
-            swSrc: 'src/serviceWorker/service-worker.js'
+            swSrc: './serviceWorker/service-worker.js'
         },
-        name: 'new-system'
+        name: PACKAGE.name,
+        iconPaths: {
+            favicon32: FAVICON,
+            favicon16: FAVICON,
+            appleTouchIcon: FAVICON,
+            maskIcon: FAVICON,
+            msTileImage: FAVICON
+        },
     },
 
     configureWebpack: {
@@ -80,6 +82,13 @@ module.exports = {
         // 修改 copy-webpack-plugin (modern 模式只会在第二次打包时复制，因此需要判断)
         const hasCopy = config.plugins.has('copy');
         if (hasCopy) config.plugin('copy').tap(args => [args[0].concat(copyOptions)]);
+
+        const hasHtml = config.plugins.has('html');
+        if (hasHtml) config.plugin('html').tap(args => {
+            args[0].title = PACKAGE.name;
+            return args;
+        });
+
         const entry = config.entry('app');
         // 判断环境加入模拟数据(用于演示，这里不判断)
         // if (!isProduction) entry.add('@/mock').end();

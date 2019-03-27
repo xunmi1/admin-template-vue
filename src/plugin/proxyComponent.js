@@ -13,7 +13,7 @@ export const wrappedEditor = function (component) {
                 autoSavePrefix: prefix,
                 skin: store.state.app.layout.menuTheme || 'light',
                 isMobile: store.getters['app/isMobileDevice'],
-                ...(context.data.props || {})
+                ...(context.props || {})
             };
             return h(component, { ...context.data, props }, context.children);
         }
