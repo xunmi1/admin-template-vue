@@ -2,7 +2,7 @@
 /* eslint-disable no-restricted-globals */
 
 workbox.core.setCacheNameDetails({
-    prefix: 'new-system',
+    prefix: 'ant-system',
     suffix: 'v1.1.0'
 });
 workbox.clientsClaim();

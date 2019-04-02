@@ -1,5 +1,5 @@
 {
-    "name": "new-system",
+    "name": "ant-system",
     "version": "1.1.1",
     "private": true,
     "scripts": {
@@ -21,11 +21,11 @@
         "xlsx": "^0.14.1"
     },
     "devDependencies": {
-        "@vue/cli-plugin-babel": "^3.5.1",
+        "@vue/cli-plugin-babel": "^3.5.5",
         "@vue/cli-plugin-eslint": "^3.5.1",
         "@vue/cli-plugin-pwa": "^3.5.1",
-        "@vue/cli-plugin-unit-jest": "^3.5.2",
-        "@vue/cli-service": "^3.5.2",
+        "@vue/cli-plugin-unit-jest": "^3.5.3",
+        "@vue/cli-service": "^3.5.3",
         "@vue/test-utils": "^1.0.0-beta.29",
         "antd-theme-webpack-plugin": "^1.2.0",
         "babel-core": "^7.0.0-bridge.0",

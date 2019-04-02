@@ -1,6 +1,6 @@
 {
-  "name": "new-system",
-  "short_name": "new-system",
+  "name": "ant-system",
+  "short_name": "ant-system",
   "icons": [
     {
       "src": "./icons/android-chrome-192x192.png",
