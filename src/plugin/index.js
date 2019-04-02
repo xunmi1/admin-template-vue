@@ -12,14 +12,14 @@ const addReadonlyProperty = function (obj, property, value) {
     });
 };
 
-const addProperties = function (value, obj, ...rest) {
-    // 根据 obj、rest 收集已有属性
-    const hasProperties = Object.keys(obj).concat(...rest.map(i => Object.keys(i)));
+const addProperties = function (value, proto) {
+    const vm = new proto.constructor();
+    const hasProperties = Object.keys(proto).concat(Object.keys(vm));
     Object.entries(value).forEach(([key, property]) => {
         if (hasProperties.includes(key)) {
             throw new Error(`property '${ key }' have existed!`);
         }
-        addReadonlyProperty(obj, key, property);
+        addReadonlyProperty(proto, key, property);
     });
 };
 
@@ -35,9 +35,9 @@ const addComponents = function (value, obj) {
 export default {
     async install (Vue) {
         // 扩展属性
-        addProperties(properties, Vue.prototype, new Vue());
+        addProperties(properties, Vue.prototype);
         // 扩展业务方法
-        addProperties(methods, Vue.prototype, new Vue());
+        addProperties(methods, Vue.prototype);
         // 扩展组件
         addComponents(components, Vue);
     }

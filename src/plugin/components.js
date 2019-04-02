@@ -1,4 +1,4 @@
-import { wrappedEditor, wrappedTable } from './proxyComponent';
+import { wrappedEditor, wrappedTable } from './wrapped';
 
 export default {
     VMenu: () => import(/* webpackChunkName: "VMenu" */'@c/Menu/Menu'),

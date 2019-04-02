@@ -75,7 +75,7 @@ tinymce.addI18n('zh_CN', {
     'Id should start with a letter, followed only by letters, numbers, dashes, dots, colons or underscores.': '\u6807\u8bc6\u7b26\u5e94\u8be5\u4ee5\u5b57\u6bcd\u5f00\u5934\uff0c\u540e\u8ddf\u5b57\u6bcd\u3001\u6570\u5b57\u3001\u7834\u6298\u53f7\u3001\u70b9\u3001\u5192\u53f7\u6216\u4e0b\u5212\u7ebf\u3002',
     'You have unsaved changes are you sure you want to navigate away?': '\u4f60\u8fd8\u6709\u6587\u6863\u5c1a\u672a\u4fdd\u5b58\uff0c\u786e\u5b9a\u8981\u79bb\u5f00\uff1f',
     'Restore last draft': '\u6062\u590d\u4e0a\u6b21\u7684\u8349\u7a3f',
-    'Special characters...': '\u7279\u6b8a\u5b57\u7b26...',
+    'Special character...': '\u7279\u6b8a\u5b57\u7b26...',
     'Source code': '\u6e90\u4ee3\u7801',
     'Insert\/Edit code sample': '\u63d2\u5165\/\u7f16\u8f91\u4ee3\u7801\u793a\u4f8b',
     'Language': '\u8bed\u8a00',
