@@ -24,7 +24,4 @@
 
 <style lang="less">
     @import "./assets/style/index.less";
-    body {
-        overflow-y: scroll;
-    }
 </style>
