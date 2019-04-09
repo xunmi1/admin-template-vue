@@ -32,10 +32,19 @@ AxiosRequest.addError(info => {
 });
 
 class MyRequest extends AxiosRequest {
-    setToken (token) {
+    /**
+     * 设置 token, 注: 由 commit('user/setToken') 触发
+     * @param {string} token
+     * @param {boolean} [skip=false] 是否跳过模板替换
+     */
+    setToken (token, skip = false) {
         this.tokenConfig = {
             ...config.token,
-            value: token ? config.token.value.replace('TOKEN', token) : null
+            value: token
+                ? skip
+                    ? token
+                    : config.token.value.replace('TOKEN', token)
+                : null
         };
     }
 
@@ -43,9 +52,10 @@ class MyRequest extends AxiosRequest {
      * 重写 request 方法
      * 加上 api 版本判断， data.notVersion=false, 加上 api 版本号
      * @param {Object} option - 请求配置信息
+     * @param {string} [option.header] - 请求头
      * @param {string} option.url - 请求配置信息
      * @param {boolean} [option.notVersion=false] - 是否含有 api 版本号
-     * @param {Object} [option.params] -  URL 参数
+     * @param {Object} [option.params] - URL 参数
      * @param {Object} [option.data] - 请求体参数
      * @param {'get'|'post'|'put'|'patch'|'delete'|'head'} [option.method='get'] - 请求方法类型
      * @param {*} [option.cancelToken] - 取消请求令牌
@@ -56,7 +66,7 @@ class MyRequest extends AxiosRequest {
         if (!option.notVersion) {
             option.url = config.apiVersion + url;
         }
-        return super.request(option);
+        return super.request(option).then(response => response.data);
     }
 }
 

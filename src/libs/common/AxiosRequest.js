@@ -77,7 +77,7 @@ class AxiosRequest {
         instance.interceptors.response.use(res => {
             // res.status 为 2** 进入这里
             this.destroy(url);
-            return res.data;
+            return res;
         }, error => {
             this.destroy(url);
             if (error.constructor.name === 'Cancel') {

@@ -18,9 +18,9 @@ export default {
         status: state => state.token ? 'online' : 'offline'
     },
     mutations: {
-        setToken (state, { token, remember } = {}) {
+        setToken (state, { token, remember, skip } = {}) {
             state.token = token;
-            service.setToken(token);
+            service.setToken(token, skip);
             db.set('token', token, config.token.expires * 1000);
             db.set('remember', remember);
         },

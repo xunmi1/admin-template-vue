@@ -32,15 +32,16 @@ class ProxyStorage {
 
     /**
      * 添加数据
-     * @param key 键名，在内部会转换
-     * @param value 键值
-     * @param expires 有效期，可选
+     * @param {string} key 键名，在内部会转换
+     * @param {any} value 键值
+     * @param {number} [expires] 有效期
+     * @param {boolean} [isUpdate=false] 是否更新创建时间
      */
-    set (key, value, expires) {
+    set (key, value, expires, isUpdate = false) {
         key = this.toFullKey(key);
         const data = { value };
-        if (typeof expires === 'number') {
-            data.time = Date.now();
+        if (typeof expires === 'number' && expires >= 0) {
+            data.time = isUpdate ? Date.now() : (this.getTime(key) || Date.now());
             data.expires = expires;
         }
         this._localStorage.setItem(key, JSON.stringify(data));
@@ -49,26 +50,46 @@ class ProxyStorage {
 
     /**
      * 访问数据
-     * @param key 键名
-     * @param defaultValue 默认值
-     * @returns {*} 键值，若过期，则自动删除，返回默认值
+     * @param {string} key 键名
+     * @param {any} defaultValue 默认值
+     * @returns {any} 键值，若过期，则自动删除，返回默认值
      */
     get (key, defaultValue) {
-        key = this.toFullKey(key);
-        if (this._keys.has(key)) {
-            const data = JSON.parse(this._localStorage.getItem(key) || '{}');
-            if (data && data.value !== undefined) {
-                if (data.time) {
-                    const valid = (Date.now() - data.time) < data.expires;
-                    if (valid) {
-                        return data.value;
-                    }
-                    this.remove(key);
+        const data = this.getFullData(key);
+        if (data && data.value !== undefined) {
+            if (data.time) {
+                const valid = (Date.now() - data.time) < data.expires;
+                if (valid) {
+                    return data.value;
                 }
-                return data.value;
+                this.remove(key);
+                return defaultValue;
             }
+            return data.value;
         }
         return defaultValue;
+    }
+    /**
+     * 获取创建时间
+     * @param {string} key 键名
+     * @returns {number|undefined} 创建时间
+     */
+    getTime (key) {
+        const data = this.getFullData(key);
+        if (data && data.time) {
+            return data.time;
+        }
+    }
+    /**
+     * 获取完整数据
+     * @param {string} key 键名
+     * @returns {number|undefined} 完整数据
+     */
+    getFullData (key) {
+        key = this.toFullKey(key);
+        if (this._keys.has(key)) {
+            return JSON.parse(this._localStorage.getItem(key) || '{}');
+        }
     }
 
     has (key) {
