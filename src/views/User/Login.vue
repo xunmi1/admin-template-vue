@@ -107,7 +107,7 @@
             setRules () {
                 this.rulesForm = {
                     userName: {
-                        initialValue: 'xycc',
+                        initialValue: 'admin',
                         validateFirst: true,
                         normalize: value => value ? value.toString().trim() : null,
                         rules: [
@@ -118,7 +118,7 @@
                         ]
                     },
                     password: {
-                        initialValue: 'xycczz',
+                        initialValue: 'ant-system',
                         validateFirst: true,
                         normalize: value => value ? value.toString().trim() : null,
                         rules: [

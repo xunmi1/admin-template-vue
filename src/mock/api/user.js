@@ -1,5 +1,5 @@
 const userDB = [
-    { username: 'admin', password: 'admin', uid: '1', name: '管理员' },
+    { username: 'admin', password: 'ant-system', nickname:'admin', id: '1' },
     { username: 'editor', password: 'editor', uid: '2', name: '编辑' },
     { username: 'xycc', password: 'xycczz', nickname: '1234', id: 1, avatar: '11',email: '' },
 ];

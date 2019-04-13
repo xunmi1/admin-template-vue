@@ -196,7 +196,7 @@
             setMenuList () {
                 const mainRoute = this.$router.options.routes.find(i => i.name === this.$app.mainName);
                 if (mainRoute && Array.isArray(mainRoute.children)) {
-                    this.menuList = this.getMenu(mainRoute.children);
+                    this.menuList = this.getMenu(getMenuChildren(mainRoute.children));
                 }
             },
             getMenu (source) {
