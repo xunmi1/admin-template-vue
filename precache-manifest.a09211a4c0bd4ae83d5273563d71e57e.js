@@ -4,16 +4,16 @@ self.__precacheManifest = [
     "url": "js/VMenu-legacy.594ddd9c.js"
   },
   {
-    "revision": "f3b54c52ecd4b92e85f87b0b95ec5df9",
+    "revision": "ccdf2aeeb2ca2d69eb3a08d89bcf65cb",
     "url": "index.html"
   },
   {
-    "revision": "af8515ce1291ecfd7fda",
-    "url": "js/chunk-vendors-legacy.23144d17.js"
+    "revision": "dbc7a2750700dce26ee0",
+    "url": "js/chunk-vendors-legacy.2d08db42.js"
   },
   {
-    "revision": "0f7afb24d6f56bb919dd",
-    "url": "js/Login-legacy.f74b24aa.js"
+    "revision": "d8c6a31f3d63d4393571",
+    "url": "js/Login-legacy.617a63d9.js"
   },
   {
     "revision": "a17e4a06b7403e6acd2e",
@@ -60,16 +60,16 @@ self.__precacheManifest = [
     "url": "js/VLazyComponent-legacy.872c8e74.js"
   },
   {
-    "revision": "66a4add652d3592bef44",
-    "url": "js/BasicLayout-legacy.14031b5c.js"
+    "revision": "207d45634b01cada096e",
+    "url": "js/BasicLayout-legacy.f8317668.js"
   },
   {
     "revision": "da2278bf161da4839b81",
     "url": "js/VRichEditor-legacy.0685f350.js"
   },
   {
-    "revision": "2d55da08ca406f573cbd",
-    "url": "js/app-legacy.56ae6ada.js"
+    "revision": "d351f713ff4ede6f9049",
+    "url": "js/app-legacy.d36b51a9.js"
   },
   {
     "revision": "1577170bc85095694e24",
@@ -80,11 +80,11 @@ self.__precacheManifest = [
     "url": "css/Setting.594f97f6.css"
   },
   {
-    "revision": "2d55da08ca406f573cbd",
+    "revision": "d351f713ff4ede6f9049",
     "url": "css/app.7f3944b9.css"
   },
   {
-    "revision": "af8515ce1291ecfd7fda",
+    "revision": "dbc7a2750700dce26ee0",
     "url": "css/chunk-vendors.7b5af108.css"
   },
   {
@@ -108,12 +108,12 @@ self.__precacheManifest = [
     "url": "css/MenuDrawer.c7e02482.css"
   },
   {
-    "revision": "0f7afb24d6f56bb919dd",
-    "url": "css/Login.a6ca40ee.css"
+    "revision": "d8c6a31f3d63d4393571",
+    "url": "css/Login.7b9ce426.css"
   },
   {
-    "revision": "66a4add652d3592bef44",
-    "url": "css/BasicLayout.f33eb76c.css"
+    "revision": "207d45634b01cada096e",
+    "url": "css/BasicLayout.93b2d1ec.css"
   },
   {
     "revision": "60354dd64f82a6235504f44ae2cb02e4",

@@ -1,6 +1,6 @@
 self.__precacheManifest = [
   {
-    "revision": "a347c13be3c005a42d3e9647f220d08c",
+    "revision": "3d2a266ecb5418f29a243aaa70242994",
     "url": "index.html"
   },
   {
@@ -76,12 +76,12 @@ self.__precacheManifest = [
     "url": "js/VTable.363d6be2.js"
   },
   {
-    "revision": "d9fa6ce72ef5dffefd43",
+    "revision": "a389a6e340233245e71b",
     "url": "css/app.7f3944b9.css"
   },
   {
-    "revision": "d9fa6ce72ef5dffefd43",
-    "url": "js/app.2ccf88de.js"
+    "revision": "a389a6e340233245e71b",
+    "url": "js/app.ee72e05b.js"
   },
   {
     "revision": "643c2fb22f9f6e101e53",
@@ -104,20 +104,20 @@ self.__precacheManifest = [
     "url": "js/chunk-2d230f8c.c3e55436.js"
   },
   {
-    "revision": "59ece7e85a33e3185fc3",
+    "revision": "f10ff5f7250a1a9d56d8",
     "url": "css/chunk-vendors.7b5af108.css"
   },
   {
-    "revision": "59ece7e85a33e3185fc3",
-    "url": "js/chunk-vendors.85f8bdac.js"
+    "revision": "f10ff5f7250a1a9d56d8",
+    "url": "js/chunk-vendors.31064239.js"
   },
   {
     "revision": "80f6ebbd587000d9327fe33492f38a76",
     "url": "tinymce/skins/ui/oxide-dark/skin.css"
   },
   {
-    "revision": "267665f9312fc942b33e",
-    "url": "js/BasicLayout.1aa05b54.js"
+    "revision": "f5a7d552ea2f4c6bae9c",
+    "url": "js/BasicLayout.00a6c2be.js"
   },
   {
     "revision": "d6f871f641ebd1a7c4e8a254e169bead",
@@ -212,20 +212,20 @@ self.__precacheManifest = [
     "url": "tinymce/skins/ui/oxide/content.inline.min.css"
   },
   {
-    "revision": "58f3bc446778f1eb788b",
-    "url": "js/Login.5354459a.js"
+    "revision": "4c7745781917917e53f4",
+    "url": "js/Login.39fde36c.js"
   },
   {
     "revision": "726147584e36bf25bd75ed7cb11696f8",
     "url": "tinymce/skins/ui/oxide-dark/skin.min.css"
   },
   {
-    "revision": "58f3bc446778f1eb788b",
-    "url": "css/Login.a6ca40ee.css"
+    "revision": "4c7745781917917e53f4",
+    "url": "css/Login.7b9ce426.css"
   },
   {
-    "revision": "267665f9312fc942b33e",
-    "url": "css/BasicLayout.f33eb76c.css"
+    "revision": "f5a7d552ea2f4c6bae9c",
+    "url": "css/BasicLayout.93b2d1ec.css"
   },
   {
     "revision": "60354dd64f82a6235504f44ae2cb02e4",
