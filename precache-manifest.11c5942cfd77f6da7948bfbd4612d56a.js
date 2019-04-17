@@ -4,7 +4,7 @@ self.__precacheManifest = [
     "url": "js/VMenu-legacy.594ddd9c.js"
   },
   {
-    "revision": "ccdf2aeeb2ca2d69eb3a08d89bcf65cb",
+    "revision": "6c6bded405ce6ec4926fe6b696f0b3b7",
     "url": "index.html"
   },
   {
@@ -60,16 +60,16 @@ self.__precacheManifest = [
     "url": "js/VLazyComponent-legacy.872c8e74.js"
   },
   {
-    "revision": "207d45634b01cada096e",
-    "url": "js/BasicLayout-legacy.f8317668.js"
+    "revision": "db1e9b6beb22562c7f39",
+    "url": "js/BasicLayout-legacy.7def2ee3.js"
   },
   {
     "revision": "da2278bf161da4839b81",
     "url": "js/VRichEditor-legacy.0685f350.js"
   },
   {
-    "revision": "d351f713ff4ede6f9049",
-    "url": "js/app-legacy.d36b51a9.js"
+    "revision": "f7b01ee3e71ace489cc7",
+    "url": "js/app-legacy.4b4fb0f2.js"
   },
   {
     "revision": "1577170bc85095694e24",
@@ -80,7 +80,7 @@ self.__precacheManifest = [
     "url": "css/Setting.594f97f6.css"
   },
   {
-    "revision": "d351f713ff4ede6f9049",
+    "revision": "f7b01ee3e71ace489cc7",
     "url": "css/app.7f3944b9.css"
   },
   {
@@ -112,8 +112,8 @@ self.__precacheManifest = [
     "url": "css/Login.7b9ce426.css"
   },
   {
-    "revision": "207d45634b01cada096e",
-    "url": "css/BasicLayout.93b2d1ec.css"
+    "revision": "db1e9b6beb22562c7f39",
+    "url": "css/BasicLayout.d087d8ab.css"
   },
   {
     "revision": "60354dd64f82a6235504f44ae2cb02e4",
