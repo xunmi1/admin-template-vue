@@ -18,11 +18,13 @@ export default {
         status: state => state.token ? 'online' : 'offline'
     },
     mutations: {
-        setToken (state, { token, remember, skip } = {}) {
+        setToken (state, { token, remember } = {}) {
             state.token = token;
-            service.setToken(token, skip);
+            service.setToken(token);
             db.set('token', token, config.token.expires * 1000);
-            db.set('remember', remember);
+            if (remember != null) {
+                db.set('remember', remember);
+            }
         },
         setUserInfo (state, userInfo = {}) {
             Object.entries(userInfo).forEach(([key, value]) => state[key] = value);

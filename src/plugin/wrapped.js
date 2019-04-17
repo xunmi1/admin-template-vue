@@ -26,7 +26,7 @@ export const wrappedTable = function (component) {
     const renamed = ({ current, ...rest }) => ({ page: current, ...rest });
     const proxyService = function (service) {
         if (typeof service === 'function') {
-            return params => service(renamed(params))
+            return (params = {}) => service(renamed(params))
                 .then(({ data = [], meta = {} }) => ({
                     data,
                     total: meta.total || data.length
@@ -36,6 +36,10 @@ export const wrappedTable = function (component) {
     };
     return {
         functional: true,
+        props: {
+            http: Function,
+            rowKey: String
+        },
         render (h, context) {
             const [attrs, $store] = [context.data.attrs, context.parent.$store];
             const isNarrow = $store.state.app.screenType.level < 6;

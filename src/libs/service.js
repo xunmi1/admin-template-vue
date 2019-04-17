@@ -35,16 +35,11 @@ class MyRequest extends AxiosRequest {
     /**
      * 设置 token, 注: 由 commit('user/setToken') 触发
      * @param {string} token
-     * @param {boolean} [skip=false] 是否跳过模板替换
      */
-    setToken (token, skip = false) {
+    setToken (token) {
         this.tokenConfig = {
             ...config.token,
-            value: token
-                ? skip
-                    ? token
-                    : config.token.value.replace('TOKEN', token)
-                : null
+            value: token ? config.token.value.replace('TOKEN', token) : null
         };
     }
 

@@ -248,7 +248,7 @@
         .layout-sider {
             overflow-y: auto;
             overflow-x: hidden;
-            z-index: 2;
+            z-index: 120;
 
             .menu {
                 margin-bottom: 48px;
@@ -307,7 +307,7 @@
         top: 0;
         right: 0;
         width: 100%;
-        z-index: 1;
+        z-index: 110;
         box-shadow: 0 1px 4px rgba(10, 21, 42, .12);
     }
 
