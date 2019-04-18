@@ -1,13 +1,12 @@
 <template>
     <ACard>
         <VTable
-            selection
+            :selected-keys.sync="selectedKeys"
             row-key="key"
             :columns="columns"
             :data-source="data"
             :page-size="3"
             :current="2"
-            @select="select"
             is-xlsx
         >
             <template #name="{value}">
@@ -38,10 +37,10 @@
                 selectedKeys: []
             };
         },
-        methods: {
-            select (data) {
-                this.selectedKeys = data;
-            }
+        created () {
+            setTimeout(() => {
+                this.selectedKeys.push('1', '3');
+            }, 3000);
         }
     };
 </script>

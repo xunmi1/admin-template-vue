@@ -60,24 +60,33 @@
                 return proxyColumns(this);
             },
             rowSelection () {
-                if (!this.selection) return null;
-                const defaultSelection = {
+                if (!(this.selection || this.selectedKeys)) return null;
+                return {
                     fixed: true,
-                    selectedRowKeys: this.selectAllKeys,
-                    onSelect: this.selectOneHandler,
-                    onSelectAll: this.selectAllHandler
+                    selectedRowKeys: this.selectedKeys,
+                    onChange: this.onSelectChange,
+                    // 如果有 'select' 事件，再绑定相应事件（很耗性能）
+                    onSelect: this.hasSelectListener && this.selectOneHandler,
+                    onSelectAll: this.hasSelectListener && this.selectAllHandler,
+                    ...(this.selection || {})
                 };
-                return typeof this.selection === 'object'
-                    ? { ...defaultSelection, ...this.selection }
-                    : defaultSelection;
-            },
-            selectAllKeys () {
-                return this.selectedData.map(item => toPath(item, this.rowKey));
             }
         },
-
+        beforeCreate () {
+            // 判断是否有 'select' 事件（前提是已绑定 selectedKeys）
+            this.hasSelectListener = !!(this.$options.propsData.selectedKeys && this.$listeners.select);
+            // 开启表格选中时，选中发生切换的 rows 和 选中类型（增加|移除）
+            this.changeRows = [];
+            this.selected = false;
+        },
         created () {
             if (!this.notAuto) this.setTableList();
+            if (this.hasSelectListener) {
+                this.$watch('selectedKeys', newVal => {
+                    this.selectedData = this.selectedData.filter(item => newVal.includes(toPath(item, this.rowKey)));
+                    this.$emit('select', this.selectedData, this.changeRows, this.selected);
+                });
+            }
         },
         methods: {
             setTableParams ({ current, pageSize }) {
@@ -119,16 +128,18 @@
                 }
                 return res;
             },
-
+            onSelectChange (selectedRowKeys) {
+                this.$emit('update:selected-keys', selectedRowKeys);
+            },
             // 选择/取消选择所有列
             selectAllHandler (selected, selectedRows, changeRows) {
                 changeRows.forEach(record => this.changeSelection(record, selected));
-                this.$emit('select', this.selectedData, changeRows, selected);
+                [this.changeRows, this.selected] = [changeRows, selected];
             },
             // 选择/取消选择某一列
             selectOneHandler (record, selected) {
                 this.changeSelection(record, selected);
-                this.$emit('select', this.selectedData, [record], selected);
+                [this.changeRows, this.selected] = [[record], selected];
             },
             changeSelection (record, selected) {
                 const key = toPath(record, this.rowKey);
