@@ -90,7 +90,7 @@
         &-icon {
             padding: 0 12px;
             font-size: 16px;
-            vertical-align: middle;
+            vertical-align: -.2rem;
         }
     }
 </style>

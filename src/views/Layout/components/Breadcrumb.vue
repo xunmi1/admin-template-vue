@@ -1,7 +1,7 @@
 <template>
-    <ABreadcrumb :routes="routes" class="breadcrumb">
+    <ABreadcrumb :routes="routes">
         <template #itemRender="{route}">
-            <a v-if="routes.indexOf(route) === routes.length - 1">
+            <a v-if="routes.indexOf(route) === routes.length - 1" style="color: rgba(0, 0, 0, .65)">
                 {{ route.meta.title }}
             </a>
             <RouterLink v-else :to="route">
@@ -45,9 +45,3 @@
         }
     };
 </script>
-
-<style scoped>
-    .breadcrumb {
-        display: inline-block;
-    }
-</style>

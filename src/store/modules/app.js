@@ -6,7 +6,7 @@ export default {
             isVertical: true,
             isFixedHeader: true,
             isFixedSider: true,
-            isMenuRight: true,
+            isMenuRight: false,
             theme: 'daybreak-blue'
         },
         screenType: {

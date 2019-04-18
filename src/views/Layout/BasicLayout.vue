@@ -12,7 +12,6 @@
                     'header-fixed': !isVertical && isFixedHeader,
                     'sider-fixed': isVertical && isFixedSider,
                     'menu-theme-light' : menuTheme === 'light',
-                    'menu-right' : isMenuRight,
                 }"
                 class="layout-sider layout-header"
             >
@@ -24,7 +23,7 @@
                     :mode="layout.mode"
                     :theme="menuTheme"
                     @click="pushRouter"
-                    class="menu"
+                    :class="[`menu-${isMenuRight ? 'right' : 'left'}`, 'menu']"
                 />
                 <div v-if="!isVertical" class="header-tool">
                     <FullScreen />
@@ -67,7 +66,7 @@
 </template>
 
 <script>
-    import { mapState, mapGetters, mapMutations } from 'vuex';
+    import { mapGetters, mapMutations, mapState } from 'vuex';
     import screenMixin from './mixins/screenMixin';
     import themeMixin from './mixins/themeMixin';
     import Logo from './components/Logo';
@@ -214,20 +213,9 @@
             // 获取当前页面在菜单中，从顶层到上一层的路径
             getOpenKeys (current) {
                 const path = [];
-                this.findOpenKeys(path, current, this.menuList);
+                findOpenKeys(path, current, this.menuList);
                 if (!path.length) return this.vertical.openKeys;
                 return path;
-            },
-            findOpenKeys (path, current, menu) {
-                return menu.some(item => {
-                    if (item.key === current) return true;
-                    path.push(item.key);
-                    if (!Array.isArray(item.children)) {
-                        path.pop();
-                        return false;
-                    }
-                    return this.findOpenKeys(path, current, item.children);
-                });
             },
             toggleCollapsed () {
                 this.collapsed = !this.collapsed;
@@ -236,6 +224,15 @@
                 this.showSetting = true;
             }
         }
+    };
+    const findOpenKeys = function (path, current, menu) {
+        return Array.isArray(menu) && menu.some(item => {
+            if (item.key === current) return true;
+            path.push(item.key);
+            const isTarget = findOpenKeys(path, current, item.children);
+            if (!isTarget) path.pop();
+            return isTarget;
+        });
     };
 </script>
 
@@ -262,7 +259,6 @@
                 background-color: #fff;
                 padding: 0;
                 transition: all .2s;
-                border-bottom: 1px solid #e8e8e8;
 
                 > div {
                     line-height: 64px;
@@ -283,18 +279,28 @@
         flex-direction: column;
 
         .layout-header {
+            display: flex;
             padding: 0 16px;
             transition: all .2s;
             color: #fff;
 
             .menu {
+                line-height: 64px;
                 display: inline-block;
-                vertical-align: -.1rem;
+
+                /deep/ & > li {
+                    height: 64px;
+                    vertical-align: top;
+                }
             }
         }
 
         .menu-right {
-            text-align: right;
+            margin-left: auto;
+        }
+
+        .menu-left {
+            margin-right: auto;
         }
 
         &-breadcrumb {
@@ -308,7 +314,7 @@
         right: 0;
         width: 100%;
         z-index: 110;
-        box-shadow: 0 1px 4px rgba(10, 21, 42, .12);
+        box-shadow: 0 1px 4px rgba(10, 21, 42, .1);
     }
 
     .sider-fixed {

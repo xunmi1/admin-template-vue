@@ -15,7 +15,7 @@
 
         &-icon {
             font-size: 16px;
-            vertical-align: middle;
+            vertical-align: -.2rem;
         }
     }
 </style>
