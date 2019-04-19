@@ -9,11 +9,18 @@ export function login (data, cancelToken) {
                 password: data.password
             },
             method: 'post',
-            cancelToken,
+            cancelToken
         });
     } else {
         return Promise.reject('missing parameter');
     }
+}
+
+/**
+ * 账号退出
+ */
+export function logout () {
+    return Promise.resolve({ msg: '已退出' });
 }
 
 export function getPermissions (data) {

@@ -30,7 +30,7 @@
 </template>
 
 <script>
-    import { mapState, mapMutations } from 'vuex';
+    import { mapState, mapActions } from 'vuex';
 
     export default {
         name: 'UserMenu',
@@ -38,10 +38,14 @@
             ...mapState('user', ['avatar', 'nickName'])
         },
         methods: {
-            ...mapMutations('user', ['setToken']),
+            ...mapActions('user', ['handleLogout']),
             logout () {
-                this.setToken();
-                this.$router.replace({ name: this.$app.loginName });
+                this.handleLogout()
+                    .then(({ msg }) => {
+                        this.$message.success(msg);
+                        this.$router.replace({ name: this.$app.loginName });
+                    })
+                    .catch(({ msg }) => this.$message.error(msg));
             }
         }
     };
@@ -54,10 +58,15 @@
 
         &-avatar {
             margin-right: 8px;
+            /deep/ .ant-avatar-string {
+                line-height: 32px !important;
+            }
         }
+
         &-nickname {
-            font-size: 14px;
+            font-size: 16px;
         }
+
         &-menu {
             min-width: 140px;
         }

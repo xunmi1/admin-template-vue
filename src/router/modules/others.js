@@ -12,7 +12,7 @@ export default [
         component: () => import(/* webpackChunkName: "UserLayout" */ '@/views/Layout/UserLayout'),
         children: [
             {
-                path: 'login',
+                path: '/login',
                 name: config.loginName,
                 meta: {
                     title: '用户登录',

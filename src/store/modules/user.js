@@ -1,4 +1,4 @@
-import { login, getPermissions } from '@/api/user';
+import { getPermissions, login, logout } from '@/api/user';
 
 import service from '@/libs/service';
 import db from '@/libs/db';
@@ -49,6 +49,12 @@ export default {
                     commit('setUserInfo', userInfo);
                     return Promise.resolve(res);
                 });
+        },
+        handleLogout ({ commit }) {
+            return logout().then(res => {
+                commit('setToken');
+                return res;
+            });
         },
         getPermissions ({ state }) {
             return getPermissions({ userId: state.userId })
