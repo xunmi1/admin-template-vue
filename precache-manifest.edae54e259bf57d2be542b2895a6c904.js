@@ -1,6 +1,6 @@
 self.__precacheManifest = [
   {
-    "revision": "fd04ba55d4ac57dcb9d1b0ae60c49087",
+    "revision": "9cfa6fbdcf403a32968c8abd1eb7aa67",
     "url": "index.html"
   },
   {
@@ -76,12 +76,12 @@ self.__precacheManifest = [
     "url": "js/VTable.363d6be2.js"
   },
   {
-    "revision": "975cfa7a893f3696b8d2",
+    "revision": "0384726bb823df35f421",
     "url": "css/app.7f3944b9.css"
   },
   {
-    "revision": "975cfa7a893f3696b8d2",
-    "url": "js/app.2600822f.js"
+    "revision": "0384726bb823df35f421",
+    "url": "js/app.078f02c4.js"
   },
   {
     "revision": "643c2fb22f9f6e101e53",
@@ -116,8 +116,8 @@ self.__precacheManifest = [
     "url": "tinymce/skins/ui/oxide-dark/skin.css"
   },
   {
-    "revision": "e6f456eb676bfc4070b5",
-    "url": "js/BasicLayout.e4ef08b3.js"
+    "revision": "f1388f0e8c965b931b9f",
+    "url": "js/BasicLayout.3f5bc931.js"
   },
   {
     "revision": "d6f871f641ebd1a7c4e8a254e169bead",
@@ -224,8 +224,8 @@ self.__precacheManifest = [
     "url": "css/Login.7b9ce426.css"
   },
   {
-    "revision": "e6f456eb676bfc4070b5",
-    "url": "css/BasicLayout.aa5cdd1b.css"
+    "revision": "f1388f0e8c965b931b9f",
+    "url": "css/BasicLayout.bfdde597.css"
   },
   {
     "revision": "60354dd64f82a6235504f44ae2cb02e4",
