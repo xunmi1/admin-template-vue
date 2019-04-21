@@ -4,7 +4,7 @@ self.__precacheManifest = [
     "url": "js/VMenu-legacy.594ddd9c.js"
   },
   {
-    "revision": "33fc9a53a9889b25b8b2dcc232e2ae92",
+    "revision": "51a26e53b4f93bc29bb7afa82e93f7c5",
     "url": "index.html"
   },
   {
@@ -40,8 +40,8 @@ self.__precacheManifest = [
     "url": "js/TableXlsx-legacy.5a5ae21a.js"
   },
   {
-    "revision": "3d752dcc197368924fac",
-    "url": "js/Test-legacy.0c4d8e36.js"
+    "revision": "7b047863aab52e9bb8e7",
+    "url": "js/Test-legacy.a8f2d52b.js"
   },
   {
     "revision": "202518ade989665e047a",
@@ -68,19 +68,19 @@ self.__precacheManifest = [
     "url": "js/VRichEditor-legacy.0685f350.js"
   },
   {
-    "revision": "4862a85950f141e89e65",
-    "url": "js/app-legacy.8d13faa0.js"
+    "revision": "86f75d5a2b37d452ae31",
+    "url": "js/app-legacy.017bfb34.js"
   },
   {
-    "revision": "1577170bc85095694e24",
-    "url": "js/VTable-legacy.360b74b6.js"
+    "revision": "3e98c344894c4dfb437a",
+    "url": "js/VTable-legacy.17ca6707.js"
   },
   {
     "revision": "36df21f74201d9cb2254",
     "url": "css/Setting.594f97f6.css"
   },
   {
-    "revision": "4862a85950f141e89e65",
+    "revision": "86f75d5a2b37d452ae31",
     "url": "css/app.7f3944b9.css"
   },
   {
@@ -88,8 +88,8 @@ self.__precacheManifest = [
     "url": "css/chunk-vendors.7b5af108.css"
   },
   {
-    "revision": "1577170bc85095694e24",
-    "url": "css/VTable.4389d4de.css"
+    "revision": "3e98c344894c4dfb437a",
+    "url": "css/VTable.7276e7ef.css"
   },
   {
     "revision": "a6f7855f449c36de122b",
