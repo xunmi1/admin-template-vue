@@ -3,7 +3,7 @@ const basicCard = (...rest) => import('@/views/Container/BasicCard')
 
 export default [
     {
-        path: 'BlankPage2',
+        path: 'blank-page2',
         name: 'Page2',
         meta: {
             title: '测试2',
@@ -12,7 +12,7 @@ export default [
         component: () => basicCard('Page22'),
         children: [
             {
-                path: 'Test333',
+                path: 'test21',
                 name: 'Test21',
                 meta: {
                     title: '测试21',
@@ -21,7 +21,7 @@ export default [
                 component: () => import('@/views/BlankPage/Test3'),
             },
             {
-                path: 'Test444',
+                path: 'test22',
                 name: 'Test22',
                 meta: {
                     title: '测试22',

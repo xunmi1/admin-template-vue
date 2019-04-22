@@ -5,18 +5,28 @@ import db from '../libs/db';
 import store from '../store';
 import Router from 'vue-router';
 
-import others from './modules/others';
-import page1 from './modules/page1';
-import page2 from './modules/page2';
-import page3 from './modules/page3';
-
 Vue.use(Router);
+
+/**
+ * 加载路由
+ * @param files 文件, 使用 `require.context()` 获取
+ * @return {Array} 路由数组
+ */
+const loadRoutes = files => files.keys()
+    .reduce((arr, key) => {
+        if (typeof files(key).default === 'object') {
+            return arr.concat(files(key).default);
+        }
+        return arr;
+    }, [])
+    .sort((prev, next) => (prev.sort || 0) - (next.sort || 0));
+
 /**
  * path: string               仅第一级路径 path 前面加 '/'
  * meta: {
  *    title: string           显示在侧边栏、面包屑和标签栏的文字
  *    hideInBread: (false)    true: 此级路由将不会出现在面包屑中
- *    hideInMenu: (false)     true: 在菜单不会显示该页面选项, **及其嵌套的子路由页面**
+ *    hideInMenu: (false)     true: 在菜单不会显示该页面选项(预留), **及其嵌套的子路由页面**
  *    notCache: (false)       true: 页面在切换标签后, **及其嵌套的子路由页面不会缓存**
  *    notAuth: (false)        true: 页面不需要验权，**若存在父级路由，所有父级路由也需设置 true，才能生效**
  *    icon: string            该页面在菜单、面包屑和标签导航处显示的图标
@@ -27,18 +37,22 @@ const router = new Router({
         {
             path: '/',
             name: config.mainName,
-            meta: {
-                title: '首页'
-            },
-            redirect: 'BlankPage1/Test1',
+            redirect: { name: 'Test11' },
+            meta: { title: '首页' },
             component: () => import(/* webpackChunkName: "BasicLayout" */ '@/views/Layout/BasicLayout'),
-            children: [
-                ...page1,
-                ...page2,
-                ...page3
-            ]
+            children: loadRoutes(require.context('./BasicLayout', false, /\.js$/))
         },
-        ...others
+        {
+            path: '/user',
+            name: 'User',
+            redirect: { name: config.loginName },
+            meta: {
+                notAuth: true,
+                notCache: true
+            },
+            component: () => import(/* webpackChunkName: "UserLayout" */ '@/views/Layout/UserLayout'),
+            children: loadRoutes(require.context('./UserLayout', false, /\.js$/))
+        }
     ]
 });
 

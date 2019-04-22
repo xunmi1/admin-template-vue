@@ -1,7 +1,7 @@
 export default [
     {
-        path: 'Test',
-        name: 'Test',
+        path: 'test33',
+        name: 'Test33',
         meta: {
             title: '测试33',
             icon: 'setting',

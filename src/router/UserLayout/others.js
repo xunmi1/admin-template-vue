@@ -4,7 +4,7 @@ export default [
     {
         path: '/user',
         name: 'user',
-        redirect: '/user/login',
+        redirect: { name: config.loginName },
         meta: {
             notAuth: true,
             notCache: true
@@ -19,8 +19,8 @@ export default [
                     notAuth: true,
                     notCache: true
                 },
-                component: () => import(/* webpackChunkName: "Login" */ '@/views/User/Login'),
+                component: () => import(/* webpackChunkName: "Login" */ '@/views/User/Login')
             }
         ]
-    },
+    }
 ];

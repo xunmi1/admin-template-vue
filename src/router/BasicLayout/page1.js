@@ -3,9 +3,9 @@ const basicCard = (...rest) => import('@/views/Container/BasicCard')
 
 export default [
     {
-        path: 'BlankPage1',
+        path: 'blank-page1',
         name: 'page1',
-        redirect: 'BlankPage1/Test1',
+        redirect: { name: 'Test11' },
         meta: {
             title: '测试1',
             icon: 'pie-chart'
@@ -13,7 +13,7 @@ export default [
         component: () => basicCard('Page11'),
         children: [
             {
-                path: 'Test1',
+                path: 'test11',
                 name: 'Test11',
                 meta: {
                     title: '测试11',
@@ -22,7 +22,7 @@ export default [
                 component: () => import('@/views/BlankPage/Test1')
             },
             {
-                path: 'Test2',
+                path: 'test12',
                 name: 'Test12',
                 meta: {
                     title: '测试12',
