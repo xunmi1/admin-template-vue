@@ -4,11 +4,11 @@ self.__precacheManifest = [
     "url": "js/VMenu-legacy.594ddd9c.js"
   },
   {
-    "revision": "51a26e53b4f93bc29bb7afa82e93f7c5",
+    "revision": "45cd09986bb9864e24015670bb122337",
     "url": "index.html"
   },
   {
-    "revision": "dbc7a2750700dce26ee0",
+    "revision": "395e4106886d254d0511",
     "url": "js/chunk-vendors-legacy.2d08db42.js"
   },
   {
@@ -68,8 +68,8 @@ self.__precacheManifest = [
     "url": "js/VRichEditor-legacy.0685f350.js"
   },
   {
-    "revision": "86f75d5a2b37d452ae31",
-    "url": "js/app-legacy.017bfb34.js"
+    "revision": "e329a7a6bad11c00418d",
+    "url": "js/app-legacy.606fe507.js"
   },
   {
     "revision": "3e98c344894c4dfb437a",
@@ -80,12 +80,12 @@ self.__precacheManifest = [
     "url": "css/Setting.594f97f6.css"
   },
   {
-    "revision": "86f75d5a2b37d452ae31",
+    "revision": "e329a7a6bad11c00418d",
     "url": "css/app.7f3944b9.css"
   },
   {
-    "revision": "dbc7a2750700dce26ee0",
-    "url": "css/chunk-vendors.7b5af108.css"
+    "revision": "395e4106886d254d0511",
+    "url": "css/chunk-vendors.b8018ca7.css"
   },
   {
     "revision": "3e98c344894c4dfb437a",
