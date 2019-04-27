@@ -40,7 +40,7 @@ export default {
     // 文件接受类型
     fileAccept: {
         type: Array,
-        default: () => ['.txt', '.docx', '.doc', '.xlsx', '.xls', '.csv', '.pptx', '.ppt', '.pdf', '.zip', '.rar', '.md']
+        default: () => ['.txt', '.docx', '.doc', '.xlsx', '.xls', '.csv', '.pptx', '.ppt', '.pdf', '.zip', '.rar', '.md', 'image/*']
     },
     // 图片大小上限
     maxSize: { // 图片大小

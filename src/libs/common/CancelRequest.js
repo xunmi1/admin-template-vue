@@ -21,13 +21,15 @@ const CancelRequest = function () {
 
     this.__list = new Map();
     this.cancel = function (name, params) {
-        if (name && typeof this.__list.get(name) === 'function') {
-            return this.__list.get(name)(params);
+        if (name != null && typeof this.__list.get(name) === 'function') {
+            const fn = this.__list.get(name)(params);
+            this.__list.delete(name);
+            return fn;
         }
         throw new Error('未声明对应的令牌 token');
     };
     this.token = function (name) {
-        if (name) {
+        if (name != null) {
             return new CancelToken(fn => this.__list.set(name, fn));
         }
         throw new Error('缺少令牌 token 标识');

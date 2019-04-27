@@ -171,7 +171,8 @@
                     const base64 = reader.result.split(',')[1];
                     const blobInfo = blobCache.create(id, file, base64);
                     blobCache.add(blobInfo);
-                    callback(blobInfo.blobUri(), { title: file.name, alt: file.name });
+                    this.imageUpload(blobInfo, callback);
+                    // callback(blobInfo.blobUri(), { title: file.name, alt: file.name });
                 };
                 reader.readAsDataURL(file);
             },
@@ -205,12 +206,12 @@
                 }
                 this.http({ name: 'image', file: blob })
                     .then(res => {
-                        success(res.path);
+                        success(res.path, { title: blob.name, alt: blob.name });
                         this.$emit('success', res.path);
                     })
                     .catch(err => {
                         this.$emit('error', { type: 'uplaod', message: err });
-                        failure('上传失败！');
+                        if (typeof failure === 'function') failure('上传失败！');
                     });
             },
 

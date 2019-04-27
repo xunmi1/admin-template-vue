@@ -1,5 +1,5 @@
 import { upload } from '@/api/file';
-import { toXlsx } from '@/libs/common/xlsx';
+import { toXlsx } from '@/libs/xlsx';
 
 // 包裹富文本组件，默认提供 http 方法
 export const wrappedEditor = function (component) {
