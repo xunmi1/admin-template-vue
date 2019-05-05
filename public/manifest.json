@@ -1,6 +1,6 @@
 {
-  "name": "ant-system",
-  "short_name": "ant-system",
+  "name": "Admin Template",
+  "short_name": "Admin Template",
   "icons": [
     {
       "src": "./icons/android-chrome-192x192.png",

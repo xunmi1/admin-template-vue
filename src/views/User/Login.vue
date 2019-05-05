@@ -118,12 +118,12 @@
                         ]
                     },
                     password: {
-                        initialValue: 'ant-system',
+                        initialValue: 'admin-template',
                         validateFirst: true,
                         normalize: value => value ? value.toString().trim() : null,
                         rules: [
                             { required: true, whitespace: true, message: '请输入你的密码!' },
-                            { min: 6, message: '不少于5个字符' },
+                            { min: 5, message: '不少于5个字符' },
                             { max: 45, message: '不超过45个字符' },
                             { validator: this.compareToUserName }
                         ]

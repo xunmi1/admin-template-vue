@@ -9,8 +9,8 @@ const config = deepFreeze({
      * @description 配置显示在浏览器标签的title
      */
     title: {
-        small: 'New System',
-        main: 'New System'
+        small: 'Admin Template',
+        main: 'Admin Template'
     },
     // 位于 public 目录下
     logoPath: 'icons/fire.svg',
@@ -43,9 +43,9 @@ const config = deepFreeze({
     // 主体页面的 name 值，用于生成 menu 导航菜单
     mainName: 'Main',
     // 本地存储前缀标识，建议不同系统自定义配置
-    dbPrefix: 'newSystem',
+    dbPrefix: 'admin-template',
     // 组织/公司/个人， 用于 footer
-    org: 'Xunmi'
+    org: 'xunmi'
 });
 
 export default config;

@@ -1,16 +1,20 @@
 import service from '@/libs/service';
 
-export function login (data, cancelToken) {
+const mockUserInfo = {
+    info: {
+        id: 1,
+        username: 'admin',
+        password: 'admin-template',
+        nickname: '管理员',
+        avatar: 'admin',
+        email: '',
+    },
+    accessToken: 'TOKEN'
+};
+
+export function login (data) {
     if (data.userName && data.password) {
-        return service.request({
-            url: 'login',
-            data: {
-                username: data.userName,
-                password: data.password
-            },
-            method: 'post',
-            cancelToken
-        });
+        return Promise.resolve(mockUserInfo);
     } else {
         return Promise.reject('missing parameter');
     }

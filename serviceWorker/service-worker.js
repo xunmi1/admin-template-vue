@@ -2,7 +2,7 @@
 /* eslint-disable no-restricted-globals */
 
 workbox.core.setCacheNameDetails({
-    prefix: 'ant-system',
+    prefix: 'Admin Template',
     suffix: 'v1.1.0'
 });
 workbox.clientsClaim();

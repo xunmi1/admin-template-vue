@@ -89,10 +89,6 @@ module.exports = {
             return args;
         });
 
-        const entry = config.entry('app');
-        // 判断环境加入模拟数据(用于演示，这里不判断)
-        // if (!isProduction) entry.add('@/mock').end();
-        entry.add('@/mock').end();
         // 修改针对 svg 的 loader (file-loader -> vue-svg-loader)
         // 当引入 svg 文件加入`?inline`后缀时, 会处理成 vue 组件
         const svgRule = config.module.rule('svg');

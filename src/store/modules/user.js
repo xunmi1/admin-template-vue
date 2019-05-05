@@ -36,7 +36,7 @@ export default {
             return login({ userName, password })
                 .then(res => {
                     commit('setToken', {
-                        token: res.access_token,
+                        token: res.accessToken,
                         remember
                     });
                     const userInfo = {
