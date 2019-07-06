@@ -1,6 +1,6 @@
 import config from '@/config';
 import db from '@/libs/db';
-import * as util from '@/libs/common/util';
+import * as util from '@/libs/util';
 
 export default {
     $app: config,

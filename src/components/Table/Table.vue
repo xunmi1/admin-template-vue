@@ -19,7 +19,7 @@
                     :name="column.scopedSlots.customRender"
                     v-bind="{ row: record, column, index, value: text }"
                 >
-                    <span :key="column.dataIndex + index" class="table-cell">{{ text }}</span>
+                    <span :key="column.dataIndex + index">{{ text }}</span>
                 </slot>
             </template>
         </ATable>
@@ -217,18 +217,9 @@
     };
     const BAN_SLOTS = ['index', 'title', 'expandedRowRender', 'expandIcon', 'footer'];
     const warn = function (name) {
-        if (process.env.NODE_ENV !== 'production') {
-            if (BAN_SLOTS.includes(name)) {
-                console.error(`The key '${ name }' is banned, and you need to use the other key!`);
-            }
+        if (process.env.NODE_ENV !== 'production' && BAN_SLOTS.includes(name)) {
+            console.error(`The key '${ name }' is banned, and you need to use the other key!`);
         }
         return name;
     };
 </script>
-
-<style scoped>
-    .table-cell {
-        display: inline-block;
-        min-width: 72px;
-    }
-</style>
