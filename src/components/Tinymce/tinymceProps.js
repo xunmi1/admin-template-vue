@@ -61,5 +61,10 @@ export default {
     autoSavePrefix: {
         type: String,
         default: 'tinymce-autosave-{path}{query}-{id}-'
+    },
+    // 富文本所需的静态资源
+    baseURL: {
+        type: String,
+        default: './tinymce'
     }
 };

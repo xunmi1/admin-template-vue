@@ -2,14 +2,14 @@
 /* eslint-disable no-restricted-globals */
 
 workbox.core.setCacheNameDetails({
-    prefix: 'Admin Template',
+    prefix: 'admin-template',
     suffix: 'v1.1.0'
 });
 workbox.clientsClaim();
 workbox.precaching.suppressWarnings();
 
 // 缓存打包后的静态文件
-workbox.precaching.precacheAndRoute(self.__precacheManifest || [], {});
+workbox.precaching.precacheAndRoute(self.__precacheManifest || []);
 
 /**
  * 缓存策略

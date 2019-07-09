@@ -39,6 +39,24 @@
     import 'tinymce/plugins/fullscreen';
     import 'tinymce/plugins/quickbars';
 
+    const EDITOR_STYLE = (() => {
+        const defaultStyle = 'p {font-size: 14pt;font-family: FangSong; line-height: 1.5; margin: 0}';
+        return {
+            default: defaultStyle,
+            word: `
+                     html { background-color: #eee}
+                     body {
+                         width: 210mm;
+                         min-height: 247mm;
+                         padding: 12mm 28mm;
+                         margin: 16px auto;
+                         box-shadow: 0 1px 4px rgba(10, 21, 42, .12);
+                         background-color: #fff;
+                     }
+                ` + defaultStyle
+        };
+    })();
+
     export default {
         model: {
             prop: 'value',
@@ -63,7 +81,7 @@
             }
         },
         created () {
-            this.setEditorStyle();
+            [tinymce.baseURL, tinymce.suffix] = [this.baseURL, '.min'];
             this.option = this.getOptions();
             this.updateSkin();
             this.updateMode();
@@ -85,8 +103,6 @@
         },
         methods: {
             getOptions () {
-                tinymce.baseURL = './tinymce';
-                tinymce.suffix = '.min';
                 const setting = {
                     selector: `#${ this.editorId }`,
                     autosave_prefix: this.autoSavePrefix,
@@ -111,7 +127,7 @@
             updateMode () {
                 const isInline = this.mode === 'inline';
                 const plugins = this.option.plugins;
-                this.option.content_style = this.editorStyle[isInline ? 'default' : this.type];
+                this.option.content_style = EDITOR_STYLE[isInline ? 'default' : this.type];
                 this.option.inline = isInline;
                 this.option.toolbar = !isInline && defaultConfig.toolbar;
                 this.option.menubar = !isInline && defaultConfig.menubar;
@@ -121,11 +137,11 @@
             updateToolbar () {
                 if (this.isMobile) {
                     this.option.menubar = !this.isMobile;
-                    this.option.content_style = this.editorStyle.default;
+                    this.option.content_style = EDITOR_STYLE.default;
                     this.option.toolbar = defaultConfig.mobile_phone_toolbar;
                 } else {
                     this.option.menubar = defaultConfig.menubar;
-                    this.option.content_style = this.editorStyle[this.type];
+                    this.option.content_style = EDITOR_STYLE[this.type];
                     this.option.toolbar = defaultConfig.toolbar;
                 }
             },
@@ -275,23 +291,6 @@
                 if (!this.$listeners['validator-error']) {
                     tinymce.activeEditor.windowManager.alert(message);
                 }
-            },
-            setEditorStyle () {
-                const defaultStyle = 'p {font-size: 14pt;font-family: FangSong; line-height: 1.5; margin: 0}';
-                this.editorStyle = {
-                    default: defaultStyle,
-                    word: `
-                        html { background-color: #eee}
-                        body {
-                            width: 210mm;
-                            min-height: 247mm;
-                            padding: 12mm 28mm;
-                            margin: 16px auto;
-                            box-shadow: 0 1px 4px rgba(10, 21, 42, .12);
-                            background-color: #fff;
-                        }
-                    ` + defaultStyle
-                };
             }
         }
     };

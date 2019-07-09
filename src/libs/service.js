@@ -35,11 +35,16 @@ class MyRequest extends AxiosRequest {
     /**
      * 设置 token, 注: 由 commit('user/setToken') 触发
      * @param {string} token
+     * @param {boolean} [skip=false] 是否跳过模板替换
      */
-    setToken (token) {
+    setToken (token, skip = false) {
         this.tokenConfig = {
             ...config.token,
-            value: token ? config.token.value.replace('TOKEN', token) : null
+            value: token
+                ? skip
+                    ? token
+                    : config.token.value.replace('TOKEN', token)
+                : null
         };
     }
 
@@ -61,7 +66,9 @@ class MyRequest extends AxiosRequest {
         if (!option.notVersion) {
             option.url = config.apiVersion + url;
         }
-        return super.request(option).then(response => response.data);
+        return super.request(option)
+            .then(response => response.data)
+            .catch(err => Promise.reject(err && err.data));
     }
 }
 

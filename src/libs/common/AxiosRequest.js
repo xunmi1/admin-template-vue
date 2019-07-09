@@ -29,10 +29,10 @@ class AxiosRequest {
                 error.message = failHandler.msg;
                 AxiosRequest.addErrorLog(error);
                 if (typeof failHandler.handler === 'function') {
-                    return failHandler.handler(error && error.data);
+                    return failHandler.handler(error);
                 }
             }
-            return Promise.reject(error && error.data);
+            return Promise.reject(error);
         } catch {
             throw new Error(ctx);
         }
@@ -80,9 +80,7 @@ class AxiosRequest {
             return res;
         }, error => {
             this.destroy(url);
-            if (error.constructor.name === 'Cancel') {
-                return Promise.reject(error);
-            }
+            if (error.constructor.name === 'Cancel') return Promise.reject(error);
             return AxiosRequest.handlerError(error);
         });
     }

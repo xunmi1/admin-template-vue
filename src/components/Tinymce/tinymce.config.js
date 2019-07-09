@@ -4,6 +4,7 @@ export default {
     ],
     menubar: 'file edit insert view format table tools',
     toolbar: 'undo redo | fontselect fontsizeselect | bold italic forecolor backcolor underline | formatselect | alignleft aligncenter alignright alignjustify | bullist numlist | table image link unlink  | removeformat fullscreen',
+    // 自定义扩展，非原生 api
     mobile_phone_toolbar: 'undo redo bold italic underline  forecolor styleselect fontsizeselect bullist table image link unlink ',
     toolbar_drawer: 'floating',
     language: 'zh_CN',

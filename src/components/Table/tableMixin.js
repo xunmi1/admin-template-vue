@@ -100,11 +100,14 @@ export default {
             if (newVal) {
                 this.setTableList();
             }
+        },
+        'dataSource.length'(newVal) {
+            this.total = newVal;
         }
     }
 };
 
 const equal = function (newVal, oldVal) {
-    const [_newVal, _oldVal] = [JSON.stringify(newVal), JSON.stringify(oldVal)];
+    const [_newVal, _oldVal] = [newVal, oldVal].map(value => JSON.stringify(value));
     return _newVal === _oldVal;
 };

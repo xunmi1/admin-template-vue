@@ -9,11 +9,13 @@ export const wrappedEditor = function (component) {
             const prefix = `${ context.parent.$app.dbPrefix }-tinyMCE-autosave-${ context.parent.$route.fullPath }-`;
             const store = context.parent.$store;
             const props = {
+                // 设置富文本所需的静态资源的基础 url
+                baseURL: process.env.BASE_URL + 'tinymce',
                 http: upload,
                 autoSavePrefix: prefix,
                 skin: store.state.app.layout.menuTheme || 'light',
                 isMobile: store.getters['app/isMobileDevice'],
-                ...(context.props || {})
+                ...context.props
             };
             return h(component, { ...context.data, props }, context.children);
         }

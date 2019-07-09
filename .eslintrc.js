@@ -89,7 +89,7 @@ module.exports = {
         // 禁止函数的循环复杂度超过 20, 例如连续 20 个 if 判断
         'complexity': 'error',
         // 禁止使用位运算符，除非 !!
-        'no-implicit-coercion': ['error', { 'allow': ['!!'] }],
+        'no-implicit-coercion': ['error', { 'allow': ['!!', '+'] }],
         'no-labels': 'error',
         'no-new-func': 'error',
         // 禁止在 if 中声明函数
