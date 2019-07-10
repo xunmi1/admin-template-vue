@@ -29,7 +29,7 @@ class AxiosRequest {
                 error.message = failHandler.msg;
                 AxiosRequest.addErrorLog(error);
                 if (typeof failHandler.handler === 'function') {
-                    return failHandler.handler(error);
+                    failHandler.handler(error);
                 }
             }
             return Promise.reject(error);

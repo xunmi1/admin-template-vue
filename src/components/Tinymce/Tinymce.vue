@@ -266,7 +266,7 @@
             bindEvent (editor) {
                 const events = [
                     {
-                        key: 'Input Undo Redo SetContent',
+                        key: 'Input SetContent Change',
                         handler: () => this.$emit('change', editor.getContent())
                     },
                     {
