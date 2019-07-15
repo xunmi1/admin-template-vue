@@ -16,7 +16,7 @@
                 class="layout-sider layout-header"
             >
                 <Logo :collapsed="collapsed" :theme="menuTheme" />
-                <VMenu
+                <Menu
                     :menu-data="menuList"
                     :selected-keys="currentName"
                     :open-keys.sync="layout.openKeys"
@@ -60,7 +60,7 @@
                 <Footer :width="isVertical ? siderWidth : 0" />
             </ALayout>
         </ALayout>
-        <Setting v-if="showSetting" v-model="showSetting" />
+        <Setting v-model="showSetting" />
         <BackTop />
     </div>
 </template>
@@ -69,24 +69,24 @@
     import { mapGetters, mapMutations, mapState } from 'vuex';
     import screenMixin from './mixins/screenMixin';
     import themeMixin from './mixins/themeMixin';
+    import Menu from './components/Menu';
     import Logo from './components/Logo';
     import UserMenu from './components/UserMenu';
     import FullScreen from './components/FullScreen';
     import SettingBtn from './components/SettingBtn';
+    import Setting from './components/Setting';
     import Breadcrumb from './components/Breadcrumb';
     import Footer from './components/Footer';
     import BackTop from './components/BackTop';
-
-    const getMenuChildren = children =>
-        Array.isArray(children) && children.filter(item => !(item.meta && item.meta.hideInMenu));
 
     export default {
         name: 'BasicLayout',
         components: {
             MenuDrawer: () => import(/* webpackChunkName: "MenuDrawer" */'./components/MenuDrawer'),
-            Setting: () => import(/* webpackChunkName: "Setting" */'./components/Setting'),
+            Menu,
             Logo,
             SettingBtn,
+            Setting,
             UserMenu,
             FullScreen,
             Breadcrumb,
@@ -225,6 +225,10 @@
             }
         }
     };
+
+    const getMenuChildren = children =>
+        Array.isArray(children) && children.filter(item => !(item.meta && item.meta.hideInMenu));
+
     const findOpenKeys = function (path, current, menu) {
         return Array.isArray(menu) && menu.some(item => {
             if (item.key === current) return true;
@@ -259,6 +263,8 @@
                 background-color: #fff;
                 padding: 0;
                 transition: all .2s;
+                box-shadow: 0 1px 4px rgba(0, 21, 41, .08);
+                z-index: 110;
 
                 > div {
                     line-height: 64px;
@@ -302,10 +308,6 @@
         .menu-left {
             margin-right: auto;
         }
-
-        &-breadcrumb {
-            margin-bottom: 12px;
-        }
     }
 
     .header-fixed {
@@ -313,7 +315,6 @@
         top: 0;
         right: 0;
         width: 100%;
-        z-index: 110;
         box-shadow: 0 1px 4px rgba(10, 21, 42, .1);
     }
 

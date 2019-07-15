@@ -28,6 +28,7 @@ export const wrappedTable = function (component) {
     const renamed = ({ current, ...rest }) => ({ page: current, ...rest });
     const proxyService = function (service) {
         if (typeof service === 'function') {
+            // 适配接口返回值，以 meta 字段中的 total 为总条数
             return (params = {}) => service(renamed(params))
                 .then(({ data = [], meta = {} }) => ({
                     data,

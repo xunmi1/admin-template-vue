@@ -4,7 +4,7 @@
             :selected-keys.sync="selectedKeys"
             row-key="key"
             :columns="columns"
-            :data-source="data"
+            :http="getTableData"
             :page-size="3"
             :current="2"
             is-xlsx
@@ -17,18 +17,16 @@
 </template>
 
 <script>
-    const data = [
-        { key: '1', name: 'John Brown', age: 32, address: 'New York No. 1 Lake Park' },
-        { key: '2', name: 'Joe Black', age: 42, address: 'London No. 1 Lake Park' },
-        { key: '3', name: 'Jim Green', age: 32, address: 'Sidney No. 1 Lake Park' },
-        { key: '4', name: 'Jim Red', age: 32, address: 'London No. 2 Lake Park' }
-    ];
+    /**
+     * 表格组件使用例子
+     * getTableData 的查询参数、返回值等格式由 /plugin/wrapped.js 模块中的表格组件包装函数控制
+     */
+    import { getTableData } from '@/api/news';
 
     export default {
         name: 'Test',
         data () {
             return {
-                data,
                 columns: [
                     { title: 'Name', key: 'name' },
                     { title: 'Age', key: 'age' },
@@ -38,13 +36,10 @@
             };
         },
         created () {
-            setTimeout(() => {
-                this.selectedKeys.push('1', '3');
-            }, 3000);
+            setTimeout(() => this.selectedKeys.push('21', '13', '62'), 5000);
+        },
+        methods: {
+            getTableData
         }
     };
 </script>
-
-<style scoped>
-
-</style>

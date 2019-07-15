@@ -109,6 +109,12 @@
                     [this.total, this.tableData] = [res.total, res.data];
                     this.$emit('change', this.tableData);
                 }
+                // 如果页码 > 1 且 表格数据为空，则回退到上一页
+                if (this.tableParams.current > 1 && !this.tableData.length) {
+                    this.tableParams.current -= 1;
+                    this.setTableList();
+                    return;
+                }
                 // 通知已经刷新
                 if (this.isReload) this.$emit('update:is-reload', false);
                 this.loading = false;

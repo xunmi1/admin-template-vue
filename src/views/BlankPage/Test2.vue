@@ -7,21 +7,21 @@
 </template>
 
 <script>
-    import { articles } from '@/api/news';
+    import { getArticles } from '@/api/news';
     import CancelRequest from '@/libs/common/CancelRequest';
 
     export default {
         name: 'Test2',
         mounted () {
             const source = new CancelRequest();
-
-            articles({}, source.token(1))
+            // 模拟取消请求
+            getArticles({}, source.token(1))
                 .then(res => console.log(res))
                 .catch(err => console.log(err));
             source.cancel(1, 'canceled1');
 
             setTimeout(() => {
-                articles({}, source.token('articles2'))
+                getArticles({}, source.token('articles2'))
                     .then(res => console.log(res))
                     .catch(err => console.log(err));
                 source.cancel('articles2', 'canceled2');
@@ -34,7 +34,3 @@
         }
     };
 </script>
-
-<style scoped>
-
-</style>

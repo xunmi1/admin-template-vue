@@ -8,7 +8,7 @@ Vue.use(Vuex);
 // useSubdirectories: 是否检索子目录
 // regExp: 匹配文件的正则表达式
 const files = require.context('./modules', false, /\.js$/);
-const [modules,plugins] = [{}, []];
+const [modules, plugins] = [{}, []];
 files.keys().forEach(key => {
     modules[key.replace(/(\.\/|\.js)/g, '')] = files(key).default;
 });
@@ -23,5 +23,5 @@ export default new Vuex.Store({
     mutations: {},
     actions: {},
     modules,
-    plugins,
+    plugins
 });

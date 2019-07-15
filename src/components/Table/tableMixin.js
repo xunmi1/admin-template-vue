@@ -14,7 +14,7 @@ export default {
         },
         // 是否阻止组件 created() 时自动请求数据
         notAuto: Boolean,
-        // 是否开启内部分页
+        // 是否开启内部分页, 适用于接口不提供分页的情况，以减少不必要的数据请求
         isPaging: Boolean,
         // 表头
         columns: {

@@ -44,9 +44,10 @@ module.exports = {
     },
 
     devServer: {
-        port: 8888
+        port: 8888,
+        open: true
     },
-    // https://github.com/vuejs/vue-docs-zh-cn/blob/master/vue-cli-plugin-pwa/README.md
+    // @see https://github.com/vuejs/vue-docs-zh-cn/blob/master/vue-cli-plugin-pwa/README.md
     pwa: {
         themeColor: '#002140',
         msTileColor: '#002140',
@@ -76,7 +77,7 @@ module.exports = {
         ]
     },
 
-    // 默认设置: https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-service/lib/config/base.js
+    // @see https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-service/lib/config/base.js
     chainWebpack: config => {
         config.resolve.alias.set('@c', resolve('src/components'));
         // 修改 copy-webpack-plugin (modern 模式只会在第二次打包时复制，因此需要判断)
