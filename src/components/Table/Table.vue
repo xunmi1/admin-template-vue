@@ -3,12 +3,12 @@
         <ATable
             :row-selection="rowSelection"
             :row-key="rowKey"
-            :pagination="pagination && { ...pagination, total, ...tableParams}"
+            :pagination="pagination && {...pagination, total, ...tableParams}"
             :columns="slotColumns"
             :loading="loading"
             :data-source="tableData"
-            @change="setTableParams"
             v-bind="$attrs"
+            @change="setTableParams"
             v-on="$listeners"
         >
             <template
@@ -17,7 +17,7 @@
             >
                 <slot
                     :name="column.scopedSlots.customRender"
-                    v-bind="{ row: record, column, index, value: text }"
+                    v-bind="{row: record, column, index, value: text}"
                 >
                     <span :key="column.dataIndex + index">{{ text }}</span>
                 </slot>

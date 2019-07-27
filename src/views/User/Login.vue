@@ -2,9 +2,9 @@
     <div>
         <header class="header v-center">
             <img
+                v-if="$app.logoPath"
                 v-once
                 :src="publicPath + $app.logoPath"
-                v-if="$app.logoPath"
                 alt="logo"
                 height="46"
                 class="header-logo"
@@ -12,7 +12,7 @@
             <h1 class="header-title v-to-zero">{{ title }}</h1>
         </header>
         <main>
-            <AForm :form="loginForm" @submit.prevent="login" class="login-form">
+            <AForm :form="loginForm" class="login-form" @submit.prevent="login">
                 <AFormItem>
                     <AInput
                         v-decorator="getRules('userName')"

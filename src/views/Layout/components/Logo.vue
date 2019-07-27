@@ -1,9 +1,9 @@
 <template>
     <div :class="[isVertical ? 'logo-vertical' : 'logo-horizontal', theme]">
         <img
+            v-if="$app.logoPath"
             v-once
             :src="publicPath + $app.logoPath"
-            v-if="$app.logoPath"
             alt="图标"
             height="36"
             width="36"

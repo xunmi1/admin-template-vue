@@ -1,5 +1,5 @@
 <template functional>
-    <ASubMenu v-on="listeners" :key="data.key">
+    <ASubMenu :key="data.key" v-on="listeners">
         <template #title>
             <AIcon :type="props.item.icon" />
             <span>{{ props.item.title }}</span>
@@ -9,7 +9,7 @@
                 <AIcon v-if="i.icon" :type="i.icon" />
                 <span>{{ i.title }}</span>
             </AMenuItem>
-            <SubMenu v-else :item="i" :key="i.key || i.name" />
+            <SubMenu v-else :key="i.key || i.name" :item="i" />
         </template>
     </ASubMenu>
 </template>

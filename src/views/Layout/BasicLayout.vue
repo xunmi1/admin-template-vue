@@ -11,7 +11,7 @@
                 :class="{
                     'header-fixed': !isVertical && isFixedHeader,
                     'sider-fixed': isVertical && isFixedSider,
-                    'menu-theme-light' : menuTheme === 'light',
+                    'menu-theme-light': menuTheme === 'light',
                 }"
                 class="layout-sider layout-header"
             >
@@ -22,8 +22,8 @@
                     :open-keys.sync="layout.openKeys"
                     :mode="layout.mode"
                     :theme="menuTheme"
-                    @click="pushRouter"
                     :class="[`menu-${isMenuRight ? 'right' : 'left'}`, 'menu']"
+                    @click="pushRouter"
                 />
                 <div v-if="!isVertical" class="header-tool">
                     <FullScreen />
@@ -39,7 +39,7 @@
                     :class="{'header-fixed': isFixedHeader}"
                     class="layout-main-header"
                 >
-                    <div @click="toggleCollapsed" class="trigger v-icon-hover">
+                    <div class="trigger v-icon-hover" @click="toggleCollapsed">
                         <AIcon :type="collapsed ? 'menu-unfold' : 'menu-fold'" />
                     </div>
                     <Breadcrumb v-if="!isMobileDevice" />

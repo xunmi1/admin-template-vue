@@ -5,7 +5,7 @@
                 <AIcon v-if="item.icon" :type="item.icon" />
                 <span>{{ item.title }}</span>
             </AMenuItem>
-            <SubMenu v-else :item="item" :key="item.key || item.name" />
+            <SubMenu v-else :key="item.key || item.name" :item="item" />
         </template>
     </AMenu>
 </template>

@@ -57,15 +57,17 @@ module.exports = {
         // 组件的属性必须为一定的顺序，方便阅读
         'vue/order-in-components': 'error',
         // 组件的标签属性按照一定的顺序
-        'vue/attributes-order': 'warning',
+        'vue/attributes-order': 'warn',
         'vue/eqeqeq': ['error', 'always', { 'null': 'ignore' }],
-        'vue/arrow-spacing': 'warning',
-        'vue/block-spacing': 'warning',
+        'vue/arrow-spacing': 'warn',
+        'vue/block-spacing': 'warn',
         'vue/brace-style': 'error',
-        'vue/key-spacing': 'warning',
-        'vue/object-curly-spacing': 'warning',
-        'vue/space-infix-ops': 'warning',
-        'vue/space-unary-ops': 'warning',
+        'vue/key-spacing': 'warn',
+        'vue/object-curly-spacing': 'warn',
+        'vue/space-infix-ops': 'warn',
+        'vue/space-unary-ops': 'warn',
+        // 禁止在模板中使用 this
+        'vue/this-in-template': ['error', 'never'],
 
         // js 部分
         'indent': ['warn', 4],
@@ -139,7 +141,7 @@ module.exports = {
         // 句尾分号
         'semi': 'error',
         // 禁止 new String Boolean 等
-        'no-new-wrappers': 'error',
+        'no-new-wrappers': 'error'
     },
     overrides: [
         {

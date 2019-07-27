@@ -2,55 +2,55 @@
     <ADrawer
         :visible="visible"
         :width="286"
-        @close="onClose"
         class="setting"
         title="界面设置"
+        @close="onClose"
     >
         <div class="setting-option-mb">
             <h4 class="setting-title">导航菜单风格</h4>
             <ATooltip title="暗色">
-                <div @click="toggle('menuTheme', 'dark')" class="setting-layout">
-                    <DarkMenuSvg class="setting-svg" v-once />
-                    <AIcon class="check-icon v-theme-color" type="check" v-show="menuTheme === 'dark'" />
+                <div class="setting-layout" @click="toggle('menuTheme', 'dark')">
+                    <DarkMenuSvg v-once class="setting-svg" />
+                    <AIcon v-show="menuTheme === 'dark'" class="check-icon v-theme-color" type="check" />
                 </div>
             </ATooltip>
             <ATooltip title="亮色">
-                <div @click="toggle('menuTheme', 'light')" class="setting-layout">
-                    <LightMenuSvg class="setting-svg" v-once />
-                    <AIcon class="check-icon v-theme-color" type="check" v-show="menuTheme === 'light'" />
+                <div class="setting-layout" @click="toggle('menuTheme', 'light')">
+                    <LightMenuSvg v-once class="setting-svg" />
+                    <AIcon v-show="menuTheme === 'light'" class="check-icon v-theme-color" type="check" />
                 </div>
             </ATooltip>
         </div>
         <div>
             <h4 class="setting-title">导航菜单布局</h4>
             <ATooltip title="侧边菜单">
-                <div @click="toggle('isVertical', true)" class="setting-layout">
-                    <VerticalSvg class="setting-svg" v-once />
-                    <AIcon class="check-icon v-theme-color" type="check" v-show="isVertical" />
+                <div class="setting-layout" @click="toggle('isVertical', true)">
+                    <VerticalSvg v-once class="setting-svg" />
+                    <AIcon v-show="isVertical" class="check-icon v-theme-color" type="check" />
                 </div>
             </ATooltip>
             <ATooltip title="顶部菜单">
                 <div
-                    @click="isMobileDevice ? null : toggle('isVertical', false)"
                     :class="{'setting-layout': true, 'v-disabled': isMobileDevice}"
+                    @click="isMobileDevice ? null : toggle('isVertical', false)"
                 >
-                    <HorizontalSvg class="setting-svg" v-once />
-                    <AIcon class="check-icon v-theme-color" type="check" v-show="!isVertical" />
+                    <HorizontalSvg v-once class="setting-svg" />
+                    <AIcon v-show="!isVertical" class="check-icon v-theme-color" type="check" />
                 </div>
             </ATooltip>
             <ADivider />
         </div>
-        <div class="setting-option-mb" v-if="!!themeList">
+        <div v-if="!!themeList" class="setting-option-mb">
             <h4 class="setting-title">主题风格</h4>
             <ul class="setting-theme v-to-zero">
                 <template v-for="item of themeList">
                     <ATooltip :key="item.name" :title="item.text">
                         <li
                             :style="{backgroundColor: item.variables['@primary-color']}"
-                            @click="toggle('theme', item.name)"
                             class="v-to-zero v-pointer v-center"
+                            @click="toggle('theme', item.name)"
                         >
-                            <AIcon class="check-icon" type="check" v-show="theme === item.name" />
+                            <AIcon v-show="theme === item.name" class="check-icon" type="check" />
                         </li>
                     </ATooltip>
                 </template>
@@ -61,8 +61,8 @@
             <span class="setting-title">固定导航栏</span>
             <ASwitch
                 :checked="isFixedHeader"
-                @change="toggle('isFixedHeader', $event)"
                 class="setting-switch"
+                @change="toggle('isFixedHeader', $event)"
             />
         </div>
         <div class="setting-option-mb">
@@ -71,8 +71,8 @@
                 <ASwitch
                     :checked="isFixedSider"
                     :disabled="!isVertical"
-                    @change="toggle('isFixedSider', $event)"
                     class="setting-switch"
+                    @change="toggle('isFixedSider', $event)"
                 />
             </ATooltip>
         </div>
@@ -82,8 +82,8 @@
                 <ASwitch
                     :checked="isMenuRight"
                     :disabled="isVertical"
-                    @change="toggle('isMenuRight', $event)"
                     class="setting-switch"
+                    @change="toggle('isMenuRight', $event)"
                 />
             </ATooltip>
         </div>

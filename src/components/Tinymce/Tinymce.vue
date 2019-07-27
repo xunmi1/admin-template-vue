@@ -1,12 +1,12 @@
 <template>
     <div>
-        <input :accept="fileAccept.join()" ref="fileNode" style="display: none" type="file">
+        <input ref="fileNode" :accept="fileAccept.join()" style="display: none" type="file">
         <div :style="{display: !visible ? 'none' : 'block'}">
-            <div :id="editorId" v-if="active" :key="editorId">
+            <div v-if="active" :id="editorId" :key="editorId">
                 <slot />
             </div>
         </div>
-        <div v-html="value" :style="{display: visible ? 'none' : 'block'}"></div>
+        <div :style="{display: visible ? 'none' : 'block'}" v-html="value"></div>
     </div>
 </template>
 

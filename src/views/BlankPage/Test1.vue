@@ -1,6 +1,6 @@
 <template>
     <div>
-        <VRichEditor type="word" v-model="content" />
+        <VRichEditor v-model="content" type="word" />
     </div>
 </template>
 

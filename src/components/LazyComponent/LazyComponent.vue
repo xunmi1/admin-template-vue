@@ -1,12 +1,12 @@
 <template>
     <transition-group
         v-bind="$attrs"
-        v-on="$listeners"
         :tag="tag"
-        :name="$attrs.name||'lazy-component'"
-        :enter-class="$attrs.enterClass||'lazy-component-enter lazy-component-'+orientation"
-        :leave-to-class="$attrs.leaveToClass||'lazy-component-leave-to lazy-component-'+orientation"
+        :name="$attrs.name || 'lazy-component'"
+        :enter-class="$attrs.enterClass || 'lazy-component-enter lazy-component-' + orientation"
+        :leave-to-class="$attrs.leaveToClass || 'lazy-component-leave-to lazy-component-' + orientation"
         style="position: relative;"
+        v-on="$listeners"
     >
         <div v-if="isInit" key="component">
             <slot :is-load="isBeforeInit" />

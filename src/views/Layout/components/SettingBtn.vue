@@ -1,6 +1,6 @@
 <template functional>
     <ATooltip title="界面设置">
-        <div v-on="listeners" class="setting v-icon-hover">
+        <div class="setting v-icon-hover" v-on="listeners">
             <AIcon type="setting" class="setting-icon" />
         </div>
     </ATooltip>
