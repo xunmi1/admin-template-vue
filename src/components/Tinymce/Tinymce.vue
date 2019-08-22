@@ -65,7 +65,7 @@
         props: tinymceProps,
         data () {
             return {
-                editorId: `editor${ Date.now() }${ Math.round(Math.random() * 1000) }`,
+                editorId: this.editorKey || `editor${ Date.now() }${ Math.round(Math.random() * 1000) }`,
                 active: true
             };
         },

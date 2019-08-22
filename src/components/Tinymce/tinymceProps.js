@@ -1,5 +1,7 @@
 export default {
     value: [String, Number],
+    // 唯一 key 值
+    editorKey: [Number, String],
     // 是否可见
     visible: {
         type: Boolean,

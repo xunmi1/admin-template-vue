@@ -76,7 +76,7 @@ export default {
     watch: {
         params: {
             handler (newVal, oldVal) {
-                if (newVal && !equal(newVal, oldVal)) {
+                if (newVal && (newVal === oldVal || !equal(newVal, oldVal))) {
                     this.tableParams.current = 1;
                     this.total = 0;
                     this.setTableList();
