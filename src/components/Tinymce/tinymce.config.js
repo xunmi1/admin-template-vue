@@ -54,7 +54,7 @@ export default {
     formats: {
         p: {
             selector : 'p, span, a',
-            styles: { textIndent:'2em', fontSize: '14pt', lineHeight: '1.5', margin: '0' }
-        }
+            styles: { textIndent:'2em', fontSize: '14pt', lineHeight: '1.5', margin: '0' },
+        },
     },
 };

@@ -15,10 +15,10 @@ export const wrappedEditor = function (component) {
                 autoSavePrefix: prefix,
                 skin: store.state.app.layout.menuTheme || 'light',
                 isMobile: store.getters['app/isMobileDevice'],
-                ...context.props
+                ...context.props,
             };
             return h(component, { ...context.data, props }, context.children);
-        }
+        },
     };
 };
 
@@ -32,7 +32,7 @@ export const wrappedTable = function (component) {
             return (params = {}) => service(renamed(params))
                 .then(({ data = [], meta = {} }) => ({
                     data,
-                    total: meta.total || data.length
+                    total: meta.total || data.length,
                 }));
         }
     };
@@ -54,9 +54,9 @@ export const wrappedTable = function (component) {
                 props: {
                     http: proxyService(context.props.http),
                     xlsx: toXlsx,
-                    rowKey: context.props.rowKey || 'id'
-                }
+                    rowKey: context.props.rowKey || 'id',
+                },
             }, context.children);
-        }
+        },
     };
 };

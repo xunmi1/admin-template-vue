@@ -9,11 +9,11 @@ const resolve = dir => path.join(__dirname, dir);
 const copyOptions = [
     {
         from: resolve('./src/components/Tinymce/langs'),
-        to: './tinymce/langs'
+        to: './tinymce/langs',
     },
     {
         from: resolve('./node_modules/tinymce/skins'),
-        to: './tinymce/skins'
+        to: './tinymce/skins',
     }
 ];
 const themeOptions = {
@@ -23,7 +23,7 @@ const themeOptions = {
     mainLessFile: resolve('./src/assets/style/index.less'),
     themeVariables: ['@primary-color'],
     indexFileName: false,
-    generateOnce: false
+    generateOnce: false,
 };
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -38,14 +38,14 @@ module.exports = {
         sourceMap: !isProduction,
         loaderOptions: {
             less: {
-                javascriptEnabled: true
-            }
-        }
+                javascriptEnabled: true,
+            },
+        },
     },
 
     devServer: {
         port: 8888,
-        open: true
+        open: true,
     },
     // @see https://github.com/vuejs/vue-docs-zh-cn/blob/master/vue-cli-plugin-pwa/README.md
     pwa: {
@@ -57,7 +57,7 @@ module.exports = {
         workboxOptions: {
             importWorkboxFrom: 'cdn',
             swDest: 'service-worker.js',
-            swSrc: './serviceWorker/service-worker.js'
+            swSrc: './serviceWorker/service-worker.js',
         },
         name: PACKAGE.name,
         iconPaths: {
@@ -65,7 +65,7 @@ module.exports = {
             favicon16: FAVICON,
             appleTouchIcon: FAVICON,
             maskIcon: FAVICON,
-            msTileImage: FAVICON
+            msTileImage: FAVICON,
         },
     },
 
@@ -74,7 +74,7 @@ module.exports = {
             // antd 使用，精简 moment.js, 语言包只保留 zh-cn.js
             new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh-cn/),
             new AntDesignThemePlugin(themeOptions)
-        ]
+        ],
     },
 
     // @see https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-service/lib/config/base.js
@@ -106,8 +106,8 @@ module.exports = {
                         { prefixIds: true },
                         { removeViewBox: false },
                         { removeDimensions: true }
-                    ]
-                }
+                    ],
+                },
             })
             .end()
             .end()
@@ -115,7 +115,7 @@ module.exports = {
             .use('file-loader')
             .loader('file-loader')
             .options({
-                name: 'assets/svg/[name].[hash:8].[ext]'
+                name: 'assets/svg/[name].[hash:8].[ext]',
             });
-    }
+    },
 };

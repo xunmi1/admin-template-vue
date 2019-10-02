@@ -19,6 +19,6 @@ export function upload ({ name = 'image', file, onProgress }) {
             if (typeof onProgress === 'function') {
                 onProgress({ percent: Math.round(loaded / total * 100) }, file);
             }
-        }
+        },
     });
 }

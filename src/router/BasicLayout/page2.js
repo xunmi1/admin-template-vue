@@ -16,7 +16,7 @@ export default [
                 name: 'Test21',
                 meta: {
                     title: '测试21',
-                    icon: 'credit-card'
+                    icon: 'credit-card',
                 },
                 component: () => import('@/views/BlankPage/Test3'),
             },
@@ -29,6 +29,6 @@ export default [
                 },
                 component: () => import('@/views/BlankPage/Test4'),
             }
-        ]
+        ],
     }
 ];

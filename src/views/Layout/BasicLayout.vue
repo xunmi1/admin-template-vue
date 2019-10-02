@@ -32,11 +32,11 @@
                 </div>
             </compontent>
 
-            <ALayout :style="{marginLeft: layoutMainLeft + 'px'}" class="layout-main">
+            <ALayout :style="{ marginLeft: layoutMainLeft + 'px' }" class="layout-main">
                 <ALayoutHeader
                     v-if="isVertical"
-                    :style="{paddingLeft: layoutMainHeaderLeft + 'px'}"
-                    :class="{'header-fixed': isFixedHeader}"
+                    :style="{ paddingLeft: layoutMainHeaderLeft + 'px' }"
+                    :class="{ 'header-fixed': isFixedHeader }"
                     class="layout-main-header"
                 >
                     <div class="trigger v-icon-hover" @click="toggleCollapsed">
@@ -49,7 +49,7 @@
                         <UserMenu />
                     </div>
                 </ALayoutHeader>
-                <ALayoutContent :class="[{'content-fixed-top': isFixedHeader}, 'layout-main-content']">
+                <ALayoutContent :class="[{ 'content-fixed-top': isFixedHeader }, 'layout-main-content']">
                     <div v-if="!isVertical" class="horizontal-breadcrumb">
                         <Breadcrumb />
                     </div>
@@ -91,7 +91,7 @@
             FullScreen,
             Breadcrumb,
             Footer,
-            BackTop
+            BackTop,
         },
         mixins: [screenMixin, themeMixin],
         data () {
@@ -107,19 +107,19 @@
                 vertical: {
                     openKeys: [],
                     mode: 'inline',
-                    menuLayout: 'ALayoutSider'
+                    menuLayout: 'ALayoutSider',
                 },
                 horizontal: {
                     openKeys: [],
                     mode: 'horizontal',
-                    menuLayout: 'ALayoutHeader'
+                    menuLayout: 'ALayoutHeader',
                 },
                 // 垂直布局下，菜单收缩，将展开的菜单选项缓存，再次打开后恢复
                 cacheOpenKeys: [],
                 // 因屏幕调整引起的布局切换，保存之前的布局方向
                 cacheIsVertical: this.isVertical,
                 // 手动点击跳转和路由的跳转，互斥
-                isOpenKeysLock: false
+                isOpenKeysLock: false,
             };
         },
         computed: {
@@ -128,7 +128,7 @@
                 isVertical: state => state.layout.isVertical,
                 isFixedHeader: state => state.layout.isFixedHeader,
                 isFixedSider: state => state.layout.isFixedSider,
-                isMenuRight: state => state.layout.isMenuRight
+                isMenuRight: state => state.layout.isMenuRight,
             }),
             ...mapGetters('app', ['getAlive', 'isMobileDevice']),
             layout () {
@@ -147,7 +147,7 @@
             // 垂直布局下固定导航菜单栏，侧边菜单伸缩，引起的右侧头部 marginLeft 伸缩变化
             layoutMainHeaderLeft () {
                 return (this.isFixedHeader && !this.isMobileDevice) ? this.siderWidth : 0;
-            }
+            },
         },
         watch: {
             // 路由发生变化时，生成新的菜单展开列表并合并
@@ -157,7 +157,7 @@
                     // 解锁, 减少没必要的计算
                     if (this.isOpenKeysLock) return this.isOpenKeysLock = false;
                     this.vertical.openKeys = this.getOpenKeys(newVal);
-                }
+                },
             },
             // 侧边栏伸缩时，交换菜单展开列表
             collapsed () {
@@ -175,8 +175,8 @@
                         this.vertical.menuLayout = 'ALayoutSider';
                     }
                 },
-                immediate: true
-            }
+                immediate: true,
+            },
         },
         created () {
             this.setLayout(this.$db.get('layout'));
@@ -222,8 +222,8 @@
             },
             toggleSetting () {
                 this.showSetting = true;
-            }
-        }
+            },
+        },
     };
 
     const getMenuChildren = children =>

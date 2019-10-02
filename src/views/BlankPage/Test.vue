@@ -32,14 +32,14 @@
                     { title: 'Age', key: 'age' },
                     { title: 'Address', key: 'address' }
                 ],
-                selectedKeys: []
+                selectedKeys: [],
             };
         },
         created () {
             setTimeout(() => this.selectedKeys.push('21', '13', '62'), 5000);
         },
         methods: {
-            getTableData
-        }
+            getTableData,
+        },
     };
 </script>

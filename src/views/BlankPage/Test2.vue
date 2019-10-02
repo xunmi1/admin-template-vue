@@ -30,7 +30,7 @@
         methods: {
             clearCache () {
                 this.$store.commit('app/clearAlive', { page: 'Page11', alive: 'Test1' });
-            }
-        }
+            },
+        },
     };
 </script>

@@ -7,14 +7,14 @@ export default {
             isFixedHeader: true,
             isFixedSider: true,
             isMenuRight: false,
-            theme: 'daybreak-blue'
+            theme: 'daybreak-blue',
         },
         screenType: {
             type: 'xl',
-            level: 6
+            level: 6,
         },
         aliveList: {},
-        errorList: []
+        errorList: [],
     },
     getters: {
         getAlive: ({ aliveList }) => (page, name = 'default') => {
@@ -24,7 +24,7 @@ export default {
                 return null;
             }
         },
-        isMobileDevice: ({ screenType }) => screenType.level < 3.8
+        isMobileDevice: ({ screenType }) => screenType.level < 3.8,
     },
     mutations: {
         setLayout ({ layout }, data = {}) {
@@ -71,7 +71,7 @@ export default {
             if (state.errorList.length > 500) {
                 state.errorList.shift();
             }
-        }
+        },
     },
     actions: {
         addErrorLog ({ commit, rootState }, info) {
@@ -79,8 +79,8 @@ export default {
             commit('addError', {
                 ...info,
                 time: Date.now(),
-                userId
+                userId,
             });
-        }
-    }
+        },
+    },
 };

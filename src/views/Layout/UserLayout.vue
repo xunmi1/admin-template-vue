@@ -14,9 +14,9 @@
     export default {
         name: 'UserLayout',
         components: {
-            Footer
+            Footer,
         },
-        mixins: [themeMixin]
+        mixins: [themeMixin],
     };
 </script>
 

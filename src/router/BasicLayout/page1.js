@@ -8,7 +8,7 @@ export default [
         redirect: { name: 'Test11' },
         meta: {
             title: '测试1',
-            icon: 'pie-chart'
+            icon: 'pie-chart',
         },
         component: () => basicCard('Page11'),
         children: [
@@ -17,19 +17,19 @@ export default [
                 name: 'Test11',
                 meta: {
                     title: '测试11',
-                    icon: 'credit-card'
+                    icon: 'credit-card',
                 },
-                component: () => import('@/views/BlankPage/Test1')
+                component: () => import('@/views/BlankPage/Test1'),
             },
             {
                 path: 'test12',
                 name: 'Test12',
                 meta: {
                     title: '测试12',
-                    icon: 'smile'
+                    icon: 'smile',
                 },
-                component: () => import('@/views/BlankPage/Test2')
+                component: () => import('@/views/BlankPage/Test2'),
             }
-        ]
+        ],
     }
 ];

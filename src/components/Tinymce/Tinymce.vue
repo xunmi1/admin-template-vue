@@ -1,12 +1,12 @@
 <template>
     <div>
         <input ref="fileNode" :accept="fileAccept.join()" style="display: none" type="file">
-        <div :style="{display: !visible ? 'none' : 'block'}">
+        <div :style="{ display: !visible ? 'none' : 'block' }">
             <div v-if="active" :id="editorId" :key="editorId">
                 <slot />
             </div>
         </div>
-        <div :style="{display: visible ? 'none' : 'block'}" v-html="value"></div>
+        <div :style="{ display: visible ? 'none' : 'block' }" v-html="value"></div>
     </div>
 </template>
 
@@ -53,20 +53,20 @@
                          box-shadow: 0 1px 4px rgba(10, 21, 42, .12);
                          background-color: #fff;
                      }
-                ` + defaultStyle
+                ` + defaultStyle,
         };
     })();
 
     export default {
         model: {
             prop: 'value',
-            event: 'change'
+            event: 'change',
         },
         props: tinymceProps,
         data () {
             return {
                 editorId: this.editorKey || `editor${ Date.now() }${ Math.round(Math.random() * 1000) }`,
-                active: true
+                active: true,
             };
         },
         watch: {
@@ -78,7 +78,7 @@
             },
             isMobile () {
                 this.updateEditor();
-            }
+            },
         },
         created () {
             [tinymce.baseURL, tinymce.suffix] = [this.baseURL, '.min'];
@@ -117,7 +117,7 @@
                     //文件上传（浏览本地文件，设置此属性会开启本地文件浏览功能）
                     file_picker_callback: this.handleFile,
                     // 图片上传（包括直接拖拽，插入图片中的上传选项）
-                    images_upload_handler: this.imageUpload
+                    images_upload_handler: this.imageUpload,
                 };
                 return { ...defaultConfig, ...setting, ...this.config };
             },
@@ -235,11 +235,11 @@
                 const rules = [
                     {
                         validator: () => typeof this.http === 'function',
-                        message: '不支持上传文件'
+                        message: '不支持上传文件',
                     },
                     {
                         validator: () => this.fileAccept.some(type => blob.name.toLowerCase().search(type) !== -1),
-                        message: '格式不符合要求'
+                        message: '格式不符合要求',
                     }
                 ];
                 // 附加自定义验证规则
@@ -251,11 +251,11 @@
                 const rules = [
                     {
                         validator: () => blob.size <= this.maxSize,
-                        message: '图片大小超出上限'
+                        message: '图片大小超出上限',
                     },
                     {
                         validator: () => this.imageAccept.some(type => blob.type.search(type) !== -1),
-                        message: '格式不符合要求'
+                        message: '格式不符合要求',
                     }
                 ];
                 // 附加自定义验证规则
@@ -267,15 +267,15 @@
                 const events = [
                     {
                         key: 'Input SetContent Change',
-                        handler: () => this.$emit('change', editor.getContent())
+                        handler: () => this.$emit('change', editor.getContent()),
                     },
                     {
                         key: 'Focus',
-                        handler: () => this.$emit('focus', editor.getContent())
+                        handler: () => this.$emit('focus', editor.getContent()),
                     },
                     {
                         key: 'Blur',
-                        handler: () => this.$emit('blur', editor.getContent())
+                        handler: () => this.$emit('blur', editor.getContent()),
                     }
                 ];
                 events.forEach(event => editor.on(event.key, event.handler));
@@ -291,7 +291,7 @@
                 if (!this.$listeners['validator-error']) {
                     tinymce.activeEditor.windowManager.alert(message);
                 }
-            }
-        }
+            },
+        },
     };
 </script>

@@ -11,7 +11,7 @@ class AxiosRequest {
     constructor (config = {}) {
         this.defaultConfig = {
             method: 'get',
-            ...config
+            ...config,
         };
         this.tokenConfig = {};
         // 当前请求队列，为界面动画交互预留，暂时不用
@@ -57,7 +57,7 @@ class AxiosRequest {
             code: status,
             message,
             url: responseURL,
-            method
+            method,
         };
         if (typeof AxiosRequest.extendErrorHooks === 'function') {
             AxiosRequest.extendErrorHooks(info);

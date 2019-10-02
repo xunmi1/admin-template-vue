@@ -30,34 +30,34 @@
         props: {
             tag: {
                 type: String,
-                default: 'div'
+                default: 'div',
             },
             // 延迟（ms）, 将在指定 delay 时间后直接显示
             // 若设置，则窗口检验会失效
             delay: {
                 type: Number,
-                validator: value => value >= 0
+                validator: value => value >= 0,
             },
             // 可视窗口，默认使用浏览器视口
             viewport: {
-                type: Object || window.HTMLElement
+                type: Object || window.HTMLElement,
             },
             // 窗口检验的阀值，仅 viewport 未设置时可使用 '%'
             threshold: {
                 type: String,
-                default: '24px'
+                default: '24px',
             },
             // 待加载组件所在方位，默认 'bottom': 位于下方
             // 会影响动画方向和窗口检测
             orientation: {
                 type: String,
                 validator: value => ['top', 'left', 'bottom', 'right'].includes(value),
-                default: 'bottom'
+                default: 'bottom',
             },
             // 最大等待时间
             maxWaitingTime: {
                 type: Number,
-                default: 120
+                default: 120,
             },
             // 是否阻止切换组件切换
             stop: Boolean,
@@ -65,13 +65,13 @@
         data () {
             return {
                 isInit: false,
-                isBeforeInit: false
+                isBeforeInit: false,
             };
         },
         computed: {
             rootMargin () {
                 return ['top', 'bottom'].includes(this.orientation) ? `${ this.threshold } 0px` : `0px ${ this.threshold }`;
-            }
+            },
         },
         created () {
             if (this.delay) {
@@ -90,7 +90,7 @@
                 const observer = new IntersectionObserver(this.intersectionHandler, {
                     root: this.viewport,
                     rootMargin: this.rootMargin,
-                    threshold: [0, 0.03, 0.06]
+                    threshold: [0, 0.03, 0.06],
                 });
                 observer.observe(this.$el);
                 this.$once('hook:beforeDestroy', function () {
@@ -126,8 +126,8 @@
                 }, this.maxWaitingTime);
                 const tempFn = window.requestAnimationFrame || (fn => setTimeout(fn, 1000 / 60 * 8));
                 return tempFn(callback);
-            }
-        }
+            },
+        },
     };
 </script>
 

@@ -3,7 +3,7 @@
         <ATable
             :row-selection="rowSelection"
             :row-key="rowKey"
-            :pagination="pagination && {...pagination, total, ...tableParams}"
+            :pagination="pagination && { ...pagination, total, ...tableParams }"
             :columns="slotColumns"
             :loading="loading"
             :data-source="tableData"
@@ -17,7 +17,7 @@
             >
                 <slot
                     :name="column.scopedSlots.customRender"
-                    v-bind="{row: record, column, index, value: text}"
+                    v-bind="{ row: record, column, index, value: text }"
                 >
                     <span :key="column.dataIndex + index">{{ text }}</span>
                 </slot>
@@ -40,19 +40,19 @@
     export default {
         name: 'VTable',
         components: {
-            TableToXlsx: () => import(/* webpackChunkName: "TableXlsx" */'./TableToXlsx')
+            TableToXlsx: () => import(/* webpackChunkName: "TableXlsx" */'./TableToXlsx'),
         },
         mixins: [tableMixin],
         data () {
             return {
                 tableParams: {
                     current: 1,
-                    pageSize: 10
+                    pageSize: 10,
                 },
                 total: 0,
                 selectedData: [],
                 tableData: [],
-                loading: true
+                loading: true,
             };
         },
         computed: {
@@ -68,9 +68,9 @@
                     // 如果有 'select' 事件，再绑定相应事件（很耗性能）
                     onSelect: this.hasSelectListener && this.selectOneHandler,
                     onSelectAll: this.hasSelectListener && this.selectAllHandler,
-                    ...(this.selection || {})
+                    ...(this.selection || {}),
                 };
-            }
+            },
         },
         beforeCreate () {
             // 判断是否有 'select' 事件（前提是已绑定 selectedKeys）
@@ -163,7 +163,7 @@
                 this.xlsx({
                     dataSource,
                     columns: this.columns,
-                    fileName
+                    fileName,
                 });
             },
             async exportAllXlsx (num = 1) {
@@ -175,7 +175,7 @@
                     } else if (this.http) {
                         data = (await this.getData({
                             ...params,
-                            ...this.params
+                            ...this.params,
                         })).data;
                     }
                     this.exportXlsx(data, this.fileName + num);
@@ -184,8 +184,8 @@
                 } catch {
                     this.$message.error('导出失败！');
                 }
-            }
-        }
+            },
+        },
     };
 
     const proxyColumns = function ({ columns, notNumber, isFixedNumber, tableParams: { current, pageSize } }) {
@@ -194,7 +194,7 @@
             fixed: isFixedNumber,
             dataIndex: item.dataIndex || item.key,
             scopedSlots: { customRender: item.dataIndex || item.key },
-            ...item
+            ...item,
         }));
         if (!notNumber && (_columns.length && _columns[0].type !== 'index')) {
             _columns.unshift({
@@ -202,7 +202,7 @@
                 title: '序号',
                 width: 68,
                 customRender: (text, record, index) => ((current - 1) * pageSize) + index + 1,
-                scopedSlots: { customRender: 'index' }
+                scopedSlots: { customRender: 'index' },
             });
         }
         return _columns;

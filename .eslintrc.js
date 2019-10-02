@@ -1,11 +1,11 @@
 module.exports = {
     root: true,
     env: {
-        node: true
+        node: true,
     },
     extends: [
         'plugin:vue/strongly-recommended',
-        'eslint:recommended'
+        'eslint:recommended',
     ],
     rules: {
         'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
@@ -18,38 +18,38 @@ module.exports = {
                 baseIndent: 1,
                 closeBracket: 0,
                 alignAttributesVertically: true,
-                ignores: []
-            }
+                ignores: [],
+            },
         ],
         // 标签属性一行超过 4 个，必须换行对齐
         'vue/max-attributes-per-line': ['error', {
             singleline: 4,
             multiline: {
                 max: 1,
-                allowFirstLine: false
-            }
+                allowFirstLine: false,
+            },
         }],
         'vue/script-indent': ['error', 4, {
             baseIndent: 1,
             switchCase: 1,
-            ignores: []
+            ignores: [],
         }],
         // 自定义组件、svg、MathML 没内容时自我闭合
         'vue/html-self-closing': ['error', {
             'html': {
                 'void': 'never',
                 'normal': 'any',
-                'component': 'always'
+                'component': 'always',
             },
             'svg': 'always',
-            'math': 'always'
+            'math': 'always',
         }],
         // 组件 prop 必须有默认值，没必要限制
         'vue/require-default-prop': 'off',
         'vue/singleline-html-element-content-newline': 'off',
         // 组件必须使用大驼峰命名
         'vue/component-name-in-template-casing': ['error', 'PascalCase', {
-            'ignores': ['compontent', 'transition']
+            'ignores': ['compontent', 'transition'],
         }],
         'vue/html-end-tags': 'off',
         // 组件的 data 属性的值必须是一个函数, 没必要限制
@@ -63,10 +63,9 @@ module.exports = {
         'vue/block-spacing': 'warn',
         'vue/brace-style': 'error',
         'vue/key-spacing': 'warn',
-        'vue/object-curly-spacing': 'warn',
+        'vue/object-curly-spacing': ['warn', 'always'],
         'vue/space-infix-ops': 'warn',
         'vue/space-unary-ops': 'warn',
-        // 禁止在模板中使用 this
         'vue/this-in-template': ['error', 'never'],
 
         // js 部分
@@ -140,18 +139,26 @@ module.exports = {
         'array-bracket-spacing': ['error', 'never'],
         // 句尾分号
         'semi': 'error',
+        // 尾随逗号
+        'comma-dangle': ['warn', {
+            arrays: 'only-multiline',
+            objects: 'always-multiline',
+            imports: 'only-multiline',
+            exports: 'only-multiline',
+            functions: 'only-multiline',
+        }],
         // 禁止 new String Boolean 等
-        'no-new-wrappers': 'error'
+        'no-new-wrappers': 'error',
     },
     overrides: [
         {
             files: ['*.vue'],
             rules: {
-                indent: 'off'
-            }
-        }
+                indent: 'off',
+            },
+        },
     ],
     parserOptions: {
-        parser: 'babel-eslint'
-    }
+        parser: 'babel-eslint',
+    },
 };

@@ -3,14 +3,14 @@ export default {
         // 每行数据的唯一索引，同时用于选中判断
         rowKey: {
             type: [Function, String],
-            required: true
+            required: true,
         },
         // 是否不要序号列
         notNumber: Boolean,
         // 是否固定序号列, 前提是开启序号列
         isFixedNumber: {
             type: Boolean,
-            default: false
+            default: false,
         },
         // 是否阻止组件 created() 时自动请求数据
         notAuto: Boolean,
@@ -20,7 +20,7 @@ export default {
         columns: {
             type: Array,
             required: true,
-            validator: value => value.every(i => (i.key || i.dataIndex) !== undefined)
+            validator: value => value.every(i => (i.key || i.dataIndex) !== undefined),
         },
         // **获取数据的 http 方法**
         http: Function,
@@ -34,7 +34,7 @@ export default {
         // 文件名
         fileName: {
             type: String,
-            default: 'file'
+            default: 'file',
         },
         // 额外的查询参数对象
         params: Object,
@@ -45,33 +45,33 @@ export default {
                 position: 'bottom',
                 showSizeChanger: true,
                 showQuickJumper: true,
-                showTotal: total => `共 ${ total } 条`
-            })
+                showTotal: total => `共 ${ total } 条`,
+            }),
         },
         // 页码
         current: {
             type: Number,
-            default: 1
+            default: 1,
         },
         // 分页大小
         pageSize: {
             type: Number,
-            default: 10
+            default: 10,
         },
         // 选中项配置，不推荐使用（selectedKeys 和 select 事件会功能异常），可以使用 selectedKeys 代替
         selection: {
             type: [Object, Boolean],
-            default: false
+            default: false,
         },
         // 选中 row-key 的数组，需要 `.sync` 修饰符
         selectedKeys: Array,
         // 自定义数据转化函数，需要返回数据
         handler: {
             type: Function,
-            default: data => data
+            default: data => data,
         },
         // 强制更新数据，需要 `.sync` 修饰符
-        isReload: Boolean
+        isReload: Boolean,
     },
     watch: {
         params: {
@@ -82,19 +82,19 @@ export default {
                     this.setTableList();
                 }
             },
-            deep: true
+            deep: true,
         },
         current: {
             handler (newVal) {
                 this.tableParams.current = Math.max(newVal, 1);
             },
-            immediate: true
+            immediate: true,
         },
         pageSize: {
             handler (newVal) {
                 this.tableParams.pageSize = Math.max(newVal, 1);
             },
-            immediate: true
+            immediate: true,
         },
         isReload (newVal) {
             if (newVal) {
@@ -103,8 +103,8 @@ export default {
         },
         'dataSource.length'(newVal) {
             this.total = newVal;
-        }
-    }
+        },
+    },
 };
 
 const equal = function (newVal, oldVal) {

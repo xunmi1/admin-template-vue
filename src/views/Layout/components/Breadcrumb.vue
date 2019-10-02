@@ -16,7 +16,7 @@
         name: 'Breadcrumb',
         data () {
             return {
-                routes: []
+                routes: [],
             };
         },
         watch: {
@@ -25,8 +25,8 @@
                     this.routes = [];
                     this.findOpenRoute(this.$router.options.routes);
                 },
-                immediate: true
-            }
+                immediate: true,
+            },
         },
         methods: {
             findOpenRoute (menu) {
@@ -41,7 +41,7 @@
                     this.routes.pop();
                     return false;
                 });
-            }
-        }
+            },
+        },
     };
 </script>

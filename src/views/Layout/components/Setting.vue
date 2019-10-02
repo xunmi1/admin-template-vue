@@ -31,7 +31,7 @@
             </ATooltip>
             <ATooltip title="顶部菜单">
                 <div
-                    :class="{'setting-layout': true, 'v-disabled': isMobileDevice}"
+                    :class="{ 'setting-layout': true, 'v-disabled': isMobileDevice }"
                     @click="isMobileDevice ? null : toggle('isVertical', false)"
                 >
                     <HorizontalSvg v-once class="setting-svg" />
@@ -46,7 +46,7 @@
                 <template v-for="item of themeList">
                     <ATooltip :key="item.name" :title="item.text">
                         <li
-                            :style="{backgroundColor: item.variables['@primary-color']}"
+                            :style="{ backgroundColor: item.variables['@primary-color'] }"
                             class="v-to-zero v-pointer v-center"
                             @click="toggle('theme', item.name)"
                         >
@@ -104,14 +104,14 @@
             LightMenuSvg,
             DarkMenuSvg,
             VerticalSvg,
-            HorizontalSvg
+            HorizontalSvg,
         },
         model: {
             prop: 'visible',
-            event: 'change'
+            event: 'change',
         },
         props: {
-            visible: Boolean
+            visible: Boolean,
         },
         computed: {
             ...mapState('app', {
@@ -120,9 +120,9 @@
                 isFixedHeader: state => state.layout.isFixedHeader,
                 isFixedSider: state => state.layout.isFixedSider,
                 isMenuRight: state => state.layout.isMenuRight,
-                theme: state => state.layout.theme
+                theme: state => state.layout.theme,
             }),
-            ...mapGetters('app', ['isMobileDevice'])
+            ...mapGetters('app', ['isMobileDevice']),
         },
         created () {
             this.setThemeList();
@@ -146,8 +146,8 @@
                 } catch (e) {
                     this.themeList = false;
                 }
-            }
-        }
+            },
+        },
     };
 </script>
 

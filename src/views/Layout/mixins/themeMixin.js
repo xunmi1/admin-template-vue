@@ -2,47 +2,47 @@ import { mapState, mapMutations } from 'vuex';
 const themeListMixin = [
     {
         text: '薄暮', name: 'dust-red', variables: {
-            '@primary-color': '#f5222d'
-        }
+            '@primary-color': '#f5222d',
+        },
     },
     {
         text: '金盏花', name: 'alendula-gold', variables: {
-            '@primary-color': '#faad14'
-        }
+            '@primary-color': '#faad14',
+        },
     },
     {
         text: '极光绿', name: 'polar-green', variables: {
-            '@primary-color': '#52C41A'
-        }
+            '@primary-color': '#52C41A',
+        },
     },
     {
         text: '明青', name: 'cyan', variables: {
-            '@primary-color': '#13C2C2'
-        }
+            '@primary-color': '#13C2C2',
+        },
     },
     {
         text: '拂晓蓝', name: 'daybreak-blue', variables: {
-            '@primary-color': '#1890FF'
-        }
+            '@primary-color': '#1890FF',
+        },
     },
     {
         text: '酱紫', name: 'golden-purple', variables: {
-            '@primary-color': '#722ED1'
-        }
+            '@primary-color': '#722ED1',
+        },
     }
 ];
 const themeMixin = {
     computed: {
         ...mapState('app', {
-            theme: state => state.layout.theme
-        })
+            theme: state => state.layout.theme,
+        }),
     },
     watch: {
         theme: {
             handler (newVal, oldVal) {
                 this.$_theme_updateTheme(newVal, oldVal);
-            }
-        }
+            },
+        },
     },
     created () {
         // 防抖
@@ -69,8 +69,8 @@ const themeMixin = {
             // 由于防抖，实际 DOM 上旧 class 已无法获知, 因此循环移除
             themeListMixin.forEach(item => document.body.classList.remove(item.name));
             document.body.classList.add(newClass);
-        }
-    }
+        },
+    },
 };
 
 export {themeMixin as default, themeListMixin};

@@ -67,7 +67,7 @@
                         targetNode.focus();
                     }
                 }
-            }
+            },
         },
         data () {
             return {
@@ -75,7 +75,7 @@
                 publicPath: process.env.BASE_URL,
                 loading: false,
                 // 密码输入框是否获取焦点
-                passwordFocus: false
+                passwordFocus: false,
             };
         },
         beforeCreate () {
@@ -115,7 +115,7 @@
                             { min: 4, message: '不少于4个字符' },
                             { max: 30, message: '不超过30个字符' },
                             { validator: this.validateToPassword }
-                        ]
+                        ],
                     },
                     password: {
                         initialValue: 'admin-template',
@@ -126,12 +126,12 @@
                             { min: 5, message: '不少于5个字符' },
                             { max: 45, message: '不超过45个字符' },
                             { validator: this.compareToUserName }
-                        ]
+                        ],
                     },
                     remember: {
                         valuePropName: 'checked',
-                        initialValue: true
-                    }
+                        initialValue: true,
+                    },
                 };
             },
             getRules (key) {
@@ -157,8 +157,8 @@
                     this.$db.clear();
                     this.isClearDB = true;
                 }
-            }
-        }
+            },
+        },
     };
 </script>
 

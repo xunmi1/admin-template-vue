@@ -11,7 +11,7 @@ export function getArticles (params, cancelToken) {
         url: 'articles',
         method: 'get',
         params,
-        cancelToken
+        cancelToken,
     });
 }
 
@@ -37,8 +37,8 @@ export function getTableData (params) {
     return Promise.resolve({
         data: data.slice(start, start + params.pageSize),
         meta: {
-            total: data.length
-        }
+            total: data.length,
+        },
     });
 }
 

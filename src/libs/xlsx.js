@@ -82,6 +82,6 @@ export function read (data, type) {
     const worksheet = workbook.Sheets[firstSheetName];
     return {
         header: getHeaderRow(worksheet),
-        results: XLSX.utils.sheet_to_json(worksheet)
+        results: XLSX.utils.sheet_to_json(worksheet),
     };
 }

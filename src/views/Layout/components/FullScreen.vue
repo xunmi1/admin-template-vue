@@ -20,7 +20,7 @@
         data () {
             return {
                 showFullScreenBtn: true,
-                isFullScreen: false
+                isFullScreen: false,
             };
         },
         mounted () {
@@ -34,19 +34,19 @@
                     event: 'fullscreen',
                     listener: 'fullscreenchange',
                     exit: document.exitFullscreen,
-                    full: el.requestFullscreen
+                    full: el.requestFullscreen,
                 },
                 {
                     event: 'mozFullScreen',
                     listener: 'mozfullscreenchange',
                     exit: document.exitFullscreen || document.mozCancelFullScreen,
-                    full: el.requestFullscreen || el.mozRequestFullScreen
+                    full: el.requestFullscreen || el.mozRequestFullScreen,
                 },
                 {
                     event: 'webkitIsFullScreen',
                     listener: 'webkitfullscreenchange',
                     exit: document.webkitCancelFullScreen,
-                    full: el.webkitRequestFullScreen
+                    full: el.webkitRequestFullScreen,
                 },
             ];
             this.$nextTick(() => {
@@ -78,8 +78,8 @@
             bindScreenToggle() {
                 this.isFullScreen = !!document[this.browser.event];
                 this.$emit('change', this.isFullScreen);
-            }
-        }
+            },
+        },
     };
 </script>
 

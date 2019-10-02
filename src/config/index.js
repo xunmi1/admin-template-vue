@@ -10,7 +10,7 @@ const config = deepFreeze({
      */
     title: {
         small: 'Admin Template',
-        main: 'Admin Template'
+        main: 'Admin Template',
     },
     // 位于 public 目录下
     logoPath: 'icons/fire.svg',
@@ -19,7 +19,7 @@ const config = deepFreeze({
      */
     baseUrl: {
         development: '',
-        production: ''
+        production: '',
     },
     // api 接口版本
     apiVersion: '',
@@ -34,7 +34,7 @@ const config = deepFreeze({
         position: 'headers',
         key: 'Authorization',
         value: 'Bearer TOKEN',
-        expires: 7 * 24 * 3600
+        expires: 7 * 24 * 3600,
     },
     /**
      * @description 登录页路由 name 值，默认为 'Login'
@@ -45,7 +45,7 @@ const config = deepFreeze({
     // 本地存储前缀标识，建议不同系统自定义配置
     dbPrefix: 'admin-template',
     // 组织/公司/个人， 用于 footer
-    org: 'xunmi'
+    org: 'xunmi',
 });
 
 export default config;

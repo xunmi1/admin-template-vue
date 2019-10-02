@@ -2,7 +2,7 @@ const screenMixin = {
     data () {
         return {
             screenTypeMixin: 'xl',
-            screenLevelMixin: 6
+            screenLevelMixin: 6,
         };
     },
     created () {
@@ -34,8 +34,8 @@ const screenMixin = {
                 }
                 return false;
             });
-        }
-    }
+        },
+    },
 };
 
 export default screenMixin;

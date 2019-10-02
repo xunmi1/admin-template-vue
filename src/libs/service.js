@@ -44,7 +44,7 @@ class MyRequest extends AxiosRequest {
                 ? skip
                     ? token
                     : config.token.value.replace('TOKEN', token)
-                : null
+                : null,
         };
     }
 

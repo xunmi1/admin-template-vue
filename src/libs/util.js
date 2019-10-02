@@ -61,7 +61,7 @@ export function deepFreeze (obj) {
 export function renameKeys (keysMap, obj) {
     return Object.keys(obj).reduce((total, key) => ({
         ...total,
-        ...{ [keysMap[key] || key]: obj[key] }
+        ...{ [keysMap[key] || key]: obj[key] },
     }), {});
 }
 
@@ -145,7 +145,7 @@ export function cached (fn) {
     const map = {
         object: str => JSON.stringify(str),
         array: str => JSON.stringify(str),
-        string: str => str
+        string: str => str,
     };
     return (function cachedFn (str) {
         const type = typeOf(str);

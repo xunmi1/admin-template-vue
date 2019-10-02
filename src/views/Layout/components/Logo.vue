@@ -22,17 +22,17 @@
             collapsed: Boolean,
             theme: {
                 type: String,
-                validator: value => ['dark', 'light'].includes(value)
-            }
+                validator: value => ['dark', 'light'].includes(value),
+            },
         },
         data () {
             return {
                 title: this.$app.title.small,
-                publicPath: process.env.BASE_URL
+                publicPath: process.env.BASE_URL,
             };
         },
         computed: mapState('app', {
-            isVertical: state => state.layout.isVertical
+            isVertical: state => state.layout.isVertical,
         }),
         watch: {
             collapsed (newVal) {
@@ -41,8 +41,8 @@
                 } else {
                     setTimeout(() => this.title = this.$app.title.small, 168);
                 }
-            }
-        }
+            },
+        },
     };
 </script>
 

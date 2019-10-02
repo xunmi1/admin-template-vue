@@ -40,7 +40,7 @@ const router = new Router({
             redirect: { name: 'Test11' },
             meta: { title: '首页' },
             component: () => import(/* webpackChunkName: "BasicLayout" */ '@/views/Layout/BasicLayout'),
-            children: loadRoutes(require.context('./BasicLayout', false, /\.js$/))
+            children: loadRoutes(require.context('./BasicLayout', false, /\.js$/)),
         },
         {
             path: '/user',
@@ -48,12 +48,12 @@ const router = new Router({
             redirect: { name: config.loginName },
             meta: {
                 notAuth: true,
-                notCache: true
+                notCache: true,
             },
             component: () => import(/* webpackChunkName: "UserLayout" */ '@/views/Layout/UserLayout'),
-            children: loadRoutes(require.context('./UserLayout', false, /\.js$/))
+            children: loadRoutes(require.context('./UserLayout', false, /\.js$/)),
         }
-    ]
+    ],
 });
 
 const addAlive = function (to) {
@@ -67,7 +67,7 @@ const addAlive = function (to) {
                     store.commit('app/addAlive', {
                         page: parent.components.default.name,
                         type: key,
-                        alive: own.components[key].name
+                        alive: own.components[key].name,
                     });
                 });
             }

@@ -9,7 +9,7 @@ const mockUserInfo = {
         avatar: 'admin',
         email: '',
     },
-    accessToken: 'TOKEN'
+    accessToken: 'TOKEN',
 };
 
 export function login (data) {
@@ -31,7 +31,7 @@ export function getPermissions (data) {
     if (data.userId) {
         return service.request({
             url: 'getPermissions',
-            params: data
+            params: data,
         });
     } else {
         return Promise.reject('missing parameter');

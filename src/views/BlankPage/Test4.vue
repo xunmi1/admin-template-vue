@@ -6,7 +6,7 @@
                 <VRichEditor v-if="isLoad" />
             </template>
             <template #skeleton>
-                <ASkeleton :paragraph="{rows: 12}" />
+                <ASkeleton :paragraph="{ rows: 12 }" />
             </template>
         </VLazyComponent>
     </div>
@@ -14,7 +14,7 @@
 
 <script>
     export default {
-        name: 'Test4'
+        name: 'Test4',
     };
 </script>
 

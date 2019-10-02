@@ -21,8 +21,8 @@
         name: 'TableXlsx',
         props: {
             loading: Boolean,
-            isSelection: Boolean
-        }
+            isSelection: Boolean,
+        },
     };
 </script>
 

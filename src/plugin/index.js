@@ -8,7 +8,7 @@ const addReadonlyProperty = function (obj, property, value) {
         value,
         configurable: false,
         enumerable: true,
-        writable: false
+        writable: false,
     });
 };
 
@@ -40,5 +40,5 @@ export default {
         addProperties(methods, Vue.prototype);
         // 扩展组件
         addComponents(components, Vue);
-    }
+    },
 };

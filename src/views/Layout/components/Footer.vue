@@ -1,8 +1,8 @@
 <template functional>
-    <div :class="{'placeholder': props.isFixed}">
+    <div :class="{ 'placeholder': props.isFixed }">
         <footer
-            :style="{width: `calc(100% - ${props.isFixed ? props.width : 0}px)`}"
-            :class="['footer', {'footer-fixed': props.isFixed}]"
+            :style="{ width: `calc(100% - ${props.isFixed ? props.width : 0}px)` }"
+            :class="['footer', { 'footer-fixed': props.isFixed }]"
         >
             <ALayoutFooter>
                 Copyright © 2018
@@ -19,17 +19,17 @@
         props: {
             isFixed: {
                 type: Boolean,
-                default: false
+                default: false,
             },
             width: {
                 type: Number,
-                default: 0
+                default: 0,
             },
             nowYear: {
                 type: Number,
-                default: new Date().getFullYear()
-            }
-        }
+                default: new Date().getFullYear(),
+            },
+        },
     };
 </script>
 

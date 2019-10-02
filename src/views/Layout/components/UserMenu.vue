@@ -35,7 +35,7 @@
     export default {
         name: 'UserMenu',
         computed: {
-            ...mapState('user', ['avatar', 'nickName'])
+            ...mapState('user', ['avatar', 'nickName']),
         },
         methods: {
             ...mapActions('user', ['handleLogout']),
@@ -46,8 +46,8 @@
                         this.$router.replace({ name: this.$app.loginName });
                     })
                     .catch(({ msg }) => this.$message.error(msg));
-            }
-        }
+            },
+        },
     };
 </script>
 

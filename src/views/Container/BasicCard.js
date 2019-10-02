@@ -5,7 +5,7 @@ export default (name, bool = true) => ({
     render (h) {
         const keepAlive = h('KeepAlive',
             {
-                props: { include: this.getAlive(name) }
+                props: { include: this.getAlive(name) },
             },
             [
                 h('RouterView')
@@ -15,8 +15,8 @@ export default (name, bool = true) => ({
             {
                 props: {
                     title: this.$route.meta.title,
-                    type: 'inner'
-                }
+                    type: 'inner',
+                },
             },
             [
                 bool ? keepAlive : h('RouterView')
@@ -24,6 +24,6 @@ export default (name, bool = true) => ({
         );
     },
     computed: {
-        ...mapGetters('app', ['getAlive'])
-    }
+        ...mapGetters('app', ['getAlive']),
+    },
 });

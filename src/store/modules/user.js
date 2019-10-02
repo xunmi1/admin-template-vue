@@ -12,10 +12,10 @@ export default {
         userName: '',
         token: '',
         avatar: '',
-        nickName: ''
+        nickName: '',
     },
     getters: {
-        status: state => state.token ? 'online' : 'offline'
+        status: state => state.token ? 'online' : 'offline',
     },
     mutations: {
         setToken (state, { token, remember } = {}) {
@@ -29,7 +29,7 @@ export default {
         setUserInfo (state, userInfo = {}) {
             Object.entries(userInfo).forEach(([key, value]) => state[key] = value);
             db.set('userInfo', userInfo);
-        }
+        },
     },
     actions: {
         handleLogin ({ commit }, { userName, password, remember }) {
@@ -37,14 +37,14 @@ export default {
                 .then(res => {
                     commit('setToken', {
                         token: res.accessToken,
-                        remember
+                        remember,
                     });
                     const userInfo = {
                         userId: res.info.id,
                         avatar: res.info.avatar || res.info.nickname,
                         nickName: res.info.nickname,
                         userName: res.info.username,
-                        email: res.info.email
+                        email: res.info.email,
                     };
                     commit('setUserInfo', userInfo);
                     return Promise.resolve(res);
@@ -59,6 +59,6 @@ export default {
         getPermissions ({ state }) {
             return getPermissions({ userId: state.userId })
                 .then(res => Promise.resolve(res));
-        }
-    }
+        },
+    },
 };

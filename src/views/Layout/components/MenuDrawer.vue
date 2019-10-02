@@ -17,25 +17,25 @@
         name: 'MenuDrawer',
         model: {
             prop: 'collapsed',
-            event: 'change'
+            event: 'change',
         },
         props: {
             collapsed: Boolean,
             theme: {
                 type: String,
                 validator: value => ['dark', 'light'].includes(value),
-                default: 'light'
+                default: 'light',
             },
             width: {
                 type: Number,
-                default: 200
-            }
+                default: 200,
+            },
         },
         methods: {
             onClose() {
                 this.$emit('change', true);
-            }
-        }
+            },
+        },
     };
 </script>
 

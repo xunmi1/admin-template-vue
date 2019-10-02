@@ -18,8 +18,8 @@
         props: {
             menuData: {
                 type: Array,
-                required: true
-            }
-        }
+                required: true,
+            },
+        },
     };
 </script>
