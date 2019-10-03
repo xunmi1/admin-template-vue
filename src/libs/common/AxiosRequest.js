@@ -75,12 +75,13 @@ class AxiosRequest {
         }, error => Promise.reject(error));
         // 响应拦截
         instance.interceptors.response.use(res => {
-            // res.status 为 2** 进入这里
             this.destroy(url);
             return res;
         }, error => {
             this.destroy(url);
-            if (error.constructor.name === 'Cancel') return Promise.reject(error);
+            if (error.constructor.name === 'Cancel') {
+                return Promise.reject(error);
+            }
             return AxiosRequest.handlerError(error);
         });
     }

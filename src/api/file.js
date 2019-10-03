@@ -8,10 +8,10 @@ export function upload ({ name = 'image', file, onProgress }) {
         return Promise.reject({ msg: '类型错误！' });
     }
     const formData = new FormData();
-    formData.append(name, file);
+    formData.append('file', file);
     return service.request({
         notVersion: true,
-        url: `/admin/upload/${ name }s`,
+        url: `/admin/upload/${name}s`,
         headers: { 'Content-Type': 'multipart/form-data' },
         method: 'post',
         data: formData,

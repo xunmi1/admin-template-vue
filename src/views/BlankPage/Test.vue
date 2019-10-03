@@ -5,7 +5,7 @@
             row-key="key"
             :columns="columns"
             :http="getTableData"
-            :page-size="3"
+            :page-size="4"
             :current="2"
             is-xlsx
         >
@@ -36,7 +36,7 @@
             };
         },
         created () {
-            setTimeout(() => this.selectedKeys.push('21', '13', '62'), 5000);
+            setTimeout(() => this.selectedKeys.push('21', '13', '62', '23'), 5000);
         },
         methods: {
             getTableData,

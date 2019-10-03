@@ -32,6 +32,12 @@ const addComponents = function (value, obj) {
     });
 };
 
+const addDirectives = function (value, obj) {
+    Object.entries(value).forEach(([key, directive]) => {
+        obj.directive(key, directive);
+    });
+};
+
 export default {
     async install (Vue) {
         // 扩展属性
@@ -40,5 +46,6 @@ export default {
         addProperties(methods, Vue.prototype);
         // 扩展组件
         addComponents(components, Vue);
+        addDirectives({}, Vue);
     },
 };

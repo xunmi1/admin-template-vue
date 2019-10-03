@@ -3,9 +3,9 @@
         <ADropdown>
             <div>
                 <AAvatar
+                    :alt="nickName"
                     :size="36"
                     :src="avatar"
-                    :alt="nickName.slice(0, 3)"
                     class="user-avatar v-theme-bg"
                 >
                     {{ nickName.slice(0, 5) }}
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-    import { mapState, mapActions } from 'vuex';
+    import { mapActions, mapState } from 'vuex';
 
     export default {
         name: 'UserMenu',
@@ -40,16 +40,11 @@
         methods: {
             ...mapActions('user', ['handleLogout']),
             logout () {
-                this.handleLogout()
-                    .then(({ msg }) => {
-                        this.$message.success(msg);
-                        this.$router.replace({ name: this.$app.loginName });
-                    })
-                    .catch(({ msg }) => this.$message.error(msg));
+                this.handleLogout().then(() => this.$router.replace({ name: this.$app.loginName }));
             },
         },
     };
-</script>
+    </script>
 
 <style lang="less" scoped>
     .user {
@@ -58,13 +53,14 @@
 
         &-avatar {
             margin-right: 8px;
+
             /deep/ .ant-avatar-string {
                 line-height: 32px !important;
             }
         }
 
         &-nickname {
-            font-size: 16px;
+            font-size: 14px;
         }
 
         &-menu {

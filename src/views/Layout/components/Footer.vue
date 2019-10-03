@@ -1,13 +1,13 @@
 <template functional>
     <div :class="{ 'placeholder': props.isFixed }">
         <footer
-            :style="{ width: `calc(100% - ${props.isFixed ? props.width : 0}px)` }"
             :class="['footer', { 'footer-fixed': props.isFixed }]"
+            :style="{ width: `calc(100% - ${props.isFixed ? props.width : 0}px)` }"
         >
             <ALayoutFooter>
-                Copyright © 2018
-                {{ props.nowYear > 2018 ? ' - ' + props.nowYear : null }} {{ parent.$app.org }}
-                All Rights Reserved
+                <span>Copyright © {{ props.startYear }}</span>
+                <span>{{ props.currentYear > props.startYear ? ' - ' + props.currentYear : null }} </span>
+                <span>{{ parent.$app.org }} All Rights Reserved.</span>
             </ALayoutFooter>
         </footer>
     </div>
@@ -25,7 +25,11 @@
                 type: Number,
                 default: 0,
             },
-            nowYear: {
+            startYear: {
+                type: Number,
+                default: 2018,
+            },
+            currentYear: {
                 type: Number,
                 default: new Date().getFullYear(),
             },

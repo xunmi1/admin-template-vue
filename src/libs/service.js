@@ -12,7 +12,7 @@ const failAuth = function () {
 const failCodeMap = new Map([
     [400, { msg: '请求错误' }],
     [401, { msg: '未认证', handler: failAuth }],
-    [403, { msg: '未授权', handler: failAuth }],
+    [403, { msg: '未授权' }],
     [404, { msg: '请求地址错误' }],
     [405, { msg: '请求方式错误' }],
     [408, { msg: '请求超时' }],
@@ -35,16 +35,11 @@ class MyRequest extends AxiosRequest {
     /**
      * 设置 token, 注: 由 commit('user/setToken') 触发
      * @param {string} token
-     * @param {boolean} [skip=false] 是否跳过模板替换
      */
-    setToken (token, skip = false) {
+    setToken (token) {
         this.tokenConfig = {
             ...config.token,
-            value: token
-                ? skip
-                    ? token
-                    : config.token.value.replace('TOKEN', token)
-                : null,
+            value: token ? config.token.value.replace('TOKEN', token) : null,
         };
     }
 
