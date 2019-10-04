@@ -14,7 +14,9 @@ files.keys().forEach(key => {
 });
 
 if (process.env.NODE_ENV !== 'production') {
-    plugins.push(createLogger());
+    plugins.push(createLogger({
+        filter: mutation => mutation.type !== 'app/addAlive',
+    }));
 }
 
 export default new Vuex.Store({

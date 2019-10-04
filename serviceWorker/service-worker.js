@@ -3,7 +3,7 @@
 
 workbox.core.setCacheNameDetails({
     prefix: 'admin-template',
-    suffix: 'v1.1.0'
+    suffix: 'v1.3.0'
 });
 workbox.clientsClaim();
 workbox.precaching.suppressWarnings();
@@ -30,7 +30,7 @@ self.addEventListener('message', event => {
         event.waitUntil(
             self.skipWaiting()
                 .then(() => replyPort.postMessage({ error: null }))
-                .catch(error => replyPort.postMessage({ error }))
+                .catch(error => replyPort.postMessage({ error })),
         );
     }
 });
