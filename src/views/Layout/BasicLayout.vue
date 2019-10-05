@@ -50,9 +50,7 @@
                     </div>
                 </ALayoutHeader>
                 <ALayoutContent :class="[{ 'content-fixed-top': isFixedHeader }, 'layout-main-content']">
-                    <div v-if="!isVertical" class="horizontal-breadcrumb">
-                        <Breadcrumb />
-                    </div>
+                    <Breadcrumb v-if="!isVertical" />
                     <KeepAlive :include="getAlive('BasicLayout')">
                         <RouterView />
                     </KeepAlive>
@@ -264,7 +262,6 @@
                 padding: 0;
                 transition: all .2s;
                 box-shadow: 0 1px 4px rgba(0, 21, 41, .08);
-                z-index: 110;
 
                 > div {
                     line-height: 64px;
@@ -312,6 +309,7 @@
 
     .header-fixed {
         position: fixed;
+        z-index: 110;
         top: 0;
         right: 0;
         width: 100%;
