@@ -17,7 +17,3 @@
         name: 'Test4',
     };
 </script>
-
-<style scoped>
-
-</style>

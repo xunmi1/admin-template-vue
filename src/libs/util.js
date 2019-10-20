@@ -28,10 +28,8 @@ export function typeOf (obj, type) {
  * @returns {Object} - 复制后的数据
  */
 export function deepClone (obj) {
-    let clone = Object.assign({}, obj);
-    Object.keys(clone).forEach(
-        key => (clone[key] = typeof obj[key] === 'object' ? deepClone(obj[key]) : obj[key])
-    );
+    const clone = Object.assign({}, obj);
+    Object.keys(clone).forEach(key => (clone[key] = typeof obj[key] === 'object' ? deepClone(obj[key]) : obj[key]));
     return Array.isArray(obj) && obj.length
         ? (clone.length = obj.length) && Array.from(clone)
         : Array.isArray(obj)
@@ -77,16 +75,12 @@ export function unique (...rest) {
 /**
  * 数组扁平化(会移除空项)
  * @param {Array} arr 原数组
- * @param {Number} [depth=Infinity] 嵌套深度
  * @return {Array} - 降维后的数组
  */
-export function flatten (arr, depth = Infinity) {
-    // old
-    // return arr.reduce((prev, cur) => prev.concat(Array.isArray(cur) ? flatten(cur) : cur), []);
-    // new
-    if (Array.isArray(arr)) {
-        return arr.flat(depth);
-    }
+export function flatten (arr) {
+    if (!Array.isArray(arr)) return [];
+    if (Array.prototype.flat) return arr.flat(Infinity);
+    return arr.reduce((prev, cur) => prev.concat(Array.isArray(cur) ? flatten(cur) : cur), []);
 }
 
 /**
@@ -138,24 +132,17 @@ export function throttle (fn, interval = 0, resetInterval = false) {
 /**
  * 缓存(记忆)函数
  * @param {Function} fn 需要缓存的函数
+ * @param {Function} [resolver] 参数转换
  * @return {Function} 新函数
  */
-export function cached (fn) {
+export function cached(fn, resolver) {
     const cache = Object.create(null);
-    const map = {
-        object: str => JSON.stringify(str),
-        array: str => JSON.stringify(str),
-        string: str => str,
+    const _resolver = params => (typeof params === 'object' ? JSON.stringify(params) : String(params));
+    return function cachedFn(params) {
+        const key = resolver ? resolver.call(this, params) : _resolver(params);
+        const hit = cache[key];
+        return hit !== undefined ? hit : (cache[key] = fn.call(this, params));
     };
-    return (function cachedFn (str) {
-        const type = typeOf(str);
-        const key = map[type] && map[type](str);
-        if (key != null) {
-            const hit = cache[key];
-            return hit || (cache[key] = fn.call(this, str));
-        }
-        return fn.call(this, str);
-    });
 }
 
 const formatNumber = function (n) {
@@ -170,7 +157,7 @@ const formatNumber = function (n) {
  * @param {string} [connector='-'] - 连接符
  * @returns {string} - yyyy-MM-dd
  */
-export function dateFormat (date, isFull = false, connector = '-') {
+export function formatDate (date, isFull = false, connector = '-') {
     let __date = null;
     if (typeOf(date, 'number')) {
         __date = new Date(date);

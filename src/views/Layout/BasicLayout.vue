@@ -1,7 +1,7 @@
 <template>
     <div>
         <ALayout :class="isVertical ? 'vertical' : 'horizontal'" class="container">
-            <compontent
+            <Compontent
                 :is="layout.menuLayout"
                 v-model="collapsed"
                 collapsible
@@ -30,7 +30,7 @@
                     <SettingBtn @click="toggleSetting" />
                     <UserMenu />
                 </div>
-            </compontent>
+            </Compontent>
 
             <ALayout :style="{ marginLeft: layoutMainLeft + 'px' }" class="layout-main">
                 <ALayoutHeader
@@ -80,7 +80,7 @@
     export default {
         name: 'BasicLayout',
         components: {
-            MenuDrawer: () => import(/* webpackChunkName: "MenuDrawer" */'./components/MenuDrawer'),
+            MenuDrawer: () => import(/* webpackChunkName: "MenuDrawer" */ './components/MenuDrawer'),
             Menu,
             Logo,
             SettingBtn,
@@ -186,9 +186,7 @@
         methods: {
             ...mapMutations('app', ['setLayout']),
             pushRouter ({ key }) {
-                this.$router.push({ name: key });
-                // 上锁
-                this.isOpenKeysLock = true;
+                this.$router.push({ name: key }).catch(() => {}).finally(() => this.isOpenKeysLock = true);
             },
             setMenuList () {
                 const mainRoute = this.$router.options.routes.find(i => i.name === this.$app.mainName);

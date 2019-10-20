@@ -24,7 +24,7 @@
     .container {
         min-height: 100vh;
         background: rgb(240, 242, 245) url(../../assets/svg/backgroundImage.svg) no-repeat center;
-        background-size: 100%;
+        background-size: 100% 100%;
     }
 
     .container >>> .ant-layout-footer {
