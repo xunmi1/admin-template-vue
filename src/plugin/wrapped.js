@@ -24,21 +24,17 @@ export const wrappedEditor = function (component) {
     };
 };
 
+// 请求参数改名 current -> page,
+const renamed = ({ current, ...rest }) => ({ page: current, ...rest });
+// 修改请求响应体
+const transfer = ({ data = [], meta = {} }) => ({ data, total: meta.total || data.length });
+// 适配列表数据接口
+export const adapterOfList = function (service) {
+    if (typeof service !== 'function') return service;
+    return (params = {}) => service(renamed(params)).catch(() => ({})).then(transfer);
+};
+
 export const wrappedTable = function (component) {
-    // 适配接口参数要求
-    // 例如参数改名 current -> page
-    const renamed = ({ current, ...rest }) => ({
-        page: current,
-        ...rest,
-    });
-    const proxyService = function (service) {
-        if (typeof service !== 'function') return service;
-        return (params = {}) => service(renamed(params))
-            .then(({ data = [], meta = {} }) => ({
-                data,
-                total: meta.total || data.length,
-            }));
-    };
     return {
         functional: true,
         props: {
@@ -64,15 +60,11 @@ export const wrappedTable = function (component) {
             if (isMobile) {
                 attrs.size = 'small';
             }
-            return h(component, {
+            const options = {
                 ...context.data,
-                props: {
-                    http: proxyService(context.props.http),
-                    xlsx: toXlsx,
-                    rowKey: props.rowKey,
-                    scroll,
-                },
-            }, context.children);
+                props: { http: adapterOfList(props.http), xlsx: toXlsx, rowKey: props.rowKey, scroll },
+            };
+            return h(component, options, context.children);
         },
     };
 };

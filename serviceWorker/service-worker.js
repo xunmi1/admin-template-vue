@@ -3,7 +3,7 @@
 
 workbox.core.setCacheNameDetails({
     prefix: 'admin-template',
-    suffix: 'v1.3.0'
+    suffix: 'v1.3.2'
 });
 workbox.clientsClaim();
 workbox.precaching.suppressWarnings();

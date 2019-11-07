@@ -14,7 +14,7 @@ const copyOptions = [
     {
         from: resolve('./node_modules/tinymce/skins'),
         to: './tinymce/skins',
-    }
+    },
 ];
 const themeOptions = {
     antDir: resolve('./node_modules/ant-design-vue'),
@@ -25,6 +25,7 @@ const themeOptions = {
     indexFileName: false,
     generateOnce: false,
 };
+
 const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = {
@@ -73,7 +74,7 @@ module.exports = {
         plugins: [
             // antd 使用，精简 moment.js, 语言包只保留 zh-cn.js
             new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh-cn/),
-            new AntDesignThemePlugin(themeOptions)
+            new AntDesignThemePlugin(themeOptions),
         ],
     },
 
@@ -94,28 +95,15 @@ module.exports = {
         // 当引入 svg 文件加入`?inline`后缀时, 会处理成 vue 组件
         const svgRule = config.module.rule('svg');
         svgRule.uses.clear();
-        svgRule
-            .oneOf('inline')
-            .resourceQuery(/inline/)
-            .use('vue-svg-loader')
-            .loader('vue-svg-loader')
-            .options({
-                // https://github.com/svg/svgo
-                svgo: {
-                    plugins: [
-                        { prefixIds: true },
-                        { removeViewBox: false },
-                        { removeDimensions: true }
-                    ],
-                },
-            })
-            .end()
-            .end()
+        svgRule.oneOf('inline')
+            .resourceQuery(/inline/).use('babel-loader').loader('babel-loader').end()
+            .use('vue-svg-loader').loader('vue-svg-loader').options({
+            // @see https://github.com/svg/svgo
+            svgo: { plugins: [{ prefixIds: true }, { removeViewBox: false }, { removeDimensions: true }] },
+        }).end().end()
             .oneOf('external')
             .use('file-loader')
             .loader('file-loader')
-            .options({
-                name: 'assets/svg/[name].[hash:8].[ext]',
-            });
+            .options({ name: 'assets/svg/[name].[hash:8].[ext]' });
     },
 };

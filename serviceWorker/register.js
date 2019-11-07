@@ -3,7 +3,7 @@ import { register } from 'register-service-worker';
 
 if (process.env.NODE_ENV === 'production') {
     // 此处注册名需要和 vue.config 中 pwa.workboxOptions.swDest 保持一致
-    register(`${ process.env.BASE_URL }service-worker.js`, {
+    register(`${process.env.BASE_URL}service-worker.js`, {
         ready () {
             console.log(
                 'App is being served from cache by a service worker.\n' +

@@ -186,7 +186,10 @@
         methods: {
             ...mapMutations('app', ['setLayout']),
             pushRouter ({ key }) {
-                this.$router.push({ name: key }).catch(() => {}).finally(() => this.isOpenKeysLock = true);
+                this.$router
+                    .push({ name: key })
+                    .catch(() => {})
+                    .finally(() => this.isOpenKeysLock = true);
             },
             setMenuList () {
                 const mainRoute = this.$router.options.routes.find(i => i.name === this.$app.mainName);
