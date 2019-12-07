@@ -9,7 +9,7 @@ const mockUserInfo = {
         avatar: 'admin',
         email: '',
     },
-    accessToken: 'TOKEN',
+    access_token: 'TOKEN',
 };
 
 export function login (data) {

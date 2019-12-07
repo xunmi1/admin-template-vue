@@ -13,16 +13,20 @@ export default {
             type: 'xl',
             level: 6,
         },
+        constrainedBox: {
+            mainOffsetLeft: 0,
+        },
         aliveList: {},
         errorList: [],
     },
     getters: {
         getAlive: ({ aliveList }) => (page, name = 'default') => {
-            if (aliveList[page] && Array.isArray(aliveList[page][name])) {
-                return aliveList[page][name];
-            } else {
-                return null;
+            const map = aliveList[page];
+            if (map) {
+                const list = map[name];
+                if (Array.isArray(list)) return list;
             }
+            return [];
         },
         isMobileDevice: ({ screenType }) => screenType.level < 3.8,
     },
@@ -32,6 +36,12 @@ export default {
                 if (value !== undefined) {
                     layout[key] = value;
                 }
+            });
+        },
+        setConstrainedBox({ constrainedBox }, data = {}) {
+            Object.entries(data).forEach(([key, value]) => {
+                if (value == null) return;
+                constrainedBox[key] = value;
             });
         },
         // 设置屏幕类型
