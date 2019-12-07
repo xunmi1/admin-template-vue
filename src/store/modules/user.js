@@ -9,7 +9,7 @@ export default {
     namespaced: true,
     state: {
         userId: null,
-        userName: '',
+        username: '',
         token: '',
         avatar: '',
         nickName: '',
@@ -32,8 +32,8 @@ export default {
         },
     },
     actions: {
-        handleLogin ({ commit }, { userName, password, remember }) {
-            return login({ userName, password })
+        handleLogin ({ commit }, { username, password, remember }) {
+            return login({ username, password })
                 .then(res => {
                     commit('setToken', {
                         token: res.access_token,
@@ -43,7 +43,7 @@ export default {
                         userId: res.info.id,
                         avatar: res.info.avatar || res.info.nickname,
                         nickName: res.info.nickname,
-                        userName: res.info.username,
+                        username: res.info.username,
                         email: res.info.email,
                     };
                     commit('setUserInfo', userInfo);

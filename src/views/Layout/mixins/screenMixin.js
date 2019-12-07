@@ -1,3 +1,5 @@
+import { throttle } from '@/libs/util';
+
 const screenMixin = {
     data () {
         return {
@@ -17,7 +19,7 @@ const screenMixin = {
             { minWidth: 0, type: 'xs', level: 0 }
         ];
         this.$_screen_change();
-        this.$_screen_change = this.$util.throttle(this.$_screen_change, 170, true);
+        this.$_screen_change = throttle(this.$_screen_change, 170, true);
         window.addEventListener('resize', this.$_screen_change);
     },
     beforeDestroy () {

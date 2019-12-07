@@ -51,19 +51,6 @@ export function deepFreeze (obj) {
 }
 
 /**
- * 重命名对象键名
- * @param {Object} keysMap {旧键名: 新键名}
- * @param {Object} obj 需要修改的对象
- * @return {Object} 修改后的对象
- */
-export function renameKeys (keysMap, obj) {
-    return Object.keys(obj).reduce((total, key) => ({
-        ...total,
-        ...{ [keysMap[key] || key]: obj[key] },
-    }), {});
-}
-
-/**
  * 数组去重
  * @param {...Array} rest - 原数组，不限数组个数
  * @returns {*[]} - 去重后的新数组

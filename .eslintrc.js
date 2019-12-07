@@ -67,6 +67,7 @@ module.exports = {
         'vue/space-infix-ops': 'warn',
         'vue/space-unary-ops': 'warn',
         'vue/this-in-template': ['error', 'never'],
+        'vue/no-template-shadow': 'off',
 
         // js 部分
         'indent': ['warn', 4],

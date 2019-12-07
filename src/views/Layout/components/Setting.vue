@@ -10,13 +10,13 @@
             <h4 class="setting-title">导航菜单风格</h4>
             <ATooltip title="暗色">
                 <div class="setting-layout" @click="toggle('menuTheme', 'dark')">
-                    <DarkMenuSvg v-once class="setting-svg" />
+                    <LayoutDark v-once class="setting-svg" />
                     <AIcon v-show="menuTheme === 'dark'" class="check-icon v-theme-color" type="check" />
                 </div>
             </ATooltip>
             <ATooltip title="亮色">
                 <div class="setting-layout" @click="toggle('menuTheme', 'light')">
-                    <LightMenuSvg v-once class="setting-svg" />
+                    <LayoutLight v-once class="setting-svg" />
                     <AIcon v-show="menuTheme === 'light'" class="check-icon v-theme-color" type="check" />
                 </div>
             </ATooltip>
@@ -25,7 +25,7 @@
             <h4 class="setting-title">导航菜单布局</h4>
             <ATooltip title="侧边菜单">
                 <div class="setting-layout" @click="toggle('isVertical', true)">
-                    <VerticalSvg v-once class="setting-svg" />
+                    <Vertical v-once class="setting-svg" />
                     <AIcon v-show="isVertical" class="check-icon v-theme-color" type="check" />
                 </div>
             </ATooltip>
@@ -34,7 +34,7 @@
                     :class="{ 'setting-layout': true, 'v-disabled': isMobileDevice }"
                     @click="isMobileDevice ? null : toggle('isVertical', false)"
                 >
-                    <HorizontalSvg v-once class="setting-svg" />
+                    <Horizontal v-once class="setting-svg" />
                     <AIcon v-show="!isVertical" class="check-icon v-theme-color" type="check" />
                 </div>
             </ATooltip>
@@ -92,19 +92,19 @@
 
 <script>
     import { mapState, mapGetters, mapMutations } from 'vuex';
-    import LightMenuSvg from '@/assets/svg/lightMenu.svg?inline';
-    import DarkMenuSvg from '@/assets/svg/darkMenu.svg?inline';
-    import VerticalSvg from '@/assets/svg/vertical.svg?inline';
-    import HorizontalSvg from '@/assets/svg/horizontal.svg?inline';
+    import LayoutLight from '@/assets/svg/layout-light.svg?inline';
+    import LayoutDark from '@/assets/svg/layout-dark.svg?inline';
+    import Vertical from '@/assets/svg/layout-vertical.svg?inline';
+    import Horizontal from '@/assets/svg/layout-horizontal.svg?inline';
     import { themeListMixin } from '../mixins/themeMixin';
 
     export default {
         name: 'Setting',
         components: {
-            LightMenuSvg,
-            DarkMenuSvg,
-            VerticalSvg,
-            HorizontalSvg,
+            LayoutLight,
+            LayoutDark,
+            Vertical,
+            Horizontal,
         },
         model: {
             prop: 'visible',

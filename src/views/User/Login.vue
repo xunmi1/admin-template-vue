@@ -15,7 +15,7 @@
             <AForm :form="loginForm" class="login-form" @submit.prevent="login">
                 <AFormItem>
                     <AInput
-                        v-decorator="getRules('userName')"
+                        v-decorator="getRules('username')"
                         placeholder="用户名:"
                         size="large"
                         @pressEnter.prevent="setPasswordFocus(true)"
@@ -55,6 +55,7 @@
 
 <script>
     import { mapActions } from 'vuex';
+    import { throttle } from '@/libs/util';
 
     export default {
         name: 'Login',
@@ -82,7 +83,7 @@
             this.loginForm = this.$form.createForm(this);
         },
         created () {
-            this.login = this.$util.throttle(this.login, 360, true);
+            this.login = throttle(this.login, 360, true);
             this.setRules();
         },
         methods: {
@@ -106,7 +107,7 @@
             },
             setRules () {
                 this.rulesForm = {
-                    userName: {
+                    username: {
                         initialValue: 'admin',
                         validateFirst: true,
                         normalize: value => value ? value.toString().trim() : null,
@@ -125,7 +126,7 @@
                             { required: true, whitespace: true, message: '请输入你的密码!' },
                             { min: 5, message: '不少于5个字符' },
                             { max: 45, message: '不超过45个字符' },
-                            { validator: this.compareToUserName }
+                            { validator: this.compareToUsername }
                         ],
                     },
                     remember: {
@@ -140,8 +141,8 @@
             setPasswordFocus (bool) {
                 this.passwordFocus = bool;
             },
-            compareToUserName (rule, value, callback) {
-                if (value === this.loginForm.getFieldValue('userName')) {
+            compareToUsername (rule, value, callback) {
+                if (value === this.loginForm.getFieldValue('username')) {
                     return callback(new Error('密码不能和用户名重复'));
                 }
                 callback();
@@ -152,8 +153,8 @@
                 }
                 callback();
             },
-            clearDB(userName) {
-                if (!this.isClearDB && this.$db.get('userInfo', {}).userName !== userName) {
+            clearDB(username) {
+                if (!this.isClearDB && this.$db.get('userInfo', {}).username !== username) {
                     this.$db.clear();
                     this.isClearDB = true;
                 }

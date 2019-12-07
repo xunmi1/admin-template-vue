@@ -65,6 +65,7 @@
 
 <script>
     import { mapGetters, mapMutations, mapState } from 'vuex';
+    import { cached } from '@/libs/util';
     import screenMixin from './mixins/screenMixin';
     import themeMixin from './mixins/themeMixin';
     import Menu from './components/Menu';
@@ -140,7 +141,9 @@
             },
             // 垂直布局下侧边菜单伸缩，引起的右侧结构 marginLeft 伸缩变化
             layoutMainLeft () {
-                return (this.isVertical && this.isFixedSider && !this.isMobileDevice) ? this.siderWidth : 0;
+                const mainOffsetLeft = this.isVertical && this.isFixedSider && !this.isMobileDevice ? this.siderWidth : 0;
+                this.setConstrainedBox({ mainOffsetLeft });
+                return mainOffsetLeft;
             },
             // 垂直布局下固定导航菜单栏，侧边菜单伸缩，引起的右侧头部 marginLeft 伸缩变化
             layoutMainHeaderLeft () {
@@ -180,11 +183,11 @@
             this.setLayout(this.$db.get('layout'));
             this.setMenuList();
             // 使具有缓存能力
-            this.getOpenKeys = this.$util.cached(this.getOpenKeys);
+            this.getOpenKeys = cached(this.getOpenKeys);
             this.vertical.openKeys = this.getOpenKeys(this.$route.name);
         },
         methods: {
-            ...mapMutations('app', ['setLayout']),
+            ...mapMutations('app', ['setLayout', 'setConstrainedBox']),
             pushRouter ({ key }) {
                 this.$router
                     .push({ name: key })

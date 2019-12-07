@@ -3,14 +3,14 @@
         <ADropdown>
             <div>
                 <AAvatar
-                    :alt="nickName"
+                    :alt="nickname"
                     :size="36"
                     :src="avatar"
                     class="user-avatar v-theme-bg"
                 >
-                    {{ nickName.slice(0, 5) }}
+                    {{ nickname.slice(0, 5) }}
                 </AAvatar>
-                <span class="user-nickname">{{ nickName }}</span>
+                <span class="user-nickname">{{ nickname }}</span>
             </div>
             <template #overlay>
                 <AMenu class="user-menu">
@@ -35,7 +35,7 @@
     export default {
         name: 'UserMenu',
         computed: {
-            ...mapState('user', ['avatar', 'nickName']),
+            ...mapState('user', ['avatar', 'nickname']),
         },
         methods: {
             ...mapActions('user', ['handleLogout']),
@@ -44,7 +44,7 @@
             },
         },
     };
-    </script>
+</script>
 
 <style lang="less" scoped>
     .user {

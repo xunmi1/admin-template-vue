@@ -1,4 +1,6 @@
 import { mapState, mapMutations } from 'vuex';
+import { throttle } from '@/libs/util';
+
 const themeListMixin = [
     {
         text: '薄暮', name: 'dust-red', variables: {
@@ -46,7 +48,7 @@ const themeMixin = {
     },
     created () {
         // 防抖
-        this.$_theme_updateTheme = this.$util.throttle(this.$_theme_updateTheme, 1200, true);
+        this.$_theme_updateTheme = throttle(this.$_theme_updateTheme, 1200, true);
         this.$_theme_init();
         this.$_theme_updateClass(this.theme);
     },
@@ -62,8 +64,12 @@ const themeMixin = {
                 return;
             }
             window.less.modifyVars(theme.variables)
-                .then(() => this.$_theme_updateClass(newTheme))
-                .catch(() => this.$message.error('主题更换失败！'));
+                .then(() => {
+                    this.$_theme_updateClass(newTheme);
+                })
+                .catch(() => {
+                    this.$message.error('主题更换失败！');
+                });
         },
         $_theme_updateClass (newClass) {
             // 由于防抖，实际 DOM 上旧 class 已无法获知, 因此循环移除

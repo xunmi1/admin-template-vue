@@ -13,7 +13,7 @@ const mockUserInfo = {
 };
 
 export function login (data) {
-    if (data.userName && data.password) {
+    if (data.username && data.password) {
         return Promise.resolve(mockUserInfo);
     } else {
         return Promise.reject('missing parameter');
