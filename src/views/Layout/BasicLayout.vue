@@ -65,7 +65,7 @@
 
 <script>
     import { mapGetters, mapMutations, mapState } from 'vuex';
-    import { cached } from '@/libs/util';
+    import { cached } from '@/libs/utils';
     import screenMixin from './mixins/screenMixin';
     import themeMixin from './mixins/themeMixin';
     import Menu from './components/Menu';

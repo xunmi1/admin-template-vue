@@ -1,4 +1,4 @@
-import { throttle } from '@/libs/util';
+import { throttle } from '@/libs/utils';
 
 const screenMixin = {
     data () {

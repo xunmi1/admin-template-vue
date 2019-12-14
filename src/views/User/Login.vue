@@ -55,7 +55,7 @@
 
 <script>
     import { mapActions } from 'vuex';
-    import { throttle } from '@/libs/util';
+    import { throttle } from '@/libs/utils';
 
     export default {
         name: 'Login',

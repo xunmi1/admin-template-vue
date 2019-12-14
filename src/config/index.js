@@ -2,7 +2,7 @@
  * 系统配置项，禁止运行时修改
  * @type {Readonly}
  */
-import { deepFreeze } from '@/libs/util';
+import { deepFreeze } from '@/libs/utils';
 
 const config = deepFreeze({
     /**

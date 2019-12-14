@@ -1,5 +1,5 @@
 import { mapState, mapMutations } from 'vuex';
-import { throttle } from '@/libs/util';
+import { throttle } from '@/libs/utils';
 
 const themeListMixin = [
     {
