@@ -1,3 +1,6 @@
+// 检测平台的颜色方案是是否为暗色
+const PLATFORM_IS_DARK = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
 export default {
     value: [String, Number],
     // 唯一 key 值
@@ -7,28 +10,28 @@ export default {
         type: Boolean,
         default: true,
     },
-    // 模式 'default' | 'inline'
+    // 模式 'classic' | 'inline'
     mode: {
         type: String,
-        validator: value => ['inline', 'default'].includes(value),
-        default: 'default',
+        validator: value => ['inline', 'classic'].includes(value),
+        default: 'classic',
     },
     // 是否为手机端（在 mode = 'default'下，tinyMCE 会自动判断，这里是功能上调整）
     isMobile: {
         type: Boolean,
         default: false,
     },
-    // 显示类型 ，可选 'word' | 'default'，'word': 模拟 word 显示方式（手机端无效）
-    type: {
+    // 内容区显示模式，对应 `config.content_css` 字段
+    contentMode: {
         type: String,
-        validator: value => ['word', 'default'].includes(value),
-        default: 'default',
+        validator: value => ['dark', 'document', 'writer', 'default'].includes(value),
+        default: PLATFORM_IS_DARK ? 'dark' : 'default',
     },
     // 皮肤，可选 'light' | 'dark'
     skin: {
         type: String,
         validator: value => ['light', 'dark'].includes(value),
-        default: 'light',
+        default: PLATFORM_IS_DARK ? 'dark' : 'light',
     },
     // 富文本配置项，会覆盖和并默认配置
     config: Object,
@@ -42,10 +45,25 @@ export default {
     // 文件接受类型
     fileAccept: {
         type: Array,
-        default: () => ['.txt', '.docx', '.doc', '.xlsx', '.xls', '.csv', '.pptx', '.ppt', '.pdf', '.zip', '.rar', '.md', 'image/*'],
+        default: () => [
+            '.txt',
+            '.docx',
+            '.doc',
+            '.xlsx',
+            '.xls',
+            '.csv',
+            '.pptx',
+            '.ppt',
+            '.pdf',
+            '.zip',
+            '.rar',
+            '.md',
+            'image/*',
+        ],
     },
     // 图片大小上限
-    maxSize: { // 图片大小
+    maxSize: {
+        // 图片大小
         type: Number,
         default: 52428800,
     },

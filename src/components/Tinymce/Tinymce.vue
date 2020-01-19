@@ -11,8 +11,8 @@
 </template>
 
 <script>
-    import defaultConfig from './tinymce.config';
-    import tinymceProps from './tinymceProps';
+    import { classicConfig, inlineConfig } from './tinymce.config';
+    import props from './props';
     // Import TinyMCE
     import tinymce from 'tinymce/tinymce';
     import 'tinymce/themes/silver';
@@ -39,33 +39,12 @@
     import 'tinymce/plugins/fullscreen';
     import 'tinymce/plugins/quickbars';
 
-    const EDITOR_STYLE = (() => {
-        const defaultStyle = 'p {font-size: 14pt;font-family: FangSong; line-height: 1.5; margin: 0}';
-        return {
-            default: defaultStyle,
-            word: `
-                     html { background-color: #eee}
-                     body {
-                         width: 210mm;
-                         min-height: 247mm;
-                         padding: 12mm 28mm;
-                         margin: 16px auto;
-                         box-shadow: 0 1px 4px rgba(10, 21, 42, .12);
-                         background-color: #fff;
-                     }
-                ` + defaultStyle,
-        };
-    })();
-
     export default {
-        model: {
-            prop: 'value',
-            event: 'change',
-        },
-        props: tinymceProps,
+        model: { prop: 'value', event: 'change' },
+        props,
         data () {
             return {
-                editorId: this.editorKey || `editor${ Date.now() }${ Math.round(Math.random() * 1000) }`,
+                editorId: this.editorKey || `editor${Date.now()}${Math.round(Math.random() * 1000)}`,
                 active: true,
             };
         },
@@ -76,21 +55,23 @@
             mode () {
                 this.updateEditor();
             },
+            contentMode () {
+                this.updateEditor();
+            },
             isMobile () {
                 this.updateEditor();
             },
         },
         created () {
             [tinymce.baseURL, tinymce.suffix] = [this.baseURL, '.min'];
-            this.option = this.getOptions();
+            this.options = this.getOptions();
             this.updateSkin();
             this.updateMode();
-            this.updateToolbar();
         },
         mounted () {
             this.createEditor();
         },
-        // vue 对 iframe 支持较差，创建后对 dom 不会触发修改， v-if 也不行
+        // `vue` 对 `iframe` 不支持，创建后对 dom 不会触发修改
         // 再次进入或离开时，需重新创建和销毁
         activated () {
             this.createEditor();
@@ -103,51 +84,35 @@
         },
         methods: {
             getOptions () {
-                const setting = {
-                    selector: `#${ this.editorId }`,
+                const setup = editor => {
+                    editor.once('init', () => {
+                        this.$emit('init', editor);
+                        this.editor = editor;
+                        this.bindWatch();
+                    });
+                };
+                return {
+                    selector: `div#${this.editorId}`,
                     autosave_prefix: this.autoSavePrefix,
-                    setup: editor => {
-                        editor.once('init', () => {
-                            this.$emit('init', editor);
-                            this.editor = editor;
-                            this.bindWatch();
-                        });
-                    },
+                    setup,
                     init_instance_callback: this.bindEvent,
                     //文件上传（浏览本地文件，设置此属性会开启本地文件浏览功能）
                     file_picker_callback: this.handleFile,
                     // 图片上传（包括直接拖拽，插入图片中的上传选项）
                     images_upload_handler: this.imageUpload,
                 };
-                return { ...defaultConfig, ...setting, ...this.config };
             },
             updateSkin () {
-                this.option.skin = this.skin === 'light' ? 'oxide' : 'oxide-dark';
+                this.options.skin = this.skin === 'light' ? 'oxide' : 'oxide-dark';
+                this.options.content_css = (this.config || {}).content_css || this.contentMode;
             },
             updateMode () {
-                const isInline = this.mode === 'inline';
-                const plugins = this.option.plugins;
-                this.option.content_style = EDITOR_STYLE[isInline ? 'default' : this.type];
-                this.option.inline = isInline;
-                this.option.toolbar = !isInline && defaultConfig.toolbar;
-                this.option.menubar = !isInline && defaultConfig.menubar;
-                if (isInline) plugins.push('quickbars');
-                else if (plugins[plugins.length - 1] === 'quickbars') plugins.pop();
-            },
-            updateToolbar () {
-                if (this.isMobile) {
-                    this.option.menubar = !this.isMobile;
-                    this.option.content_style = EDITOR_STYLE.default;
-                    this.option.toolbar = defaultConfig.mobile_phone_toolbar;
-                } else {
-                    this.option.menubar = defaultConfig.menubar;
-                    this.option.content_style = EDITOR_STYLE[this.type];
-                    this.option.toolbar = defaultConfig.toolbar;
-                }
+                const inline = this.mode === 'inline';
+                Object.assign(this.options, inline ? inlineConfig : classicConfig, this.config || {});
             },
             createEditor () {
                 this.active = true;
-                this.$nextTick(() => tinymce.init(this.option));
+                this.$nextTick(() => tinymce.init(this.options));
             },
             destroyEditor () {
                 if (this.editor) {
@@ -162,7 +127,6 @@
                 this.destroyEditor();
                 this.updateSkin();
                 this.updateMode();
-                this.updateToolbar();
                 this.createEditor();
             },
             handleFile (callback, value, meta) {
@@ -206,7 +170,7 @@
                         this.$emit('success', res);
                     })
                     .catch(err => {
-                        this.$emit('error', { type: 'uplaod', message: err });
+                        this.$emit('error', { type: 'upload', message: err });
                     });
             },
             imageUpload (blobInfo, success, failure) {
@@ -240,10 +204,10 @@
                     {
                         validator: () => this.fileAccept.some(type => blob.name.toLowerCase().search(type) !== -1),
                         message: '格式不符合要求',
-                    }
+                    },
                 ];
                 // 附加自定义验证规则
-                rules.push(...this.fileRules || []);
+                rules.push(...(this.fileRules || []));
                 const failRule = rules.find(rule => !rule.validator(blob));
                 return { result: !failRule, message: failRule && failRule.message };
             },
@@ -256,10 +220,10 @@
                     {
                         validator: () => this.imageAccept.some(type => blob.type.search(type) !== -1),
                         message: '格式不符合要求',
-                    }
+                    },
                 ];
                 // 附加自定义验证规则
-                rules.push(...this.imageRules || []);
+                rules.push(...(this.imageRules || []));
                 const failRule = rules.find(rule => !rule.validator(blob));
                 return { result: !failRule, message: failRule && failRule.message };
             },
@@ -276,7 +240,7 @@
                     {
                         key: 'Blur',
                         handler: () => this.$emit('blur', editor.getContent()),
-                    }
+                    },
                 ];
                 events.forEach(event => editor.on(event.key, event.handler));
             },

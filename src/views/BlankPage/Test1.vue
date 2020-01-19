@@ -1,7 +1,5 @@
 <template>
-    <div>
-        <VRichEditor v-model="content" type="word" />
-    </div>
+    <VRichEditor v-model="content" />
 </template>
 
 <script>
@@ -11,11 +9,6 @@
             return {
                 content: '12345',
             };
-        },
-        created() {
-            setTimeout(() => {
-                this.content = '54321';
-            }, 2000);
         },
     };
 </script>
