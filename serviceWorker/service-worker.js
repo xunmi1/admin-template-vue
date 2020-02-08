@@ -3,9 +3,9 @@
 
 workbox.core.setCacheNameDetails({
     prefix: 'admin-template',
-    suffix: 'v1.3.2'
+    suffix: 'v2.0.0'
 });
-workbox.clientsClaim();
+workbox.core.clientsClaim();
 workbox.precaching.suppressWarnings();
 
 // 缓存打包后的静态文件
@@ -20,7 +20,6 @@ workbox.routing.registerRoute(new RegExp('/color.less'), workbox.strategies.stal
 
 self.addEventListener('install', () => {
     self.skipWaiting();
-    console.log('Resource updated');
 });
 
 self.addEventListener('message', event => {
@@ -28,9 +27,10 @@ self.addEventListener('message', event => {
     const message = event.data;
     if (replyPort && message && message.type === 'skip-waiting') {
         event.waitUntil(
-            self.skipWaiting()
+            self
+                .skipWaiting()
                 .then(() => replyPort.postMessage({ error: null }))
-                .catch(error => replyPort.postMessage({ error })),
+                .catch(error => replyPort.postMessage({ error }))
         );
     }
 });

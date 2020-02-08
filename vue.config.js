@@ -7,15 +7,10 @@ const resolve = dir => path.join(__dirname, dir);
 
 // 复制 tinymce 所需的静态资源
 const copyOptions = [
-    {
-        from: resolve('./src/components/Tinymce/langs'),
-        to: './tinymce/langs',
-    },
-    {
-        from: resolve('./node_modules/tinymce/skins'),
-        to: './tinymce/skins',
-    },
+    { from: resolve('./src/components/Tinymce/langs'), to: './tinymce/langs' },
+    { from: resolve('./node_modules/tinymce/skins'), to: './tinymce/skins' },
 ];
+
 const themeOptions = {
     antDir: resolve('./node_modules/ant-design-vue'),
     stylesDir: resolve('./src/assets/style'),
@@ -35,7 +30,6 @@ module.exports = {
     productionSourceMap: false,
 
     css: {
-        modules: true,
         sourceMap: !isProduction,
         loaderOptions: {
             less: {
@@ -46,7 +40,6 @@ module.exports = {
 
     devServer: {
         port: 8888,
-        open: true,
     },
     // @see https://github.com/vuejs/vue-docs-zh-cn/blob/master/vue-cli-plugin-pwa/README.md
     pwa: {

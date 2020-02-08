@@ -1,4 +1,3 @@
-import '@babel/polyfill';
 import Vue from 'vue';
 import Antd from 'ant-design-vue';
 import plugin from './plugin';
