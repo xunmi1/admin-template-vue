@@ -7,19 +7,25 @@
  * @param {string|string[]} [type] - 目标类型，可以包含可能类型的数组
  * @returns {string|boolean} - 数据类型(全小写)或校验结果
  */
-export function typeOf (obj, type) {
-    const toString = Object.prototype.toString;
-    const result = toString.call(obj).slice(8, -1).toLowerCase();
-    if (type) {
-        const __type = toString.call(type).slice(8, -1).toLowerCase();
-        if (__type === 'string') {
-            return result.search(type.toLowerCase()) !== -1;
-        }
-        if (__type === 'array' && type.length) {
-            return type.some(i => result.search(i.toLowerCase()) !== -1);
-        }
+export function typeOf(obj, type) {
+  const toString = Object.prototype.toString;
+  const result = toString
+    .call(obj)
+    .slice(8, -1)
+    .toLowerCase();
+  if (type) {
+    const __type = toString
+      .call(type)
+      .slice(8, -1)
+      .toLowerCase();
+    if (__type === 'string') {
+      return result.search(type.toLowerCase()) !== -1;
     }
-    return result;
+    if (__type === 'array' && type.length) {
+      return type.some(i => result.search(i.toLowerCase()) !== -1);
+    }
+  }
+  return result;
 }
 
 /**
@@ -27,14 +33,14 @@ export function typeOf (obj, type) {
  * @param {Object} obj - 原始数据
  * @returns {Object} - 复制后的数据
  */
-export function deepClone (obj) {
-    const clone = Object.assign({}, obj);
-    Object.keys(clone).forEach(key => (clone[key] = typeof obj[key] === 'object' ? deepClone(obj[key]) : obj[key]));
-    return Array.isArray(obj) && obj.length
-        ? (clone.length = obj.length) && Array.from(clone)
-        : Array.isArray(obj)
-            ? Array.from(obj)
-            : clone;
+export function deepClone(obj) {
+  const clone = Object.assign({}, obj);
+  Object.keys(clone).forEach(key => (clone[key] = typeof obj[key] === 'object' ? deepClone(obj[key]) : obj[key]));
+  return Array.isArray(obj) && obj.length
+    ? (clone.length = obj.length) && Array.from(clone)
+    : Array.isArray(obj)
+    ? Array.from(obj)
+    : clone;
 }
 
 /**
@@ -42,12 +48,12 @@ export function deepClone (obj) {
  * @param {Object} obj 需要冻结的数据
  * @returns {Object} 冻结后的数据
  */
-export function deepFreeze (obj) {
-    if (typeof obj === 'object' && !Object.isFrozen(obj)) {
-        Object.freeze(obj);
-        Object.keys(obj).forEach(property => deepFreeze(obj[property]));
-    }
-    return obj;
+export function deepFreeze(obj) {
+  if (typeof obj === 'object' && !Object.isFrozen(obj)) {
+    Object.freeze(obj);
+    Object.keys(obj).forEach(property => deepFreeze(obj[property]));
+  }
+  return obj;
 }
 
 /**
@@ -55,8 +61,8 @@ export function deepFreeze (obj) {
  * @param {...Array} rest - 原数组，不限数组个数
  * @returns {*[]} - 去重后的新数组
  */
-export function unique (...rest) {
-    return Array.from(new Set([].concat(...rest)));
+export function unique(...rest) {
+  return Array.from(new Set([].concat(...rest)));
 }
 
 /**
@@ -64,10 +70,10 @@ export function unique (...rest) {
  * @param {Array} arr 原数组
  * @return {Array} - 降维后的数组
  */
-export function flatten (arr) {
-    if (!Array.isArray(arr)) return [];
-    if (Array.prototype.flat) return arr.flat(Infinity);
-    return arr.reduce((prev, cur) => prev.concat(Array.isArray(cur) ? flatten(cur) : cur), []);
+export function flatten(arr) {
+  if (!Array.isArray(arr)) return [];
+  if (Array.prototype.flat) return arr.flat(Infinity);
+  return arr.reduce((prev, cur) => prev.concat(Array.isArray(cur) ? flatten(cur) : cur), []);
 }
 
 /**
@@ -76,14 +82,14 @@ export function flatten (arr) {
  * @param item 指定元素
  * @return {Array} 删除后数组
  */
-export function remove (arr, item) {
-    if (Array.isArray(arr) && item != null) {
-        const _index = arr.indexOf(item);
-        if (_index < 0) return arr;
-        const _temp = [...arr];
-        _temp.splice(_index, 1);
-        return remove(_temp, item);
-    }
+export function remove(arr, item) {
+  if (Array.isArray(arr) && item != null) {
+    const _index = arr.indexOf(item);
+    if (_index < 0) return arr;
+    const _temp = [...arr];
+    _temp.splice(_index, 1);
+    return remove(_temp, item);
+  }
 }
 
 /**
@@ -93,27 +99,27 @@ export function remove (arr, item) {
  * @param {boolean} [resetInterval=false] - 是否立即重置间隔, 设置 true 时为防抖函数
  * @returns {Function} - 已节流函数
  */
-export function throttle (fn, interval = 0, resetInterval = false) {
-    let [_self, timer, isFirst] = [fn, undefined, true];
-    return function () {
-        if (isFirst && !resetInterval) {
-            _self.apply(this, arguments);
-            return isFirst = false;
-        }
-        if (timer) {
-            if (resetInterval) {
-                clearTimeout(timer);
-                timer = undefined;
-            } else {
-                return false;
-            }
-        }
-        timer = setTimeout(() => {
-            clearTimeout(timer);
-            timer = undefined;
-            _self.apply(this, arguments);
-        }, interval);
-    };
+export function throttle(fn, interval = 0, resetInterval = false) {
+  let [_self, timer, isFirst] = [fn, undefined, true];
+  return function() {
+    if (isFirst && !resetInterval) {
+      _self.apply(this, arguments);
+      return (isFirst = false);
+    }
+    if (timer) {
+      if (resetInterval) {
+        clearTimeout(timer);
+        timer = undefined;
+      } else {
+        return false;
+      }
+    }
+    timer = setTimeout(() => {
+      clearTimeout(timer);
+      timer = undefined;
+      _self.apply(this, arguments);
+    }, interval);
+  };
 }
 
 /**
@@ -123,18 +129,18 @@ export function throttle (fn, interval = 0, resetInterval = false) {
  * @return {Function} 新函数
  */
 export function cached(fn, resolver) {
-    const cache = Object.create(null);
-    const _resolver = params => (typeof params === 'object' ? JSON.stringify(params) : String(params));
-    return function cachedFn(params) {
-        const key = resolver ? resolver.call(this, params) : _resolver(params);
-        const hit = cache[key];
-        return hit !== undefined ? hit : (cache[key] = fn.call(this, params));
-    };
+  const cache = Object.create(null);
+  const _resolver = params => (typeof params === 'object' ? JSON.stringify(params) : String(params));
+  return function cachedFn(params) {
+    const key = resolver ? resolver.call(this, params) : _resolver(params);
+    const hit = cache[key];
+    return hit !== undefined ? hit : (cache[key] = fn.call(this, params));
+  };
 }
 
-const formatNumber = function (n) {
-    n = n.toString();
-    return n[1] ? n : '0' + n;
+const formatNumber = function(n) {
+  n = n.toString();
+  return n[1] ? n : '0' + n;
 };
 
 /**
@@ -144,20 +150,20 @@ const formatNumber = function (n) {
  * @param {string} [connector='-'] - 连接符
  * @returns {string} - yyyy-MM-dd
  */
-export function formatDate (date, isFull = false, connector = '-') {
-    let __date = null;
-    if (typeOf(date, 'number')) {
-        __date = new Date(date);
-    } else if (typeOf(date, 'date')) {
-        __date = date;
-    } else {
-        return '';
-    }
-    let str = [__date.getFullYear(), __date.getMonth() + 1, __date.getDate()].map(formatNumber).join(connector);
-    if (isFull) {
-        str += ' ' + [__date.getHours(), __date.getMinutes(), __date.getSeconds()].map(formatNumber).join(':');
-    }
-    return str;
+export function formatDate(date, isFull = false, connector = '-') {
+  let __date = null;
+  if (typeOf(date, 'number')) {
+    __date = new Date(date);
+  } else if (typeOf(date, 'date')) {
+    __date = date;
+  } else {
+    return '';
+  }
+  let str = [__date.getFullYear(), __date.getMonth() + 1, __date.getDate()].map(formatNumber).join(connector);
+  if (isFull) {
+    str += ' ' + [__date.getHours(), __date.getMinutes(), __date.getSeconds()].map(formatNumber).join(':');
+  }
+  return str;
 }
 
 /**
@@ -166,16 +172,16 @@ export function formatDate (date, isFull = false, connector = '-') {
  * @param {'ms'|'s'} [type='ms'] - 单位: ms 或 s
  * @returns {number|undefined} - 时间戳
  */
-export function getTime (date, type = 'ms') {
-    let __date = null;
-    if (typeOf(date, 'string')) {
-        __date = new Date(date.substring(0, 19).replace(/-/g, '/'));
-    } else if (typeOf(date, 'date')) {
-        __date = date;
-    } else {
-        return;
-    }
+export function getTime(date, type = 'ms') {
+  let __date = null;
+  if (typeOf(date, 'string')) {
+    __date = new Date(date.substring(0, 19).replace(/-/g, '/'));
+  } else if (typeOf(date, 'date')) {
+    __date = date;
+  } else {
+    return;
+  }
 
-    if (!type || type === 'ms') return __date.getTime();
-    if (type === 's') return Math.floor(__date.getTime() / 1000);
+  if (!type || type === 'ms') return __date.getTime();
+  if (type === 's') return Math.floor(__date.getTime() / 1000);
 }

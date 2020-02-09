@@ -10,20 +10,22 @@ Vue.use(Vuex);
 const files = require.context('./modules', false, /\.js$/);
 const [modules, plugins] = [{}, []];
 files.keys().forEach(key => {
-    modules[key.replace(/(\.\/|\.js)/g, '')] = files(key).default;
+  modules[key.replace(/(\.\/|\.js)/g, '')] = files(key).default;
 });
 
 if (process.env.NODE_ENV !== 'production') {
-    plugins.push(createLogger({
-        filter: mutation => mutation.type !== 'app/addAlive',
-    }));
+  plugins.push(
+    createLogger({
+      filter: mutation => mutation.type !== 'app/addAlive',
+    })
+  );
 }
 
 export default new Vuex.Store({
-    strict: process.env.NODE_ENV !== 'production',
-    state: {},
-    mutations: {},
-    actions: {},
-    modules,
-    plugins,
+  strict: process.env.NODE_ENV !== 'production',
+  state: {},
+  mutations: {},
+  actions: {},
+  modules,
+  plugins,
 });

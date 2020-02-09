@@ -10,30 +10,30 @@ const CancelToken = axios.CancelToken;
  * @function token 参数 name: 唯一标识， 生成令牌 token; 与 cancel 对应
  * @function cancel 参数 name: 唯一标识，根据 name 取消对应 token 的请求; 与 token 对应
  */
-const CancelRequest = function () {
-    this.globalCancel = null;
-    this.globalToken = function () {
-        if (this.__token) {
-            return this.__token;
-        }
-        return this.__token = new CancelToken(fn => this.globalCancel = fn);
-    };
+const CancelRequest = function() {
+  this.globalCancel = null;
+  this.globalToken = function() {
+    if (this.__token) {
+      return this.__token;
+    }
+    return (this.__token = new CancelToken(fn => (this.globalCancel = fn)));
+  };
 
-    this.__list = new Map();
-    this.cancel = function (name, params) {
-        if (name != null && typeof this.__list.get(name) === 'function') {
-            const fn = this.__list.get(name)(params);
-            this.__list.delete(name);
-            return fn;
-        }
-        throw new Error('未声明对应的令牌 token');
-    };
-    this.token = function (name) {
-        if (name != null) {
-            return new CancelToken(fn => this.__list.set(name, fn));
-        }
-        throw new Error('缺少令牌 token 标识');
-    };
+  this.__list = new Map();
+  this.cancel = function(name, params) {
+    if (name != null && typeof this.__list.get(name) === 'function') {
+      const fn = this.__list.get(name)(params);
+      this.__list.delete(name);
+      return fn;
+    }
+    throw new Error('未声明对应的令牌 token');
+  };
+  this.token = function(name) {
+    if (name != null) {
+      return new CancelToken(fn => this.__list.set(name, fn));
+    }
+    throw new Error('缺少令牌 token 标识');
+  };
 };
 
 export default CancelRequest;

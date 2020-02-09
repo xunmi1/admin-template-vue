@@ -7,14 +7,14 @@ import { mapGetters } from 'vuex';
  * @return {Object}
  */
 export default (name, bool = true) => ({
-    name,
-    render (h) {
-        const viewVNode = h('RouterView');
-        if (!bool) return viewVNode;
-        const include = this.getAlive(name);
-        return h('KeepAlive', { props: { include } }, [viewVNode]);
-    },
-    computed: {
-        ...mapGetters('app', ['getAlive']),
-    },
+  name,
+  render(h) {
+    const viewVNode = h('RouterView');
+    if (!bool) return viewVNode;
+    const include = this.getAlive(name);
+    return h('KeepAlive', { props: { include } }, [viewVNode]);
+  },
+  computed: {
+    ...mapGetters('app', ['getAlive']),
+  },
 });

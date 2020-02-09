@@ -2,8 +2,8 @@
 /* eslint-disable no-restricted-globals */
 
 workbox.core.setCacheNameDetails({
-    prefix: 'admin-template',
-    suffix: 'v2.0.0'
+  prefix: 'admin-template',
+  suffix: 'v2.0.0',
 });
 workbox.core.clientsClaim();
 workbox.precaching.suppressWarnings();
@@ -19,18 +19,18 @@ workbox.routing.registerRoute(/\/api\//, workbox.strategies.networkFirst());
 workbox.routing.registerRoute(new RegExp('/color.less'), workbox.strategies.staleWhileRevalidate());
 
 self.addEventListener('install', () => {
-    self.skipWaiting();
+  self.skipWaiting();
 });
 
 self.addEventListener('message', event => {
-    const replyPort = event.ports[0];
-    const message = event.data;
-    if (replyPort && message && message.type === 'skip-waiting') {
-        event.waitUntil(
-            self
-                .skipWaiting()
-                .then(() => replyPort.postMessage({ error: null }))
-                .catch(error => replyPort.postMessage({ error }))
-        );
-    }
+  const replyPort = event.ports[0];
+  const message = event.data;
+  if (replyPort && message && message.type === 'skip-waiting') {
+    event.waitUntil(
+      self
+        .skipWaiting()
+        .then(() => replyPort.postMessage({ error: null }))
+        .catch(error => replyPort.postMessage({ error })),
+    );
+  }
 });

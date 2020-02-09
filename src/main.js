@@ -14,7 +14,7 @@ Vue.use(Antd);
 Vue.use(plugin);
 
 new Vue({
-    router,
-    store,
-    render: h => h(App),
+  router,
+  store,
+  render: h => h(App),
 }).$mount('#app');
