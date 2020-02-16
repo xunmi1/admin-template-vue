@@ -1,5 +1,5 @@
 <template>
-  <transition-group
+  <TransitionGroup
     v-bind="$attrs"
     :tag="tag"
     :name="$attrs.name || 'lazy-component'"
@@ -15,7 +15,7 @@
       <slot name="skeleton" />
     </div>
     <div v-else key="isBeforeInit"></div>
-  </transition-group>
+  </TransitionGroup>
 </template>
 
 <script>
