@@ -21,7 +21,7 @@ export function login(data) {
 }
 
 /**
- * 账号退出
+ * 帐号退出
  */
 export function logout() {
   return Promise.resolve({ msg: '已退出' });

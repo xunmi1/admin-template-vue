@@ -8,24 +8,21 @@
 
 <script>
 import { getArticles } from '@/api/news';
-import CancelRequest from '@/libs/common/CancelRequest';
+import AbortRequest from '@/libs/common/AbortRequest';
+
+const abortController = new AbortRequest();
 
 export default {
   name: 'Test2',
   mounted() {
-    const source = new CancelRequest();
     // 模拟取消请求
-    getArticles({}, source.token(1))
+    const signal = 'articles';
+    const token = abortController.create(signal);
+    getArticles({}, token)
       .then(res => console.log(res))
       .catch(err => console.log(err));
-    source.cancel(1, 'canceled1');
 
-    setTimeout(() => {
-      getArticles({}, source.token('articles2'))
-        .then(res => console.log(res))
-        .catch(err => console.log(err));
-      source.cancel('articles2', 'canceled2');
-    }, 200);
+    abortController.abort(signal, 'has aborted');
   },
   methods: {
     clearCache() {

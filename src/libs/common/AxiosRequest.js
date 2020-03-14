@@ -46,6 +46,11 @@ class AxiosRequest {
     this.extendErrorHooks = fn;
   }
 
+  static isAborted(error) {
+    // 取消请求 (development mode || production mode)
+    return typeof error === 'object' && (error.constructor.name === 'Cancel' || !!error.__CANCEL__);
+  }
+
   destroy(url) {
     delete this.queue[url];
   }
@@ -74,9 +79,8 @@ class AxiosRequest {
     instance.interceptors.request.use(
       config => {
         this.queue[url] = true;
-        if (this.tokenConfig.value) {
-          config[this.tokenConfig.position][this.tokenConfig.key] = this.tokenConfig.value;
-        }
+        const { value, position, key } = this.tokenConfig;
+        if (value) config[position][key] = value;
         return config;
       },
       error => Promise.reject(error)
@@ -89,9 +93,7 @@ class AxiosRequest {
       },
       error => {
         this.destroy(url);
-        if (error.constructor.name === 'Cancel') {
-          return Promise.reject(error);
-        }
+        if (AxiosRequest.isCancel(error)) return Promise.reject(error);
         return AxiosRequest.handlerError(error);
       }
     );
@@ -100,7 +102,7 @@ class AxiosRequest {
   request(options = {}) {
     const instance = axios.create();
     if (!options.url) {
-      throw new Error('缺少请求地址!');
+      throw new Error('missing request url');
     }
     this.interceptors(instance, options.url);
     return instance.request({ ...this.defaultConfig, ...options });
