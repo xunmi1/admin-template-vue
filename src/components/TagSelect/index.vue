@@ -51,7 +51,6 @@ export default {
     },
     checkAll() {
       if (this.hideCheckAll) return;
-      console.log(this.value, this.valueList);
       return this.multiple ? includes(this.value, this.valueList) : this.value == null;
     },
   },
