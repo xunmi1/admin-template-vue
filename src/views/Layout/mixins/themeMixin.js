@@ -1,5 +1,6 @@
 import { mapState, mapMutations } from 'vuex';
 import { throttle } from '@/libs/utils';
+import db from '@/libs/db';
 
 const themeListMixin = [
   {
@@ -67,7 +68,7 @@ const themeMixin = {
   methods: {
     ...mapMutations('app', ['setLayout']),
     $_theme_init() {
-      const theme = this.$db.get('layout', {}).theme;
+      const theme = db.get('layout', {}).theme;
       this.setLayout({ theme });
     },
     $_theme_updateTheme(newTheme) {

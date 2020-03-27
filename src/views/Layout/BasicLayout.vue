@@ -66,6 +66,7 @@
 <script>
 import { mapGetters, mapMutations, mapState } from 'vuex';
 import { cached } from '@/libs/utils';
+import db from '@/libs/db';
 import screenMixin from './mixins/screenMixin';
 import themeMixin from './mixins/themeMixin';
 import Menu from './components/Menu';
@@ -180,7 +181,7 @@ export default {
     },
   },
   created() {
-    this.setLayout(this.$db.get('layout'));
+    this.setLayout(db.get('layout'));
     this.setMenuList();
     // 使具有缓存能力
     this.getOpenKeys = cached(this.getOpenKeys);

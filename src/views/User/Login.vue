@@ -42,6 +42,7 @@
 
 <script>
 import { mapActions } from 'vuex';
+import db from '@/libs/db';
 import { throttle } from '@/libs/utils';
 
 export default {
@@ -141,8 +142,8 @@ export default {
       callback();
     },
     clearDB(username) {
-      if (!this.isClearDB && this.$db.get('userInfo', {}).username !== username) {
-        this.$db.clear();
+      if (!this.isClearDB && db.get('userInfo', {}).username !== username) {
+        db.clear();
         this.isClearDB = true;
       }
     },
