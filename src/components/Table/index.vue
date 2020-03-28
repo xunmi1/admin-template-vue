@@ -220,6 +220,7 @@ const toPath = function(data, path) {
 const BAN_SLOTS = ['index', 'title', 'expandedRowRender', 'expandIcon', 'footer'];
 const warn = function(name) {
   if (process.env.NODE_ENV !== 'production' && BAN_SLOTS.includes(name)) {
+    // eslint-disable-next-line
     console.error(`The key '${name}' is banned, and you need to use the other key!`);
   }
   return name;

@@ -7,8 +7,8 @@ module.exports = {
   },
   extends: ['plugin:vue/essential', 'eslint:recommended', '@vue/prettier'],
   rules: {
-    'no-console': isProduction ? 'error' : 'off',
-    'no-debugger': isProduction ? 'error' : 'off',
+    'no-console': isProduction ? 'error' : 'warn',
+    'no-debugger': isProduction ? 'error' : 'warn',
 
     // vue 组件
     'vue/html-indent': [
