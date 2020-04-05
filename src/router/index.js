@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import config from '@/config';
-import db from '@/libs/db';
+import db, { StorageKeys } from '@/libs/db';
 import store from '@/store';
 import routes from './routes';
 import { getRoutes, hasRouterAuth, addAliveHook } from './routerUtils';
@@ -25,16 +25,16 @@ export const navigateToLogin = function(handler) {
 // 初始化 `store` 信息
 const initStoreData = async (token, remember) => {
   store.commit('user/setToken', { token, remember });
-  store.commit('user/setUserInfo', db.get('userInfo'));
+  store.commit('user/setUserInfo', db.get(StorageKeys.USER_INFO));
 };
 
 const verifyAuthGuard = async (to, from, next) => {
   if (hasRouterAuth(to)) {
     const stateToken = store.state.user.token;
     if (!stateToken) {
-      const localToken = db.get('token');
+      const localToken = db.get(StorageKeys.TOKEN);
       if (!localToken) return navigateToLogin(next);
-      const remember = db.get('remember');
+      const remember = db.get(StorageKeys.LOGIN_REMEMBER);
       if (!remember) return navigateToLogin(next);
       await initStoreData(localToken, remember);
     }

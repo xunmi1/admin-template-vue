@@ -1,7 +1,7 @@
 import { getPermissions, login, logout } from '@/api/user';
 
 import service from '@/libs/service';
-import db from '@/libs/db';
+import db, { StorageKeys } from '@/libs/db';
 import config from '@/config';
 
 export default {
@@ -20,12 +20,12 @@ export default {
     setToken(state, { token, remember } = {}) {
       state.token = token;
       service.setToken(token);
-      db.set('token', token, config.token.expires * 1000);
-      if (remember != null) db.set('remember', remember);
+      db.set(StorageKeys.TOKEN, token, config.token.expires * 1000);
+      if (remember != null) db.set(StorageKeys.LOGIN_REMEMBER, remember);
     },
     setUserInfo(state, userInfo = {}) {
       Object.entries(userInfo).forEach(([key, value]) => (state[key] = value));
-      db.set('userInfo', userInfo);
+      db.set(StorageKeys.USER_INFO, userInfo);
     },
   },
   actions: {

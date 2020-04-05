@@ -82,7 +82,7 @@
 
 <script>
 import { mapState, mapGetters, mapMutations } from 'vuex';
-import db from '@/libs/db';
+import db, { StorageKeys } from '@/libs/db';
 import LayoutLight from '@/assets/svg/layout-light.svg?inline';
 import LayoutDark from '@/assets/svg/layout-dark.svg?inline';
 import Vertical from '@/assets/svg/layout-vertical.svg?inline';
@@ -129,7 +129,7 @@ export default {
       const settingItems = ['menuTheme', 'isVertical', 'isFixedHeader', 'isFixedSider', 'isMenuRight', 'theme'];
       const data = settingItems.reduce((obj, key) => ({ ...obj, [key]: this[key] }), {});
       this.$emit('change', false);
-      db.set('layout', data);
+      db.set(StorageKeys.BASIC_LAYOUT, data);
     },
     setThemeList() {
       try {
