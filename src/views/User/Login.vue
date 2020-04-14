@@ -43,7 +43,7 @@
 <script>
 import { mapActions } from 'vuex';
 import db, { StorageKeys } from '@/libs/db';
-import { throttle } from '@/libs/utils';
+import { debounce } from '@/libs/utils';
 
 export default {
   name: 'Login',
@@ -71,7 +71,7 @@ export default {
     this.loginForm = this.$form.createForm(this);
   },
   created() {
-    this.login = throttle(this.login, 360, true);
+    this.login = debounce(this.login, 360);
     this.setRules();
   },
   methods: {

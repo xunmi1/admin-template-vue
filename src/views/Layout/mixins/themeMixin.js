@@ -1,5 +1,5 @@
 import { mapState, mapMutations } from 'vuex';
-import { throttle } from '@/libs/utils';
+import { debounce } from '@/libs/utils';
 import db, { StorageKeys } from '@/libs/db';
 
 const themeListMixin = [
@@ -61,7 +61,7 @@ const themeMixin = {
   },
   created() {
     // 防抖
-    this.$_theme_updateTheme = throttle(this.$_theme_updateTheme, 1200, true);
+    this.$_theme_updateTheme = debounce(this.$_theme_updateTheme, 1200);
     this.$_theme_init();
     this.$_theme_updateClass(this.theme);
   },

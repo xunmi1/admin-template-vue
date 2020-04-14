@@ -1,4 +1,4 @@
-import { throttle } from '@/libs/utils';
+import { debounce } from '@/libs/utils';
 
 const screenMixin = {
   data() {
@@ -19,7 +19,7 @@ const screenMixin = {
       { minWidth: 0, type: 'xs', level: 0 },
     ];
     this.$_screen_change();
-    this.$_screen_change = throttle(this.$_screen_change, 170, true);
+    this.$_screen_change = debounce(this.$_screen_change, 160);
     window.addEventListener('resize', this.$_screen_change);
   },
   beforeDestroy() {
