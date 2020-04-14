@@ -86,7 +86,6 @@ module.exports = {
     'no-inner-declarations': 'error',
     // 禁止在循环内的函数中, 出现循环体条件语句中定义的变量
     'no-loop-func': 'error',
-    'no-self-compare': 'error',
     'no-delete-var': 'error',
     'func-names': 'off',
     // new 后面必须大写
