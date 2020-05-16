@@ -26,6 +26,7 @@ export const typeOf = (value, acceptType) => {
 export const isObject = val => val !== null && typeof val === 'object';
 
 export const isFunction = val => typeof val === 'function';
+export const isPromise = val => isObject(val) && isFunction(val.then) && isFunction(val.catch);
 export const isArray = Array.isArray;
 export const isString = val => typeof val === 'string';
 export const isNaN = val => val !== val;

@@ -1,4 +1,5 @@
-import { isObject } from './type';
+import { isObject, isArray } from './type';
+import { camelize } from './string';
 
 export const defineProperty = Object.defineProperty;
 
@@ -26,3 +27,15 @@ export function deepFreeze(obj) {
   }
   return obj;
 }
+
+/**深度转换为
+ * object deep convert to `camelCase`
+ * @param {Object} obj
+ * @return {Object}
+ */
+export const deepCamelize = obj =>
+  isObject(obj)
+    ? isArray(obj)
+      ? obj.map(deepCamelize)
+      : Object.entries(obj).reduce((pre, [k, v]) => ({ ...pre, [camelize(k)]: deepCamelize(v) }), {})
+    : obj;

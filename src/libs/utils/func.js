@@ -138,16 +138,15 @@ export function throttle(func, wait) {
 /**
  * 缓存(记忆)函数
  * @param {Function} func 需要缓存的函数
- * @param {Function} [stringify] 参数转换
+ * @param {Function} [transfer] 参数转换
  * @return {Function} 新函数
  */
-export function cache(func, stringify) {
+export function cache(func, transfer) {
   const cacheMap = Object.create(null);
-  const _stringify = (...rest) => JSON.stringify(rest);
   return function cachedFn(...params) {
-    const key = stringify ? stringify.apply(this, params) : _stringify(params);
+    const key = transfer ? transfer.apply(this, params) : String(params);
     const hit = cacheMap[key];
-    return hit !== undefined ? hit : (cacheMap[key] = func.apply(this, params));
+    return hit ?? (cacheMap[key] = func.apply(this, params));
   };
 }
 
