@@ -3,8 +3,8 @@
 
 ### 说明
 - 为 Vue 添加第三方、自定义组件库、插件
-- 添加实例属性、方法, `Vue.prototype.[yourKey]`
-- 添加全局属性、方法,  `Vue.[yourKey]`
+- 添加实例属性、方法, `Vue.prototype.[property]`
+- 添加全局静态属性、方法,  `Vue.[property]`
 
 ### 注意事项
 - 添加实例属性, 位置: properties.js, 应以 `$` 为键名前缀, 避免污染全局作用域, 且不能和 Vue 及其原型上的属性名冲突

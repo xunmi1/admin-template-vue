@@ -1,49 +1,40 @@
+import { defineReadonly } from '@/libs/utils';
 import properties from './properties';
 import * as methods from './methods';
 import components from './components';
 
-// 为对象添加只读属性
-const addReadonlyProperty = function(obj, property, value) {
-  Object.defineProperty(obj, property, {
-    value,
-    configurable: false,
-    enumerable: true,
-    writable: false,
-  });
-};
+const addProperties = function(value, Ctor) {
+  const vm = new Ctor();
+  const proto = Ctor.prototype;
 
-const addProperties = function(value, proto) {
-  const vm = new proto.constructor();
-  const hasProperties = Object.keys(proto).concat(Object.keys(vm));
+  const properties = Object.keys(proto).concat(Object.keys(vm));
   Object.entries(value).forEach(([key, property]) => {
-    if (hasProperties.includes(key)) {
-      throw new Error(`property '${key}' have existed!`);
+    if (properties.includes(key)) {
+      throw new Error(`property '${key}' had existed!`);
     }
-    addReadonlyProperty(proto, key, property);
+    defineReadonly(proto, key, property);
   });
 };
 
-const addComponents = function(value, obj) {
+const addComponents = function(value, Ctor) {
   Object.entries(value).forEach(([key, component]) => {
-    if (obj.component(key)) {
-      throw new Error(`component '${key}' have existed!`);
+    if (Ctor.component(key)) {
+      throw new Error(`component '${key}' had existed!`);
     }
-    obj.component(key, component);
+    Ctor.component(key, component);
   });
 };
 
-const addDirectives = function(value, obj) {
-  Object.entries(value).forEach(([key, directive]) => {
-    obj.directive(key, directive);
-  });
+const addDirectives = function(value, Ctor) {
+  Object.entries(value).forEach(([key, directive]) => Ctor.directive(key, directive));
 };
 
 export default {
   async install(Vue) {
     // 扩展属性
-    addProperties(properties, Vue.prototype);
+    addProperties(properties, Vue);
     // 扩展业务方法
-    addProperties(methods, Vue.prototype);
+    addProperties(methods, Vue);
     // 扩展组件
     addComponents(components, Vue);
     addDirectives({}, Vue);
