@@ -29,6 +29,7 @@ export const isFunction = val => typeof val === 'function';
 export const isPromise = val => isObject(val) && isFunction(val.then) && isFunction(val.catch);
 export const isArray = Array.isArray;
 export const isString = val => typeof val === 'string';
+export const isNumber = val => typeof val === 'number';
 export const isNaN = val => val !== val;
 
 export const isEmptyObject = val => isObject(val) && !Object.keys(val).length;

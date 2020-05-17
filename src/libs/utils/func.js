@@ -142,12 +142,21 @@ export function throttle(func, wait) {
  * @return {Function} 新函数
  */
 export function cache(func, transfer) {
-  const cacheMap = Object.create(null);
-  return function cachedFn(...params) {
+  let cacheMap = Object.create(null);
+
+  const cached = function(...params) {
     const key = transfer ? transfer.apply(this, params) : String(params);
     const hit = cacheMap[key];
     return hit ?? (cacheMap[key] = func.apply(this, params));
   };
+
+  cached.clear = () => {
+    cacheMap = Object.create(null);
+  };
+
+  defineGet(cached, 'size', () => Object.keys(cacheMap).length);
+
+  return cached;
 }
 
 // 柯里化

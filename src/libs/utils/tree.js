@@ -34,12 +34,12 @@ const collector = (decider, data, parent) =>
   );
 
 // 从树结构中找到目标节点
-export const findNodeFromTree = (decider, data) =>
+export const findNode = (decider, data) =>
   data.reduce((target, item) => {
     if (target) return target;
     if (decider(item)) return item;
     const hasChild = !isEmptyObject(item.children);
-    if (hasChild) return findNodeFromTree(decider, item.children);
+    if (hasChild) return findNode(decider, item.children);
     return target;
   }, undefined);
 
@@ -54,7 +54,7 @@ const walkParent = (path, decider, list) =>
   });
 
 // 获取树结构的父节点元素列表
-export const getParentsFromTree = (decider, data) => {
+export const getParents = (decider, data) => {
   const list = [];
   walkParent(list, decider, data);
   return list;

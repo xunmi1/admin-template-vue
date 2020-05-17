@@ -1,15 +1,22 @@
 import { isObject, isArray } from './type';
 import { camelize } from './string';
 
-export const defineProperty = Object.defineProperty;
-
-export const defineGet = (target, key, fn) => {
-  defineProperty(target, key, {
+export function defineGet(target, property, fn) {
+  Object.defineProperty(target, property, {
     configurable: true,
     enumerable: false,
     get: fn,
   });
-};
+}
+
+export function defineReadonly(target, property, value) {
+  Object.defineProperty(target, property, {
+    configurable: true,
+    enumerable: true,
+    writable: false,
+    value,
+  });
+}
 
 const hasOwnProperty = Object.prototype.hasOwnProperty;
 
