@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <ALocaleProvider :locale="locale">
+    <AConfigProvider :locale="locale">
       <RouterView />
-    </ALocaleProvider>
+    </AConfigProvider>
   </div>
 </template>
 

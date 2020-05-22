@@ -10,7 +10,7 @@
     "start:ui": "vue ui"
   },
   "dependencies": {
-    "ant-design-vue": "^1.4.10",
+    "ant-design-vue": "^1.5.0",
     "axios": "^0.19.1",
     "core-js": "^3.6.4",
     "light-storage": "^0.2.2",
