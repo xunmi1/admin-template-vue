@@ -8,28 +8,21 @@
         breakpoint="xl"
         :theme="menuTheme"
         :width="siderWidth"
-        :class="{
-          'header-fixed': !isVertical && isFixedHeader,
-          'sider-fixed': isVertical && isFixedSider,
-          'menu-theme-light': menuTheme === 'light',
-        }"
+        :class="menuClass"
         class="layout-sider layout-header"
       >
         <Logo :collapsed="collapsed" :theme="menuTheme" />
         <Menu
           :menu-data="menuList"
           :selected-keys="currentName"
-          :open-keys.sync="layout.openKeys"
+          :open-keys="layout.openKeys"
           :mode="layout.mode"
           :theme="menuTheme"
           :class="[`menu-${isMenuRight ? 'right' : 'left'}`, 'menu']"
-          @click="pushRouter"
+          @click="navigate"
+          @openChange="changeOpenKeys"
         />
-        <div v-if="!isVertical" class="header-tool">
-          <FullScreen />
-          <SettingBtn @click="toggleSetting" />
-          <UserMenu />
-        </div>
+        <HeaderToolBar v-if="!isVertical" :theme="menuTheme" @click="toggleSetting" />
       </Compontent>
 
       <ALayout :style="{ marginLeft: layoutMainLeft + 'px' }" class="layout-main">
@@ -43,41 +36,42 @@
             <AIcon :type="collapsed ? 'menu-unfold' : 'menu-fold'" />
           </div>
           <Breadcrumb v-if="!isMobileDevice" />
-          <div class="header-tool">
-            <FullScreen />
-            <SettingBtn @click="toggleSetting" />
-            <UserMenu />
-          </div>
+          <HeaderToolBar theme="light" @click="toggleSetting" />
         </ALayoutHeader>
         <ALayoutContent :class="[{ 'content-fixed-top': isFixedHeader }, 'layout-main-content']">
-          <Breadcrumb v-if="!isVertical" />
+          <div v-if="!isVertical" class="breadcrumb">
+            <Breadcrumb />
+          </div>
           <KeepAlive :include="getAlive('BasicLayout')">
             <RouterView />
           </KeepAlive>
         </ALayoutContent>
-        <Footer :width="isVertical ? siderWidth : 0" />
+        <div :style="{ marginLeft: routerLayout.offsetLeft + 'px' }">
+          <Footer :offset-left="isVertical ? siderWidth : 0" :start="2019" />
+        </div>
       </ALayout>
     </ALayout>
-    <Setting v-model="showSetting" />
+    <Setting v-model="visibleOfSetting" />
     <BackTop />
   </div>
 </template>
 
 <script>
 import { mapGetters, mapMutations, mapState } from 'vuex';
-import { cache } from '@/libs/utils';
 import db, { StorageKeys } from '@/libs/db';
+import { cache, getParentsFromTree } from '@/libs/utils';
+import { getVisibleList } from './utils';
+
 import screenMixin from './mixins/screenMixin';
-import themeMixin from './mixins/themeMixin';
 import Menu from './components/Menu';
 import Logo from './components/Logo';
-import UserMenu from './components/UserMenu';
-import FullScreen from './components/FullScreen';
-import SettingBtn from './components/SettingBtn';
+import HeaderToolBar from './components/HeaderToolBar';
 import Setting from './components/Setting';
 import Breadcrumb from './components/Breadcrumb';
 import Footer from './components/Footer';
 import BackTop from './components/BackTop';
+
+export const NOOP = () => {};
 
 export default {
   name: 'BasicLayout',
@@ -85,24 +79,20 @@ export default {
     MenuDrawer: () => import(/* webpackChunkName: "MenuDrawer" */ './components/MenuDrawer'),
     Menu,
     Logo,
-    SettingBtn,
+    HeaderToolBar,
     Setting,
-    UserMenu,
-    FullScreen,
     Breadcrumb,
     Footer,
     BackTop,
   },
-  mixins: [screenMixin, themeMixin],
+  mixins: [screenMixin],
   data() {
     return {
-      // 菜单列表
-      menuList: [],
       currentName: [this.$route.name],
       // 垂直布局下左侧菜单是否伸缩
       collapsed: false,
       // 是否展示布局配置页
-      showSetting: false,
+      visibleOfSetting: false,
 
       vertical: {
         openKeys: [],
@@ -134,6 +124,10 @@ export default {
     layout() {
       return this.isVertical ? this.vertical : this.horizontal;
     },
+    // 来自路由的布局信息
+    routerLayout() {
+      return this.$route.meta.layout ?? {};
+    },
     // 侧边栏宽度
     siderWidth() {
       const minWidth = this.isMobileDevice ? 0 : 80;
@@ -150,16 +144,26 @@ export default {
     layoutMainHeaderLeft() {
       return this.isFixedHeader && !this.isMobileDevice ? this.siderWidth : 0;
     },
+    menuClass() {
+      const { isVertical, isFixedHeader, menuTheme } = this;
+      return [
+        { 'header-fixed': isFixedHeader && !isVertical },
+        { 'sider-fixed': isFixedHeader && isVertical },
+        `theme-${menuTheme}`,
+      ];
+    },
   },
   watch: {
     // 路由发生变化时，生成新的菜单展开列表并合并
     '$route.name': {
       handler(newVal) {
+        this.redirect();
         this.currentName.splice(0, 1, newVal);
         // 解锁, 减少没必要的计算
         if (this.isOpenKeysLock) return (this.isOpenKeysLock = false);
         this.vertical.openKeys = this.getOpenKeys(newVal);
       },
+      immediate: true,
     },
     // 侧边栏伸缩时，交换菜单展开列表
     collapsed() {
@@ -180,73 +184,62 @@ export default {
       immediate: true,
     },
   },
+  beforeCreate() {
+    // 菜单列表
+    this.menuList = getVisibleList(this.$app.mainName);
+  },
   created() {
     this.setLayout(db.get(StorageKeys.BASIC_LAYOUT));
-    this.setMenuList();
     // 使具有缓存能力
     this.getOpenKeys = cache(this.getOpenKeys);
+    // Note: `this.horizontal.openKeys` don't need extend
     this.vertical.openKeys = this.getOpenKeys(this.$route.name);
   },
   methods: {
     ...mapMutations('app', ['setLayout', 'setConstrainedBox']),
-    pushRouter({ key }) {
+    navigate({ key }) {
       this.$router
         .push({ name: key })
-        .catch(() => {})
+        .catch(NOOP)
         .finally(() => (this.isOpenKeysLock = true));
     },
-    setMenuList() {
-      const mainRoute = this.$router.options.routes.find(i => i.name === this.$app.mainName);
-      if (mainRoute && Array.isArray(mainRoute.children)) {
-        this.menuList = this.getMenu(getMenuChildren(mainRoute.children));
-      }
-    },
-    getMenu(source) {
-      return source.map(item => {
-        let _temp = { ...(item.meta || {}), key: item.name };
-        const children = getMenuChildren(item.children);
-        if (children && children.length) {
-          _temp.children = this.getMenu(children);
-          // 当子级只有一个模块，将其提升一级并覆盖
-          if (_temp.children.length === 1) _temp = _temp.children[0];
-        }
-        return _temp;
-      });
+    // 如果当前路由在菜单中曾被替换，则需重定向到真正的路由地址
+    redirect() {
+      const name = this.$route.name;
+      const target = this.menuList.find(v => v.originalKey === name);
+      if (target) this.navigate({ key: target.key });
     },
     // 获取当前页面在菜单中，从顶层到上一层的路径
     getOpenKeys(current) {
-      const path = [];
-      findOpenKeys(path, current, this.menuList);
-      if (!path.length) return this.vertical.openKeys;
-      return path;
+      const list = getParentsFromTree(v => v.key === current, this.menuList).map(v => v.key);
+      return list.length ? list : this.layout.openKeys;
     },
     toggleCollapsed() {
       this.collapsed = !this.collapsed;
     },
     toggleSetting() {
-      this.showSetting = true;
+      this.visibleOfSetting = true;
+    },
+    // '手风琴' 模式，同时只展开一个子树菜单项 (不是一个菜单项)
+    // 相反，可直接使用 '.sync' 修饰符即可
+    changeOpenKeys(keys) {
+      if (this.isVertical) {
+        const openKeys = this.layout.openKeys;
+        this.layout.openKeys = keys.filter(v => !openKeys.includes(v));
+      } else {
+        this.layout.openKeys = keys;
+      }
     },
   },
-};
-
-const getMenuChildren = children =>
-  Array.isArray(children) && children.filter(item => !(item.meta && item.meta.hideInMenu));
-
-const findOpenKeys = function(path, current, menu) {
-  return (
-    Array.isArray(menu) &&
-    menu.some(item => {
-      if (item.key === current) return true;
-      path.push(item.key);
-      const isTarget = findOpenKeys(path, current, item.children);
-      if (!isTarget) path.pop();
-      return isTarget;
-    })
-  );
 };
 </script>
 
 <style lang="less" scoped>
+@import '../../assets/style/variables.less';
+
+@layout-sider-z-index: @zindex-modal - 10;
+@layout-header-z-index: @zindex-modal - 20;
+
 .container {
   min-height: 100vh;
 }
@@ -255,10 +248,11 @@ const findOpenKeys = function(path, current, menu) {
   .layout-sider {
     overflow-y: auto;
     overflow-x: hidden;
-    z-index: 120;
+    z-index: @layout-sider-z-index;
 
     .menu {
-      margin-bottom: 48px;
+      margin-bottom: @layout-trigger-height;
+      border-right: none;
     }
   }
 
@@ -266,16 +260,11 @@ const findOpenKeys = function(path, current, menu) {
     transition: all 0.2s;
 
     &-header {
+      .flex-row-center();
       background-color: #fff;
       padding: 0;
       transition: all 0.2s;
       box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
-
-      > div {
-        line-height: 64px;
-        display: inline-block;
-        vertical-align: top;
-      }
 
       .trigger {
         font-size: 20px;
@@ -286,42 +275,45 @@ const findOpenKeys = function(path, current, menu) {
 }
 
 .horizontal {
-  // 水平布局下，顶级 ALayout 对是否有 Sider 识别错误，导致布局错位，对此手动修正
+  /* fix: 水平布局下，顶级 `ALayout` 对是否有 `Sider` 识别错误，引起布局错位 */
   flex-direction: column;
 
   .layout-header {
-    display: flex;
-    padding: 0 16px;
+    .flex-row-center();
     transition: all 0.2s;
-    color: #fff;
+    color: rgba(255, 255, 255, 0.85);
 
     .menu {
-      line-height: 64px;
-      display: inline-block;
+      .flex-row-center();
+      flex: auto;
+      overflow: hidden;
 
-      /deep/ & > li {
-        height: 64px;
-        vertical-align: top;
+      &-right {
+        justify-content: flex-end;
+      }
+
+      &-left {
+        justify-content: flex-start;
+      }
+
+      /deep/ .ant-menu-item {
+        line-height: @layout-header-height;
       }
     }
   }
 
-  .menu-right {
-    margin-left: auto;
-  }
-
-  .menu-left {
-    margin-right: auto;
+  .breadcrumb {
+    margin-bottom: 16px;
   }
 }
 
 .header-fixed {
   position: fixed;
-  z-index: 110;
+  z-index: @layout-header-z-index;
   top: 0;
   right: 0;
   width: 100%;
-  box-shadow: 0 1px 4px rgba(10, 21, 42, 0.1);
+  box-shadow: 0 2px 6px rgba(10, 21, 42, 0.1);
 }
 
 .sider-fixed {
@@ -332,13 +324,7 @@ const findOpenKeys = function(path, current, menu) {
 }
 
 .content-fixed-top {
-  padding-top: 64px;
-}
-
-.header-tool {
-  display: inline-block;
-  float: right;
-  overflow: hidden;
+  padding-top: @layout-header-height;
 }
 
 .layout-main-content {
@@ -349,15 +335,13 @@ const findOpenKeys = function(path, current, menu) {
   }
 }
 
-.menu-theme-light {
-  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+.theme-light {
+  box-shadow: 0 2px 6px rgba(0, 21, 41, 0.08);
   background-color: #fff;
+}
 
-  .header-tool {
-    /deep/ div,
-    ul {
-      color: rgba(0, 0, 0, 0.76);
-    }
-  }
+.flex-row-center() {
+  display: flex;
+  align-items: center;
 }
 </style>

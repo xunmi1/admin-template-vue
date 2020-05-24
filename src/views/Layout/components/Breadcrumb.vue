@@ -1,17 +1,16 @@
 <template>
   <ABreadcrumb :routes="routes">
     <template #itemRender="{ route }">
-      <a v-if="routes.indexOf(route) === routes.length - 1" style="color: rgba(0, 0, 0, .65)">
-        {{ route.meta.title }}
-      </a>
-      <RouterLink v-else :to="route">
-        {{ route.meta.title }}
-      </RouterLink>
+      <a v-if="isLast(route)" class="link">{{ route.breadcrumbName }}</a>
+      <RouterLink v-else :to="{ name: route.path }">{{ route.breadcrumbName }}</RouterLink>
     </template>
   </ABreadcrumb>
 </template>
 
 <script>
+import { cache, walkTree, getParentsFromTree } from '@/libs/utils';
+import { getVisibleList } from '../utils';
+
 export default {
   name: 'Breadcrumb',
   data() {
@@ -21,27 +20,37 @@ export default {
   },
   watch: {
     '$route.name': {
-      handler() {
-        this.routes = [];
-        this.findOpenRoute(this.$router.options.routes);
+      handler(name) {
+        this.routes = this.getRoutes(name);
       },
       immediate: true,
     },
   },
+  beforeCreate() {
+    // 菜单列表
+    const list = getVisibleList(this.$app.mainName);
+    const transfer = v => ({ path: v.key, breadcrumbName: v.title });
+    this.menuList = walkTree(transfer, list);
+  },
+  created() {
+    this.getRoutes = cache(this.getRoutes);
+  },
   methods: {
-    findOpenRoute(menu) {
-      return menu.some(item => {
-        this.routes.push({ ...item, path: item.name });
-        if (item.name === this.$route.name) {
-          return true;
-        }
-        if (Array.isArray(item.children) && this.findOpenRoute(item.children)) {
-          return true;
-        }
-        this.routes.pop();
-        return false;
-      });
+    getRoutes(name) {
+      const list = getParentsFromTree(v => v.path === name, this.menuList);
+      const current = { path: name, breadcrumbName: this.$route.meta.title };
+      list.push(current);
+      return list;
+    },
+    isLast(route) {
+      return this.routes[this.routes.length - 1] === route;
     },
   },
 };
 </script>
+
+<style scoped>
+.link {
+  color: rgba(0, 0, 0, 0.65);
+}
+</style>

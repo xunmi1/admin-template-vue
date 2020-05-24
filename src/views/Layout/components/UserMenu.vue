@@ -8,13 +8,8 @@
         <span class="user-nickname">{{ nickname }}</span>
       </div>
       <template #overlay>
-        <AMenu class="user-menu">
-          <AMenuItem>
-            <AIcon type="user" />
-            个人设置
-          </AMenuItem>
-          <AMenuDivider />
-          <AMenuItem @click="logout">
+        <AMenu class="user-menu" @click="dispatch($event.key)">
+          <AMenuItem key="logout">
             <AIcon type="logout" />
             退出登录
           </AMenuItem>
@@ -34,6 +29,9 @@ export default {
   },
   methods: {
     ...mapActions('user', ['handleLogout']),
+    dispatch(key) {
+      if (this[key]) this[key]();
+    },
     logout() {
       this.handleLogout().then(() => this.$router.replace({ name: this.$app.loginName }));
     },

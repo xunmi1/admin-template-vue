@@ -10,7 +10,7 @@
       is-xlsx
     >
       <template #name="{ value }">
-        <ATag>{{ value }}</ATag>
+        <ATag class="v-cell-tag">{{ value }}</ATag>
       </template>
     </VTable>
   </ACard>

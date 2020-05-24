@@ -1,25 +1,14 @@
 const webpack = require('webpack');
 const path = require('path');
-const AntDesignThemePlugin = require('antd-theme-webpack-plugin');
 const PACKAGE = require('./package.json');
 const FAVICON = 'icons/android-chrome-192x192.png';
 const resolve = dir => path.join(__dirname, dir);
 
 // 复制 tinymce 所需的静态资源
 const copyOptions = [
-  { from: resolve('./src/components/Tinymce/langs'), to: './tinymce/langs' },
+  { from: resolve('./src/components/tinymce/langs'), to: './tinymce/langs' },
   { from: resolve('./node_modules/tinymce/skins'), to: './tinymce/skins' },
 ];
-
-const themeOptions = {
-  antDir: resolve('./node_modules/ant-design-vue'),
-  stylesDir: resolve('./src/assets/style'),
-  varFile: resolve('./src/assets/style/variables.less'),
-  mainLessFile: resolve('./src/assets/style/index.less'),
-  themeVariables: ['@primary-color'],
-  indexFileName: false,
-  generateOnce: false,
-};
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -33,7 +22,9 @@ module.exports = {
     sourceMap: !isProduction,
     loaderOptions: {
       less: {
-        javascriptEnabled: true,
+        lessOptions: {
+          javascriptEnabled: true,
+        },
       },
     },
   },
@@ -67,7 +58,6 @@ module.exports = {
     plugins: [
       // antd 使用，精简 moment.js, 语言包只保留 zh-cn.js
       new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh-cn/),
-      new AntDesignThemePlugin(themeOptions),
     ],
   },
 

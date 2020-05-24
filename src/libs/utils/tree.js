@@ -54,7 +54,7 @@ const walkParent = (path, decider, list) =>
   });
 
 // 获取树结构的父节点元素列表
-export const getParents = (decider, data) => {
+export const getParentsFromTree = (decider, data) => {
   const list = [];
   walkParent(list, decider, data);
   return list;

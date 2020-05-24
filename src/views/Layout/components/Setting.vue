@@ -4,13 +4,13 @@
       <h4 class="setting-title">导航菜单风格</h4>
       <ATooltip title="暗色">
         <div class="setting-layout" @click="toggle('menuTheme', 'dark')">
-          <LayoutDark v-once class="setting-svg" />
+          <LayoutDarkSVG v-once class="setting-svg" />
           <AIcon v-show="menuTheme === 'dark'" class="check-icon v-theme-color" type="check" />
         </div>
       </ATooltip>
       <ATooltip title="亮色">
         <div class="setting-layout" @click="toggle('menuTheme', 'light')">
-          <LayoutLight v-once class="setting-svg" />
+          <LayoutLightSVG v-once class="setting-svg" />
           <AIcon v-show="menuTheme === 'light'" class="check-icon v-theme-color" type="check" />
         </div>
       </ATooltip>
@@ -19,7 +19,7 @@
       <h4 class="setting-title">导航菜单布局</h4>
       <ATooltip title="侧边菜单">
         <div class="setting-layout" @click="toggle('isVertical', true)">
-          <Vertical v-once class="setting-svg" />
+          <VerticalSVG v-once class="setting-svg" />
           <AIcon v-show="isVertical" class="check-icon v-theme-color" type="check" />
         </div>
       </ATooltip>
@@ -28,27 +28,10 @@
           :class="{ 'setting-layout': true, 'v-disabled': isMobileDevice }"
           @click="isMobileDevice ? null : toggle('isVertical', false)"
         >
-          <Horizontal v-once class="setting-svg" />
+          <HorizontalSVG v-once class="setting-svg" />
           <AIcon v-show="!isVertical" class="check-icon v-theme-color" type="check" />
         </div>
       </ATooltip>
-      <ADivider />
-    </div>
-    <div v-if="!!themeList" class="setting-option-mb">
-      <h4 class="setting-title">主题风格</h4>
-      <ul class="setting-theme v-to-zero">
-        <template v-for="item of themeList">
-          <ATooltip :key="item.name" :title="item.text">
-            <li
-              :style="{ backgroundColor: item.variables['@primary-color'] }"
-              class="v-to-zero v-pointer v-center"
-              @click="toggle('theme', item.name)"
-            >
-              <AIcon v-show="theme === item.name" class="check-icon" type="check" />
-            </li>
-          </ATooltip>
-        </template>
-      </ul>
       <ADivider />
     </div>
     <div class="setting-option-mb">
@@ -83,19 +66,18 @@
 <script>
 import { mapState, mapGetters, mapMutations } from 'vuex';
 import db, { StorageKeys } from '@/libs/db';
-import LayoutLight from '@/assets/svg/layout-light.svg?inline';
-import LayoutDark from '@/assets/svg/layout-dark.svg?inline';
-import Vertical from '@/assets/svg/layout-vertical.svg?inline';
-import Horizontal from '@/assets/svg/layout-horizontal.svg?inline';
-import { themeListMixin } from '../mixins/themeMixin';
+import LayoutLightSVG from '@/assets/svg/layout-light.svg?inline';
+import LayoutDarkSVG from '@/assets/svg/layout-dark.svg?inline';
+import VerticalSVG from '@/assets/svg/layout-vertical.svg?inline';
+import HorizontalSVG from '@/assets/svg/layout-horizontal.svg?inline';
 
 export default {
   name: 'Setting',
   components: {
-    LayoutLight,
-    LayoutDark,
-    Vertical,
-    Horizontal,
+    LayoutLightSVG,
+    LayoutDarkSVG,
+    VerticalSVG,
+    HorizontalSVG,
   },
   model: {
     prop: 'visible',
@@ -115,9 +97,6 @@ export default {
     }),
     ...mapGetters('app', ['isMobileDevice']),
   },
-  created() {
-    this.setThemeList();
-  },
   methods: {
     ...mapMutations('app', ['setLayout']),
     toggle(type, value) {
@@ -130,13 +109,6 @@ export default {
       const data = settingItems.reduce((obj, key) => ({ ...obj, [key]: this[key] }), {});
       this.$emit('change', false);
       db.set(StorageKeys.BASIC_LAYOUT, data);
-    },
-    setThemeList() {
-      try {
-        this.themeList = themeListMixin;
-      } catch (e) {
-        this.themeList = false;
-      }
     },
   },
 };

@@ -1,35 +1,28 @@
 <template functional>
-  <div :class="{ placeholder: props.isFixed }">
-    <footer
+  <section :class="{ placeholder: props.isFixed }">
+    <ALayoutFooter
       :class="['footer', { 'footer-fixed': props.isFixed }]"
-      :style="{ width: `calc(100% - ${props.isFixed ? props.width : 0}px)` }"
+      :style="{ width: `calc(100% - ${props.isFixed ? props.offsetLeft : 0}px)` }"
     >
-      <ALayoutFooter>
-        <span>Copyright © {{ props.startYear }}</span>
-        <span>{{ props.currentYear > props.startYear ? ' - ' + props.currentYear : null }} </span>
-        <span>{{ parent.$app.org }} All Rights Reserved.</span>
-      </ALayoutFooter>
-    </footer>
-  </div>
+      <span>Copyright © </span>
+      <span v-if="props.start != null">{{ props.start }} - </span>
+      <span>{{ props.current }} </span>
+      <span>{{ parent.$app.org }} All Rights Reserved.</span>
+    </ALayoutFooter>
+  </section>
 </template>
 
 <script>
 export default {
   name: 'Footer',
   props: {
-    isFixed: {
-      type: Boolean,
-      default: false,
-    },
+    isFixed: Boolean,
     width: {
       type: Number,
       default: 0,
     },
-    startYear: {
-      type: Number,
-      default: 2018,
-    },
-    currentYear: {
+    start: Number,
+    current: {
       type: Number,
       default: new Date().getFullYear(),
     },
@@ -50,12 +43,7 @@ export default {
 
 .footer-fixed {
   position: fixed;
-  line-height: 2;
   bottom: 0;
-  padding: 0;
-
-  > div {
-    padding: 0;
-  }
+  padding: 8px 24px;
 }
 </style>

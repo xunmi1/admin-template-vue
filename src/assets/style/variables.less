@@ -1,8 +1,12 @@
 @import "~ant-design-vue/lib/style/themes/default.less";
 
+@layout-header-padding: 0 24px;
+@layout-footer-padding: 24px;
+@layout-header-height: 64px;
+
 .v-icon-hover:hover {
   cursor: pointer;
-  color: @link-color;
+  color: @link-color !important;
   background: rgba(0, 0, 0, 0.036);
 }
 
@@ -11,6 +15,15 @@
   color: @primary-color;
 }
 
+.v-error-color {
+  background-color: transparent;
+  color: @error-color;
+}
+
 .v-theme-bg {
   background-color: @primary-color;
+}
+
+.v-theme-active-bg {
+  background-color: @primary-1;
 }

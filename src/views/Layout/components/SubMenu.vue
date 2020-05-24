@@ -1,7 +1,7 @@
 <template functional>
   <ASubMenu :key="data.key" v-on="listeners">
     <template #title>
-      <AIcon :type="props.item.icon" />
+      <AIcon v-if="props.item.icon" :type="props.item.icon" />
       <span>{{ props.item.title }}</span>
     </template>
     <template v-for="i of props.item.children">
