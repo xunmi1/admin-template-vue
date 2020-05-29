@@ -46,10 +46,6 @@ export default {
 
   &-avatar {
     margin-right: 8px;
-
-    /deep/ .ant-avatar-string {
-      line-height: 32px !important;
-    }
   }
 
   &-nickname {
