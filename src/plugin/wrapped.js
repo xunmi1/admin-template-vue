@@ -1,23 +1,36 @@
 import { upload } from '@/api/file';
 import { toXlsx } from '@/libs/xlsx';
+import config from '@/config';
 
 // 包裹富文本组件，默认提供 http 方法
 export const wrappedEditor = function(component) {
   const baseURL = process.env.BASE_URL + 'tinymce';
+  const getAutoSavePrefix = path => `${config.dbPrefix}-tinyMCE-autosave-${path}-`;
 
   return {
     functional: true,
+    props: {
+      config: Object,
+      http: {
+        type: Function,
+        default: upload,
+      },
+      baseURL: {
+        type: String,
+        default: baseURL,
+      },
+      documentURL: {
+        type: String,
+        default: config.assetsURL,
+      },
+    },
     render(h, context) {
-      const parent = context.parent;
-      const prefix = `${parent.$app.dbPrefix}-tinyMCE-autosave-${parent.$route.fullPath}-`;
+      const { $route, $store } = context.parent;
       const props = {
-        // 设置富文本所需的静态资源的基础 url
-        baseURL,
-        http: upload,
-        autoSavePrefix: prefix,
-        skin: parent.$store.state.app.layout.menuTheme || 'light',
-        isMobile: parent.$store.getters['app/isMobileDevice'],
         ...context.props,
+        // 设置富文本所需的静态资源的基础 url
+        autoSavePrefix: getAutoSavePrefix($route.fullPath),
+        skin: $store.state.app.layout.menuTheme || 'light',
       };
       return h(component, { ...context.data, props }, context.children);
     },

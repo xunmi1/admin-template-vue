@@ -1,7 +1,12 @@
-const basicConfig = {
-  // 自定义扩展，非原生 api
-  mobile_phone_toolbar: 'undo redo bold italic underline forecolor styleselect fontsizeselect bullist table image link',
+const mobileConfig = {
+  toolbar: 'undo redo bold italic underline forecolor fontsizeselect styleselect table image link media fullscreen',
+  toolbar_mode: 'scrolling',
+};
 
+const basicConfig = {
+  mobile: mobileConfig,
+  suffix: '.min',
+  relative_urls: false, // 禁止自动转为相对路径（URL 将会自动转换为基于 document_base_url 的绝对路径）
   language: 'zh_CN',
   style_formats_merge: true, // 允许 style_formats 覆盖文本样式
   images_reuse_filename: true, // 使用图片的实际文件名
@@ -11,7 +16,9 @@ const basicConfig = {
   paste_data_images: true, // 粘贴的同时把内容里的图片自动上传
   paste_webkit_styles: 'all', // 保留 webkit 样式
   branding: false, // 禁止右下角标识
-  image_advtab: true, // 自动上传图片
+  image_title: true,
+  image_advtab: true, // 为图片添加高级选项设置
+  automatic_uploads: true,
   autosave_interval: '20s', // 自动保存时长
   autosave_retention: '60m', // 本地存储时间上限
   pagebreak_split_block: true, // 分页符
@@ -42,24 +49,23 @@ const basicConfig = {
   },
 };
 
-export const classicConfig = {
+export const classicConfig = Object.freeze({
   ...basicConfig,
-  plugins: [
-    'paste lists advlist nonbreaking table autolink autosave link image imagetools charmap print preview anchor searchreplace code pagebreak insertdatetime wordcount fullscreen',
-  ],
-  menubar: 'file edit insert view format table tools',
+  plugins:
+    'paste lists advlist nonbreaking table autolink autosave link image media imagetools charmap print preview anchor searchreplace code pagebreak insertdatetime wordcount fullscreen help',
+  menubar: 'file edit insert view format table tools help',
   toolbar:
-    'undo redo | fontselect fontsizeselect | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify | numlist bullist | table image link fullscreen',
-  // Note： v5.1.x `toolbar_drawer` default is ''floating'
-  toolbar_drawer: 'floating',
-  max_height: 1000,
-  min_height: 560,
-};
+    'undo redo | fontselect fontsizeselect | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify | numlist bullist | table image link unlink media fullscreen',
+  // Note： v5.2.x `toolbar_mode` default is 'wrap'
+  toolbar_mode: 'sliding',
+  min_height: 480,
+  help_tabs: ['shortcuts'],
+});
 
-export const inlineConfig = {
+export const inlineConfig = Object.freeze({
   ...basicConfig,
   inline: true,
   plugins: ['quickbars'],
   toolbar: false,
   menubar: false,
-};
+});

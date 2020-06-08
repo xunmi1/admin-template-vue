@@ -1,18 +1,19 @@
 <template>
   <div>
-    <input ref="fileNode" :accept="fileAccept.join()" style="display: none" type="file" />
-    <div :style="{ display: !visible ? 'none' : 'block' }">
-      <div v-if="active" :id="editorId" :key="editorId">
+    <input ref="uploadNode" style="display: none" type="file" />
+    <div v-show="visible">
+      <div v-if="active" ref="editorRef">
         <slot />
       </div>
     </div>
-    <div :style="{ display: visible ? 'none' : 'block' }" v-html="value"></div>
+    <div v-if="!visible" v-html="value"></div>
   </div>
 </template>
 
 <script>
 import { classicConfig, inlineConfig } from './tinymce.config';
 import props from './props';
+import { search, distinguishMedia } from './utils';
 // Import TinyMCE
 import tinymce from 'tinymce/tinymce';
 import 'tinymce/themes/silver';
@@ -21,6 +22,7 @@ import 'tinymce/plugins/advlist';
 import 'tinymce/plugins/autosave';
 import 'tinymce/plugins/link';
 import 'tinymce/plugins/image';
+import 'tinymce/plugins/media';
 import 'tinymce/plugins/imagetools';
 import 'tinymce/plugins/code';
 import 'tinymce/plugins/nonbreaking';
@@ -38,13 +40,16 @@ import 'tinymce/plugins/insertdatetime';
 import 'tinymce/plugins/wordcount';
 import 'tinymce/plugins/fullscreen';
 import 'tinymce/plugins/quickbars';
+import 'tinymce/plugins/help';
+// Note: TinyMCE version > 5.3.0
+import 'tinymce/icons/default';
 
 export default {
+  name: 'Tinymce',
   model: { prop: 'value', event: 'change' },
   props,
   data() {
     return {
-      editorId: this.editorKey || `editor${Date.now()}${Math.round(Math.random() * 1000)}`,
       active: true,
     };
   },
@@ -58,12 +63,9 @@ export default {
     contentMode() {
       this.updateEditor();
     },
-    isMobile() {
-      this.updateEditor();
-    },
   },
   created() {
-    [tinymce.baseURL, tinymce.suffix] = [this.baseURL, '.min'];
+    tinymce.baseURL = this.baseURL;
     this.options = this.getOptions();
     this.updateSkin();
     this.updateMode();
@@ -92,12 +94,12 @@ export default {
         });
       };
       return {
-        selector: `div#${this.editorId}`,
-        autosave_prefix: this.autoSavePrefix,
         setup,
+        document_base_url: this.documentURL,
+        autosave_prefix: this.autoSavePrefix,
         init_instance_callback: this.bindEvent,
         //文件上传（浏览本地文件，设置此属性会开启本地文件浏览功能）
-        file_picker_callback: this.handleFile,
+        file_picker_callback: this.openExplorer,
         // 图片上传（包括直接拖拽，插入图片中的上传选项）
         images_upload_handler: this.imageUpload,
       };
@@ -112,16 +114,19 @@ export default {
     },
     createEditor() {
       this.active = true;
-      this.$nextTick(() => tinymce.init(this.options));
+      this.$nextTick(() => {
+        const target = this.$refs.editorRef;
+        tinymce.init({ target, ...this.options });
+      });
     },
     destroyEditor() {
-      if (this.editor) {
-        this.unwatchValue();
-        this.editor.off();
-        this.editor.remove();
-        this.active = false;
-        this.editor = null;
-      }
+      if (!this.editor) return;
+      this.unwatchValue();
+      this.editor.windowManager.close();
+      this.editor.off();
+      this.editor.destroy();
+      this.active = false;
+      this.editor = null;
     },
     updateEditor() {
       this.destroyEditor();
@@ -129,21 +134,27 @@ export default {
       this.updateMode();
       this.createEditor();
     },
-    handleFile(callback, value, meta) {
-      const fileNode = this.$refs.fileNode;
-      fileNode.onchange = () => {
-        const file = fileNode.files[0];
-        if (meta.filetype === 'image') {
-          this.handleImage(file, callback);
-        }
-        if (meta.filetype === 'file') {
-          this.fileUpload(file, callback);
-        }
+    openExplorer(callback, value, meta) {
+      const uploadNode = this.$refs.uploadNode;
+      uploadNode.setAttribute('accept', this.accept[meta.filetype]);
+      uploadNode.onchange = e => {
+        // need to prevent the `change` event, otherwise the parent's listener will be triggered
+        e.stopPropagation();
+        const file = e.target.files[0];
+        this.handleFile(meta.filetype)(callback, file, meta);
       };
-      fileNode.click();
+      uploadNode.click();
+    },
+    handleFile(type) {
+      const handlerMap = {
+        image: this.handleImage,
+        file: this.fileUpload,
+        media: this.fileUpload,
+      };
+      return handlerMap[type];
     },
     // 插入图片（普通方式），将 file 处理成 blobInfo，确认后，交给 imageUpload 处理
-    handleImage(file, callback) {
+    handleImage(callback, file) {
       const reader = new FileReader();
       reader.onload = () => {
         const id = 'blobid' + Date.now();
@@ -152,79 +163,77 @@ export default {
         const blobInfo = blobCache.create(id, file, base64);
         blobCache.add(blobInfo);
         this.imageUpload(blobInfo, callback);
-        // callback(blobInfo.blobUri(), { title: file.name, alt: file.name });
       };
       reader.readAsDataURL(file);
     },
 
-    fileUpload(file, callback) {
-      const valid = this.validateFile(file);
+    fileUpload(callback, file, meta) {
+      const valid = this.validateFile(file, meta);
       if (!valid.result) {
-        this.$emit('validator-error', { type: 'file', message: valid.message });
+        this.$emit('validator-error', { type: meta.filetype, message: valid.message });
         this.failAlert(valid.message);
         return;
       }
-      this.http({ name: 'file', file })
-        .then(res => {
-          callback(res.path, { title: file.name, text: file.name });
-          this.$emit('success', res);
-        })
-        .catch(err => {
-          this.$emit('error', { type: 'upload', message: err });
-        });
+      this.uploadHandler({ filetype: distinguishMedia(file.type), file }, callback);
     },
     imageUpload(blobInfo, success, failure) {
-      const blob = blobInfo.blob();
-      // 如果不上传服务器，图片会以 Base64 形式上传
-      if (typeof this.http !== 'function') return;
-      const valid = this.validateImage(blob);
+      const file = blobInfo.blob();
+      const valid = this.validateImage(file);
       // 验证失败
       if (!valid.result) {
         this.$emit('validator-error', { type: 'image', message: valid.message });
         this.failAlert(valid.message);
         return;
       }
-      this.http({ name: 'image', file: blob })
+      // 如果不上传服务器，图片会以 Base64 形式上传
+      if (typeof this.http !== 'function') {
+        return success(blobInfo.blobUri(), { title: file.name, alt: file.name });
+      }
+      this.uploadHandler({ filetype: 'image', file }, success, failure);
+    },
+    uploadHandler({ filetype, file }, success, failure) {
+      const stopProgress = this.setProgress();
+      this.http({ filetype, file })
         .then(res => {
-          success(res.path, { title: blob.name, alt: blob.name });
+          success(res.path, { title: file.name, alt: file.name });
           this.$emit('success', res.path);
         })
         .catch(err => {
-          this.$emit('error', { type: 'uplaod', message: err });
-          if (typeof failure === 'function') failure('上传失败！');
-        });
+          this.$emit('error', { type: 'upload', message: err });
+          if (typeof failure === 'function') failure('上传失败');
+        })
+        .finally(stopProgress);
     },
-
-    validateFile(blob) {
+    validateFile(file, meta) {
       const rules = [
         {
           validator: () => typeof this.http === 'function',
           message: '不支持上传文件',
         },
         {
-          validator: () => this.fileAccept.some(type => blob.name.toLowerCase().search(type) !== -1),
+          validator: () => this.accept[meta.filetype].some(type => search(file.type, type) || search(file.name, type)),
           message: '格式不符合要求',
         },
       ];
       // 附加自定义验证规则
       rules.push(...(this.fileRules || []));
-      const failRule = rules.find(rule => !rule.validator(blob));
+      const failRule = rules.find(rule => !rule.validator(file, meta));
       return { result: !failRule, message: failRule && failRule.message };
     },
-    validateImage(blob) {
+    validateImage(file) {
       const rules = [
         {
-          validator: () => blob.size <= this.maxSize,
+          validator: file => file.size <= this.maxSize,
           message: '图片大小超出上限',
         },
         {
-          validator: () => this.imageAccept.some(type => blob.type.search(type) !== -1),
+          validator: file => this.accept.image.some(type => search(file.type, type) || search(file.name, type)),
           message: '格式不符合要求',
         },
       ];
       // 附加自定义验证规则
       rules.push(...(this.imageRules || []));
-      const failRule = rules.find(rule => !rule.validator(blob));
+      const failRule = rules.find(rule => !rule.validator(file));
       return { result: !failRule, message: failRule && failRule.message };
     },
     bindEvent(editor) {
@@ -253,8 +262,12 @@ export default {
     failAlert(message) {
       // 如果父组件未指定 validator-error 响应事件，则默认使用富文本的消息提醒
       if (!this.$listeners['validator-error']) {
-        tinymce.activeEditor.windowManager.alert(message);
+        this.editor.windowManager.alert(message);
       }
+    },
+    setProgress() {
+      this.editor.setProgressState(true);
+      return () => this.editor.setProgressState(false);
     },
   },
 };

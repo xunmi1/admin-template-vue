@@ -3,8 +3,6 @@ const PLATFORM_IS_DARK = window.matchMedia('(prefers-color-scheme: dark)').match
 
 export default {
   value: [String, Number],
-  // 唯一 key 值
-  editorKey: [Number, String],
   // 是否可见
   visible: {
     type: Boolean,
@@ -15,11 +13,6 @@ export default {
     type: String,
     validator: value => ['inline', 'classic'].includes(value),
     default: 'classic',
-  },
-  // 是否为手机端（在 mode = 'default'下，tinyMCE 会自动判断，这里是功能上调整）
-  isMobile: {
-    type: Boolean,
-    default: false,
   },
   // 内容区显示模式，对应 `config.content_css` 字段
   contentMode: {
@@ -37,29 +30,14 @@ export default {
   config: Object,
   // 上传 http 方法
   http: Function,
-  // 图片接受类型
-  imageAccept: {
-    type: Array,
-    default: () => ['image/*'],
-  },
-  // 文件接受类型
-  fileAccept: {
-    type: Array,
-    default: () => [
-      '.txt',
-      '.docx',
-      '.doc',
-      '.xlsx',
-      '.xls',
-      '.csv',
-      '.pptx',
-      '.ppt',
-      '.pdf',
-      '.zip',
-      '.rar',
-      '.md',
-      'image/*',
-    ],
+  // 上传接受类型
+  accept: {
+    type: Object,
+    default: () => ({
+      image: ['image/*'],
+      file: ['.txt', '.docx', '.doc', '.xlsx', '.xls', '.csv', '.pptx', '.ppt', '.pdf', '.zip', '.rar', '.md'],
+      media: ['video/*', 'audio/*'],
+    }),
   },
   // 图片大小上限
   maxSize: {
@@ -87,4 +65,5 @@ export default {
     type: String,
     default: './tinymce',
   },
+  documentURL: String,
 };
