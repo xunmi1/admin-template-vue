@@ -17,10 +17,10 @@ const config = deepFreeze({
   /**
    * @description api请求基础路径
    */
-  baseUrl: {
-    development: '',
-    production: '',
-  },
+  baseURL: '',
+
+  // 静态资源 (例如图片、视频) 地址
+  assetsURL: '',
   // api 接口版本
   apiVersion: '',
   /** @description token 验证
