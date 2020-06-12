@@ -1,3 +1,5 @@
+import { isNaN } from './type';
+
 /**
  * Convert to `number`, default is `0`
  * @param {string} val

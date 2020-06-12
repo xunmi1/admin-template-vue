@@ -6,3 +6,4 @@ export * from './func';
 export * from './object';
 
 export * from './tree';
+export * from './equal';

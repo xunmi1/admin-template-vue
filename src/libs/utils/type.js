@@ -15,10 +15,10 @@ export const typeOf = (value, acceptType) => {
   if (!acceptType) return result;
 
   if (isString(acceptType)) {
-    return result.search(acceptType.toLowerCase()) !== -1;
+    return result === acceptType.toLowerCase();
   }
   if (isArray(acceptType) && acceptType.length) {
-    return acceptType.some(v => result.search(v.toLowerCase()) !== -1);
+    return acceptType.some(v => result === v.toLowerCase());
   }
 };
 
@@ -30,6 +30,7 @@ export const isPromise = val => isObject(val) && isFunction(val.then) && isFunct
 export const isArray = Array.isArray;
 export const isString = val => typeof val === 'string';
 export const isNumber = val => typeof val === 'number';
+
 export const isNaN = val => val !== val;
 
 export const isEmptyObject = val => isObject(val) && !Object.keys(val).length;
