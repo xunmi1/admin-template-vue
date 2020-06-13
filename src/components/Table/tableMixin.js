@@ -1,3 +1,5 @@
+import { equal } from './utils';
+
 export default {
   props: {
     // 每行数据的唯一索引，同时用于选中判断
@@ -5,15 +7,13 @@ export default {
       type: [Function, String],
       required: true,
     },
-    // 是否不要序号列
-    notNumber: Boolean,
-    // 是否固定序号列, 前提是开启序号列
-    isFixedNumber: {
-      type: Boolean,
-      default: false,
+    // 序号列配置
+    series: {
+      type: [Boolean, Object],
+      default: true,
     },
     // 是否阻止组件 created() 时自动请求数据
-    notAuto: Boolean,
+    lazy: Boolean,
     // 是否开启内部分页, 适用于接口不提供分页的情况，以减少不必要的数据请求
     isPaging: Boolean,
     // 表头
@@ -65,6 +65,7 @@ export default {
     },
     // 选中 row-key 的数组，需要 `.sync` 修饰符
     selectedKeys: Array,
+    scroll: Object,
     // 自定义数据转化函数，需要返回数据
     handler: {
       type: Function,
@@ -75,12 +76,12 @@ export default {
   },
   watch: {
     params: {
-      handler(newVal, oldVal) {
-        if (newVal && (newVal === oldVal || !equal(newVal, oldVal))) {
-          this.tableParams.current = 1;
-          this.total = 0;
-          this.setTableList();
-        }
+      handler(newVal) {
+        if (equal(newVal, this.cacheTableParams)) return;
+        this.cacheTableParams = { ...newVal };
+        this.updateForce();
+        const { pageSize, filter, sorter } = this.tableParams;
+        this.setTableParams({ current: 1, pageSize }, filter, sorter);
       },
       deep: true,
     },
@@ -101,13 +102,9 @@ export default {
         this.setTableList();
       }
     },
-    'dataSource.length'(newVal) {
-      this.total = newVal;
+    dataSource() {
+      this.updateForce();
+      this.setTableList();
     },
   },
-};
-
-const equal = function(newVal, oldVal) {
-  const [_newVal, _oldVal] = [newVal, oldVal].map(value => JSON.stringify(value));
-  return _newVal === _oldVal;
 };

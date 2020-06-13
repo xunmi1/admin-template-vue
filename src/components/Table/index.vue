@@ -1,44 +1,55 @@
 <template>
-  <div style="position: relative">
+  <div class="own-table">
     <ATable
-      :row-selection="rowSelection"
-      :row-key="rowKey"
-      :pagination="pagination && { ...pagination, total, ...tableParams }"
       :columns="slotColumns"
-      :loading="loading"
       :data-source="tableData"
+      :loading="loading"
+      :pagination="pagination && { ...pagination, total, ...tableParams }"
+      :row-key="rowKey"
+      :row-selection="rowSelection"
+      :scroll="scroll"
       v-bind="$attrs"
       @change="setTableParams"
       v-on="$listeners"
     >
-      <template v-for="column in slotColumns" #[column.scopedSlots.customRender]="text, record, index">
-        <slot :name="column.scopedSlots.customRender" v-bind="{ row: record, column, index, value: text }">
-          <span :key="column.dataIndex + index">{{ text }}</span>
+      <template v-for="nativeSlot in nativeRenderKeys" #[nativeSlot]="attrs">
+        <slot :name="nativeSlot" v-bind="attrs" />
+      </template>
+      <template v-for="columnSlot in customRenderKeys" #[columnSlot]="text, record, index">
+        <slot :name="columnSlot" v-bind="{ row: record, index, value: text }">
+          <span :key="`${columnSlot}-${index}`">{{ text }}</span>
         </slot>
       </template>
     </ATable>
-    <TableToXlsx
-      v-if="isXlsx && typeof xlsx === 'function' && !loading"
-      :is-selection="!!selection"
-      :loading="loading"
-      @export="exportXlsx(tableData)"
-      @export-selected="exportXlsx(selectedData)"
-      @export-all="exportAllXlsx()"
-    />
+    <template v-if="isXlsx && typeof xlsx === 'function' && !loading">
+      <TableToXlsx
+        :is-selection="!!rowSelection"
+        :loading="loading"
+        @export="exportCurrent"
+        @export-all="exportAllXlsx()"
+        @export-selected="exportSelected"
+      />
+    </template>
   </div>
 </template>
 
 <script>
 import tableMixin from './tableMixin';
+import { equal, slice, toPath } from './utils';
+
+const SLOT_SERIAL_NUMBER = '__SLOT_SERIAL_NUMBER__';
+const NATIVE_SLOTS = ['title', 'expandedRowRender', 'expandIcon', 'footer'];
+const BAN_SLOTS = NATIVE_SLOTS.concat(SLOT_SERIAL_NUMBER);
 
 export default {
   name: 'VTable',
   components: {
-    TableToXlsx: () => import(/* webpackChunkName: "TableXlsx" */ './TableToXlsx'),
+    TableToXlsx: () => import(/* webpackChunkName: "TableToXlsx" */ './TableToXlsx'),
   },
   mixins: [tableMixin],
   data() {
     return {
+      // 内部参数对象
       tableParams: {
         current: 1,
         pageSize: 10,
@@ -53,6 +64,13 @@ export default {
     slotColumns() {
       return proxyColumns(this);
     },
+    customRenderKeys() {
+      const keys = this.slotColumns.map(v => v.scopedSlots.customRender).filter(v => this.$scopedSlots[v]);
+      return warn(keys), keys;
+    },
+    nativeRenderKeys() {
+      return BAN_SLOTS.filter(v => this.$scopedSlots[v]);
+    },
     rowSelection() {
       if (!(this.selection || this.selectedKeys)) return null;
       return {
@@ -60,22 +78,28 @@ export default {
         selectedRowKeys: this.selectedKeys,
         onChange: this.onSelectChange,
         // 如果有 'select' 事件，再绑定相应事件（很耗性能）
-        onSelect: this.hasSelectListener && this.selectOneHandler,
-        onSelectAll: this.hasSelectListener && this.selectAllHandler,
+        onSelect: this.needSelectAction && this.selectOneHandler,
+        onSelectAll: this.needSelectAction && this.selectAllHandler,
         ...(this.selection || {}),
       };
     },
+    isCompleteData() {
+      // 不需要分页 | 开启内部分页 | 本地数据
+      return !this.pagination || this.isPaging || Array.isArray(this.dataSource);
+    },
   },
   beforeCreate() {
-    // 判断是否有 'select' 事件（前提是已绑定 selectedKeys）
-    this.hasSelectListener = !!(this.$options.propsData.selectedKeys && this.$listeners.select);
     // 开启表格选中时，选中发生切换的 rows 和 选中类型（增加|移除）
     this.changeRows = [];
     this.selected = false;
+    // 缓存旧的查询参数对象
+    this.cacheTableParams = {};
   },
   created() {
-    if (!this.notAuto) this.setTableList();
-    if (this.hasSelectListener) {
+    // 是否有 `select` 事件（前提是已绑定 selectedKeys）或 导出功能
+    this.needSelectAction = !!((Array.isArray(this.selectedKeys) && this.$listeners.select) || this.isXlsx);
+    if (!this.lazy) this.setTableList();
+    if (!this.needSelectAction) {
       this.$watch('selectedKeys', newVal => {
         this.selectedData = this.selectedData.filter(item => newVal.includes(toPath(item, this.rowKey)));
         this.$emit('select', this.selectedData, this.changeRows, this.selected);
@@ -83,21 +107,36 @@ export default {
     }
   },
   methods: {
-    setTableParams({ current, pageSize }) {
-      this.tableParams = { current, pageSize };
-      this.$emit('change-params', { current, pageSize });
+    setTableParams({ current, pageSize }, filter, sorter) {
+      if (this.tableParams.current !== current || this.tableParams.current !== pageSize) {
+        this.$emit('change-params', { current, pageSize });
+      }
+      if (!equal(this.tableParams.filter, filter)) {
+        this.updateForce();
+        this.$emit('change-filter', filter);
+      }
+      if (!equal(this.tableParams.sorter, sorter)) {
+        this.updateForce();
+        this.$emit('change-sorter', sorter);
+      }
+      this.tableParams = { current, pageSize, filter, sorter };
       this.setTableList();
+    },
+    // 强制更新数据
+    updateForce() {
+      this.total = 0;
     },
     async setTableList() {
       this.loading = true;
-      // 如果内部分页或者是本地数据
-      if (this.isPaging || Array.isArray(this.dataSource)) {
+      // 如果完整数据
+      if (this.isCompleteData) {
         // 如果总条数为 0 或强制更新数据，则重新拉取数据
         if (!this.total || this.isReload) {
-          const res = await this.getData(this.params);
+          const { filter, sorter } = this.tableParams;
+          const res = await this.getData({ filter, sorter, ...this.params });
           [this.total, this.tableData] = [res.total, res.data];
         }
-        this.$emit('change', sliceData(this.tableData, this.tableParams));
+        this.$emit('change', slice(this.tableData, this.tableParams));
       } else {
         const res = await this.getData({ ...this.tableParams, ...this.params });
         [this.total, this.tableData] = [res.total, res.data];
@@ -123,8 +162,9 @@ export default {
       try {
         res = await this.http(params);
         res.data = this.handler(res.data);
-      } catch {
+      } catch (err) {
         res = { data: [], total: 0 };
+        if (process.env.NODE_ENV !== 'production') throw err;
       }
       return res;
     },
@@ -153,76 +193,99 @@ export default {
         }
       }
     },
-    exportXlsx(dataSource, fileName = this.fileName) {
-      this.xlsx({
-        dataSource,
-        columns: this.columns,
-        fileName,
-      });
+    exportCurrent() {
+      this.exportXlsx(this.isCompleteData ? slice(this.tableData, this.tableParams) : this.tableData);
+    },
+    exportSelected() {
+      this.exportXlsx(this.selectedData);
     },
     async exportAllXlsx(num = 1) {
       try {
         let data = [];
         const params = { current: num, pageSize: 500 };
-        if (this.isPaging || Array.isArray(this.dataSource)) {
-          data = sliceData(this.tableData, params);
+        if (!this.pagination || this.isPaging || Array.isArray(this.dataSource)) {
+          data = slice(this.tableData, params);
         } else if (this.http) {
-          data = (
-            await this.getData({
-              ...params,
-              ...this.params,
-            })
-          ).data;
+          data = (await this.getData({ ...params, ...this.params })).data;
         }
         this.exportXlsx(data, this.fileName + num);
         if (data.length < 500) return;
         await this.exportAllXlsx(num + 1);
-      } catch {
-        this.$message.error('导出失败！');
+      } catch (e) {
+        this.$emit('export-error', e);
       }
+    },
+    exportXlsx(dataSource, fileName = this.fileName) {
+      this.xlsx({
+        dataSource,
+        fileName,
+        columns: this.columns.filter(v => filterColumn(v, 'xlsx')),
+      });
     },
   },
 };
 
-const proxyColumns = function({ columns, notNumber, isFixedNumber, tableParams: { current, pageSize } }) {
-  const _columns = columns.map(item => ({
-    key: item.scopedSlots ? item.key || item.dataIndex : warn(item.key || item.dataIndex),
-    fixed: isFixedNumber,
-    dataIndex: item.dataIndex || item.key,
-    scopedSlots: { customRender: item.dataIndex || item.key },
-    ...item,
-  }));
-  if (!notNumber && _columns.length && _columns[0].type !== 'index') {
-    _columns.unshift({
-      type: 'index',
+const proxyColumns = function({ columns, series, tableParams: { current, pageSize } }) {
+  const _columns = columns.filter(v => filterColumn(v, 'table')).map(initColumn);
+  const serialKey = SLOT_SERIAL_NUMBER;
+  if (series && _columns.length && _columns[0].key !== (series.key ?? serialKey)) {
+    const serialColumn = {
+      key: serialKey,
       title: '序号',
       width: 68,
-      customRender: (text, record, index) => (current - 1) * pageSize + index + 1,
-      scopedSlots: { customRender: 'index' },
-    });
+      customRender: getSerialRender(current, pageSize),
+      ...series,
+    };
+    _columns.unshift(initColumn(serialColumn));
   }
   return _columns;
 };
-// 截取数据
-const sliceData = function(data, { current, pageSize }) {
-  const start = (current - 1) * pageSize;
-  return data.slice(start, start + pageSize);
+
+const filterColumn = function({ visible = true }, type) {
+  return visible === true || visible === type;
 };
-const toPath = function(data, path) {
-  if (typeof path === 'string') {
-    return path.split('.').reduce((total, value) => total[value], data);
-  }
-  if (typeof path === 'function') {
-    return path(data);
-  }
-  return data;
+
+const initColumn = function(column) {
+  const { key, dataIndex, scopedSlots, ...rest } = column;
+  return {
+    key: key ?? dataIndex,
+    dataIndex: dataIndex ?? key,
+    scopedSlots: scopedSlots ?? { customRender: dataIndex ?? key },
+    ...rest,
+  };
 };
-const BAN_SLOTS = ['index', 'title', 'expandedRowRender', 'expandIcon', 'footer'];
-const warn = function(name) {
-  if (process.env.NODE_ENV !== 'production' && BAN_SLOTS.includes(name)) {
-    // eslint-disable-next-line
-    console.error(`The key '${name}' is banned, and you need to use the other key!`);
-  }
-  return name;
+
+const getSerialRender = function(current, pageSize) {
+  return (text, record, index) => (current - 1) * pageSize + index + 1;
 };
+
+const warn = (function() {
+  if (process.env.NODE_ENV === 'production') return () => true;
+  const generate = slot =>
+    `The key '${slot}' have been banned, and you can set the new key with 'scopedSlots' or 'dataIndex'.`;
+  return keys => {
+    // eslint-disable-next-line no-console
+    BAN_SLOTS.forEach(slot => keys.includes(slot) && console.error(generate(slot)));
+  };
+})();
 </script>
+
+<style lang="less" scoped>
+.own-table {
+  position: relative;
+
+  /deep/ .ant-table {
+    .ant-table-thead > tr > th,
+    .ant-table-row > td {
+      @media screen {
+        @media (max-width: 768px) {
+          white-space: nowrap;
+        }
+        @media (max-width: 992px) {
+          word-break: keep-all;
+        }
+      }
+    }
+  }
+}
+</style>

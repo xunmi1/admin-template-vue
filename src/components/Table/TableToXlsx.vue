@@ -18,7 +18,7 @@
 
 <script>
 export default {
-  name: 'TableXlsx',
+  name: 'TableToXlsx',
   props: {
     loading: Boolean,
     isSelection: Boolean,
