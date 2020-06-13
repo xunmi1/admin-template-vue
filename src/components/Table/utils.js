@@ -1,21 +1,32 @@
-import { deepEqual, isString, isFunction } from '@/libs/utils';
+import { isString, isFunction, cache, deepEqual } from '@/libs/utils';
 
 export const equal = deepEqual;
 
+// match range e.g. [10] | ['key-x'] | .key | ^key | ^'key-x'
 const PROP_NAME_REGEX = /\[(?:(\d+)|['"](.+)['"])]|\.(\w+)|^(?:(\w+)|['"](.+)['"])/gi;
 
-export function toPath(data, path) {
-  if (isString(path)) {
-    const result = [];
-    path.replace(PROP_NAME_REGEX, (...rest) => {
-      const groups = rest.slice(1, -2);
-      result.push(groups.find(Boolean));
-    });
+/**
+ * Convert to a property path array.
+ * @param {string} str
+ * @return {string[]}
+ */
+const toPath = cache(str => {
+  const result = [];
+  str.replace(PROP_NAME_REGEX, (...rest) => {
+    // get token form capture groups
+    const token = rest.slice(1, -2).find(Boolean);
+    result.push(token);
+  });
+  return result;
+});
 
-    return result.reduce((total, key) => total[key], data);
+export function getPropWith(handler, data) {
+  if (isString(handler)) {
+    const pathList = toPath(handler);
+    return pathList.reduce((total, key) => total[key], data);
   }
 
-  if (isFunction(path)) return path(data);
+  if (isFunction(handler)) return handler(data);
   return data;
 }
 

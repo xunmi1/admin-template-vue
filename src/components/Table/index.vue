@@ -35,7 +35,7 @@
 
 <script>
 import tableMixin from './tableMixin';
-import { equal, slice, toPath } from './utils';
+import { equal, slice, getPropWith } from './utils';
 
 const SLOT_SERIAL_NUMBER = '__SLOT_SERIAL_NUMBER__';
 const NATIVE_SLOTS = ['title', 'expandedRowRender', 'expandIcon', 'footer'];
@@ -101,7 +101,7 @@ export default {
     if (!this.lazy) this.setTableList();
     if (!this.needSelectAction) {
       this.$watch('selectedKeys', newVal => {
-        this.selectedData = this.selectedData.filter(item => newVal.includes(toPath(item, this.rowKey)));
+        this.selectedData = this.selectedData.filter(item => newVal.includes(getPropWith(this.rowKey, item)));
         this.$emit('select', this.selectedData, this.changeRows, this.selected);
       });
     }
@@ -182,8 +182,8 @@ export default {
       [this.changeRows, this.selected] = [[record], selected];
     },
     changeSelection(record, selected) {
-      const key = toPath(record, this.rowKey);
-      const _index = this.selectedData.findIndex(item => toPath(item, this.rowKey) === key);
+      const key = getPropWith(this.rowKey, record);
+      const _index = this.selectedData.findIndex(item => getPropWith(this.rowKey, item) === key);
       if (selected) {
         if (_index < 0) this.selectedData.push(record);
       } else {
