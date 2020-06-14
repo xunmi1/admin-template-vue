@@ -2,8 +2,9 @@ import { isString, isFunction, cache, deepEqual } from '@/libs/utils';
 
 export const equal = deepEqual;
 
-// match range e.g. [10] | ['key-x'] | .key | ^key | ^'key-x'
-const PROP_NAME_REGEX = /\[(?:(\d+)|['"](.+)['"])]|\.(\w+)|^(?:(\w+)|['"](.+)['"])/gi;
+// match range e.g. [10] | ['key-x'] | .key | ^key
+// not support: ['key.x'] | ['key[x]'] | .key-x
+const PROP_NAME_REGEX = /\[(?:(\d+)|['"]([^.[]+)['"])]|\.(\w+)|^(\w+)/g;
 
 /**
  * Convert to a property path array.
