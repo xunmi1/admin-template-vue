@@ -31,6 +31,10 @@ module.exports = {
 
   devServer: {
     port: 8888,
+    overlay: {
+      warnings: false,
+      errors: true,
+    },
   },
   // @see https://github.com/vuejs/vue-docs-zh-cn/blob/master/vue-cli-plugin-pwa/README.md
   pwa: {
