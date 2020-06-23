@@ -1,3 +1,5 @@
+const prettierConfig = require('@xunmi/prettier-config');
+
 const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = {
@@ -5,7 +7,7 @@ module.exports = {
   env: {
     node: true,
   },
-  extends: ['plugin:vue/essential', 'eslint:recommended', '@vue/prettier'],
+  extends: ['plugin:vue/strongly-recommended', 'eslint:recommended', '@vue/prettier'],
   rules: {
     'no-console': isProduction ? 'error' : 'warn',
     'no-debugger': isProduction ? 'error' : 'warn',
@@ -126,18 +128,7 @@ module.exports = {
       },
     ],
 
-    'prettier/prettier': [
-      'warn',
-      {
-        printWidth: 120,
-        tabWidth: 2,
-        singleQuote: true,
-        arrowParens: 'avoid',
-        trailingComma: 'es5',
-        semi: true,
-        endOfLine: 'lf',
-      },
-    ],
+    'prettier/prettier': ['warn', prettierConfig],
   },
   parserOptions: {
     parser: 'babel-eslint',
