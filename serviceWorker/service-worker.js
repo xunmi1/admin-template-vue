@@ -1,5 +1,5 @@
 /* globals workbox */
-/* eslint-disable no-restricted-globals */
+/* eslint-disable */
 
 workbox.core.setCacheNameDetails({
   prefix: 'admin-template',

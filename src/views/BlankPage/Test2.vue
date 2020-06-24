@@ -18,10 +18,7 @@ export default {
     // 模拟取消请求
     const signal = 'articles';
     const token = abortController.create(signal);
-    getArticles({}, token)
-      .then(res => console.log(res))
-      .catch(err => console.log(err));
-
+    getArticles({}, token);
     abortController.abort(signal, 'has aborted');
   },
   methods: {
