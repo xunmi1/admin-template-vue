@@ -6,7 +6,7 @@ const resolve = dir => path.join(__dirname, dir);
 
 // 复制 tinymce 所需的静态资源
 const copyOptions = [
-  { from: resolve('./src/components/tinymce/langs'), to: './tinymce/langs' },
+  { from: resolve('./src/components/Tinymce/langs'), to: './tinymce/langs' },
   { from: resolve('./node_modules/tinymce/skins'), to: './tinymce/skins' },
 ];
 
