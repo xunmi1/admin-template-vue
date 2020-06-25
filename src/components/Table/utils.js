@@ -1,4 +1,6 @@
-import { isString, isFunction, cache, deepEqual } from '@/libs/utils';
+import { isString, hasOwn, isFunction, isEmptyObject, cache, deepEqual } from '@/libs/utils';
+
+export { isEmptyObject, hasOwn };
 
 export const equal = deepEqual;
 
@@ -34,4 +36,10 @@ export function getPropWith(handler, data) {
 export function slice(data, { current = 1, pageSize }) {
   const start = (current - 1) * pageSize;
   return data.slice(start, start + pageSize);
+}
+
+export function composeFunc(...funcList) {
+  return function(...rest) {
+    funcList.forEach(func => isFunction(func) && func(...rest));
+  };
 }

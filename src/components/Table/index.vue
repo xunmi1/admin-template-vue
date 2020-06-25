@@ -6,7 +6,7 @@
       :loading="loading"
       :pagination="pagination && { ...pagination, total, ...tableParams }"
       :row-key="rowKey"
-      :row-selection="rowSelection"
+      :row-selection="selection"
       :scroll="scroll"
       v-bind="$attrs"
       @change="setTableParams"
@@ -23,7 +23,7 @@
     </ATable>
     <template v-if="isXlsx && typeof xlsx === 'function' && !loading">
       <TableToXlsx
-        :is-selection="!!rowSelection"
+        :is-selection="!!selection"
         :loading="loading"
         @export="exportCurrent"
         @export-all="exportAllXlsx()"
@@ -35,7 +35,7 @@
 
 <script>
 import tableMixin from './tableMixin';
-import { equal, slice, getPropWith } from './utils';
+import { isEmptyObject, equal, slice, getPropWith, composeFunc } from './utils';
 
 const SLOT_SERIAL_NUMBER = '__SLOT_SERIAL_NUMBER__';
 const NATIVE_SLOTS = ['title', 'expandedRowRender', 'expandIcon', 'footer'];
@@ -66,22 +66,28 @@ export default {
     },
     customRenderKeys() {
       const keys = this.slotColumns.map(v => v.scopedSlots.customRender).filter(v => this.$scopedSlots[v]);
-      return warn(keys), keys;
+      warn(keys);
+      return keys;
     },
     nativeRenderKeys() {
       return BAN_SLOTS.filter(v => this.$scopedSlots[v]);
     },
-    rowSelection() {
-      if (!(this.selection || this.selectedKeys)) return null;
-      return {
-        fixed: true,
-        selectedRowKeys: this.selectedKeys,
-        onChange: this.onSelectChange,
-        // 如果有 'select' 事件，再绑定相应事件（很耗性能）
-        onSelect: this.needSelectAction && this.selectOneHandler,
-        onSelectAll: this.needSelectAction && this.selectAllHandler,
-        ...(this.selection || {}),
-      };
+    selection() {
+      const selection = this.rowSelection;
+      if (selection || this.selectedKeys) {
+        return {
+          fixed: true,
+          ...selection,
+          // `rowSelection.selectedRowKeys` is invalid
+          selectedRowKeys: this.selectedKeys,
+          onChange: composeFunc(this.onSelectChange, selection?.onChange),
+          // 如果有 'select' 事件，再绑定相应事件（很耗性能）
+          onSelect: composeFunc(this.needSelectAction && this.selectOneHandler, selection?.onSelect),
+          onSelectAll: composeFunc(this.needSelectAction && this.selectAllHandler, selection?.onSelectAll),
+        };
+      }
+
+      return undefined;
     },
     isCompleteData() {
       // 不需要分页 | 开启内部分页 | 本地数据
@@ -98,13 +104,16 @@ export default {
   created() {
     // 是否有 `select` 事件（前提是已绑定 selectedKeys）或 导出功能
     this.needSelectAction = !!((Array.isArray(this.selectedKeys) && this.$listeners.select) || this.isXlsx);
-    if (!this.lazy) this.setTableList();
-    if (!this.needSelectAction) {
-      this.$watch('selectedKeys', newVal => {
-        this.selectedData = this.selectedData.filter(item => newVal.includes(getPropWith(this.rowKey, item)));
+    if (this.needSelectAction) {
+      this.$watch('selectedKeys', keys => {
+        const list = [...this.selectedData, ...this.tableData];
+        this.selectedData = list.filter(row => keys.includes(this.getKeyByRow(row)));
         this.$emit('select', this.selectedData, this.changeRows, this.selected);
       });
     }
+  },
+  mounted() {
+    if (!this.lazy) this.setTableList();
   },
   methods: {
     setTableParams({ current, pageSize }, filter, sorter) {
@@ -144,13 +153,16 @@ export default {
       }
       // 如果页码 > 1 且 表格数据为空，则回退到上一页
       if (this.tableParams.current > 1 && !this.tableData.length) {
-        this.tableParams.current -= 1;
-        this.setTableList();
-        return;
+        return await this.backLastPage();
       }
       // 通知已经刷新
       if (this.isReload) this.$emit('update:is-reload', false);
       this.loading = false;
+    },
+
+    backLastPage() {
+      this.tableParams.current -= 1;
+      return this.setTableList();
     },
     // 获取数据，包括本地数据、不分页请求、分页请求
     async getData(params) {
@@ -160,7 +172,7 @@ export default {
       }
       let res = {};
       try {
-        res = await this.http(params);
+        res = await this.http(this.filterParams(params));
         res.data = this.handler(res.data);
       } catch (err) {
         res = { data: [], total: 0 };
@@ -168,6 +180,12 @@ export default {
       }
       return res;
     },
+    filterParams({ filter, sorter, ...rest }) {
+      if (!isEmptyObject(filter)) rest.filter = filter;
+      if (!isEmptyObject(sorter)) rest.sorter = sorter;
+      return rest;
+    },
+
     onSelectChange(selectedRowKeys) {
       this.$emit('update:selected-keys', selectedRowKeys);
     },
@@ -182,17 +200,18 @@ export default {
       [this.changeRows, this.selected] = [[record], selected];
     },
     changeSelection(record, selected) {
-      const key = getPropWith(this.rowKey, record);
-      const _index = this.selectedData.findIndex(item => getPropWith(this.rowKey, item) === key);
+      const val = this.getKeyByRow(record);
+      const index = this.selectedData.findIndex(row => this.getKeyByRow(row) === val);
       if (selected) {
-        if (_index < 0) this.selectedData.push(record);
+        if (index < 0) this.selectedData.push(record);
       } else {
-        if (_index > -1) {
-          this.selectedData.splice(_index, 1);
+        if (index > -1) {
+          this.selectedData.splice(index, 1);
           this.changeSelection(record, false);
         }
       }
     },
+
     exportCurrent() {
       this.exportXlsx(this.isCompleteData ? slice(this.tableData, this.tableParams) : this.tableData);
     },
@@ -221,6 +240,10 @@ export default {
         fileName,
         columns: this.columns.filter(v => filterColumn(v, 'xlsx')),
       });
+    },
+
+    getKeyByRow(row) {
+      return getPropWith(this.rowKey, row);
     },
   },
 };
@@ -262,7 +285,7 @@ const getSerialRender = function(current, pageSize) {
 const warn = (function() {
   if (process.env.NODE_ENV === 'production') return () => true;
   const generate = slot =>
-    `The key '${slot}' have been banned, and you can set the new key with 'scopedSlots' or 'dataIndex'.`;
+    `[table]: the key '${slot}' have been banned, and you can set the new key with 'scopedSlots' or 'dataIndex'.`;
   return keys => {
     // eslint-disable-next-line no-console
     BAN_SLOTS.forEach(slot => keys.includes(slot) && console.error(generate(slot)));

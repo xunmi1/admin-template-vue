@@ -1,4 +1,4 @@
-import { equal } from './utils';
+import { equal, hasOwn } from './utils';
 
 export default {
   props: {
@@ -58,12 +58,21 @@ export default {
       type: Number,
       default: 10,
     },
-    // 选中项配置，不推荐使用（selectedKeys 和 select 事件会功能异常），可以使用 selectedKeys 代替
-    selection: {
-      type: [Object, Boolean],
-      default: false,
+    // 选中项配置, 不推荐使用，可以使用 selectedKeys 代替
+    // Notes: `ATable` 的 `selectedRowKeys` 配置无效, 请使用 `selectedKeys`
+    rowSelection: {
+      type: Object,
+      validator: val => {
+        if (hasOwn(val, 'selectedRowKeys')) {
+          // eslint-disable-next-line no-console
+          console.error('[table]: `rowSelection.selectedRowKeys` is invalid, and use `selectedKeys`');
+          return false;
+        }
+        return true;
+      },
     },
     // 选中 row-key 的数组，需要 `.sync` 修饰符
+    // 将自动开启选中行功能
     selectedKeys: Array,
     scroll: Object,
     // 自定义数据转化函数，需要返回数据
