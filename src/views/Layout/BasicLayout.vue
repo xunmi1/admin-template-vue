@@ -249,6 +249,7 @@ export default {
     overflow-y: auto;
     overflow-x: hidden;
     z-index: @layout-sider-z-index;
+    .hidden-scrollbar();
 
     .menu {
       margin-bottom: @layout-trigger-height;
@@ -343,5 +344,16 @@ export default {
 .flex-row-center() {
   display: flex;
   align-items: center;
+}
+
+.hidden-scrollbar() {
+  /* Firefox */
+  scrollbar-width: none;
+
+  /* Chrome */
+  &::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
 }
 </style>

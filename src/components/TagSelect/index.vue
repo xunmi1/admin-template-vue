@@ -96,6 +96,7 @@ export default {
     line-height: 1.5;
     margin: 0 16px @spacing-bottom 0;
     padding: 0 8px;
+    cursor: pointer;
   }
 
   &.expandable {
