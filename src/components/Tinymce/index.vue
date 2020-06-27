@@ -17,7 +17,6 @@ import { search, distinguishMedia } from './utils';
 // Import TinyMCE
 import tinymce from 'tinymce/tinymce';
 import 'tinymce/themes/silver';
-import 'tinymce/themes/mobile';
 import 'tinymce/plugins/advlist';
 import 'tinymce/plugins/autosave';
 import 'tinymce/plugins/link';
@@ -65,7 +64,6 @@ export default {
     },
   },
   created() {
-    tinymce.baseURL = this.baseURL;
     this.options = this.getOptions();
     this.updateSkin();
     this.updateMode();
@@ -95,6 +93,7 @@ export default {
       };
       return {
         setup,
+        base_url: this.baseURL,
         document_base_url: this.documentURL,
         autosave_prefix: this.autoSavePrefix,
         init_instance_callback: this.bindEvent,

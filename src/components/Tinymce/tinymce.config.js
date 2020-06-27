@@ -15,7 +15,7 @@ const basicConfig = {
   paste_word_valid_elements: '*[*]', // 保留 word 样式
   paste_data_images: true, // 粘贴的同时把内容里的图片自动上传
   paste_webkit_styles: 'all', // 保留 webkit 样式
-  branding: false, // 禁止右下角标识
+  // branding: false, // 禁止右下角标识
   image_title: true,
   image_advtab: true, // 为图片添加高级选项设置
   automatic_uploads: true,
