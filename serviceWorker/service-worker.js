@@ -1,36 +1,63 @@
 /* globals workbox */
-/* eslint-disable */
+const { core, precaching, strategies, routing, expiration } = workbox;
 
-workbox.core.setCacheNameDetails({
-  prefix: 'admin-template',
-  suffix: 'v2.0.0',
-});
-workbox.core.clientsClaim();
-workbox.precaching.suppressWarnings();
+const PREFIX = "admin-template";
+const getCacheName = name => `${PREFIX}-${name}`;
 
-// 缓存打包后的静态文件
-workbox.precaching.precacheAndRoute(self.__precacheManifest || []);
+core.setCacheNameDetails({ prefix: PREFIX });
+
+core.clientsClaim();
+precaching.cleanupOutdatedCaches();
+
+precaching.precacheAndRoute(self.__precacheManifest);
 
 /**
- * 缓存策略
- * networkFirst 网络优先的策略
+ * Set cache strategy
  */
-workbox.routing.registerRoute(/\/api\//, workbox.strategies.networkFirst());
-workbox.routing.registerRoute(new RegExp('/color.less'), workbox.strategies.staleWhileRevalidate());
+const { NetworkFirst, CacheFirst, StaleWhileRevalidate } = strategies;
 
-self.addEventListener('install', () => {
+const requestStrategy = new NetworkFirst({
+  cacheName: getCacheName("request"),
+  networkTimeoutSeconds: 3,
+});
+
+const cacheImageStrategy = new CacheFirst({
+  cacheName: getCacheName("images"),
+  plugins: [
+    new expiration.CacheExpiration(
+      getCacheName("images"),
+      { maxEntries: 60, maxAgeSeconds: 14 * 24 * 3600 }
+    )
+  ]
+});
+
+const staticResourcesStrategy = new StaleWhileRevalidate({
+  cacheName: getCacheName("static-resources")
+});
+
+const filterRequest = types => ({ request }) => types.includes(request.destination);
+const registerRoute = routing.registerRoute;
+
+registerRoute(/\/api\//, requestStrategy);
+registerRoute(filterRequest(["image"]), cacheImageStrategy);
+registerRoute(filterRequest(["script", "style"]), staticResourcesStrategy);
+
+/**
+ * Listen event
+ */
+self.addEventListener("install", () => {
   self.skipWaiting();
 });
 
-self.addEventListener('message', event => {
+self.addEventListener("message", event => {
   const replyPort = event.ports[0];
-  const message = event.data;
-  if (replyPort && message && message.type === 'skip-waiting') {
+  const type = event.data?.type;
+  if (replyPort && type === "skip-waiting") {
     event.waitUntil(
       self
         .skipWaiting()
-        .then(() => replyPort.postMessage({ error: null }))
-        .catch(error => replyPort.postMessage({ error })),
+        .then(() => replyPort.postMessage({ error: undefined }))
+        .catch(error => replyPort.postMessage({ error }))
     );
   }
 });

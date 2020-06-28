@@ -1,7 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
 const PACKAGE = require('./package.json');
-const FAVICON = 'icons/android-chrome-192x192.png';
 const resolve = dir => path.join(__dirname, dir);
 
 // 复制 tinymce 所需的静态资源
@@ -9,6 +8,13 @@ const copyOptions = [
   { from: resolve('./src/components/Tinymce/langs'), to: './tinymce/langs' },
   { from: resolve('./node_modules/tinymce/skins'), to: './tinymce/skins' },
 ];
+
+const getIcon = size => ({
+  src: `./icons/android-chrome-${size}x${size}.png`,
+  sizes: `${size}x${size}`,
+  type: 'image/png',
+});
+const FAVICON = getIcon(192).src;
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -42,12 +48,6 @@ module.exports = {
     msTileColor: '#002140',
     appleMobileWebAppCapable: 'yes',
     appleMobileWebAppStatusBarStyle: 'black',
-    workboxPluginMode: 'InjectManifest',
-    workboxOptions: {
-      importWorkboxFrom: 'cdn',
-      swDest: 'service-worker.js',
-      swSrc: './serviceWorker/service-worker.js',
-    },
     name: PACKAGE.name,
     iconPaths: {
       favicon32: FAVICON,
@@ -56,11 +56,23 @@ module.exports = {
       maskIcon: FAVICON,
       msTileImage: FAVICON,
     },
+
+    manifestOptions: {
+      icons: [getIcon(192), getIcon(512)],
+      background_color: '#f1f1f1',
+    },
+
+    workboxPluginMode: 'InjectManifest',
+    workboxOptions: {
+      importWorkboxFrom: 'cdn',
+      swDest: 'service-worker.js',
+      swSrc: './serviceWorker/service-worker.js',
+    },
   },
 
   configureWebpack: {
     plugins: [
-      // antd 使用，精简 moment.js, 语言包只保留 zh-cn.js
+      // Antd 使用，精简 moment.js, 语言包只保留 zh-cn.js
       new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh-cn/),
     ],
   },
