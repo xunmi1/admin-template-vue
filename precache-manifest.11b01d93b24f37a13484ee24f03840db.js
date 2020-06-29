@@ -140,6 +140,10 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "robots.txt"
   },
   {
+    "revision": "213af47b3dc67be7853700ae7a2d93f0",
+    "url": "tinymce/langs/zh_CN.js"
+  },
+  {
     "revision": "21d51aa3b251ee666fe63f41473e4731",
     "url": "tinymce/skins/content/dark/content.css"
   },
