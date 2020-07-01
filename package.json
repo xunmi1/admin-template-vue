@@ -20,7 +20,7 @@
     "tinymce": "^5.4.0",
     "vue": "^2.6.11",
     "vue-router": "^3.3.4",
-    "vuex": "^3.4.0",
+    "vuex": "^3.5.1",
     "xlsx": "^0.16.3"
   },
   "devDependencies": {
