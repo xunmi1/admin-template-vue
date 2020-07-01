@@ -1,73 +1,66 @@
 <template>
-  <ATooltip :title="isFullScreen ? '退出全屏' : '全屏'">
-    <div v-if="showAction" class="full-screen v-icon-hover" @click="handleToggle">
+  <ATooltip v-if="showAction" :title="isFullScreen ? '退出全屏' : '全屏'">
+    <div class="full-screen v-icon-hover" @click="handleToggle">
       <AIcon :type="isFullScreen ? 'fullscreen-exit' : 'fullscreen'" class="icon" />
     </div>
   </ATooltip>
 </template>
 
 <script>
-const IS_IE = window.navigator.userAgent.search('MSIE') > -1;
+export const UA = window.navigator.userAgent.toLowerCase();
+export const isIE = UA && /msie|trident/.test(UA);
 const elm = document.documentElement;
 
 const BrowserEventMap = [
   {
-    event: 'fullscreen',
+    enabled: document.fullscreenEnabled || document.fullscreen,
     listener: 'fullscreenchange',
     exit: document.exitFullscreen,
     full: elm.requestFullscreen,
   },
   {
-    event: 'mozFullScreen',
+    enabled: document.mozFullScreen,
     listener: 'mozfullscreenchange',
     exit: document.exitFullscreen || document.mozCancelFullScreen,
     full: elm.requestFullscreen || elm.mozRequestFullScreen,
   },
   {
-    event: 'webkitIsFullScreen',
+    enabled: document.webkitIsFullScreen,
     listener: 'webkitfullscreenchange',
     exit: document.webkitCancelFullScreen,
     full: elm.webkitRequestFullScreen,
   },
 ];
 
-/**
- * 不支持 IE
- * bug: 若页面默认是全屏状态，则切换无效
- */
+const browser = BrowserEventMap.find(item => item.enabled);
+
 export default {
   name: 'FullScreen',
   data() {
     return {
-      showAction: !IS_IE,
+      showAction: !isIE && browser,
       isFullScreen: false,
     };
   },
   mounted() {
     if (!this.showAction) return;
-    this.$nextTick(() => {
-      this.browser = BrowserEventMap.find(item => document[item.event]);
-      this.showAction = !!this.showAction;
-      if (this.browser) {
-        document.addEventListener(this.browser.listener, this.changeFullScreen);
-      }
-    });
+    document.addEventListener(browser.listener, this.changeFullScreen);
   },
   beforeDestroy() {
-    if (this.browser) {
-      document.removeEventListener(this.browser.listener, this.changeFullScreen);
+    if (this.showAction) {
+      document.removeEventListener(browser.listener, this.changeFullScreen);
     }
   },
   methods: {
     handleToggle() {
       if (this.isFullScreen) {
-        this.browser.exit.call(document);
+        browser.exit.call(document);
       } else {
-        this.browser.full.call(document.documentElement);
+        browser.full.call(elm);
       }
     },
     changeFullScreen() {
-      this.isFullScreen = !!document[this.browser.event];
+      this.isFullScreen = !this.isFullScreen;
       this.$emit('change', this.isFullScreen);
     },
   },
