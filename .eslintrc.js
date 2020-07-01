@@ -74,7 +74,6 @@ module.exports = {
     // 禁止在 return, throw, break 或 continue 之后还有代码
     'no-unreachable': 'error',
     'no-unsafe-finally': 'error',
-    'use-isnan': 'error',
     'valid-typeof': 'error',
     // 数组的方法除了 forEach 之外，回调函数必须有返回值
     'array-callback-return': 'error',
@@ -107,26 +106,12 @@ module.exports = {
     'no-new-wrappers': 'error',
     // 属性方法缩写
     'object-shorthand': 'warn',
-    // 单引号
-    quotes: ['error', 'single'],
     // 禁止不必要的转义
     'no-useless-escape': 'error',
-    // 箭头函数参数只有一个时，省略 ()
-    'arrow-parens': ['warn', 'as-needed'],
     // 箭头函数的函数体只有一句时，省略 {}
     'arrow-body-style': 'warn',
     // 使用 . 而不是 []
     'dot-notation': 'error',
-    // 句尾分号
-    semi: 'error',
-    'space-before-function-paren': [
-      'error',
-      {
-        anonymous: 'never',
-        named: 'never',
-        asyncArrow: 'always',
-      },
-    ],
 
     'prettier/prettier': ['warn', prettierConfig],
   },

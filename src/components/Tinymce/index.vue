@@ -1,6 +1,6 @@
 <template>
   <div>
-    <input ref="uploadNode" style="display: none" type="file" />
+    <input ref="uploadNode" style="display: none;" type="file" />
     <div v-show="visible">
       <div v-if="active" ref="editorRef">
         <slot />
@@ -253,7 +253,7 @@ export default {
       events.forEach(event => editor.on(event.key, event.handler));
     },
     bindWatch() {
-      const valueWatch = function(newVal) {
+      const valueWatch = function (newVal) {
         if (newVal !== this.editor.getContent()) this.editor.setContent(newVal || '');
       };
       this.unwatchValue = this.$watch('value', valueWatch, { immediate: true });

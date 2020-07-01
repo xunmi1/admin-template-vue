@@ -3,7 +3,7 @@ import { toXlsx } from '@/libs/xlsx';
 import config from '@/config';
 
 // 包裹富文本组件，默认提供 http 方法
-export const wrappedEditor = function(component) {
+export const wrappedEditor = function (component) {
   const baseURL = process.env.BASE_URL + 'tinymce';
   const getAutoSavePrefix = path => `${config.dbPrefix}-tinyMCE-autosave-${path}-`;
 
@@ -42,7 +42,7 @@ const renamed = ({ current, ...rest }) => ({ page: current, ...rest });
 // 修改请求响应体
 const transfer = ({ data = [], meta = {} }) => ({ data, total: meta.total || data.length });
 // 适配列表数据接口
-export const adapterOfList = function(service) {
+export const adapterOfList = function (service) {
   if (typeof service !== 'function') return service;
   return (params = {}) =>
     service(renamed(params))
@@ -50,7 +50,7 @@ export const adapterOfList = function(service) {
       .then(transfer);
 };
 
-export const wrappedTable = function(component) {
+export const wrappedTable = function (component) {
   return {
     functional: true,
     props: {

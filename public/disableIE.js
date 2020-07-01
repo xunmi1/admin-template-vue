@@ -1,6 +1,6 @@
 /* eslint-disable */
-(function() {
-  var getAlertNode = function(text) {
+(function () {
+  var getAlertNode = function (text) {
     var alertNode = document.createElement('div');
     alertNode.innerHTML = text;
     alertNode.style.cssText = '; position: fixed; z-index: 100000;' +
@@ -9,18 +9,18 @@
     return alertNode;
   };
 
-  var getCloseNode = function() {
+  var getCloseNode = function () {
     var closeNode = document.createElement('span');
     closeNode.innerText = '关闭';
     closeNode.style.cssText = ';float:right; padding: 0 16px; cursor: pointer';
     return closeNode;
   };
 
-  var closeAlert = function() {
+  var closeAlert = function () {
     var dom = this.parentNode;
     this.parentNode.style.top = '-36px';
     this.parentNode.style.opacity = '.6';
-    setTimeout(function() {
+    setTimeout(function () {
       document.documentElement.removeChild(dom);
     }, 3000);
   };

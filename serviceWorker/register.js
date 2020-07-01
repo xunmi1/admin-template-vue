@@ -28,7 +28,7 @@ const hooks = {
   error(error) {
     console.error('Error during service worker registration:', error);
   },
-}
+};
 
 if (isProduction) {
   // 此处注册名需要和 vue.config 中 pwa.workboxOptions.swDest 保持同步

@@ -1,8 +1,4 @@
-const toRawType = val =>
-  Object.prototype.toString
-    .call(val)
-    .slice(8, -1)
-    .toLowerCase();
+const toRawType = val => Object.prototype.toString.call(val).slice(8, -1).toLowerCase();
 
 /**
  * 通用类型判断

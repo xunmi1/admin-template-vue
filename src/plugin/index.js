@@ -3,7 +3,7 @@ import properties from './properties';
 import * as methods from './methods';
 import components from './components';
 
-const addProperties = function(value, Ctor) {
+const addProperties = (value, Ctor) => {
   const vm = new Ctor();
   const proto = Ctor.prototype;
 
@@ -16,7 +16,7 @@ const addProperties = function(value, Ctor) {
   });
 };
 
-const addComponents = function(value, Ctor) {
+const addComponents = (value, Ctor) => {
   Object.entries(value).forEach(([key, component]) => {
     if (Ctor.component(key)) {
       throw new Error(`component '${key}' had existed!`);
@@ -25,7 +25,7 @@ const addComponents = function(value, Ctor) {
   });
 };
 
-const addDirectives = function(value, Ctor) {
+const addDirectives = (value, Ctor) => {
   Object.entries(value).forEach(([key, directive]) => Ctor.directive(key, directive));
 };
 

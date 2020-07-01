@@ -93,7 +93,7 @@ export default {
         threshold: [0, 0.03, 0.06],
       });
       observer.observe(this.$el);
-      this.$once('hook:beforeDestroy', function() {
+      this.$once('hook:beforeDestroy', () => {
         // 在组件销毁前取消观察
         if (observer) observer.unobserve(this.$el);
       });

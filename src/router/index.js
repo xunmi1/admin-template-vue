@@ -15,7 +15,7 @@ export default vueRouter;
 export { routes };
 export const getVisibleRoutes = decider => getRoutes(routes, decider);
 
-export const navigateToLogin = function(handler) {
+export const navigateToLogin = handler => {
   // 清空 token 数据
   store.commit('user/setToken');
   if (handler) handler({ name: config.loginName });

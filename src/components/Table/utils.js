@@ -39,7 +39,7 @@ export function slice(data, { current = 1, pageSize }) {
 }
 
 export function composeFunc(...funcList) {
-  return function(...rest) {
+  return function (...rest) {
     funcList.forEach(func => isFunction(func) && func(...rest));
   };
 }

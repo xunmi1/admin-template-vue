@@ -144,7 +144,7 @@ export function throttle(func, wait) {
 export function cache(func, transfer) {
   let cacheMap = Object.create(null);
 
-  const cached = function(...params) {
+  const cached = function (...params) {
     const key = transfer ? transfer.apply(this, params) : String(params);
     const hit = cacheMap[key];
     return hit ?? (cacheMap[key] = func.apply(this, params));
@@ -165,7 +165,7 @@ export function curry(func) {
 
   return function curried(...args) {
     if (args.length < funcLength) {
-      return function(...rest) {
+      return function (...rest) {
         return curried.apply(null, args.concat(rest));
       };
     }

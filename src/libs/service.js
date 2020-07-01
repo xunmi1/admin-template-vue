@@ -3,7 +3,7 @@ import router from '@/router';
 import config from '@/config';
 import AxiosRequest from './common/AxiosRequest';
 
-const failAuth = function() {
+const failAuth = () => {
   // 清空 token
   store.commit('user/setToken');
   router.push({ name: config.loginName });

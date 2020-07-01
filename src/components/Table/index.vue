@@ -248,7 +248,7 @@ export default {
   },
 };
 
-const proxyColumns = function({ columns, series, tableParams: { current, pageSize } }) {
+const proxyColumns = ({ columns, series, tableParams: { current, pageSize } }) => {
   const _columns = columns.filter(v => filterColumn(v, 'table')).map(initColumn);
   const serialKey = SLOT_SERIAL_NUMBER;
   if (series && _columns.length && _columns[0].key !== (series.key ?? serialKey)) {
@@ -264,11 +264,9 @@ const proxyColumns = function({ columns, series, tableParams: { current, pageSiz
   return _columns;
 };
 
-const filterColumn = function({ visible = true }, type) {
-  return visible === true || visible === type;
-};
+const filterColumn = ({ visible = true }, type) => visible === true || visible === type;
 
-const initColumn = function(column) {
+const initColumn = column => {
   const { key, dataIndex, scopedSlots, ...rest } = column;
   return {
     key: key ?? dataIndex,
@@ -278,11 +276,9 @@ const initColumn = function(column) {
   };
 };
 
-const getSerialRender = function(current, pageSize) {
-  return (text, record, index) => (current - 1) * pageSize + index + 1;
-};
+const getSerialRender = (current, pageSize) => (text, record, index) => (current - 1) * pageSize + index + 1;
 
-const warn = (function() {
+const warn = (() => {
   if (process.env.NODE_ENV === 'production') return () => true;
   const generate = slot =>
     `[table]: the key '${slot}' have been banned, and you can set the new key with 'scopedSlots' or 'dataIndex'.`;
