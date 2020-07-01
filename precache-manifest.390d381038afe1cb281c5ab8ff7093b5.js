@@ -4,39 +4,39 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "assets/svg/background.d758b173.svg"
   },
   {
-    "revision": "eefc76c40e08b4f3b491",
+    "revision": "2d66afeea2684193ea3b",
     "url": "css/BasicLayout.1d7968fc.css"
   },
   {
-    "revision": "142e0119fd369d8f182d",
+    "revision": "2a59c54595769ff8ac44",
     "url": "css/Login.cd0ee3e8.css"
   },
   {
-    "revision": "5663dfa687bdc0383889",
+    "revision": "ced21c3c755d92a7f094",
     "url": "css/MenuDrawer.c7e02482.css"
   },
   {
-    "revision": "8ae4a86be6ab3c0ca15e",
+    "revision": "885bd59ac6ec7a0d2793",
     "url": "css/TableToXlsx.06e68ca0.css"
   },
   {
-    "revision": "77d55e7fbfd03c105a17",
+    "revision": "1defcdce6357b593de32",
     "url": "css/UserLayout.9c219c80.css"
   },
   {
-    "revision": "5b082999097a5ac6422d",
+    "revision": "25e2327850718b6617ce",
     "url": "css/VLazyComponent.a746ec42.css"
   },
   {
-    "revision": "42409f6213602c0c9424",
+    "revision": "cf31308c6e85650f9e97",
     "url": "css/VTable.c292ea3d.css"
   },
   {
-    "revision": "c3c9df42bb583a41480b",
+    "revision": "5e775f3f8ba9ef6d2bc3",
     "url": "css/VTagSelect.786eb2cb.css"
   },
   {
-    "revision": "28ccc6ec76c0057f09a2",
+    "revision": "280496b6da055f731f41",
     "url": "css/app.54eab134.css"
   },
   {
@@ -64,68 +64,68 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "icons/loading.svg"
   },
   {
-    "revision": "a166ac9f40176eae8c575b01523c1de2",
+    "revision": "7d4da1745c637e83e813c843ccfe4b13",
     "url": "index.html"
   },
   {
-    "revision": "eefc76c40e08b4f3b491",
-    "url": "js/BasicLayout.91143ee5.js"
+    "revision": "2d66afeea2684193ea3b",
+    "url": "js/BasicLayout.c20631cd.js"
   },
   {
-    "revision": "142e0119fd369d8f182d",
-    "url": "js/Login.d8ddaf44.js"
+    "revision": "2a59c54595769ff8ac44",
+    "url": "js/Login.19ec09ec.js"
   },
   {
-    "revision": "5663dfa687bdc0383889",
-    "url": "js/MenuDrawer.c99ed734.js"
+    "revision": "ced21c3c755d92a7f094",
+    "url": "js/MenuDrawer.e80f3df5.js"
   },
   {
-    "revision": "8ae4a86be6ab3c0ca15e",
-    "url": "js/TableToXlsx.25b92ff5.js"
+    "revision": "885bd59ac6ec7a0d2793",
+    "url": "js/TableToXlsx.51880244.js"
   },
   {
-    "revision": "bb72f4f35a3562d9c1eb",
-    "url": "js/Test.a614174e.js"
+    "revision": "38c3907879f4fad9f82c",
+    "url": "js/Test.d0b8ee9f.js"
   },
   {
-    "revision": "77d55e7fbfd03c105a17",
-    "url": "js/UserLayout.c448c42c.js"
+    "revision": "1defcdce6357b593de32",
+    "url": "js/UserLayout.534f95ec.js"
   },
   {
-    "revision": "5b082999097a5ac6422d",
-    "url": "js/VLazyComponent.3504f2f0.js"
+    "revision": "25e2327850718b6617ce",
+    "url": "js/VLazyComponent.1d389711.js"
   },
   {
-    "revision": "1b5dd32dcecb802e0ec5",
-    "url": "js/VRichEditor.f9f8b7f9.js"
+    "revision": "ff21df24f494c55a4852",
+    "url": "js/VRichEditor.12a83176.js"
   },
   {
-    "revision": "42409f6213602c0c9424",
-    "url": "js/VTable.142d8930.js"
+    "revision": "cf31308c6e85650f9e97",
+    "url": "js/VTable.96183cc5.js"
   },
   {
-    "revision": "c3c9df42bb583a41480b",
-    "url": "js/VTagSelect.166eaab1.js"
+    "revision": "5e775f3f8ba9ef6d2bc3",
+    "url": "js/VTagSelect.97b85175.js"
   },
   {
-    "revision": "28ccc6ec76c0057f09a2",
-    "url": "js/app.16f538c1.js"
+    "revision": "280496b6da055f731f41",
+    "url": "js/app.0f89ba36.js"
   },
   {
-    "revision": "262fbf94436cac0585ef",
-    "url": "js/chunk-283edbae.a5e272ff.js"
+    "revision": "e85631d5f4220058b018",
+    "url": "js/chunk-283edbae.48c28ce4.js"
   },
   {
-    "revision": "1e6eef22782f37ef44ca",
-    "url": "js/chunk-2d2095c8.142256df.js"
+    "revision": "33d6d871a3e149ef835d",
+    "url": "js/chunk-2d2095c8.08c6fd2d.js"
   },
   {
-    "revision": "a0c408298776d24d03bf",
-    "url": "js/chunk-2d230f8c.da945f9d.js"
+    "revision": "45a131033b7e34848b13",
+    "url": "js/chunk-2d230f8c.ea515414.js"
   },
   {
-    "revision": "1c7d9d3bad23592303f0",
-    "url": "js/chunk-748ad46a.2e72e484.js"
+    "revision": "c23ceb00e43e5f31aad9",
+    "url": "js/chunk-748ad46a.630c334e.js"
   },
   {
     "revision": "fe7c5467c53ad8e36b75",
