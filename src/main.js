@@ -1,9 +1,10 @@
 import Vue from 'vue';
 import Antd from 'ant-design-vue';
-import plugin from './plugin';
-import App from './App.vue';
-import router from './router';
-import store from './store';
+import '@/libs/alertIE';
+import plugin from '@/plugin';
+import App from '@/App.vue';
+import router from '@/router';
+import store from '@/store';
 import '../serviceWorker/register';
 
 Vue.config.productionTip = false;
