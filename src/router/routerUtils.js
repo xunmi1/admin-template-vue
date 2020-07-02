@@ -1,4 +1,5 @@
 import store from '@/store';
+import { isObject } from '@/libs/utils';
 
 const TRUE = () => true;
 
@@ -37,7 +38,7 @@ export const getRoutes = (list, decider = TRUE) => {
 export const loadRoutes = files =>
   files
     .keys()
-    .reduce((arr, key) => (typeof files(key).default === 'object' ? arr.concat(files(key).default) : arr), [])
+    .reduce((arr, key) => (isObject(files(key).default) ? arr.concat(files(key).default) : arr), [])
     .sort((prev, next) => (prev.sort || 0) - (next.sort || 0));
 
 const addAlive = to => {

@@ -9,21 +9,19 @@ const isProduction = process.env.NODE_ENV === 'production';
 // useSubdirectories: 是否检索子目录
 // regExp: 匹配文件的正则表达式
 const files = require.context('./modules', false, /\.js$/);
-const [modules, plugins] = [{}, []];
-files.keys().forEach(key => {
-  modules[key.replace(/(\.\/|\.js)/g, '')] = files(key).default;
-});
 
+const modules = files.keys().reduce((values, key) => {
+  const name = key.replace(/^\.\/|\.[tj]s$/g, '');
+  values[name] = files(key).default;
+  return values;
+}, {});
+
+const plugins = [];
 if (!isProduction) {
   const logger = Vuex.createLogger({ filter: ({ type }) => type !== 'app/addAlive' });
   plugins.push(logger);
 }
 
-export default new Vuex.Store({
-  strict: !isProduction,
-  state: {},
-  mutations: {},
-  actions: {},
-  modules,
-  plugins,
-});
+const store = new Vuex.Store({ strict: !isProduction, modules, plugins });
+
+export default store;
