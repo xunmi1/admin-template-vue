@@ -20,7 +20,7 @@ export default {
     setToken(state, { token, remember } = {}) {
       state.token = token;
       service.setToken(token);
-      db.set(StorageKeys.TOKEN, token, config.token.expires * 1000);
+      db.set(StorageKeys.TOKEN, token, { maxAge: config.token.expires * 1000 });
       if (remember != null) db.set(StorageKeys.LOGIN_REMEMBER, remember);
     },
     setUserInfo(state, userInfo = {}) {
