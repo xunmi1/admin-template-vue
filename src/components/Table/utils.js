@@ -6,7 +6,7 @@ export const equal = deepEqual;
 
 // match range e.g. [10] | ['key-x'] | .key | ^key
 // not support: ['key.x'] | ['key[x]'] | .key-x
-const PROP_NAME_REGEX = /\[(?:(\d+)|['"]([^.[]+)['"])]|\.(\w+)|^(\w+)/g;
+const REGEX_PROPERTY = /\[(?:(\d+)|['"]([^.[]+)['"])]|\.(\w+)|^(\w+)/g;
 
 /**
  * Convert to a property path array.
@@ -15,7 +15,7 @@ const PROP_NAME_REGEX = /\[(?:(\d+)|['"]([^.[]+)['"])]|\.(\w+)|^(\w+)/g;
  */
 const toPath = cache(str => {
   const result = [];
-  str.replace(PROP_NAME_REGEX, (...rest) => {
+  str.replace(REGEX_PROPERTY, (...rest) => {
     // get token form capture groups
     const token = rest.slice(1, -2).find(Boolean);
     result.push(token);

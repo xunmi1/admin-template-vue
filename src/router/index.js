@@ -22,6 +22,10 @@ export const navigateToLogin = handler => {
   else vueRouter.push({ name: config.loginName });
 };
 
+db.watch(StorageKeys.TOKEN, value => {
+  if (!value) vueRouter.push({ name: config.loginName });
+});
+
 // 初始化 `store` 信息
 const initStoreData = async (token, remember) => {
   store.commit('user/setToken', { token, remember });

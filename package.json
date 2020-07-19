@@ -13,7 +13,7 @@
     "ant-design-vue": "^1.6.3",
     "axios": "^0.19.2",
     "core-js": "^3.6.5",
-    "light-storage": "^1.0.1",
+    "light-storage": "^1.1.0",
     "moment": "^2.27.0",
     "nprogress": "^0.2.0",
     "register-service-worker": "^1.7.1",
