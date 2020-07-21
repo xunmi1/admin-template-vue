@@ -1,4 +1,4 @@
-import { getPermissions, login, logout } from '@/api/user';
+import { getPermissions, login } from '@/api/user';
 
 import service from '@/libs/service';
 import db, { StorageKeys } from '@/libs/db';
@@ -41,10 +41,6 @@ export default {
       };
       commit('setUserInfo', userInfo);
       return res;
-    },
-
-    handleLogout({ commit }) {
-      return logout().then(() => commit('setToken'));
     },
 
     getPermissions({ state }) {

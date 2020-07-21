@@ -4,6 +4,7 @@ import config from '@/config';
 import db, { StorageKeys } from '@/libs/db';
 import store from '@/store';
 import routes from './routes';
+
 import { getRoutes, hasRouterAuth, addAliveHook } from './routerUtils';
 import { startProgressGuard, endProgressHook } from './progress';
 
@@ -18,12 +19,14 @@ export const getVisibleRoutes = decider => getRoutes(routes, decider);
 export const navigateToLogin = handler => {
   // 清空 token 数据
   store.commit('user/setToken');
-  if (handler) handler({ name: config.loginName });
-  else vueRouter.push({ name: config.loginName });
+  const loginName = config.loginName;
+  if (vueRouter.currentRoute.name === loginName) return;
+  if (handler) handler({ name: loginName });
+  else vueRouter.push({ name: loginName }).catch(() => {});
 };
 
 db.watch(StorageKeys.TOKEN, value => {
-  if (!value) vueRouter.push({ name: config.loginName });
+  if (!value) navigateToLogin();
 });
 
 // 初始化 `store` 信息

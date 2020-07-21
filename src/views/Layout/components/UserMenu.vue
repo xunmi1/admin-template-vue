@@ -11,7 +11,7 @@
         <AMenu class="user-menu" @click="dispatch($event.key)">
           <AMenuItem key="logout">
             <AIcon type="logout" />
-            退出登录
+            <span>退出登录</span>
           </AMenuItem>
         </AMenu>
       </template>
@@ -20,7 +20,9 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
+import { mapState } from 'vuex';
+import { navigateToLogin } from '@/router';
+import { logout } from '@/api/user';
 
 export default {
   name: 'UserMenu',
@@ -28,12 +30,11 @@ export default {
     ...mapState('user', ['avatar', 'nickname']),
   },
   methods: {
-    ...mapActions('user', ['handleLogout']),
     dispatch(key) {
       if (this[key]) this[key]();
     },
     logout() {
-      this.handleLogout().then(() => this.$router.replace({ name: this.$app.loginName }));
+      logout().then(() => navigateToLogin());
     },
   },
 };
