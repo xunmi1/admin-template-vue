@@ -150,11 +150,36 @@ export function cache(func, transfer) {
     return hit ?? (cacheMap[key] = func.apply(this, params));
   };
 
-  cached.clear = () => {
-    cacheMap = Object.create(null);
+  cached.clear = () => (cacheMap = Object.create(null));
+  defineGet(cached, 'size', () => Object.keys(cacheMap).length);
+
+  return cached;
+}
+
+export function cacheWeak(func, transfer) {
+  const cacheMap = new Map();
+  const cleanup = new window.FinalizationRegistry(key => {
+    // when objects are garbage-collected
+    const ref = cacheMap.get(key);
+    if (ref && !ref.deref()) cacheMap.delete(key);
+  });
+
+  const cached = function (...args) {
+    const key = transfer ? transfer.apply(this, args) : String(args);
+    const ref = cacheMap.get(key);
+    if (ref) {
+      const hit = ref.deref();
+      if (hit !== undefined) return hit;
+    }
+
+    const result = func.apply(this, args);
+    cacheMap.set(key, new window.WeakRef(result));
+    cleanup.register(result, key);
+    return result;
   };
 
-  defineGet(cached, 'size', () => Object.keys(cacheMap).length);
+  cached.clear = () => cacheMap.clear();
+  defineGet(cached, 'size', () => cacheMap.size);
 
   return cached;
 }
