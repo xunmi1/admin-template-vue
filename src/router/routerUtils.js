@@ -60,7 +60,7 @@ const addAlive = to => {
 };
 
 /**
- * 添加组件缓存
+ * Add component cache
  * @param to {Route}
  * @return {Promise<void>}
  */

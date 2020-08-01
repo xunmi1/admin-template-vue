@@ -1,8 +1,10 @@
 import NProgress from 'nprogress';
+import { delay } from '@/libs/utils';
 
-NProgress.configure({ showSpinner: false, easing: 'ease-in-out' });
-
-const delay = timeout => new Promise(resolve => setTimeout(resolve, timeout));
+NProgress.configure({
+  showSpinner: false,
+  easing: 'ease-in-out',
+});
 
 export const startProgressGuard = (_, __, next) => {
   NProgress.start();

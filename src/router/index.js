@@ -29,7 +29,7 @@ db.watch(StorageKeys.TOKEN, value => {
   if (!value) navigateToLogin();
 });
 
-// 初始化 `store` 信息
+// Initialize `store` data
 const initStoreData = async (token, remember) => {
   store.commit('user/setToken', { token, remember });
   store.commit('user/setUserInfo', db.get(StorageKeys.USER_INFO));
@@ -50,7 +50,9 @@ const verifyAuthGuard = async (to, from, next) => {
 };
 
 const resetDocumentHook = to => {
-  window.document.title = to.meta?.title ?? config.title.small;
+  const title = config.title.small;
+  const page = to.meta?.title;
+  window.document.title = page ? `${page} - ${title}` : title;
   window.scrollTo(0, 0);
 };
 

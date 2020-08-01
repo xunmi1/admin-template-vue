@@ -197,3 +197,7 @@ export function curry(func) {
     return func.apply(null, args);
   };
 }
+
+export function delay(timeout) {
+  return new Promise(resolve => setTimeout(resolve, timeout));
+}
