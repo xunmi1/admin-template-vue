@@ -1,11 +1,9 @@
 <template>
   <TransitionGroup
-    v-bind="$attrs"
-    :tag="tag"
-    :name="$attrs.name || 'lazy-component'"
     :enter-class="$attrs.enterClass || 'lazy-component-enter lazy-component-' + orientation"
     :leave-to-class="$attrs.leaveToClass || 'lazy-component-leave-to lazy-component-' + orientation"
     style="position: relative;"
+    v-bind="$attrs"
     v-on="$listeners"
   >
     <div v-if="isInit" key="component">
@@ -40,7 +38,7 @@ export default {
     },
     // 可视窗口，默认使用浏览器视口
     viewport: {
-      type: Object || window.HTMLElement,
+      type: [window.HTMLElement, Object],
     },
     // 窗口检验的阀值，仅 viewport 未设置时可使用 '%'
     threshold: {
@@ -124,8 +122,8 @@ export default {
         if (this.isInit) return;
         callback();
       }, this.maxWaitingTime);
-      const tempFn = window.requestAnimationFrame || (fn => setTimeout(fn, (1000 / 60) * 8));
-      return tempFn(callback);
+      const timer = window.requestAnimationFrame ?? (fn => setTimeout(fn, (1000 / 60) * 8));
+      return timer(callback);
     },
   },
 };
