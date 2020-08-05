@@ -5,4 +5,5 @@ export default {
   VLazyComponent: () => import(/* webpackChunkName: "VLazyComponent" */ '@c/LazyComponent'),
   VTable: wrappedTable(() => import(/* webpackChunkName: "VTable" */ '@c/Table')),
   VTagSelect: wrappedTable(() => import(/* webpackChunkName: "VTagSelect" */ '@c/TagSelect')),
+  VQuickForm: wrappedTable(() => import(/* webpackChunkName: "VQuickForm" */ '@c/QuickForm')),
 };
