@@ -1,1 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["FormRender"],{be1d:function(n,t,o){"use strict";o.r(t);const e={functional:!0,props:{tag:[String,Object,Function]},render(n,t){const o=t.props.tag;return"function"===typeof o?o(n,t):n(o,t.data,t.children)}};t["default"]=e}}]);
