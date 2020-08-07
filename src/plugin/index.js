@@ -2,6 +2,7 @@ import { defineReadonly } from '@/libs/utils';
 import properties from './properties';
 import * as methods from './methods';
 import components from './components';
+import directives from './directives';
 
 const addProperties = (value, Ctor) => {
   const vm = new Ctor();
@@ -37,6 +38,6 @@ export default {
     addProperties(methods, Vue);
     // 扩展组件
     addComponents(components, Vue);
-    addDirectives({}, Vue);
+    addDirectives(directives, Vue);
   },
 };
