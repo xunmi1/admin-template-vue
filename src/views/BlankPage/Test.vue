@@ -1,5 +1,6 @@
 <template>
   <ACard>
+    <img v-preview-img src="https://cn.vuejs.org/images/logo.png" width="100" height="100" alt="logo" />
     <VTable
       :selected-keys.sync="selectedKeys"
       row-key="key"
@@ -22,6 +23,7 @@
  * getTableData 的查询参数、返回值等格式由 /plugin/wrapped.js 模块中的表格组件包装函数控制
  */
 import { getTableData } from '@/api/news';
+import { delay } from '@/libs/utils';
 
 export default {
   name: 'Test',
@@ -36,7 +38,7 @@ export default {
     };
   },
   created() {
-    setTimeout(() => this.selectedKeys.push('21', '13', '62', '23'), 5000);
+    delay(5000).then(() => this.selectedKeys.push('21', '13', '62', '23'));
   },
   methods: {
     getTableData,

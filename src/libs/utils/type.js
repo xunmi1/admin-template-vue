@@ -30,3 +30,5 @@ export const isNumber = val => typeof val === 'number';
 export const isNaN = val => val !== val;
 
 export const isEmptyObject = val => isObject(val) && !Object.keys(val).length;
+
+export const isNode = val => val instanceof Node;
