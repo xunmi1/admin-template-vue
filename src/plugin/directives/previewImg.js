@@ -48,15 +48,25 @@ const createModal = () => {
 };
 
 const bindCloseEvent = (target, close) => {
-  addOnceEvent(target, 'click', close);
+  const handler = event => {
+    const remove = () => document.removeEventListener('keyup', handler);
+    // if modal already destroyed, and remove listener
+    if (!target.parentNode) return remove();
 
-  const filter = event => {
     const key = event.key ?? event.keyCode;
-    // Close if escape key is pressed
-    return key === 'Escape' || key === 'Esc' || key === 27;
+    // close if escape key is pressed
+    if (key === 'Escape' || key === 'Esc' || key === 27) {
+      remove();
+      close();
+    }
   };
+  document.addEventListener('keyup', handler);
 
-  addOnceEvent(document, 'keyup', close, {}, filter);
+  const clickListener = () => {
+    document.removeEventListener('keyup', handler);
+    close();
+  };
+  addOnceEvent(target, 'click', clickListener);
 };
 
 const preview = el => {
@@ -68,10 +78,14 @@ const preview = el => {
 
     const scale = options.scale ?? getScale(imgNode);
     setStyleProperty(imgNode, 'transform', `scale(${scale})`);
+
     const remove = () => {
       removeNode(modalNode);
       modalNode = imgNode = null;
     };
+
+    el[PREVIEW_CONTEXT].remove = remove;
+
     const close = () => {
       if (!modalNode) return;
       setStyleProperty(imgNode, 'transform', 'scale(1)');
@@ -79,7 +93,6 @@ const preview = el => {
     };
 
     bindCloseEvent(modalNode, close);
-    el[PREVIEW_CONTEXT].remove = remove;
   });
 };
 

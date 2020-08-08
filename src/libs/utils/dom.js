@@ -34,14 +34,11 @@ export function setStyleProperty(target, propertyName, value, priority) {
  * @param eventName {string}
  * @param listener {Function}
  * @param [options] {EventListenerOptions}
- * @param [filter] {Event => boolean}
  */
-export function addOnceEvent(target, eventName, listener, options, filter) {
+export function addOnceEvent(target, eventName, listener, options) {
   const wrappedListener = event => {
     listener(event);
-    if (!filter || filter(event)) {
-      target.removeEventListener(eventName, wrappedListener, options);
-    }
+    target.removeEventListener(eventName, wrappedListener, options);
   };
 
   target.addEventListener(eventName, wrappedListener, options);
