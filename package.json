@@ -19,7 +19,7 @@
     "register-service-worker": "^1.7.1",
     "tinymce": "^5.4.1",
     "vue": "^2.6.11",
-    "vue-router": "^3.3.4",
+    "vue-router": "^3.4.2",
     "vuex": "^3.5.1",
     "xlsx": "^0.16.5"
   },

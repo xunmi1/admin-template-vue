@@ -1,7 +1,7 @@
 <template>
   <ABreadcrumb :routes="routes">
     <template #itemRender="{ route }">
-      <a v-if="isLast(route)" class="link">{{ route.breadcrumbName }}</a>
+      <span v-if="isCurrentRoute(route)">{{ route.breadcrumbName }}</span>
       <RouterLink v-else :to="{ name: route.path }">{{ route.breadcrumbName }}</RouterLink>
     </template>
   </ABreadcrumb>
@@ -42,15 +42,9 @@ export default {
       list.push(current);
       return list;
     },
-    isLast(route) {
-      return this.routes[this.routes.length - 1] === route;
+    isCurrentRoute(route) {
+      return this.$route.name === route.path;
     },
   },
 };
 </script>
-
-<style scoped>
-.link {
-  color: rgba(0, 0, 0, 0.65);
-}
-</style>

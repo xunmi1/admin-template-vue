@@ -16,7 +16,7 @@ export default {
   name: 'App',
   data() {
     return {
-      locale: zh_CN,
+      locale: Object.freeze(zh_CN),
     };
   },
 };
