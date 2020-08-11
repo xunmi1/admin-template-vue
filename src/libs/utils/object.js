@@ -3,7 +3,7 @@ import { camelize } from './string';
 
 export function defineGet(target, property, fn) {
   Object.defineProperty(target, property, {
-    configurable: true,
+    configurable: false,
     enumerable: false,
     get: fn,
   });
@@ -11,7 +11,7 @@ export function defineGet(target, property, fn) {
 
 export function defineReadonly(target, property, value) {
   Object.defineProperty(target, property, {
-    configurable: true,
+    configurable: false,
     enumerable: true,
     writable: false,
     value,
