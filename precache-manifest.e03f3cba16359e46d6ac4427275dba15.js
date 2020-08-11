@@ -40,7 +40,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "css/VTagSelect.786eb2cb.css"
   },
   {
-    "revision": "9d4038de85bdd183caa3",
+    "revision": "2f15ffaf41832bf3d4a6",
     "url": "css/app.8e0d0131.css"
   },
   {
@@ -64,7 +64,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "icons/loading.svg"
   },
   {
-    "revision": "9169eb3d18efcddf518c4d5165653e0b",
+    "revision": "4503c3efc6e7e0bfc1146d9dab2ba2a9",
     "url": "index.html"
   },
   {
@@ -112,8 +112,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "js/VTagSelect.5abdeb42.js"
   },
   {
-    "revision": "9d4038de85bdd183caa3",
-    "url": "js/app.5066bb18.js"
+    "revision": "2f15ffaf41832bf3d4a6",
+    "url": "js/app.7bac62d3.js"
   },
   {
     "revision": "f9393bd06dadfdfafff6",
