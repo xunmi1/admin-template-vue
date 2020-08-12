@@ -1,16 +1,17 @@
 import axios from 'axios';
 import { isFunction, isArray, isObject } from '@/libs/utils';
 import HttpClientContext from './HttpClientContext';
+import ResponseError from './ResponseError';
 import compose from './compose';
 
 /**
  * @async
  * @callback MiddlewareNext
- * @return {Promise<string>}
+ * @return {Promise<*>}
  */
 
 /**
- * @typedef {{ data: any, headers: object, status: number, statusText: string }|undefined} ContextResponse
+ * @typedef {{ data: any, headers: object, status: number, statusText: string }} HttpResponse
  */
 
 class HttpClientCore {
@@ -33,26 +34,23 @@ class HttpClientCore {
 
   /**
    * @private
-   * @param ctx {HttpClientContext}
-   * @param next {MiddlewareNext}
-   * @return {Promise<ContextResponse>}
+   * @param {HttpClientContext} ctx
+   * @return {Promise<HttpResponse>}
    */
-  async requestMiddleware(ctx, next) {
+  async requestMiddleware(ctx) {
     const options = ctx.options ?? {};
     try {
       const data = await this.instance.request(options);
       // eslint-disable-next-line no-unused-vars
       const { config, request, ...response } = data;
       [ctx.request, ctx.response] = [request, response];
-      await next();
       return response;
     } catch (error) {
       if (error.isAxiosError || HttpClientCore.isAborted(error)) {
         // eslint-disable-next-line no-unused-vars
         const { config, request, ...response } = error.response || {};
         [ctx.request, ctx.response] = [request || error.request, response];
-        // reset error.response, exclude config, request
-        error.response = response;
+        return Promise.reject(new ResponseError(error.message, { request, response }));
       }
       return Promise.reject(error);
     }
@@ -64,12 +62,13 @@ class HttpClientCore {
   }
 
   use(middleware) {
+    if (!isFunction(middleware)) throw new TypeError('middleware must be a function!');
     this._middlewares.push(middleware);
     return this;
   }
 
-  request(options, middlewares = []) {
-    const context = this.createContext(options);
+  request(url, options, middlewares = []) {
+    const context = this.createContext({ url, ...options });
     const instanceMiddlewares = isArray(middlewares) ? middlewares : [middlewares];
     const allMiddlewares = this.collectMiddlewares(instanceMiddlewares);
     return compose(allMiddlewares)(context);

@@ -1,9 +1,9 @@
 class HttpClientContext {
   constructor(options) {
     this.options = options;
-    /** @public {XMLHttpRequest|undefined} */
+    /** @type {XMLHttpRequest|undefined} */
     this.request = undefined;
-    /** @public {ContextResponse} */
+    /** @type {HttpResponse|undefined} */
     this.response = undefined;
   }
 
@@ -23,7 +23,7 @@ class HttpClientContext {
     return this.response?.headers;
   }
 
-  get body() {
+  get data() {
     return this.response?.data;
   }
 }
