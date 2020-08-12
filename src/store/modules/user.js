@@ -1,6 +1,6 @@
 import { getPermissions, login } from '@/api/user';
 
-import service from '@/libs/service';
+import http from '@/libs/http';
 import db, { StorageKeys } from '@/libs/db';
 import config from '@/config';
 
@@ -19,8 +19,10 @@ export default {
   mutations: {
     setToken(state, { token, remember } = {}) {
       state.token = token;
-      service.setToken(token);
-      db.set(StorageKeys.TOKEN, token, { maxAge: config.token.expires * 1000 });
+      const { template, key, expires } = config.auth;
+      const signal = token ? template.replace('TOKEN', token) : null;
+      http.setHeader(key, signal);
+      db.set(StorageKeys.TOKEN, token, { maxAge: expires * 1000 });
       if (remember != null) db.set(StorageKeys.LOGIN_REMEMBER, remember);
     },
     setUserInfo(state, userInfo = {}) {

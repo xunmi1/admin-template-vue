@@ -1,7 +1,7 @@
 /**
  * 文件上传
  */
-import service from '@/libs/service';
+import http from '@/libs/http';
 
 export function upload({ name = 'image', headers, file, data, onProgress, withCredentials }) {
   if (!['image', 'file', 'video', 'audio'].includes(name)) {
@@ -11,10 +11,8 @@ export function upload({ name = 'image', headers, file, data, onProgress, withCr
   const onUploadProgress = ({ total, loaded }) =>
     onProgress && onProgress({ percent: +Math.round((loaded / total) * 100).toFixed(2) }, file);
 
-  return service.request({
-    url: `upload/${name}`,
+  return http.post(`upload/${name}`, {
     headers: headers || { 'Content-Type': 'multipart/form-data' },
-    method: 'post',
     data: getFormData(file, data),
     withCredentials,
     onUploadProgress,

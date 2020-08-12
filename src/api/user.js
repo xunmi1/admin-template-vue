@@ -1,4 +1,4 @@
-import service from '@/libs/service';
+import http from '@/libs/http';
 
 const mockUserInfo = {
   info: {
@@ -27,12 +27,9 @@ export function logout() {
   return Promise.resolve({ msg: '已退出' });
 }
 
-export function getPermissions(data) {
-  if (data.userId) {
-    return service.request({
-      url: 'getPermissions',
-      params: data,
-    });
+export function getPermissions(params) {
+  if (params.userId) {
+    return http.get('getPermissions', { params });
   } else {
     return Promise.reject('missing parameter');
   }

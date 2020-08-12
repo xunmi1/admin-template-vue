@@ -1,4 +1,4 @@
-import service from '@/libs/service';
+import http from '@/libs/http';
 
 /**
  * 模拟取消请求
@@ -7,12 +7,7 @@ import service from '@/libs/service';
  * @return {Promise}
  */
 export function getArticles(params, cancelToken) {
-  return service.request({
-    url: 'articles',
-    method: 'get',
-    params,
-    cancelToken,
-  });
+  return http.get('articles', { params, cancelToken });
 }
 
 const data = [

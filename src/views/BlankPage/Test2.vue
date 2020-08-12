@@ -8,7 +8,7 @@
 
 <script>
 import { getArticles } from '@/api/news';
-import AbortRequest from '@/libs/common/AbortRequest';
+import { AbortRequest } from '@/libs/http';
 
 const abortController = new AbortRequest();
 

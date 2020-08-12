@@ -21,19 +21,14 @@ const config = deepFreeze({
 
   // 静态资源 (例如图片、视频) 地址
   assetsURL: '',
-  // api 接口版本
-  apiVersion: '',
-  /** @description token 验证
-   * position:  token 放置位置
+  /** @description auth
    * key token 键名
    * value: 值模板，`TOKEN` 将替换为真实 token
    * expires 有效期, 单位: s
    */
-  token: {
-    // 'headers' | 'params' | 'data'
-    position: 'headers',
+  auth: {
     key: 'Authorization',
-    value: 'Bearer TOKEN',
+    template: 'Bearer TOKEN',
     expires: 7 * 24 * 3600,
   },
   /**
