@@ -1,4 +1,4 @@
-importScripts("precache-manifest.d57873bc37d339328291ffe2e8bfd40a.js", "https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
+importScripts("precache-manifest.f69e0a84d18f96a74e78a1aea784ab2d.js", "https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 /* globals workbox */
 const { core, precaching, strategies, routing, expiration } = workbox;
@@ -12,7 +12,7 @@ core.clientsClaim();
 precaching.cleanupOutdatedCaches();
 
 precaching.precacheAndRoute(self.__precacheManifest);
-
+routing.registerNavigationRoute('/index.html');
 /**
  * Set cache strategy
  */
@@ -21,6 +21,7 @@ const { NetworkFirst, CacheFirst, StaleWhileRevalidate } = strategies;
 const requestStrategy = new NetworkFirst({
   cacheName: getCacheName('request'),
   networkTimeoutSeconds: 3,
+  fetchOptions: { credentials: true },
 });
 
 const cacheImageStrategy = new CacheFirst({
