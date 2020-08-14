@@ -10,7 +10,7 @@ core.clientsClaim();
 precaching.cleanupOutdatedCaches();
 
 precaching.precacheAndRoute(self.__precacheManifest);
-
+routing.registerNavigationRoute('/index.html');
 /**
  * Set cache strategy
  */
@@ -19,6 +19,7 @@ const { NetworkFirst, CacheFirst, StaleWhileRevalidate } = strategies;
 const requestStrategy = new NetworkFirst({
   cacheName: getCacheName('request'),
   networkTimeoutSeconds: 3,
+  fetchOptions: { credentials: true },
 });
 
 const cacheImageStrategy = new CacheFirst({

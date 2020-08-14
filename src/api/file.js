@@ -3,18 +3,16 @@
  */
 import http from '@/libs/http';
 
-export function upload({ name = 'image', headers, file, data, onProgress, withCredentials }) {
+export function upload({ name = 'image', headers, file, data, cancelToken, onUploadProgress, withCredentials }) {
   if (!['image', 'file', 'video', 'audio'].includes(name)) {
     return Promise.reject({ msg: '类型错误!' });
   }
-
-  const onUploadProgress = ({ total, loaded }) =>
-    onProgress && onProgress({ percent: +Math.round((loaded / total) * 100).toFixed(2) }, file);
 
   return http.post(`upload/${name}`, {
     headers: headers || { 'Content-Type': 'multipart/form-data' },
     data: getFormData(file, data),
     withCredentials,
+    cancelToken,
     onUploadProgress,
   });
 }
