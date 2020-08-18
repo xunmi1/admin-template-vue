@@ -1,11 +1,11 @@
 const error = new Error('next() should not be called multiple times in one middleware');
 
-const compose = middlewares => (context, next) => {
+const compose = middleware => (context, next) => {
   let count = -1;
   const step = i => {
     if (i <= count) return Promise.reject(error);
     count = i;
-    const func = middlewares[i] ?? next;
+    const func = middleware[i] ?? next;
     if (!func) return Promise.resolve();
 
     try {

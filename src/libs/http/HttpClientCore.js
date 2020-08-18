@@ -19,7 +19,7 @@ class HttpClientCore {
     /** @protected */
     this.instance = axios.create(config);
     /** @private */
-    this._middlewares = [];
+    this._middlewareStack = [];
     this.requestMiddleware = this.requestMiddleware.bind(this);
   }
 
@@ -57,21 +57,21 @@ class HttpClientCore {
   }
 
   /** @private */
-  collectMiddlewares(instanceMiddlewares) {
-    return [...this._middlewares, ...instanceMiddlewares, this.requestMiddleware].filter(isFunction);
+  collectMiddleware(instanceMiddleware) {
+    return [...this._middlewareStack, ...instanceMiddleware, this.requestMiddleware].filter(isFunction);
   }
 
   use(middleware) {
     if (!isFunction(middleware)) throw new TypeError('middleware must be a function!');
-    this._middlewares.push(middleware);
+    this._middlewareStack.push(middleware);
     return this;
   }
 
-  request(url, options, middlewares = []) {
+  request(url, options, middleware = []) {
     const context = this.createContext({ url, ...options });
-    const instanceMiddlewares = isArray(middlewares) ? middlewares : [middlewares];
-    const allMiddlewares = this.collectMiddlewares(instanceMiddlewares);
-    return compose(allMiddlewares)(context);
+    const instanceMiddleware = isArray(middleware) ? middleware : [middleware];
+    const allMiddleware = this.collectMiddleware(instanceMiddleware);
+    return compose(allMiddleware)(context);
   }
 }
 
