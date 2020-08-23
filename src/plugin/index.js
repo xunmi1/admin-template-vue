@@ -8,9 +8,9 @@ const addProperties = (value, Ctor) => {
   const vm = new Ctor();
   const proto = Ctor.prototype;
 
-  const properties = Object.keys(proto).concat(Object.keys(vm));
+  const vmProperties = Object.keys(proto).concat(Object.keys(vm));
   Object.entries(value).forEach(([key, property]) => {
-    if (properties.includes(key)) {
+    if (vmProperties.includes(key)) {
       throw new Error(`property '${key}' had existed!`);
     }
     defineReadonly(proto, key, property);

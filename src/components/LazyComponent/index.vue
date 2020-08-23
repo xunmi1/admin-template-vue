@@ -2,7 +2,7 @@
   <TransitionGroup
     :enter-class="$attrs.enterClass || 'lazy-component-enter lazy-component-' + orientation"
     :leave-to-class="$attrs.leaveToClass || 'lazy-component-leave-to lazy-component-' + orientation"
-    style="position: relative;"
+    class="lazy-component"
     v-bind="$attrs"
     v-on="$listeners"
   >
@@ -131,6 +131,9 @@ export default {
 
 <style lang="less" scoped>
 .lazy-component {
+  position: relative;
+  content-visibility: auto;
+
   &-enter,
   &-leave-to {
     opacity: 0;
