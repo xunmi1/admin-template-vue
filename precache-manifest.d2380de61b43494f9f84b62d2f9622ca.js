@@ -4,47 +4,47 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "assets/svg/background.d758b173.svg"
   },
   {
-    "revision": "baaa6e59f9d9d1543b7d",
+    "revision": "89352d9e5ace3965583f",
     "url": "css/BasicLayout.01ece2e0.css"
   },
   {
-    "revision": "76f79e198f93a5c67508",
+    "revision": "77b14c7140a1ac3f0784",
     "url": "css/Login.cd0ee3e8.css"
   },
   {
-    "revision": "86c04fa9eaeeb3694605",
+    "revision": "464204db8b97deadf8ef",
     "url": "css/MenuDrawer.c7e02482.css"
   },
   {
-    "revision": "290ac55f3a29849a8bc3",
+    "revision": "f58cc11829c455967c94",
     "url": "css/TableToXlsx.06e68ca0.css"
   },
   {
-    "revision": "0216784bceaa7a51082c",
+    "revision": "df7421f82386d9af3f9a",
     "url": "css/UserLayout.9c219c80.css"
   },
   {
-    "revision": "abe433498bf5474c0589",
+    "revision": "183b756a7b9a5dadb475",
     "url": "css/VDescriptions.e64b2eb0.css"
   },
   {
-    "revision": "0fce3060433b54df406b",
-    "url": "css/VLazyComponent.fa609af4.css"
+    "revision": "a381128ce2e730a627b5",
+    "url": "css/VLazyComponent.7bbfd81d.css"
   },
   {
-    "revision": "b5066026929c344c1afe",
+    "revision": "066f31403351da3a56c7",
     "url": "css/VTable.b4d694b3.css"
   },
   {
-    "revision": "a08ed78be3173e4949b7",
+    "revision": "23f43c792249401728fe",
     "url": "css/VTagSelect.786eb2cb.css"
   },
   {
-    "revision": "46645843d50774eca78d",
-    "url": "css/app.8e0d0131.css"
+    "revision": "e933ef5b5de51e88bc84",
+    "url": "css/app.5288376c.css"
   },
   {
-    "revision": "cdf7ee17c64b9382c7c9",
+    "revision": "acc883c8b452d0dcb987",
     "url": "css/chunk-vendors.e36709d6.css"
   },
   {
@@ -64,76 +64,76 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "icons/loading.svg"
   },
   {
-    "revision": "d3ea4ac818ce8447bf20c87a105d7b8f",
+    "revision": "99a63eae6be51f614441f81694a60f6b",
     "url": "index.html"
   },
   {
-    "revision": "baaa6e59f9d9d1543b7d",
-    "url": "js/BasicLayout.f05c87bf.js"
+    "revision": "89352d9e5ace3965583f",
+    "url": "js/BasicLayout.0817535c.js"
   },
   {
-    "revision": "76f79e198f93a5c67508",
-    "url": "js/Login.a249b97e.js"
+    "revision": "77b14c7140a1ac3f0784",
+    "url": "js/Login.2a681321.js"
   },
   {
-    "revision": "86c04fa9eaeeb3694605",
-    "url": "js/MenuDrawer.1c8a9c9c.js"
+    "revision": "464204db8b97deadf8ef",
+    "url": "js/MenuDrawer.15e21132.js"
   },
   {
-    "revision": "290ac55f3a29849a8bc3",
-    "url": "js/TableToXlsx.c3195653.js"
+    "revision": "f58cc11829c455967c94",
+    "url": "js/TableToXlsx.5e0e0883.js"
   },
   {
-    "revision": "29afd3082e2d8a3d5fe6",
-    "url": "js/Test.197612d9.js"
+    "revision": "cbc20140f772cb8dfd32",
+    "url": "js/Test.be8e6e04.js"
   },
   {
-    "revision": "0216784bceaa7a51082c",
-    "url": "js/UserLayout.3eb9e9b2.js"
+    "revision": "df7421f82386d9af3f9a",
+    "url": "js/UserLayout.7371aed9.js"
   },
   {
-    "revision": "abe433498bf5474c0589",
-    "url": "js/VDescriptions.4c96a25e.js"
+    "revision": "183b756a7b9a5dadb475",
+    "url": "js/VDescriptions.3a659e4f.js"
   },
   {
-    "revision": "0fce3060433b54df406b",
-    "url": "js/VLazyComponent.05356f4c.js"
+    "revision": "a381128ce2e730a627b5",
+    "url": "js/VLazyComponent.3de97944.js"
   },
   {
-    "revision": "66e68674d0c4877c53d5",
-    "url": "js/VRichEditor.758aebd6.js"
+    "revision": "49e7e57e5dc91332c1b6",
+    "url": "js/VRichEditor.da257928.js"
   },
   {
-    "revision": "b5066026929c344c1afe",
-    "url": "js/VTable.c621c35d.js"
+    "revision": "066f31403351da3a56c7",
+    "url": "js/VTable.321eea77.js"
   },
   {
-    "revision": "a08ed78be3173e4949b7",
-    "url": "js/VTagSelect.71dbeeb9.js"
+    "revision": "23f43c792249401728fe",
+    "url": "js/VTagSelect.b264ddc7.js"
   },
   {
-    "revision": "46645843d50774eca78d",
-    "url": "js/app.d7fe57b8.js"
+    "revision": "e933ef5b5de51e88bc84",
+    "url": "js/app.070eb61b.js"
   },
   {
-    "revision": "8c8565b16fa677acb6e3",
-    "url": "js/chunk-283edbae.e2184ac9.js"
+    "revision": "02169a9403e6fbfaafff",
+    "url": "js/chunk-283edbae.e184abaf.js"
   },
   {
-    "revision": "ac3175f5885c8a3782a5",
-    "url": "js/chunk-2d2095c8.a8eae8ad.js"
+    "revision": "b3a0de2f66d787a3d299",
+    "url": "js/chunk-2d2095c8.5dadf9e1.js"
   },
   {
-    "revision": "c35a4563e7500eb09d68",
-    "url": "js/chunk-2d230f8c.792c8696.js"
+    "revision": "9f76c980fce182049ebf",
+    "url": "js/chunk-2d230f8c.aa796837.js"
   },
   {
-    "revision": "56a3c4827a0c36255a2c",
-    "url": "js/chunk-748ad46a.a450654a.js"
+    "revision": "139b8d862c11c0c7a6ef",
+    "url": "js/chunk-748ad46a.151ccb83.js"
   },
   {
-    "revision": "cdf7ee17c64b9382c7c9",
-    "url": "js/chunk-vendors.35bc737e.js"
+    "revision": "acc883c8b452d0dcb987",
+    "url": "js/chunk-vendors.39eafd40.js"
   },
   {
     "revision": "c38e7a4b4237f118db089325e86121f8",
