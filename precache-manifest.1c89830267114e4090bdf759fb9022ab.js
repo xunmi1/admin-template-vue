@@ -40,7 +40,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "css/VTagSelect.786eb2cb.css"
   },
   {
-    "revision": "ec349afe33174f1d13dd",
+    "revision": "2ba19bec97a3c4745060",
     "url": "css/app.dcd48610.css"
   },
   {
@@ -48,7 +48,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "css/chunk-vendors.e36709d6.css"
   },
   {
-    "revision": "e410f3f0291e89c4c904d556dc16a978",
+    "revision": "083fdbdb4d571db737b6db10ce9580af",
     "url": "index.html"
   },
   {
@@ -96,8 +96,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "js/VTagSelect-legacy.69e62664.js"
   },
   {
-    "revision": "ec349afe33174f1d13dd",
-    "url": "js/app-legacy.16b984f7.js"
+    "revision": "2ba19bec97a3c4745060",
+    "url": "js/app-legacy.f8aa2f1d.js"
   },
   {
     "revision": "77398d7fbc177826438a",
