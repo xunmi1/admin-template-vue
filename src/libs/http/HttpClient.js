@@ -6,7 +6,7 @@ class HttpClient extends HttpClientCore {
     super(options);
     const METHODS = ['get', 'post', 'delete', 'put', 'patch', 'head', 'options'];
     METHODS.forEach(method => {
-      this[method] = (url, options, ...rest) => this.request(url, { method, ...options }, ...rest);
+      this[method] = (url, options, ...rest) => this.request(url, { ...options, method }, ...rest);
     });
   }
 

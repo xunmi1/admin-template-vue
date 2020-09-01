@@ -37,7 +37,7 @@ function noticeError(message, description) {
  * @param {MiddlewareNext} next
  * @return {Promise<*>}
  */
-export function exceptionMiddleware(ctx, next) {
+export function noticeMiddleware(ctx, next) {
   return next().catch(error => {
     const status = ctx.status;
     if (status) {
