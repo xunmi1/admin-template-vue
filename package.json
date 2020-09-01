@@ -37,7 +37,7 @@
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-vue": "^6.2.2",
     "less": "^3.12.2",
-    "less-loader": "^6.2.0",
+    "less-loader": "^7.0.0",
     "lint-staged": "^10.2.11",
     "prettier": "^2.0.5",
     "vue-svg-loader": "^0.16.0",
