@@ -31,9 +31,7 @@
         <AFormItem>
           <ACheckbox v-decorator="getRules('remember')">自动登录</ACheckbox>
           <a class="login-form-forgot" href="">忘记密码</a>
-          <AButton :loading="loading" size="large" type="primary" html-type="submit" block>
-            登录
-          </AButton>
+          <AButton :loading="loading" size="large" type="primary" html-type="submit" block>登录</AButton>
         </AFormItem>
       </AForm>
     </main>

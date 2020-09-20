@@ -15,6 +15,7 @@
       <template v-for="nativeSlot in nativeRenderKeys" #[nativeSlot]="attrs">
         <slot :name="nativeSlot" v-bind="attrs" />
       </template>
+      <!-- eslint-disable-next-line -->
       <template v-for="columnSlot in customRenderKeys" #[columnSlot]="text, record, index">
         <slot :name="columnSlot" v-bind="{ row: record, index, value: text }">
           <span :key="`${columnSlot}-${index}`">{{ text }}</span>

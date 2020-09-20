@@ -1,6 +1,6 @@
 <template>
   <div>
-    <input ref="uploadNode" style="display: none;" type="file" />
+    <input ref="uploadNode" style="display: none" type="file" />
     <div v-show="visible">
       <div v-if="active" ref="editorRef">
         <slot />
