@@ -9,6 +9,7 @@
     "start:ui": "vue ui"
   },
   "dependencies": {
+    "@xunmi/http-client": "^0.1.0",
     "ant-design-vue": "^1.6.4",
     "axios": "^0.20.0",
     "core-js": "^3.6.5",

@@ -1,5 +1,9 @@
 import axios from 'axios';
 
+/**
+ * @typedef {string|number|symbol} Signal
+ */
+
 class AbortRequest {
   constructor() {
     /** @private */
@@ -7,7 +11,7 @@ class AbortRequest {
   }
 
   /**
-   * @param signal {string|symbol}
+   * @param signal {Signal}
    * @return {CancelToken}
    */
   create(signal) {
@@ -18,7 +22,7 @@ class AbortRequest {
   }
 
   /**
-   * @param signal {string|symbol}
+   * @param signal {Signal}
    * @param [message] {string}
    * @return {boolean}
    */
@@ -31,7 +35,7 @@ class AbortRequest {
   }
 
   /**
-   * @param signal {string|symbol}
+   * @param signal {Signal}
    * @return {boolean}
    */
   has(signal) {
@@ -40,7 +44,7 @@ class AbortRequest {
 
   /**
    * @private
-   * @param signal {string|symbol}
+   * @param signal {Signal}
    * @param controller {CancelTokenSource}
    */
   set(signal, controller) {
@@ -49,7 +53,7 @@ class AbortRequest {
 
   /**
    * @private
-   * @param signal {string|symbol}
+   * @param signal {Signal}
    */
   get(signal) {
     return this._controllerMap.get(signal);
@@ -57,7 +61,7 @@ class AbortRequest {
 
   /**
    * @private
-   * @param signal {string|symbol}
+   * @param signal {Signal}
    * @return {boolean}
    */
   delete(signal) {

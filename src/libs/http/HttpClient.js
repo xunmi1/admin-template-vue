@@ -1,27 +1,19 @@
 import { isArray } from '@/libs/utils';
-import HttpClientCore from './HttpClientCore';
+import Core from './Core';
 
-class HttpClient extends HttpClientCore {
-  constructor(options) {
-    super(options);
-    const METHODS = ['get', 'post', 'delete', 'put', 'patch', 'head', 'options'];
-    METHODS.forEach(method => {
-      this[method] = (url, options, ...rest) => this.request(url, { ...options, method }, ...rest);
-    });
-  }
-
+class HttpClient extends Core {
   get baseURL() {
-    return this.instance.defaults.baseURL;
+    return this.defaults.baseURL;
   }
 
   set baseURL(url) {
-    this.instance.defaults.baseURL = url;
+    this.defaults.baseURL = url;
   }
 
-  setHeader(key, value, methods) {
-    const headers = this.instance.defaults.headers;
-    if (isArray(methods)) {
-      methods.forEach(method => (headers[method][key] = value));
+  setHeader(key, value, scopes) {
+    const headers = this.defaults.headers;
+    if (isArray(scopes)) {
+      scopes.forEach(scope => (headers[scope][key] = value));
     } else {
       headers.common[key] = value;
     }
