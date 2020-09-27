@@ -13,7 +13,7 @@ const elm = document.documentElement;
 
 const BrowserEventMap = [
   {
-    enabled: document.fullscreenEnabled || document.fullscreen,
+    enabled: document.fullscreenEnabled ?? document.fullscreen,
     listener: 'fullscreenchange',
     exit: document.exitFullscreen,
     full: elm.requestFullscreen,
@@ -21,8 +21,8 @@ const BrowserEventMap = [
   {
     enabled: document.mozFullScreen,
     listener: 'mozfullscreenchange',
-    exit: document.exitFullscreen || document.mozCancelFullScreen,
-    full: elm.requestFullscreen || elm.mozRequestFullScreen,
+    exit: document.exitFullscreen ?? document.mozCancelFullScreen,
+    full: elm.requestFullscreen ?? elm.mozRequestFullScreen,
   },
   {
     enabled: document.webkitIsFullScreen,

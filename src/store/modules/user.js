@@ -36,7 +36,7 @@ export default {
       commit('setToken', { token: res.access_token, remember });
       const userInfo = {
         userId: res.info.id,
-        avatar: res.info.avatar || res.info.nickname,
+        avatar: res.info.avatar ?? res.info.nickname,
         nickname: res.info.nickname,
         username: res.info.username,
         email: res.info.email,

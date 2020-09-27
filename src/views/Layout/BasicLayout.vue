@@ -59,8 +59,8 @@
 <script>
 import { mapGetters, mapMutations, mapState } from 'vuex';
 import db, { StorageKeys } from '@/libs/db';
-import { cache, getParentsFromTree } from '@/libs/utils';
-import { getVisibleList } from './utils';
+import { cache, getParentsFromTree, walkTree } from '@/libs/utils';
+import { getVisibleTree } from './utils';
 
 import screenMixin from './mixins/screenMixin';
 import Menu from './components/Menu';
@@ -186,7 +186,8 @@ export default {
   },
   beforeCreate() {
     // 菜单列表
-    this.menuList = getVisibleList(this.$app.mainName);
+    const transfer = v => ({ key: v.key, title: v.meta?.title });
+    this.menuList = walkTree(transfer, getVisibleTree(this.$app.mainName));
   },
   created() {
     this.setLayout(db.get(StorageKeys.BASIC_LAYOUT));

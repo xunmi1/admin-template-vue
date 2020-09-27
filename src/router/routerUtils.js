@@ -18,7 +18,7 @@ export const getRoutes = (list, decider = TRUE) => {
 
     const hasChild = !!item.children;
     const children = getRoutes(item.children, decider);
-    let newNode = { ...(item.meta || {}), key: item.name };
+    let newNode = { meta: item.meta, key: item.name };
     const len = children.length;
     // 曾拥有子节点(说明不是叶节点)，但经处理后不存在有效的子节点，则过滤掉
     if (!len && hasChild) return pre;
@@ -39,7 +39,7 @@ export const loadRoutes = files =>
   files
     .keys()
     .reduce((arr, key) => (isObject(files(key).default) ? arr.concat(files(key).default) : arr), [])
-    .sort((prev, next) => (prev.sort || 0) - (next.sort || 0));
+    .sort((prev, next) => (prev.sort ?? 0) - (next.sort ?? 0));
 
 const addAlive = to => {
   const length = to.matched.length;

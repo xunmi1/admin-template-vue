@@ -9,7 +9,7 @@ export function upload({ name = 'image', headers, file, data, cancelToken, onUpl
   }
 
   return http.post(`upload/${name}`, {
-    headers: headers || { 'Content-Type': 'multipart/form-data' },
+    headers: headers ?? { 'Content-Type': 'multipart/form-data' },
     data: getFormData(file, data),
     withCredentials,
     cancelToken,

@@ -30,7 +30,7 @@ export const wrappedEditor = function (component) {
         ...context.props,
         // 设置富文本所需的静态资源的基础 url
         autoSavePrefix: getAutoSavePrefix($route.fullPath),
-        skin: $store.state.app.layout.menuTheme || 'light',
+        skin: $store.state.app.layout.menuTheme ?? 'light',
       };
       return h(component, { ...context.data, props }, context.children);
     },
@@ -40,7 +40,7 @@ export const wrappedEditor = function (component) {
 // 请求参数改名 current -> page,
 const renamed = ({ current, ...rest }) => ({ page: current, ...rest });
 // 修改请求响应体
-const transfer = ({ data = [], meta = {} }) => ({ data, total: meta.total || data.length });
+const transfer = ({ data = [], meta = {} }) => ({ data, total: meta.total ?? data.length });
 // 适配列表数据接口
 export const adapterOfList = function (service) {
   if (typeof service !== 'function') return service;
@@ -71,7 +71,7 @@ export const wrappedTable = function (component) {
       const isMobile = $store.getters['app/isMobileDevice'];
       if (isNarrow) {
         attrs.size = 'middle';
-        scroll.x = scroll.x || true;
+        scroll.x = scroll.x ?? true;
       }
       if (isMobile) {
         attrs.size = 'small';

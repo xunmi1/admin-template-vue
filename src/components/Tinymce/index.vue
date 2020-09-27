@@ -105,11 +105,11 @@ export default {
     },
     updateSkin() {
       this.options.skin = this.skin === 'light' ? 'oxide' : 'oxide-dark';
-      this.options.content_css = (this.config || {}).content_css || this.contentMode;
+      this.options.content_css = this.config?.content_css ?? this.contentMode;
     },
     updateMode() {
       const inline = this.mode === 'inline';
-      Object.assign(this.options, inline ? inlineConfig : classicConfig, this.config || {});
+      Object.assign(this.options, inline ? inlineConfig : classicConfig, this.config);
     },
     createEditor() {
       this.active = true;
@@ -215,7 +215,7 @@ export default {
         },
       ];
       // 附加自定义验证规则
-      rules.push(...(this.fileRules || []));
+      rules.push(...(this.fileRules ?? []));
       const failRule = rules.find(rule => !rule.validator(file, meta));
       return { result: !failRule, message: failRule && failRule.message };
     },
@@ -231,7 +231,7 @@ export default {
         },
       ];
       // 附加自定义验证规则
-      rules.push(...(this.imageRules || []));
+      rules.push(...(this.imageRules ?? []));
       const failRule = rules.find(rule => !rule.validator(file));
       return { result: !failRule, message: failRule && failRule.message };
     },
@@ -254,7 +254,7 @@ export default {
     },
     bindWatch() {
       const valueWatch = function (newVal) {
-        if (newVal !== this.editor.getContent()) this.editor.setContent(newVal || '');
+        if (newVal !== this.editor.getContent()) this.editor.setContent(newVal ?? '');
       };
       this.unwatchValue = this.$watch('value', valueWatch, { immediate: true });
     },

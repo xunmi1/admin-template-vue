@@ -9,7 +9,7 @@
 
 <script>
 import { cache, walkTree, getParentsFromTree } from '@/libs/utils';
-import { getVisibleList } from '../utils';
+import { getVisibleTree } from '../utils';
 
 export default {
   name: 'Breadcrumb',
@@ -28,9 +28,8 @@ export default {
   },
   beforeCreate() {
     // 菜单列表
-    const list = getVisibleList(this.$app.mainName);
-    const transfer = v => ({ path: v.key, breadcrumbName: v.title });
-    this.menuList = walkTree(transfer, list);
+    const transfer = v => ({ path: v.key, breadcrumbName: v.meta?.title });
+    this.menuList = walkTree(transfer, getVisibleTree(this.$app.mainName));
   },
   created() {
     this.getRoutes = cache(this.getRoutes);
