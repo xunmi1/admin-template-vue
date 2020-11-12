@@ -1,7 +1,7 @@
-import { getVisibleRoutes } from '@/router';
+import { getVisibleRoutes, findNode } from '@/router';
 
 export const getVisibleTree = key => {
   const visibleRoutes = getVisibleRoutes();
-  const target = visibleRoutes.find(v => v.key === key);
+  const target = findNode(v => v.key === key, visibleRoutes);
   return target?.children ?? [];
 };

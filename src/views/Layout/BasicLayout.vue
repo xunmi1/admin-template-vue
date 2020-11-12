@@ -145,10 +145,10 @@ export default {
       return this.isFixedHeader && !this.isMobileDevice ? this.siderWidth : 0;
     },
     menuClass() {
-      const { isVertical, isFixedHeader, menuTheme } = this;
+      const { isVertical, isFixedHeader, isFixedSider, menuTheme } = this;
       return [
         { 'header-fixed': isFixedHeader && !isVertical },
-        { 'sider-fixed': isFixedHeader && isVertical },
+        { 'sider-fixed': isFixedSider && isVertical },
         `theme-${menuTheme}`,
       ];
     },
