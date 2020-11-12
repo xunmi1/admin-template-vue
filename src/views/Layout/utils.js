@@ -1,4 +1,5 @@
-import { getVisibleRoutes, findNode } from '@/router';
+import { getVisibleRoutes } from '@/router';
+import { findNode } from '@/libs/utils';
 
 export const getVisibleTree = key => {
   const visibleRoutes = getVisibleRoutes();
