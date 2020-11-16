@@ -186,7 +186,7 @@ export default {
   },
   beforeCreate() {
     // 菜单列表
-    const transfer = v => ({ key: v.key, title: v.meta?.title });
+    const transfer = v => ({ key: v.key, title: v.meta?.title, icon: v.meta?.icon });
     this.menuList = walkTree(transfer, getVisibleTree(this.$app.mainName));
   },
   created() {

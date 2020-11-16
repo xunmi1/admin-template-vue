@@ -1,4 +1,4 @@
-import { isArray, isEmptyObject } from './type';
+import { isArray } from './type';
 
 // 构建树结构
 export function createTree(decider, data, parent) {
@@ -38,7 +38,7 @@ export const findNode = (decider, data) =>
   data.reduce((target, item) => {
     if (target) return target;
     if (decider(item)) return item;
-    const hasChild = !isEmptyObject(item.children);
+    const hasChild = !!item.children?.length;
     if (hasChild) return findNode(decider, item.children);
     return target;
   }, undefined);

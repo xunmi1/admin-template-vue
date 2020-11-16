@@ -16,7 +16,7 @@ export const getRoutes = (list, decider = TRUE) => {
     const isValid = isValidRoute(item) && decider(item);
     if (!isValid) return pre;
 
-    const hasChild = !!item.children;
+    const hasChild = !!item.children?.length;
     const children = getRoutes(item.children, decider);
     let newNode = { meta: item.meta, key: item.name };
     const len = children.length;
