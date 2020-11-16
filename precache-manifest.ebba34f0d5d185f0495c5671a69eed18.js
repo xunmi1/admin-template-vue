@@ -4,11 +4,11 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "assets/svg/background.d758b173.svg"
   },
   {
-    "revision": "e99581dde36327ab4a5e",
-    "url": "css/BasicLayout.4215b074.css"
+    "revision": "ee055b6fe4feb032922f",
+    "url": "css/BasicLayout.2cc5799f.css"
   },
   {
-    "revision": "e3cc4f8b9f7b98416eab",
+    "revision": "c9b7e18d7fd796be0c8b",
     "url": "css/Login.81f376c0.css"
   },
   {
@@ -32,7 +32,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "css/VLazyComponent.7bbfd81d.css"
   },
   {
-    "revision": "7edfc2b1cd6e99dfeeeb",
+    "revision": "ebea568d4d1f391a53d0",
     "url": "css/VTable.ad923710.css"
   },
   {
@@ -40,7 +40,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "css/VTagSelect.786eb2cb.css"
   },
   {
-    "revision": "0ae494c731d4b7b2dc3d",
+    "revision": "47f2d10bab278fdebed8",
     "url": "css/app.41a0fb96.css"
   },
   {
@@ -64,16 +64,16 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "icons/loading.svg"
   },
   {
-    "revision": "bfa4f07d7b95602315fe0581e5fdff2d",
+    "revision": "d1fdabe12d99302e092e4877f54ceb1c",
     "url": "index.html"
   },
   {
-    "revision": "e99581dde36327ab4a5e",
-    "url": "js/BasicLayout.bfeeae8c.js"
+    "revision": "ee055b6fe4feb032922f",
+    "url": "js/BasicLayout.a8799d68.js"
   },
   {
-    "revision": "e3cc4f8b9f7b98416eab",
-    "url": "js/Login.329d27bf.js"
+    "revision": "c9b7e18d7fd796be0c8b",
+    "url": "js/Login.e836a4e6.js"
   },
   {
     "revision": "bbe3589309d03d20242a",
@@ -84,8 +84,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "js/TableToXlsx.105ba8af.js"
   },
   {
-    "revision": "992d4ec8b6588e3272a2",
-    "url": "js/Test.fd125fe2.js"
+    "revision": "a3bf6b6ee94084e338f9",
+    "url": "js/Test.dde25dbd.js"
   },
   {
     "revision": "b41dc45517edfd7f3daf",
@@ -104,16 +104,16 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "js/VRichEditor.76827b1b.js"
   },
   {
-    "revision": "7edfc2b1cd6e99dfeeeb",
-    "url": "js/VTable.57ab047c.js"
+    "revision": "ebea568d4d1f391a53d0",
+    "url": "js/VTable.a22b1622.js"
   },
   {
     "revision": "3977c6232a01d3423b87",
     "url": "js/VTagSelect.2a4e08d7.js"
   },
   {
-    "revision": "0ae494c731d4b7b2dc3d",
-    "url": "js/app.b1e384d8.js"
+    "revision": "47f2d10bab278fdebed8",
+    "url": "js/app.17c01dc4.js"
   },
   {
     "revision": "dc4f4a231696a9273c19",

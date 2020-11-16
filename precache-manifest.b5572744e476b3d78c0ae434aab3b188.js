@@ -4,11 +4,11 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "assets/svg/background.d758b173.svg"
   },
   {
-    "revision": "019b3c1b59ecab92ff8d",
-    "url": "css/BasicLayout.4215b074.css"
+    "revision": "021b8f806e55f544711c",
+    "url": "css/BasicLayout.2cc5799f.css"
   },
   {
-    "revision": "0e7269f3611fd48fe26e",
+    "revision": "3bdddb625c9d675d8dc0",
     "url": "css/Login.81f376c0.css"
   },
   {
@@ -32,7 +32,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "css/VLazyComponent.7bbfd81d.css"
   },
   {
-    "revision": "c7aa09fc10f800624a33",
+    "revision": "3ad41b1edec1eff698d0",
     "url": "css/VTable.ad923710.css"
   },
   {
@@ -40,7 +40,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "css/VTagSelect.786eb2cb.css"
   },
   {
-    "revision": "b1c06d48e0a48f1039c3",
+    "revision": "d420db90bb67b897889a",
     "url": "css/app.41a0fb96.css"
   },
   {
@@ -48,16 +48,16 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "css/chunk-vendors.e36709d6.css"
   },
   {
-    "revision": "3dd75232b4fa3998283722e95199dc16",
+    "revision": "f1133f9f48ad3dbc11b2cd38e13bac39",
     "url": "index.html"
   },
   {
-    "revision": "019b3c1b59ecab92ff8d",
-    "url": "js/BasicLayout-legacy.17e4fa02.js"
+    "revision": "021b8f806e55f544711c",
+    "url": "js/BasicLayout-legacy.f0468ae6.js"
   },
   {
-    "revision": "0e7269f3611fd48fe26e",
-    "url": "js/Login-legacy.a789d110.js"
+    "revision": "3bdddb625c9d675d8dc0",
+    "url": "js/Login-legacy.f94354bd.js"
   },
   {
     "revision": "1f66d294ce3afc959a7e",
@@ -68,8 +68,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "js/TableToXlsx-legacy.105ba8af.js"
   },
   {
-    "revision": "0122b0cf6794181f9f9b",
-    "url": "js/Test-legacy.a518f05a.js"
+    "revision": "978dcc269c3145c6946b",
+    "url": "js/Test-legacy.362c6559.js"
   },
   {
     "revision": "2593ccfc1aa03dc4ce93",
@@ -88,16 +88,16 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "js/VRichEditor-legacy.730572c9.js"
   },
   {
-    "revision": "c7aa09fc10f800624a33",
-    "url": "js/VTable-legacy.76c20725.js"
+    "revision": "3ad41b1edec1eff698d0",
+    "url": "js/VTable-legacy.0db3fb6a.js"
   },
   {
     "revision": "19036836b6e1ba83658b",
     "url": "js/VTagSelect-legacy.8b297f33.js"
   },
   {
-    "revision": "b1c06d48e0a48f1039c3",
-    "url": "js/app-legacy.7366b21d.js"
+    "revision": "d420db90bb67b897889a",
+    "url": "js/app-legacy.0157b3b5.js"
   },
   {
     "revision": "aea8f68c5fb0581ebaa4",
