@@ -17,6 +17,7 @@ export default [
         meta: {
           title: '测试11',
           icon: 'credit-card',
+          hideInMenu: 'Test12',
         },
         component: () => import('@/views/BlankPage/Test1'),
       },

@@ -15,6 +15,10 @@ import SubMenu from './SubMenu';
 
 export default {
   components: { SubMenu },
+  model: {
+    prop: 'selectedKeys',
+    event: 'selectChange',
+  },
   props: {
     menuData: {
       type: Array,

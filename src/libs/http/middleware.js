@@ -1,4 +1,5 @@
 import { notification } from 'ant-design-vue';
+import { asyncify } from '@/libs/utils';
 import { navigateToLogin } from '@/router';
 import Exception from '@/libs/http/Exception';
 
@@ -29,9 +30,7 @@ const exceptionMap = new Map([
   [504, { message: '网关超时' }],
 ]);
 
-function notice(message, description) {
-  Promise.resolve().then(() => notification.error({ message, description }));
-}
+const noticeAsync = asyncify((message, description) => notification.error({ message, description }));
 
 /**
  * @param {AxiosContext} ctx
@@ -46,16 +45,16 @@ export function noticeMiddleware(ctx, next) {
           const status = ctx.status;
           const exception = exceptionMap.get(status) ?? {};
           const errorText = exception.message ?? ctx.statusText;
-          notice(`请求错误 ${status}: ${ctx.url}`, errorText);
+          noticeAsync(`请求错误 ${status}: ${ctx.url}`, errorText);
           exception.handler?.(ctx);
-          return;
+          break;
         }
         case Exception.TIMEOUT_ERROR:
-          notice('网络连接超时');
-          return;
+          noticeAsync('网络连接超时');
+          break;
         case Exception.NETWORK_ERROR:
-          notice('网络异常', '您的网络发生异常，无法连接服务器');
-          return;
+          noticeAsync('网络异常', '您的网络发生异常，无法连接服务器');
+          break;
       }
     }
     return Promise.reject(error);

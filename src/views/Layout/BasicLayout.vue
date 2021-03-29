@@ -59,7 +59,7 @@
 <script>
 import { mapGetters, mapMutations, mapState } from 'vuex';
 import db, { StorageKeys } from '@/libs/db';
-import { cache, getParentsFromTree, walkTree } from '@/libs/utils';
+import { cache, getParentsFromTree, isString, walkTree } from '@/libs/utils';
 import { getVisibleTree } from './utils';
 
 import screenMixin from './mixins/screenMixin';
@@ -156,12 +156,16 @@ export default {
   watch: {
     // 路由发生变化时，生成新的菜单展开列表并合并
     '$route.name': {
-      handler(newVal) {
+      handler() {
         this.redirect();
-        this.currentName.splice(0, 1, newVal);
+        if (isString(this.$route.meta?.hideInMenu)) {
+          this.currentName = [this.$route.meta.hideInMenu];
+        } else {
+          this.currentName.splice(0, 1, this.$route.name);
+        }
         // 解锁, 减少没必要的计算
         if (this.isOpenKeysLock) return (this.isOpenKeysLock = false);
-        this.vertical.openKeys = this.getOpenKeys(newVal);
+        this.vertical.openKeys = this.getOpenKeys(this.currentName[0]);
       },
       immediate: true,
     },
@@ -212,8 +216,7 @@ export default {
     },
     // 获取当前页面在菜单中，从顶层到上一层的路径
     getOpenKeys(current) {
-      const list = getParentsFromTree(v => v.key === current, this.menuList).map(v => v.key);
-      return list.length ? list : this.layout.openKeys;
+      return getParentsFromTree(v => v.key === current, this.menuList).map(v => v.key);
     },
     toggleCollapsed() {
       this.collapsed = !this.collapsed;

@@ -201,3 +201,7 @@ export function curry(func) {
 export function delay(timeout) {
   return new Promise(resolve => setTimeout(resolve, timeout));
 }
+
+export function asyncify(fn) {
+  return (...args) => Promise.resolve().then(() => fn(...args));
+}
