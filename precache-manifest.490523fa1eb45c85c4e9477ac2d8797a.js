@@ -4,47 +4,47 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "assets/svg/background.d758b173.svg"
   },
   {
-    "revision": "5b11d5a04a697216c1d0",
+    "revision": "4d85842d4e72933fe18e",
     "url": "css/BasicLayout.bc38b715.css"
   },
   {
-    "revision": "718737a4eb8a6b2b34a5",
+    "revision": "03931a91b0cf44f3c078",
     "url": "css/Login.81f376c0.css"
   },
   {
-    "revision": "e796757d3b458ca375a8",
+    "revision": "10acf66aebf41b3376a5",
     "url": "css/MenuDrawer.c7e02482.css"
   },
   {
-    "revision": "aa21980858c9cfb8a20a",
+    "revision": "b54a650130f646a84746",
     "url": "css/TableToXlsx.06e68ca0.css"
   },
   {
-    "revision": "1b1d8a6ce39ea6110e85",
+    "revision": "395cad277e2ae19b6b78",
     "url": "css/UserLayout.9c219c80.css"
   },
   {
-    "revision": "0d82b121bd401c3ebe9d",
+    "revision": "e495f54223dbf397d1bd",
     "url": "css/VDescriptions.e64b2eb0.css"
   },
   {
-    "revision": "79af80c8ccb4ad837441",
+    "revision": "9f9138963ba717aada66",
     "url": "css/VLazyComponent.7bbfd81d.css"
   },
   {
-    "revision": "b06e6964532b517ec5f3",
+    "revision": "c75e76151cb753c61dc6",
     "url": "css/VTable.ad923710.css"
   },
   {
-    "revision": "8684070651e41c410914",
+    "revision": "dd9d705f02a5f94d96d1",
     "url": "css/VTagSelect.786eb2cb.css"
   },
   {
-    "revision": "5fafd406f58e5c615c98",
-    "url": "css/app.221e8cac.css"
+    "revision": "7589cfea4fb24c053430",
+    "url": "css/app.4839d382.css"
   },
   {
-    "revision": "6e0d0fe8ba048ef51c03",
+    "revision": "86280087342baeb16eab",
     "url": "css/chunk-vendors.e36709d6.css"
   },
   {
@@ -64,76 +64,76 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "icons/loading.svg"
   },
   {
-    "revision": "caf9e90efcf258c374a4edfb10fe19c8",
+    "revision": "c24a612ab93a80f464ad9017cb7f2d66",
     "url": "index.html"
   },
   {
-    "revision": "5b11d5a04a697216c1d0",
-    "url": "js/BasicLayout.337c1e33.js"
+    "revision": "4d85842d4e72933fe18e",
+    "url": "js/BasicLayout.9cd369ea.js"
   },
   {
-    "revision": "718737a4eb8a6b2b34a5",
-    "url": "js/Login.7f1064cb.js"
+    "revision": "03931a91b0cf44f3c078",
+    "url": "js/Login.6050714f.js"
   },
   {
-    "revision": "e796757d3b458ca375a8",
-    "url": "js/MenuDrawer.f969ffc6.js"
+    "revision": "10acf66aebf41b3376a5",
+    "url": "js/MenuDrawer.76625153.js"
   },
   {
-    "revision": "aa21980858c9cfb8a20a",
-    "url": "js/TableToXlsx.d0100aaf.js"
+    "revision": "b54a650130f646a84746",
+    "url": "js/TableToXlsx.3dc01d28.js"
   },
   {
-    "revision": "a0ef74355b292b56a1f8",
-    "url": "js/Test.c18fe7c0.js"
+    "revision": "ce68a8d6a5301c43f025",
+    "url": "js/Test.77254e09.js"
   },
   {
-    "revision": "1b1d8a6ce39ea6110e85",
-    "url": "js/UserLayout.06b455c0.js"
+    "revision": "395cad277e2ae19b6b78",
+    "url": "js/UserLayout.ea6e90be.js"
   },
   {
-    "revision": "0d82b121bd401c3ebe9d",
-    "url": "js/VDescriptions.1e879fdc.js"
+    "revision": "e495f54223dbf397d1bd",
+    "url": "js/VDescriptions.ae2a8261.js"
   },
   {
-    "revision": "79af80c8ccb4ad837441",
-    "url": "js/VLazyComponent.695fa3cd.js"
+    "revision": "9f9138963ba717aada66",
+    "url": "js/VLazyComponent.bd6fc12a.js"
   },
   {
-    "revision": "ec9ceec49bd6a5017e57",
-    "url": "js/VRichEditor.79e86bc4.js"
+    "revision": "cb8003a33985827a67b3",
+    "url": "js/VRichEditor.59d210fd.js"
   },
   {
-    "revision": "b06e6964532b517ec5f3",
-    "url": "js/VTable.65d0794e.js"
+    "revision": "c75e76151cb753c61dc6",
+    "url": "js/VTable.5c267e8a.js"
   },
   {
-    "revision": "8684070651e41c410914",
-    "url": "js/VTagSelect.ae4805d2.js"
+    "revision": "dd9d705f02a5f94d96d1",
+    "url": "js/VTagSelect.b312d894.js"
   },
   {
-    "revision": "5fafd406f58e5c615c98",
-    "url": "js/app.c4ad0657.js"
+    "revision": "7589cfea4fb24c053430",
+    "url": "js/app.9edeafda.js"
   },
   {
-    "revision": "80eb0133b42192f0b0fa",
-    "url": "js/chunk-283edbae.9815336d.js"
+    "revision": "a2de4fcdfbb2754b7dcd",
+    "url": "js/chunk-283edbae.617c832b.js"
   },
   {
-    "revision": "c3b9c3cda85fe5797de1",
-    "url": "js/chunk-2d2095c8.4c6e3799.js"
+    "revision": "2eb5bcf1de0f9d675527",
+    "url": "js/chunk-2d2095c8.1d31649e.js"
   },
   {
-    "revision": "a233942509d79129e4a1",
-    "url": "js/chunk-2d230f8c.4ada5ae0.js"
+    "revision": "6397eb5f22d686383c17",
+    "url": "js/chunk-2d230f8c.29a1a20b.js"
   },
   {
-    "revision": "c82dd5c41712845ec344",
-    "url": "js/chunk-748ad46a.bf615bee.js"
+    "revision": "174b320e61e9de3d5b3e",
+    "url": "js/chunk-748ad46a.1ba41aa1.js"
   },
   {
-    "revision": "6e0d0fe8ba048ef51c03",
-    "url": "js/chunk-vendors.67eb3981.js"
+    "revision": "86280087342baeb16eab",
+    "url": "js/chunk-vendors.02babaa3.js"
   },
   {
     "revision": "c38e7a4b4237f118db089325e86121f8",
@@ -180,19 +180,19 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "tinymce/skins/content/writer/content.min.css"
   },
   {
-    "revision": "7cea98c6239b0fe44a0aef3ffdea1484",
+    "revision": "3be1a5f9b751d429f96ef9f805f645f0",
     "url": "tinymce/skins/ui/oxide-dark/content.css"
   },
   {
-    "revision": "15171e5e559506d7766a07696c7e8228",
+    "revision": "962c5a48fb9d7abd816aea47585ef416",
     "url": "tinymce/skins/ui/oxide-dark/content.inline.css"
   },
   {
-    "revision": "fa6ba7fd4905539e5b2aa845d383278b",
+    "revision": "22d0980afc1f368d8008259787dd9d77",
     "url": "tinymce/skins/ui/oxide-dark/content.inline.min.css"
   },
   {
-    "revision": "90a3444b682d1c9955e6c24178e0812a",
+    "revision": "23903b9d6f5e05ea73ad37d86a7e2f1f",
     "url": "tinymce/skins/ui/oxide-dark/content.min.css"
   },
   {
@@ -208,11 +208,11 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "tinymce/skins/ui/oxide-dark/fonts/tinymce-mobile.woff"
   },
   {
-    "revision": "6a1bc2cd4bd91d9596eec7b5a83ab476",
+    "revision": "fda7bcb24e6cee9878e5bb2924363037",
     "url": "tinymce/skins/ui/oxide-dark/skin.css"
   },
   {
-    "revision": "9c7bed817d7c45a03153e041ed71f449",
+    "revision": "9e3824fbdfc20507fdd32cb445b34a40",
     "url": "tinymce/skins/ui/oxide-dark/skin.min.css"
   },
   {
@@ -224,27 +224,27 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "tinymce/skins/ui/oxide-dark/skin.mobile.min.css"
   },
   {
-    "revision": "b52060a439386b84175c9a3e34d5d1f4",
+    "revision": "c057b5684281b6280361ce90be8ea85d",
     "url": "tinymce/skins/ui/oxide-dark/skin.shadowdom.css"
   },
   {
-    "revision": "b3b3ae6828c8a28eed8b0b4cceea8f00",
+    "revision": "e27cb72c7ae5f366b06a2e2c738ce733",
     "url": "tinymce/skins/ui/oxide-dark/skin.shadowdom.min.css"
   },
   {
-    "revision": "1a2516cf9a8aedd9a4b277136b3f1948",
+    "revision": "ce4a792622c63bd4dc881d1c220e541b",
     "url": "tinymce/skins/ui/oxide/content.css"
   },
   {
-    "revision": "15171e5e559506d7766a07696c7e8228",
+    "revision": "962c5a48fb9d7abd816aea47585ef416",
     "url": "tinymce/skins/ui/oxide/content.inline.css"
   },
   {
-    "revision": "fa6ba7fd4905539e5b2aa845d383278b",
+    "revision": "22d0980afc1f368d8008259787dd9d77",
     "url": "tinymce/skins/ui/oxide/content.inline.min.css"
   },
   {
-    "revision": "33ccf85167a5181c2dead9c10ccfbc4b",
+    "revision": "6de47628a73ed8bc258f96e9edfa29d7",
     "url": "tinymce/skins/ui/oxide/content.min.css"
   },
   {
@@ -260,11 +260,11 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "tinymce/skins/ui/oxide/fonts/tinymce-mobile.woff"
   },
   {
-    "revision": "1b93539bf96d7afa5ab2fe4fd33421a3",
+    "revision": "14a823cb74320ce638c8068fb1ff47e8",
     "url": "tinymce/skins/ui/oxide/skin.css"
   },
   {
-    "revision": "0ce84e101318a3d474ce73b3f8a7fc86",
+    "revision": "40292756e45aaf491b954f5c323c4587",
     "url": "tinymce/skins/ui/oxide/skin.min.css"
   },
   {
@@ -276,11 +276,11 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "tinymce/skins/ui/oxide/skin.mobile.min.css"
   },
   {
-    "revision": "b52060a439386b84175c9a3e34d5d1f4",
+    "revision": "c057b5684281b6280361ce90be8ea85d",
     "url": "tinymce/skins/ui/oxide/skin.shadowdom.css"
   },
   {
-    "revision": "b3b3ae6828c8a28eed8b0b4cceea8f00",
+    "revision": "e27cb72c7ae5f366b06a2e2c738ce733",
     "url": "tinymce/skins/ui/oxide/skin.shadowdom.min.css"
   }
 ]);
