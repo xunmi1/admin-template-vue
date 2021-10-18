@@ -1,4 +1,4 @@
-importScripts("precache-manifest.60ebb8ceed78629b9ec09504e71978ef.js", "https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
+importScripts("precache-manifest.2ad6f597100696a72c21af271f04c7b4.js", "https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 /* globals workbox */
 const { core, precaching, strategies, routing, expiration } = workbox;
