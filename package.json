@@ -34,7 +34,7 @@
     "@xunmi/prettier-config": "^1.0.1",
     "babel-eslint": "^10.1.0",
     "eslint": "^7.6.0",
-    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-vue": "^7.1.0",
     "less": "^3.12.2",
     "less-loader": "^7.0.0",
