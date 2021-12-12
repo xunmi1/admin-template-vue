@@ -35,7 +35,7 @@
     "babel-eslint": "^10.1.0",
     "eslint": "^7.6.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-vue": "^7.1.0",
+    "eslint-plugin-vue": "^8.2.0",
     "less": "^3.12.2",
     "less-loader": "^7.0.0",
     "lint-staged": "^11.0.1",
